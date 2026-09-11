@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Celtics rotation board — Pull Up Shoot</title>
+<title>Build the Celtics rotation — Pull Up Shoot</title>
 <style>
   :root {
     --bg: #f6f5f0;
@@ -32,6 +32,15 @@
   button:focus-visible { outline: 2px solid var(--gold); outline-offset: 2px; }
   .wrap { overflow-x: auto; border: 1px solid var(--line); border-radius: 8px; background: var(--panel); }
   .grid { min-width: max-content; }
+  .qpick { display:flex; gap:4px; margin-bottom:8px; }
+  .qb { padding:5px 10px; font-size:12px; border-radius:6px; }
+  .qb.active { background:var(--ink); color:#fff; border-color:var(--ink); }
+  details.folder summary { list-style:none; cursor:pointer; display:flex; align-items:center; gap:6px; }
+  details.folder summary::-webkit-details-marker { display:none; }
+  details.folder summary::before { content:"▸"; font-size:10px; transition: transform .15s; }
+  details.folder[open] summary::before { transform: rotate(90deg); }
+  details.folder .grp-tabs { margin-top:2px; }
+  .k { font-size: 9px; }
   .row { display: flex; align-items: center; border-bottom: 1px solid var(--line); }
   .row:last-child { border-bottom: 0; }
   .row.bench-start { border-top: 2px solid var(--line-strong); }
@@ -40,9 +49,10 @@
   .name input { width: 100%; font: inherit; font-size: 13px; padding: 4px 6px; border: 1px solid transparent; border-radius: 4px; background: transparent; color: var(--ink); }
   .name input:hover, .name input:focus { border-color: var(--line-strong); background: #fff; outline: none; }
   .cells { display: flex; }
-  .q { width: 132px; text-align: center; font-size: 12px; color: var(--ink-3); padding: 6px 0; border-right: 2px solid var(--line-strong); }
+  .q { width: calc(var(--cw) * 12); text-align: center; font-size: 12px; color: var(--ink-3); padding: 6px 0; border-right: 2px solid var(--line-strong); }
   .q:last-child { border-right: 0; }
-  .c { width: 11px; height: 24px; border-right: 1px solid #fff; background: var(--cell-off); cursor: pointer; flex-shrink: 0; }
+  :root { --cw: 11px; }
+  .c { width: var(--cw); height: 24px; border-right: 1px solid #fff; background: var(--cell-off); cursor: pointer; flex-shrink: 0; }
   .c.on { background: var(--green); }
   .c.qe { border-right: 2px solid var(--line-strong); }
   .tot { width: 56px; flex-shrink: 0; text-align: right; font-size: 12px; color: var(--ink-2); padding: 0 8px; font-variant-numeric: tabular-nums; }
@@ -55,9 +65,10 @@
   .note { font-size:12px; color:var(--ink-2); margin:-4px 0 10px; display:none; }
   .tab { padding:6px 12px; border-radius:999px; border:1px solid var(--line-strong); background:var(--panel); font-size:13px; }
   .tab.active { background:var(--green); border-color:var(--green); color:#fff; }
-  .tot.avg { color: var(--ink-3); }
+  .typ { display:block; font-size:10px; color: var(--ink-3); line-height: 1; margin-top: 2px; }
+  .tot { line-height: 1.1; }
   .row.cnt { background: #fbfaf6; border-bottom: 2px solid var(--line-strong); }
-  .k { width: 11px; height: 18px; font-size: 9px; line-height: 18px; text-align: center; color: var(--ink-3); border-right: 1px solid #fff; flex-shrink: 0; font-variant-numeric: tabular-nums; }
+  .k { width: var(--cw); height: 18px; font-size: 9px; line-height: 18px; text-align: center; color: var(--ink-3); border-right: 1px solid #fff; flex-shrink: 0; font-variant-numeric: tabular-nums; }
   .k.part { color: #b3261e; font-weight: 600; }
   .k.full { color: var(--green); font-weight: 600; }
   .k.qe { border-right: 2px solid var(--line-strong); }
@@ -76,6 +87,16 @@
   .modal-bar a { color: var(--green); font-weight: 600; text-decoration: none; }
   .modal-bar button { margin-left: auto; }
   #exportImg { max-width: 100%; height: auto; display: block; border: 1px solid var(--line); }
+  @media (max-width: 640px) {
+    body { padding: 12px; }
+    h1 { font-size: 18px; }
+    .name { width: 88px; }
+    .name input { font-size: 12px; padding: 4px 2px; }
+    .tot { width: 46px; font-size: 11px; padding: 0 4px; }
+    .tot.avg { display: none; }
+    .row.hdr .tot.avg { display: none; }
+    .c { height: 28px; }
+  }
   .foot { font-size: 11px; color: var(--ink-3); margin-top: 28px; }
   .msg { font-size: 12px; color: var(--ink-2); margin-top: 6px; }
   .msg.err { color: #b3261e; }
@@ -83,20 +104,21 @@
 </head>
 <body>
 
-<h1>Celtics rotation board</h1>
-<p class="sub">Who was on the floor, minute by minute, and a blank board to build next season's rotation. One cell is one minute; green means on the floor.</p>
+<h1>Build the Celtics rotation</h1>
+<p class="sub">Or see how Mazzulla ran it in Round 1 against Philly.</p>
 
 <div class="tabs" id="tabs"></div>
 <div id="gnote" class="note"></div>
-<label style="font-size:12px;color:var(--ink-2);display:flex;align-items:center;gap:6px;margin:-4px 0 10px;"><input type="checkbox" id="incAvg"> Include this game in the Avg column</label>
 <div class="bar">
   <button id="addBtn">Add player</button>
   <button id="undoBtn" disabled>Undo</button>
   <button id="paintBtn">Paint mode: off</button>
+  <button id="refBtn">Reference: off</button>
   <button id="exportBtn">Export image</button>
   <button id="resetBtn">Reset this tab</button>
 </div>
 
+<div class="qpick" id="qpick"></div>
 <div class="wrap"><div class="grid" id="grid"></div></div>
 <div id="bump"></div>
 <div id="modal" class="modal" hidden>
@@ -106,7 +128,6 @@
   </div>
 </div>
 
-<p class="hint">On the 2026-27 plan tab, the "On floor" strip counts players per minute: red means fewer than five, green means exactly five, and the board won't let you add a sixth. Shift-click fills a run of minutes in one row. Avg is minutes per game played, the same way Basketball Reference computes it; untick a game to leave it out. Tap a cell to toggle a minute on or off. Rename a row to project someone new into that slot (Brown → George, a big → Robinson). Add a row for anyone who doesn't map onto last year's shape and draw their stints in.</p>
 
 <details>
   <summary>Add another game (paste play-by-play)</summary>
@@ -120,13 +141,13 @@
   <div class="msg" id="msg"></div>
 </details>
 
-<p class="foot">Built by Nate Moskowitz for Pull Up Shoot. Play-by-play from NBA.com; minutes verified against official box scores.</p>
+<p class="foot">Play-by-play from NBA.com; minutes verified against official box scores.</p>
 
 <script>
 const TOTAL_MIN = 48;
 
 const GAMES = [
- { name: "G1", result:"W 123-91", stints: {
+ { name: "G1", result:"W 123-91", blowout:true, stints: {
   "Pritchard": [[430,720],[720,1330],[1340,1440],[1755,2160],[2160,2819]],
   "White": [[0,720],[917,1440],[1440,2160]],
   "Tatum": [[0,720],[1004,1440],[1440,1944],[2160,2445]],
@@ -166,7 +187,7 @@ const GAMES = [
   "Garza": [[720,978]],
   "Scheierman": [[720,1221],[2160,2359],[2855,2880]]
  }},
- { name: "G4", result:"W 128-96", stints: {
+ { name: "G4", result:"W 128-96", blowout:true, stints: {
   "Tatum": [[0,720],[1134,1440],[1440,2070],[2160,2597]],
   "Hauser": [[0,325],[720,1134],[1440,1749],[2153,2159],[2160,2307],[2597,2712]],
   "Queta": [[0,153],[910,1134],[1440,1715],[2160,2549]],
@@ -197,7 +218,7 @@ const GAMES = [
   "Gonzalez": [[2761,2880]],
   "Williams": [[2787,2880]]
  }},
- { name: "G6", result:"L 93-106", stints: {
+ { name: "G6", result:"L 93-106", blowout:true, stints: {
   "Tatum": [[0,720],[909,1440],[1440,1917]],
   "Hauser": [[0,336],[478,720],[1135,1271],[1440,1741],[1917,2160]],
   "Queta": [[0,375],[612,708],[909,1154],[1440,1846],[2160,2256]],
@@ -211,7 +232,7 @@ const GAMES = [
   "Harper Jr.": [[2256,2880]],
   "Banton": [[2806,2880]]
  }},
- { name: "G7", result:"L 100-109", note:"Tatum did not play (injury management).", stints: {
+ { name: "G7", result:"L 100-109", note:"Tatum did not play.", stints: {
   "Scheierman": [[0,441],[933,1053],[1164,1440],[1440,1797],[1873,2019],[2860,2865]],
   "Brown": [[0,720],[1053,1440],[1440,1873],[2019,2160],[2160,2880]],
   "Garza": [[0,374],[1370,1440],[1507,1581]],
@@ -224,6 +245,61 @@ const GAMES = [
   "Gonzalez": [[720,1338],[1714,1873]]
  }}
 ];
+const REF_EXTRA = {
+  "George": {
+    "G1": [[0,561],[693,720],[720,1030],[1136,1440],[1440,1944]],
+    "G2": [[0,590],[713,720],[720,1023],[1440,1926],[2160,2880]],
+    "G3": [[0,532],[720,1440],[1440,1738],[1968,2160],[2160,2880]],
+    "G4": [[0,551],[720,1134],[1289,1440],[1440,2160]],
+    "G5": [[0,720],[908,1440],[1440,2160],[2160,2787]],
+    "G6": [[0,720],[967,1440],[1440,1846],[1979,2160],[2160,2757]],
+    "G7": [[0,441],[562,720],[720,1125],[1226,1440],[1440,2160],[2308,2880]]
+  },
+  "Robinson": {
+    "NYK Finals G1 vs SAS": [[467,633],[957,1296],[2045,2160],[2423,2592]],
+    "NYK Finals G2 vs SAS": [[485,720],[1019,1144],[1799,2160],[2160,2265],[2841,2850],[2872,2880]],
+    "NYK Finals G3 vs SAS": [[516,720],[1779,1906],[2322,2415]],
+    "NYK Finals G4 vs SAS": [[62,355],[457,508],[610,678],[1020,1026],[1910,2127],[2160,2294],[2841,2850],[2879,2880]],
+    "NYK Finals G5 vs SAS": [[479,720],[1076,1245],[1286,1440],[1455,1692],[1842,1923],[2074,2160],[2549,2683],[2767,2864]]
+  },
+  "Conley": {
+    "MIN R2 G1 vs SAS": [[0,307],[1035,1440],[1440,1742],[2160,2599]],
+    "MIN R2 G2 vs SAS": { st: [[0,336],[720,1025],[1390,1432],[1440,1707]], blowout: true },
+    "MIN R2 G3 vs SAS": [[0,253]],
+    "MIN R2 G4 vs SAS": [[495,720],[720,921],[1834,2047]],
+    "MIN R2 G5 vs SAS": { st: [[274,720],[1059,1296],[1932,2160]], blowout: true },
+    "MIN R2 G6 vs SAS": { st: [[452,720],[878,1365],[1408,1440],[1765,2088]], blowout: true }
+  }
+};
+function sampleStints(name){
+  const out=[]; const seen=new Set();
+  for (const g of GAMES){
+    const st = g.stints[name] || (REF_EXTRA[name]||{})[g.name];
+    if (st){ out.push({ st, blowout: !!g.blowout }); seen.add(g.name); }
+  }
+  for (const k in (REF_EXTRA[name]||{})){
+    if (seen.has(k)) continue;
+    const v = REF_EXTRA[name][k];
+    out.push(Array.isArray(v) ? { st:v, blowout:false } : { st:v.st, blowout:!!v.blowout });
+  }
+  return out;
+}
+const REF = {};
+function refFreq(name){
+  if (REF[name]) return REF[name];
+  const games = sampleStints(name);
+  const on=new Array(48).fill(0), n=new Array(48).fill(0);
+  for (const g of games) for (let m=0;m<48;m++){
+    if (m>=36 && g.blowout) continue;
+    n[m]++;
+    if (g.st.some(([a,b])=>Math.min(b,(m+1)*60)-Math.max(a,m*60)>=30)) on[m]++;
+  }
+  const f = on.map((v,i)=>n[i]?v/n[i]:0);
+  REF[name] = games.length ? { f, typ: median(games.map(g=>g.st.reduce((a,[x,y])=>a+(y-x),0)/60)) } : null;
+  return REF[name];
+}
+function median(a){ const b=[...a].sort((x,y)=>x-y), k=b.length>>1; return b.length%2? b[k] : (b[k-1]+b[k])/2; }
+function shade(t){ const r=Math.round(255+(0x8f-255)*t), g=Math.round(255+(0xc9-255)*t), b=Math.round(255+(0xa4-255)*t); return 'rgb('+r+','+g+','+b+')'; }
 const PLAN_ROSTER = ["Tatum","George","White","Pritchard","Queta","Robinson","Hauser","Conley","Scheierman","Walsh","Gonzalez","Garza","Harper Jr.","Cenac Jr.","Mitchell","Williams"];
 const DEFAULT_ROSTER = "Tatum, Brown, White, Hauser, Pritchard, Queta, Vucevic, Walsh, Garza, Scheierman, Harper Jr., Gonzalez, Banton, Shulga, Williams";
 function toMinutes(stints){
@@ -273,55 +349,66 @@ function undo(){
   const g=state[cur]; if (!g.undo || !g.undo.length) return;
   g.players = JSON.parse(g.undo.pop()); players = g.players; render();
 }
-let paint = false, painting = null;
-let cur = 0;
-let players = state[0].players;
+let paint = false, painting = null, showRef = false;
+let view = window.matchMedia('(max-width: 640px)').matches ? 0 : 'all';   // 'all' or quarter index 0-3
+let seriesOpen = false;
+function viewRange(){ return view==='all' ? [0,TOTAL_MIN] : [view*12, view*12+12]; }
+let cur = state.findIndex(g=>g.plan);
+let players = state[cur].players;
 let customCount = 0;
 
-function avgSeconds(name){
-  let tot=0, gp=0;
-  for (const g of state){ if (g.excl) continue; const st=g.stints[name]; if (st){ tot+=secs(st); gp++; } }
-  return gp ? Math.round(tot/gp) : 0;
-}
 function renderTabs(){
   const t=document.getElementById('tabs');
-  const series = state.map((g,i)=>[g,i]).filter(([g])=>!g.plan);
+  const series = state.map((g,i)=>[g,i]).filter(([g])=>!g.plan && !g.added);
+  const added  = state.map((g,i)=>[g,i]).filter(([g])=>g.added);
   const plans  = state.map((g,i)=>[g,i]).filter(([g])=>g.plan);
   const btn = ([g,i]) => '<button class="tab'+(i===cur?' active':'')+'" data-g="'+i+'">'+g.name+(g.result?' <span class="res">'+g.result+'</span>':'')+'</button>';
-  t.innerHTML = '<div class="grp"><div class="grp-l">2026 playoffs, Round 1 vs Philadelphia</div><div class="grp-tabs">'+series.map(btn).join('')+'</div></div>'
-              + '<div class="grp"><div class="grp-l">Next season</div><div class="grp-tabs">'+plans.map(btn).join('')+'</div></div>';
+  const curSeries = series.find(([g,i])=>i===cur);
+  const sumLabel = 'Last season: Round 1 vs Philadelphia' + (curSeries ? ' · viewing '+curSeries[0].name : ' · '+series.length+' games');
+  t.innerHTML = '<div class="grp"><div class="grp-l">Build your own</div><div class="grp-tabs">'+plans.map(btn).join('')+'</div></div>'
+              + '<details class="grp folder"'+(seriesOpen?' open':'')+'><summary class="grp-l">'+sumLabel+'</summary><div class="grp-tabs">'+series.map(btn).join('')+'</div></details>'
+              + (added.length ? '<div class="grp"><div class="grp-l">Added games</div><div class="grp-tabs">'+added.map(btn).join('')+'</div></div>' : '');
+  t.querySelector('details.folder').addEventListener('toggle', e=>{ seriesOpen = e.target.open; });
+  document.getElementById('refBtn').style.display = state[cur].plan ? '' : 'none';
   const n=document.getElementById('gnote'); n.textContent = state[cur].note || ''; n.style.display = state[cur].note ? 'block' : 'none';
   t.querySelectorAll('.tab').forEach(b=>b.addEventListener('click',()=>{ cur=+b.dataset.g; players=state[cur].players; painting=null; renderTabs(); render(); }));
-  const inc=document.getElementById('incAvg');
-  inc.parentElement.style.display = state[cur].plan ? 'none' : 'flex';
-  inc.checked = !state[cur].excl;
-  inc.onchange = ()=>{ state[cur].excl = !inc.checked; render(); };
 }
 
 let lastCell = null;
 function render(){
   const g = document.getElementById('grid');
   const isPlan = !!state[cur].plan;
+  const [m0,m1] = viewRange();
+  const ncol = m1-m0;
+  const wrapW = document.querySelector('.wrap').clientWidth || 640;
+  const cw = view==='all' ? Math.max(6, Math.min(14, Math.floor((wrapW-112-56-56-28)/TOTAL_MIN))) : Math.max(14, Math.floor((wrapW-112-56-56-28)/12));
+  document.documentElement.style.setProperty('--cw', cw+'px');
+  const qp=document.getElementById('qpick');
+  qp.innerHTML = ['all',0,1,2,3].map(v=>'<button class="qb'+(v===view?' active':'')+'" data-v="'+v+'">'+(v==='all'?'All':'Q'+(v+1))+'</button>').join('');
+  qp.querySelectorAll('.qb').forEach(b=>b.addEventListener('click',()=>{ const v=b.dataset.v; view = v==='all'?'all':+v; render(); }));
   let html = '<div class="row hdr"><div class="name"></div><div class="cells">';
-  for (let q=1;q<=4;q++) html += '<div class="q">Q'+q+'</div>';
-  html += '</div><div class="tot">Min</div><div class="tot avg">Avg</div><div class="del"></div></div>';
+  if (view==='all'){ for (let q=1;q<=4;q++) html += '<div class="q">Q'+q+'</div>'; }
+  else html += '<div class="q" style="width:'+(12*cw)+'px">Q'+(view+1)+'</div>';
+  html += '</div><div class="tot">Min</div><div class="del"></div></div>';
   if (isPlan){
     let used=0;
     html += '<div class="row cnt"><div class="name" style="font-size:11px;color:var(--ink-3);">On floor</div><div class="cells">';
     for (let i=0;i<TOTAL_MIN;i++){
       const c = floorCount(players,i); used+=c;
-      html += '<div class="k'+(c===5?' full':c>0?' part':'')+(((i+1)%12===0)?' qe':'')+'">'+c+'</div>';
+      if (i>=m0 && i<m1) html += '<div class="k'+(c===5?' full':c>0?' part':'')+(((i+1)%12===0)?' qe':'')+'">'+c+'</div>';
     }
-    html += '</div><div class="tot" style="font-weight:600;">'+used+'/240</div><div class="tot avg"></div><div class="del"></div></div>';
+    html += '</div><div class="tot" style="font-weight:600;">'+used+'/240</div><div class="del"></div></div>';
   }
   players.forEach((p,r)=>{
     const firstBench = !p.starter && r>0 && players[r-1].starter;
     html += '<div class="row'+(firstBench?' bench-start':'')+'"><div class="name"><input value="'+p.name.replace(/"/g,'&quot;')+'" data-r="'+r+'"></div><div class="cells">';
-    for (let i=0;i<TOTAL_MIN;i++){
-      html += '<div class="c'+(p.minutes[i]?' on':'')+(((i+1)%12===0)?' qe':'')+'" data-r="'+r+'" data-m="'+i+'"></div>';
+    const ref = (isPlan && showRef) ? refFreq(p.name) : null;
+    for (let i=m0;i<m1;i++){
+      const st = (ref && !p.minutes[i] && ref.f[i]>0) ? ' style="background:'+shade(ref.f[i])+'"' : '';
+      html += '<div class="c'+(p.minutes[i]?' on':'')+(((i+1)%12===0)?' qe':'')+'" data-r="'+r+'" data-m="'+i+'"'+st+'></div>';
     }
-    const av = p.exact==null ? '—' : fmt(avgSeconds(p.name));
-    html += '</div><div class="tot">'+totalLabel(p)+'</div><div class="tot avg">'+av+'</div><div class="del" data-del="'+r+'" title="Remove row">×</div></div>';
+    const typ = (isPlan && showRef) ? (()=>{ const rf=refFreq(p.name); return rf ? '<span class="typ">'+Math.round(rf.typ)+' typ</span>' : '<span class="typ">—</span>'; })() : '';
+    html += '</div><div class="tot">'+totalLabel(p)+typ+'</div><div class="del" data-del="'+r+'" title="Remove row">×</div></div>';
   });
   g.innerHTML = html;
   document.getElementById('undoBtn').disabled = !(state[cur].undo && state[cur].undo.length);
@@ -440,10 +527,11 @@ document.getElementById('parseBtn').addEventListener('click',()=>{
   try {
     const st=buildCeltics(document.getElementById('pbp').value, document.getElementById('roster').value);
     const nm = (document.getElementById('gname').value.trim()) || ('Game '+(state.length+1));
-    state.push({ name:nm, players:fromStints(st), stints:st, excl:false });
+    state.push({ name:nm, players:fromStints(st), stints:st, added:true });
     cur=state.length-1; players=state[cur].players; customCount=0;
     renderTabs(); render();
     msg.className='msg'; msg.textContent='Added '+nm+' with '+players.length+' Celtics players.';
+    document.getElementById('pbp').value=''; document.getElementById('gname').value='';
   } catch(e){ msg.className='msg err'; msg.textContent=e.message; }
 });
 
@@ -494,7 +582,7 @@ function exportImage(){
   const title = isPlan ? g.name : 'Celtics rotation, '+g.name+(g.result?' ('+g.result+')':'');
   x.fillText(title, pad, pad+6);
   x.font='12px Helvetica Neue, Helvetica, Arial, sans-serif'; x.fillStyle='#5e5e58';
-  x.fillText('One cell = one minute. Green = on the floor.', pad, pad+26);
+  x.fillText(isPlan && showRef ? 'Green = drawn. Shade = how often that player was on the floor in that minute last spring.' : 'One cell = one minute. Green = on the floor.', pad, pad+26);
   const gx=pad+nameW, gy=headH;
   x.font='11px Helvetica Neue, Helvetica, Arial, sans-serif'; x.textAlign='center';
   for (let q=0;q<4;q++){ x.fillStyle='#9a9a92'; x.fillText('Q'+(q+1), gx+q*12*cellW+6*cellW, gy-8); }
@@ -507,8 +595,9 @@ function exportImage(){
     const y=gy+r*cellH;
     x.fillStyle='#1c1c1a'; x.font=(p.starter?'600 ':'')+'13px Helvetica Neue, Helvetica, Arial, sans-serif';
     x.fillText(p.name, pad, y+16);
+    const ref=(isPlan && showRef) ? refFreq(p.name) : null;
     for (let i=0;i<TOTAL_MIN;i++){
-      x.fillStyle=p.minutes[i]?'#007a33':'#eceae2';
+      x.fillStyle=p.minutes[i]?'#007a33':(ref && ref.f[i]>0 ? shade(ref.f[i]) : '#eceae2');
       x.fillRect(gx+i*cellW, y+2, cellW-1, cellH-4);
     }
     x.fillStyle='#5e5e58'; x.font='12px Helvetica Neue, Helvetica, Arial, sans-serif'; x.textAlign='right';
@@ -524,12 +613,15 @@ function exportImage(){
   document.getElementById('modal').hidden=false;
 }
 document.getElementById('exportBtn').addEventListener('click', exportImage);
+const refBtn=document.getElementById('refBtn');
+refBtn.addEventListener('click',()=>{ showRef=!showRef; refBtn.textContent='Reference: '+(showRef?'on':'off'); refBtn.classList.toggle('on',showRef); render(); });
 document.getElementById('closeModal').addEventListener('click', ()=>{ document.getElementById('modal').hidden=true; });
 document.getElementById('modal').addEventListener('click', e=>{ if(e.target.id==='modal') e.target.hidden=true; });
 
 document.getElementById('roster').value = DEFAULT_ROSTER;
 renderTabs();
 render();
+window.addEventListener('resize', ()=>{ clearTimeout(window._rt); window._rt=setTimeout(render,150); });
 </script>
 </body>
 </html>
