@@ -35,19 +35,27 @@
   .qpick { display:flex; gap:4px; margin-bottom:8px; }
   .qb { padding:5px 10px; font-size:12px; border-radius:6px; }
   .qb.active { background:var(--ink); color:#fff; border-color:var(--ink); }
-  details.folder summary { list-style:none; cursor:pointer; display:flex; align-items:center; gap:6px; }
-  details.folder summary::-webkit-details-marker { display:none; }
-  details.folder summary::before { content:"▸"; font-size:10px; transition: transform .15s; }
-  details.folder[open] summary::before { transform: rotate(90deg); }
-  details.folder .grp-tabs { margin-top:2px; }
   .k { font-size: 9px; }
   .row { display: flex; align-items: center; border-bottom: 1px solid var(--line); }
   .row:last-child { border-bottom: 0; }
   .row.bench-start { border-top: 2px solid var(--line-strong); }
+  .reorder-hint { font-size: 12px; color: var(--ink-3); margin: 0 0 10px; }
+  .grouplab { font-size: 10px; letter-spacing: .06em; text-transform: uppercase; color: var(--ink-3); padding: 5px 8px 3px; background: #fbfaf6; border-bottom: 1px solid var(--line); position: sticky; left: 0; }
+  .grip { width: 14px; height: 20px; flex-shrink: 0; cursor: grab; margin-right: 2px; border-radius: 3px;
+    background-image: radial-gradient(circle, var(--line-strong) 1.1px, transparent 1.2px);
+    background-size: 5px 5px; background-position: 2px 4px; background-repeat: repeat; }
+  .grip:hover { background-color: #eceae2; }
+  .pname { font-size: 13px; color: var(--ink); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .name { display: flex; align-items: center; }
+  .row.dragging { opacity: .4; }
+  .row.picked { background: var(--green-soft); }
+  .row.just-added { animation: flash 1.6s ease-out; }
+  @keyframes flash { 0%,40% { background: var(--green-soft); } 100% { background: transparent; } }
+  .row.drop-before { box-shadow: inset 0 2px 0 var(--green); }
+  .row.drop-after { box-shadow: inset 0 -2px 0 var(--green); }
   .hdr { border-bottom: 1px solid var(--line-strong); position: sticky; top: 0; background: var(--panel); z-index: 2; }
   .name { width: 112px; flex-shrink: 0; padding: 4px 6px; position: sticky; left: 0; background: var(--panel); z-index: 1; border-right: 1px solid var(--line); }
-  .name input { width: 100%; font: inherit; font-size: 13px; padding: 4px 6px; border: 1px solid transparent; border-radius: 4px; background: transparent; color: var(--ink); }
-  .name input:hover, .name input:focus { border-color: var(--line-strong); background: #fff; outline: none; }
+
   .cells { display: flex; }
   .q { width: calc(var(--cw) * 12); text-align: center; font-size: 12px; color: var(--ink-3); padding: 6px 0; border-right: 2px solid var(--line-strong); }
   .q:last-child { border-right: 0; }
@@ -58,7 +66,14 @@
   .tot { width: 56px; flex-shrink: 0; text-align: right; font-size: 12px; color: var(--ink-2); padding: 0 8px; font-variant-numeric: tabular-nums; }
   .del { width: 28px; flex-shrink: 0; text-align: center; color: var(--ink-3); cursor: pointer; font-size: 16px; user-select: none; }
   .del:hover { color: #b3261e; }
-  .tabs { display:flex; gap:18px; flex-wrap:wrap; margin-bottom:10px; align-items:flex-start; }
+  .tabs { display:flex; align-items:center; flex-wrap:wrap; gap:6px; margin-bottom:12px; }
+  .seriesrow { flex-basis:100%; display:flex; gap:6px; flex-wrap:wrap; margin-top:2px; }
+  .seriesrow[hidden] { display:none; }
+  .folderbtn { cursor:pointer; display:inline-flex; align-items:center; gap:7px; padding:6px 12px; font-size:13px;
+    border:1px solid var(--line-strong); border-radius:999px; background:var(--panel); color:var(--ink); }
+  .folderbtn::before { content:"\25B8"; font-size:10px; transition:transform .15s; }
+  .folderbtn.open::before { transform:rotate(90deg); }
+  .folderbtn.has-sel { border-color:var(--green); color:var(--green); }
   .grp-l { font-size:11px; color:var(--ink-3); margin-bottom:5px; }
   .grp-tabs { display:flex; gap:6px; flex-wrap:wrap; }
   .res { font-size:11px; opacity:.75; margin-left:4px; }
@@ -79,6 +94,8 @@
   textarea { width: 100%; min-height: 140px; margin-top: 8px; font-family: monospace; font-size: 12px; padding: 8px; border: 1px solid var(--line); border-radius: 6px; }
   button:disabled { opacity:.45; cursor:default; }
   button.on { background: var(--green-soft); border-color: var(--green); }
+  button.danger { color: #8a2b24; border-color: #e0cdca; }
+  button.danger:hover { background: #fdf3f2; }
   .wrap.paint .c { touch-action: none; }
   .modal { position: fixed; inset: 0; background: rgba(0,0,0,.55); display: flex; align-items: center; justify-content: center; padding: 16px; z-index: 50; }
   .modal[hidden] { display: none; }
@@ -105,19 +122,19 @@
 <body>
 
 <h1>Build the Celtics rotation</h1>
-<p class="sub">Or see how Mazzulla ran it in Round 1 against Philly.</p>
 
 <div class="tabs" id="tabs"></div>
 <div id="gnote" class="note"></div>
 <div class="bar">
-  <button id="addBtn">Add player</button>
-  <button id="undoBtn" disabled>Undo</button>
   <button id="paintBtn">Paint mode: off</button>
   <button id="refBtn">Reference: off</button>
+  <button id="undoBtn" disabled>Undo</button>
+  <button id="addBtn">Add player</button>
   <button id="exportBtn">Export image</button>
-  <button id="resetBtn">Reset this tab</button>
+  <button id="resetBtn" class="danger">Reset this tab</button>
 </div>
 
+<p class="reorder-hint" id="reorderHint">Drag a row by its handle to reorder. The top five are your starters.</p>
 <div class="qpick" id="qpick"></div>
 <div class="wrap"><div class="grid" id="grid"></div></div>
 <div id="bump"></div>
@@ -300,7 +317,7 @@ function refFreq(name){
 }
 function median(a){ const b=[...a].sort((x,y)=>x-y), k=b.length>>1; return b.length%2? b[k] : (b[k-1]+b[k])/2; }
 function shade(t){ const r=Math.round(255+(0x8f-255)*t), g=Math.round(255+(0xc9-255)*t), b=Math.round(255+(0xa4-255)*t); return 'rgb('+r+','+g+','+b+')'; }
-const PLAN_ROSTER = ["Tatum","George","White","Pritchard","Queta","Robinson","Hauser","Conley","Scheierman","Walsh","Gonzalez","Garza","Harper Jr.","Cenac Jr.","Mitchell","Williams"];
+const PLAN_ROSTER = ["White","George","Tatum","Hauser","Queta","Pritchard","Conley","Scheierman","Walsh","Gonzalez","Robinson","Garza","Harper Jr.","Mitchell","Cenac Jr.","Williams"];
 const DEFAULT_ROSTER = "Tatum, Brown, White, Hauser, Pritchard, Queta, Vucevic, Walsh, Garza, Scheierman, Harper Jr., Gonzalez, Banton, Shulga, Williams";
 function toMinutes(stints){
   const arr = new Array(TOTAL_MIN).fill(false);
@@ -350,8 +367,10 @@ function undo(){
   g.players = JSON.parse(g.undo.pop()); players = g.players; render();
 }
 let paint = false, painting = null, showRef = false;
-let view = window.matchMedia('(max-width: 640px)').matches ? 0 : 'all';   // 'all' or quarter index 0-3
-let seriesOpen = false;
+let dragFrom = null;
+let justAdded = null;
+let view = 'all';   // 'all' or quarter index 0-3
+let seriesOpen = false, addedOpen = false;
 function viewRange(){ return view==='all' ? [0,TOTAL_MIN] : [view*12, view*12+12]; }
 let cur = state.findIndex(g=>g.plan);
 let players = state[cur].players;
@@ -364,12 +383,21 @@ function renderTabs(){
   const plans  = state.map((g,i)=>[g,i]).filter(([g])=>g.plan);
   const btn = ([g,i]) => '<button class="tab'+(i===cur?' active':'')+'" data-g="'+i+'">'+g.name+(g.result?' <span class="res">'+g.result+'</span>':'')+'</button>';
   const curSeries = series.find(([g,i])=>i===cur);
-  const sumLabel = 'Last season: Round 1 vs Philadelphia' + (curSeries ? ' · viewing '+curSeries[0].name : ' · '+series.length+' games');
-  t.innerHTML = '<div class="grp"><div class="grp-l">Build your own</div><div class="grp-tabs">'+plans.map(btn).join('')+'</div></div>'
-              + '<details class="grp folder"'+(seriesOpen?' open':'')+'><summary class="grp-l">'+sumLabel+'</summary><div class="grp-tabs">'+series.map(btn).join('')+'</div></details>'
-              + (added.length ? '<div class="grp"><div class="grp-l">Added games</div><div class="grp-tabs">'+added.map(btn).join('')+'</div></div>' : '');
-  t.querySelector('details.folder').addEventListener('toggle', e=>{ seriesOpen = e.target.open; });
-  document.getElementById('refBtn').style.display = state[cur].plan ? '' : 'none';
+  const sumLabel = 'See how Mazzulla ran it in Round 1 against Philly' + (curSeries ? ' · viewing '+curSeries[0].name : '');
+  const folderOn = curSeries ? ' has-sel' : '';
+  t.innerHTML = plans.map(btn).join('')
+              + '<button id="seriesToggle" class="folderbtn'+folderOn+(seriesOpen?' open':'')+'">'+sumLabel+'</button>'
+              + (added.length ? '<button id="addedToggle" class="folderbtn'+(addedOpen?' open':'')+'">Added games</button>' : '')
+              + '<div class="seriesrow"'+(seriesOpen?'':' hidden')+'>'+series.map(btn).join('')+'</div>'
+              + (added.length ? '<div class="seriesrow"'+(addedOpen?'':' hidden')+'>'+added.map(btn).join('')+'</div>' : '');
+  const stg=document.getElementById('seriesToggle');
+  if (stg) stg.addEventListener('click', ()=>{ seriesOpen=!seriesOpen; renderTabs(); });
+  const atg=document.getElementById('addedToggle');
+  if (atg) atg.addEventListener('click', ()=>{ addedOpen=!addedOpen; renderTabs(); });
+  const planOnly = state[cur].plan ? '' : 'none';
+  ['refBtn','reorderHint','addBtn','undoBtn','paintBtn','resetBtn'].forEach(id=>{
+    const el = document.getElementById(id); if (el) el.style.display = planOnly;
+  });
   const n=document.getElementById('gnote'); n.textContent = state[cur].note || ''; n.style.display = state[cur].note ? 'block' : 'none';
   t.querySelectorAll('.tab').forEach(b=>b.addEventListener('click',()=>{ cur=+b.dataset.g; players=state[cur].players; painting=null; renderTabs(); render(); }));
 }
@@ -398,21 +426,31 @@ function render(){
       if (i>=m0 && i<m1) html += '<div class="k'+(c===5?' full':c>0?' part':'')+(((i+1)%12===0)?' qe':'')+'">'+c+'</div>';
     }
     html += '</div><div class="tot" style="font-weight:600;">'+used+'/240</div><div class="del"></div></div>';
+    html += '<div class="grouplab">Starters</div>';
   }
   players.forEach((p,r)=>{
-    const firstBench = !p.starter && r>0 && players[r-1].starter;
-    html += '<div class="row'+(firstBench?' bench-start':'')+'"><div class="name"><input value="'+p.name.replace(/"/g,'&quot;')+'" data-r="'+r+'"></div><div class="cells">';
+    if (isPlan && r===5) html += '<div class="grouplab">Bench</div>';
+    const firstBench = isPlan ? (r===5) : (!p.starter && r>0 && players[r-1].starter);
+    html += '<div class="row'+(firstBench?' bench-start':'')+'"'+(isPlan?' draggable="true" data-row-i="'+r+'"':'')+'>';
+    html += '<div class="name">'+(isPlan?'<span class="grip" title="Drag to reorder"></span>':'')+'<span class="pname">'+p.name.replace(/</g,'&lt;')+'</span></div><div class="cells">';
     const ref = (isPlan && showRef) ? refFreq(p.name) : null;
     for (let i=m0;i<m1;i++){
       const st = (ref && !p.minutes[i] && ref.f[i]>0) ? ' style="background:'+shade(ref.f[i])+'"' : '';
       html += '<div class="c'+(p.minutes[i]?' on':'')+(((i+1)%12===0)?' qe':'')+'" data-r="'+r+'" data-m="'+i+'"'+st+'></div>';
     }
     const typ = (isPlan && showRef) ? (()=>{ const rf=refFreq(p.name); return rf ? '<span class="typ">'+Math.round(rf.typ)+' typ</span>' : '<span class="typ">—</span>'; })() : '';
-    html += '</div><div class="tot">'+totalLabel(p)+typ+'</div><div class="del" data-del="'+r+'" title="Remove row">×</div></div>';
+    html += '</div><div class="tot">'+totalLabel(p)+typ+'</div>'+(isPlan?'<div class="del" data-del="'+r+'" title="Remove row">×</div>':'<div class="del"></div>')+'</div>';
   });
   g.innerHTML = html;
   document.getElementById('undoBtn').disabled = !(state[cur].undo && state[cur].undo.length);
   persist();
+  if (justAdded !== null){
+    const rows = g.querySelectorAll('.row');
+    const el = rows[rows.length-1];
+    if (el){ el.classList.add('just-added'); try{ el.scrollIntoView({block:'center', behavior:'smooth'}); }catch(_){}
+      setTimeout(()=>el.classList.remove('just-added'), 1600); }
+    justAdded = null;
+  }
 
   g.querySelectorAll('.c').forEach(c=>c.addEventListener('click',(e)=>{
     if (paint) return;
@@ -436,19 +474,45 @@ function render(){
     render();
     if (blocked){ const b=document.getElementById('bump'); b.textContent='Five players are already on the floor in that minute. Take someone off first.'; b.style.opacity=1; clearTimeout(b._t); b._t=setTimeout(()=>b.style.opacity=0,2200); }
   }));
-  g.querySelectorAll('.name input').forEach(i=>i.addEventListener('change',()=>{ snapshot(); players[+i.dataset.r].name = i.value; persist(); }));
+  if (isPlan) g.querySelectorAll('[data-row-i]').forEach(row=>{
+    row.addEventListener('dragstart', e=>{ dragFrom=+row.dataset.rowI; row.classList.add('dragging'); try{e.dataTransfer.effectAllowed='move'; e.dataTransfer.setData('text/plain',String(dragFrom));}catch(_){} });
+    row.addEventListener('dragend', ()=>{ row.classList.remove('dragging'); g.querySelectorAll('.drop-before,.drop-after').forEach(el=>el.classList.remove('drop-before','drop-after')); });
+    row.addEventListener('dragover', e=>{
+      if (dragFrom===null) return;
+      e.preventDefault();
+      const rect=row.getBoundingClientRect(), after=(e.clientY-rect.top)>rect.height/2;
+      g.querySelectorAll('.drop-before,.drop-after').forEach(el=>el.classList.remove('drop-before','drop-after'));
+      row.classList.add(after?'drop-after':'drop-before');
+    });
+    row.addEventListener('drop', e=>{
+      if (dragFrom===null) return;
+      e.preventDefault();
+      const to=+row.dataset.rowI;
+      const rect=row.getBoundingClientRect(), after=(e.clientY-rect.top)>rect.height/2;
+      let target = after ? to+1 : to;
+      if (dragFrom < target) target--;
+      if (target!==dragFrom){ snapshot(); const [moved]=players.splice(dragFrom,1); players.splice(target,0,moved); }
+      dragFrom=null; render();
+    });
+  });
   g.querySelectorAll('.del').forEach(d=>{
     if (d.dataset.del===undefined) return;
     d.addEventListener('click',()=>{ snapshot(); players.splice(+d.dataset.del,1); render(); });
   });
 }
 
-document.getElementById('addBtn').addEventListener('click',()=>{
+document.addEventListener('click', e=>{
+  const b = e.target.closest && e.target.closest('#addBtn');
+  if (!b) return;
+  let nm = '';
+  try { nm = (window.prompt('Player name') || '').trim(); } catch(_) { nm = ''; }
+  if (!nm){ customCount++; nm = 'New player ' + customCount; }
   snapshot();
-  customCount++;
-  players.push({ name:'New player '+customCount, minutes:new Array(TOTAL_MIN).fill(false), exact:null, edited:true });
+  players.push({ name:nm, minutes:new Array(TOTAL_MIN).fill(false), exact:null, edited:true, starter:false });
+  justAdded = players.length - 1;
   render();
 });
+
 document.getElementById('resetBtn').addEventListener('click',()=>{
   snapshot();
   if (state[cur].plan){ state[cur].players = PLAN_ROSTER.map(n=>({ name:n, minutes:new Array(TOTAL_MIN).fill(false), exact:null, edited:true, starter:false })); }
@@ -536,6 +600,20 @@ document.getElementById('parseBtn').addEventListener('click',()=>{
 });
 
 document.getElementById('undoBtn').addEventListener('click', undo);
+
+// touch reorder: tap grip to pick up, tap another row's grip to drop there
+let touchPick = null;
+document.addEventListener('click', e=>{
+  const grip = e.target.closest && e.target.closest('.grip');
+  if (!grip || !state[cur].plan) return;
+  const row = grip.closest('[data-row-i]'); if(!row) return;
+  const i = +row.dataset.rowI;
+  if (touchPick === null){ touchPick = i; row.classList.add('picked'); }
+  else {
+    if (touchPick !== i){ snapshot(); const [m]=players.splice(touchPick,1); players.splice(i,0,m); }
+    touchPick = null; render();
+  }
+});
 
 const paintBtn=document.getElementById('paintBtn');
 paintBtn.addEventListener('click',()=>{
