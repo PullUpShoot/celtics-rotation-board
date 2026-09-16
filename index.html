@@ -133,12 +133,6 @@
     .row.hdr .tot.avg { display: none; }
     .c { height: 26px; }
     .del { width: 20px; font-size: 14px; }
-    /* Pin the Min column to the right edge so it stays readable while the grid
-       scrolls horizontally, mirroring the pinned name column on the left. */
-    .tot { position: sticky; right: 20px; z-index: 1; background: var(--panel); border-left: 1px solid var(--line); }
-    .del { position: sticky; right: 0; z-index: 1; background: var(--panel); }
-    .row.cnt .tot, .row.cnt .del { background: #fbfaf6; }
-    .row.hdr .tot, .row.hdr .del { background: var(--panel); }
     .grip { width: 12px; margin-right: 6px; }
     .wrap { -webkit-overflow-scrolling: touch; }
   }
@@ -840,7 +834,10 @@ document.getElementById('shareBtn').addEventListener('click', async ()=>{
       ok=document.execCommand('copy'); document.body.removeChild(ta);
     } catch(__){}
   }
-  location.hash = 'p=' + encodePlan(state[state.length-1].players);
+  // Only write the hash into the address bar when the clipboard failed and the user
+  // needs to copy it manually. Otherwise the plain URL stays plain, so the address
+  // bar remains the clean shareable link.
+  if (!ok) location.hash = 'p=' + encodePlan(state[state.length-1].players);
   btn.textContent = ok ? 'Link copied' : 'Link in address bar';
   setTimeout(()=>{ btn.textContent='Copy link'; }, 1800);
 });
