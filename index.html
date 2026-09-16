@@ -92,7 +92,6 @@
   .note { font-size:12px; color:var(--ink-2); margin:-4px 0 10px; display:none; }
   .tab { padding:6px 12px; border-radius:999px; border:1px solid var(--line-strong); background:var(--panel); font-size:13px; }
   .tab.active { background:var(--green); border-color:var(--green); color:#fff; }
-  .typ { display:block; font-size:10px; color: var(--ink-3); line-height: 1; margin-top: 2px; }
   .tot { line-height: 1.1; }
   .row.cnt { background: #fbfaf6; border-bottom: 2px solid var(--line-strong); }
   .k { width: var(--cw); height: 18px; font-size: 9px; line-height: 18px; text-align: center; color: var(--ink-3); border-right: 1px solid #fff; flex-shrink: 0; font-variant-numeric: tabular-nums; }
@@ -158,7 +157,7 @@
 </div>
 
 <p class="reorder-hint" id="reorderHint">Drag a row by its handle to reorder. The top five are your starters.</p>
-<p class="reorder-hint" id="refHint" style="display:none">Shading shows how often each player was on the floor in that minute; <b>typ</b> is their median minutes per game in the sample. Blowout fourth quarters are excluded.<br><span class="src">Sample: Celtics players, 7 games vs Philadelphia (2026 Round 1) · George, the 76ers side of those same 7 games · Robinson, 5 Finals games with New York · Conley, 6 games vs San Antonio with Minnesota. Players with no sample show no shading.</span></p>
+<p class="reorder-hint" id="refHint" style="display:none">Shading shows how often each player was on the floor in that minute across the sample below. Blowout fourth quarters are excluded.<br><span class="src">Sample: 2026 playoffs — Celtics 7 games · George 11 · Robinson 18 · Conley 12. Minutes verified against NBA.com box scores.</span></p>
 <div class="qpick" id="qpick"></div>
 <div class="wrap"><div class="grid" id="grid"></div></div>
 <div id="bump"></div>
@@ -288,6 +287,10 @@ const GAMES = [
 ];
 const REF_EXTRA = {
   "George": {
+    "PHI R2 G1 vs NYK": { st: [[0,560],[669,1134],[1280,1841]], gbFrom: 36 },
+    "PHI R2 G2 vs NYK": [[0,451],[565,1153],[1241,2051],[2152,2880]],
+    "PHI R2 G3 vs NYK": [[0,599],[811,1354],[1440,1902],[2081,2755]],
+    "PHI R2 G4 vs NYK": { st: [[0,558],[720,1134],[1180,1669],[1910,2048]], gbFrom: 36 },
     "G1": [[0,561],[693,720],[720,1030],[1136,1440],[1440,1944]],
     "G2": [[0,590],[713,720],[720,1023],[1440,1926],[2160,2880]],
     "G3": [[0,532],[720,1440],[1440,1738],[1968,2160],[2160,2880]],
@@ -297,7 +300,19 @@ const REF_EXTRA = {
     "G7": [[0,441],[562,720],[720,1125],[1226,1440],[1440,2160],[2308,2880]]
   },
   "Robinson": {
-    "NYK R1 vs CLE": { st: [[447,1156],[1788,2151],[2363,2419]], gbFrom: 34 },
+    "NYK R1 G1 vs ATL": [[436,995],[1815,1871],[2160,2415]],
+    "NYK R1 G2 vs ATL": [[387,659],[720,1050],[1826,1959],[2050,2404]],
+    "NYK R1 G3 vs ATL": [[384,720],[1022,1214],[2160,2315]],
+    "NYK R1 G4 vs ATL": { st: [[459,710],[1026,1278],[1426,1440],[1864,1941],[2284,2373],[2442,2665]], gbFrom: 44 },
+    "NYK R1 G5 vs ATL": { st: [[467,720],[888,1071],[1425,1440],[1887,2036],[2160,2493]], gbFrom: 44 },
+    "NYK R1 G6 vs ATL": { st: [[427,662],[881,1161]], gbFrom: 24 },
+    "NYK R2 G1 vs PHI": { st: [[305,570],[601,713],[874,968],[1797,2024]], gbFrom: 36 },
+    "NYK R2 G3 vs PHI": [[392,720],[940,1362],[1773,2160]],
+    "NYK R2 G4 vs PHI": { st: [[435,714],[908,1134],[1267,1365],[1541,1910]], gbFrom: 36 },
+    "NYK ECF G1 vs CLE": [[414,718],[937,1175],[1850,2104],[2361,2408]],
+    "NYK ECF G2 vs CLE": [[501,720],[879,968],[1000,1246],[2078,2160],[2304,2414]],
+    "NYK ECF G3 vs CLE": [[627,691],[871,1038],[1832,2160],[2583,2586]],
+    "NYK ECF G4 vs CLE": { st: [[447,720],[889,1156],[1327,1440],[1788,2151],[2363,2413]], gbFrom: 40 },
     "NYK Finals G1 vs SAS": [[467,633],[957,1296],[2045,2160],[2423,2592]],
     "NYK Finals G2 vs SAS": [[485,720],[1019,1144],[1799,2160],[2160,2265],[2841,2850],[2872,2880]],
     "NYK Finals G3 vs SAS": [[516,720],[1779,1906],[2322,2415]],
@@ -305,6 +320,12 @@ const REF_EXTRA = {
     "NYK Finals G5 vs SAS": [[479,720],[1076,1245],[1286,1440],[1455,1692],[1842,1923],[2074,2160],[2549,2683],[2767,2864]]
   },
   "Conley": {
+    "MIN R1 G1 vs DEN": [[598,977],[1876,2135]],
+    "MIN R1 G2 vs DEN": [[674,695],[1195,1410]],
+    "MIN R1 G3 vs DEN": { st: [[2838,2880]], gbFrom: 47 },
+    "MIN R1 G4 vs DEN": [[550,720],[1001,1138],[1440,1824],[2160,2547],[2727,2880]],
+    "MIN R1 G5 vs DEN": [[0,383],[575,720],[1196,1684]],
+    "MIN R1 G6 vs DEN": [[0,433],[703,720],[795,1076],[1440,1664],[2027,2110],[2150,2671],[2824,2854]],
     "MIN R2 G1 vs SAS": [[0,307],[1035,1440],[1440,1742],[2160,2599]],
     "MIN R2 G2 vs SAS": { st: [[0,336],[720,1025],[1390,1432],[1440,1707]], gbFrom: 36 },
     "MIN R2 G3 vs SAS": [[0,253]],
@@ -342,7 +363,11 @@ function refFreq(name){
     return g.st.reduce((a,[x,y])=>a+Math.max(0, Math.min(y,cap)-Math.min(x,cap)), 0)/60;
   });
   const typ = median(mins);
-  REF[name] = (games.length && typ>=0.5) ? { f, typ } : null;
+  // Show a sample if the player ever logged real competitive minutes, even in a single
+  // game. A median gate hid players like Gonzalez who played one full game of a seven-
+  // game series: one game is a small sample, not an absent one.
+  const played = mins.some(v=>v>=1);
+  REF[name] = (games.length && played) ? { f, typ } : null;
   return REF[name];
 }
 function median(a){ const b=[...a].sort((x,y)=>x-y), k=b.length>>1; return b.length%2? b[k] : (b[k-1]+b[k])/2; }
@@ -471,8 +496,7 @@ function render(){
       const st = (ref && !p.minutes[i] && ref.f[i]>0) ? ' style="background:'+shade(ref.f[i])+'"' : '';
       html += '<div class="c'+(p.minutes[i]?' on':'')+(((i+1)%12===0)?' qe':'')+'" data-r="'+r+'" data-m="'+i+'"'+st+'></div>';
     }
-    const typ = (isPlan && showRef) ? (()=>{ const rf=refFreq(p.name); return rf ? '<span class="typ">'+Math.round(rf.typ)+' typ</span>' : '<span class="typ">—</span>'; })() : '';
-    html += '</div><div class="tot">'+totalLabel(p)+typ+'</div>'+(isPlan?'<div class="del" data-del="'+r+'" title="Remove row">×</div>':'<div class="del"></div>')+'</div>';
+    html += '</div><div class="tot">'+totalLabel(p)+'</div>'+(isPlan?'<div class="del" data-del="'+r+'" title="Remove row">×</div>':'<div class="del"></div>')+'</div>';
   });
   g.innerHTML = html;
   const rh2=document.getElementById('refHint');
