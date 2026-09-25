@@ -195,6 +195,7 @@
   .strip .blk { border: 0; border-radius: 4px; height: 46px; padding: 0; font: inherit; font-size: 14px; font-weight: 600; font-variant-numeric: tabular-nums; cursor: pointer; color: var(--ink); }
   .strip .blk.dark { color: #fff; }
   .strip .blk.thin { background: repeating-linear-gradient(135deg, #f0efec 0 5px, #e4e2da 5px 7px); color: var(--ink-3); font-weight: 400; font-size: 12px; }
+  .strip .blk.small { background: #faf9f5; border: 1px dashed var(--line-strong); color: var(--ink-3); font-weight: 500; }
   .strip .blk.act { outline: 2px solid var(--ink); outline-offset: 1px; }
   .strip .mn { font-size: 11px; color: var(--ink-3); text-align: center; padding-top: 3px; font-variant-numeric: tabular-nums; }
   .strip-detail { font-size: 12px; color: var(--ink-2); min-height: 34px; margin: 8px 0 4px; line-height: 1.45; }
@@ -842,7 +843,7 @@ function splitRows(name){
   const rows = []; const add=(grp,label,segsByGame)=>{
     const segs=[], used=new Set();
     for (const [id,list] of segsByGame) if (list.length){ segs.push(...list); used.add(id); }
-    rows.push({ grp, label, g:used.size, t:tally(segs) });
+    rows.push({ grp, label, g:used.size, t:tally(segs), segs });
   };
   const live = g => (STATS.games[g.id]||[]).filter(keep);
   const on = x => (x[6]&bit)!==0;
@@ -880,28 +881,44 @@ function playerBlocks(name){
   return BLOCKS.map((k,i)=>{
     const segs=gs.flatMap(g=>(STATS.games[g.id]||[]).filter(x=>keep(x) && (x[6]&bit) && x[0]>=k.a && x[1]<=k.b));
     const t=tally(segs); const base=teamBase().blocks[i].net;
-    return { k, t, d:(t.net!=null&&base!=null)?t.net-base:null, mpg:t.sec/60/Math.max(1,gs.length), ok:t.poss>=BLOCK_MIN_POSS };
+    return { k, t, d:(t.net!=null&&base!=null)?t.net-base:null, mpg:t.sec/60/Math.max(1,gs.length), ok:t.poss>=BLOCK_MIN_POSS, solid:t.poss>=SMALL_POSS };
   });
+}
+function matchedBase(segs){
+  const base=teamBase().blocks, w=new Array(BLOCKS.length).fill(0);
+  for (const x of segs){ const k=Math.floor(x[0]/360); if (k<BLOCKS.length) w[k]+=(x[4]+x[5])/20; }
+  const tot=w.reduce((a,v)=>a+v,0);
+  return tot ? w.reduce((a,v,i)=>a+v*base[i].net,0)/tot : null;
+}
+function firstBenchSegs(name){
+  const bit=1<<PBIT[name];
+  return playerGames(name).filter(g=>g.s[name][0][0]!==0).flatMap(g=>{ const iv=g.s[name][0];
+    return (STATS.games[g.id]||[]).filter(x=>keep(x) && (x[6]&bit) && x[0]>=iv[0] && x[1]<=iv[1]); });
 }
 function takeaways(name, rows, blocks){
   const R=l=>rows.find(r=>r.label===l), base=teamBase().all.net, out=[];
   const ok=r=>r && r.t.poss>=SMALL_POSS;
   const n=v=>sgn(v,1), abs1=v=>Math.abs(v).toFixed(1);
   const fb=R('First stint, games off the bench');
-  if (ok(fb) && fb.g>=5){ const d=fb.t.net-base;
-    out.push({ k:'first', gap:Math.abs(d), s:Math.abs(d)*Math.min(1,fb.t.poss/400), t:'In '+name+'\'s first stint off the bench, the Celtics were <b>'+n(fb.t.net)+'</b> per 100 possessions ('+fb.g+' games), '+abs1(d)+' '+(d>=0?'better':'worse')+' than their season average.' }); }
+  if (ok(fb) && fb.g>=5){ const mb=matchedBase(firstBenchSegs(name));
+    if (mb!=null){ const d=fb.t.net-mb;
+      out.push({ k:'first', gap:Math.abs(d), s:Math.abs(d)*Math.min(1,fb.t.poss/400), t:'In '+name+'\'s first stint off the bench, the Celtics were <b>'+n(fb.t.net)+'</b> per 100 possessions ('+fb.g+' games), '+abs1(d)+' '+(d>=0?'better':'worse')+' than they usually were in those same minutes ('+n(mb)+').' }); } }
+  // every comparison below is against the Celtics' usual in the same minutes of the game
+  const rel=r=>{ const mb=matchedBase(r.segs); return mb==null?null:r.t.net-mb; };
   const st=R('Games he started'), be=R('Games off the bench');
-  if (ok(st)&&ok(be)){ const d=be.t.net-st.t.net;
-    out.push({ k:'role', gap:Math.abs(d), s:Math.abs(d)*Math.min(1,Math.min(st.t.poss,be.t.poss)/400), t:'With him on the floor, the Celtics were <b>'+n(be.t.net)+'</b> in games he came off the bench and <b>'+n(st.t.net)+'</b> in games he started.' }); }
+  if (ok(st)&&ok(be)){ const a=rel(be), c=rel(st);
+    if (a!=null&&c!=null){ const d=a-c;
+      out.push({ k:'role', gap:Math.abs(d), s:Math.abs(d)*Math.min(1,Math.min(st.t.poss,be.t.poss)/400), t:'Against the Celtics\' usual in the same minutes, they were <b>'+n(a)+'</b> with him on the floor in games he came off the bench and <b>'+n(c)+'</b> in games he started.' }); } }
   const on=R('Celtics with him on the floor'), off=R('Celtics with him on the bench');
   if (ok(on)&&ok(off)){ const d=on.t.net-off.t.net;
     out.push({ k:'onoff', gap:Math.abs(d), s:Math.abs(d)*Math.min(1,Math.min(on.t.poss,off.t.poss)/400), t:'The Celtics were <b>'+n(on.t.net)+'</b> with him on the floor and <b>'+n(off.t.net)+'</b> with him on the bench.' }); }
   const fs=R('First stint'), ls=R('Later stints');
-  if (ok(fs)&&ok(ls)){ const d=fs.t.net-ls.t.net;
-    out.push({ k:'first', gap:Math.abs(d), s:Math.abs(d)*Math.min(1,Math.min(fs.t.poss,ls.t.poss)/400), t:'The Celtics were <b>'+n(fs.t.net)+'</b> in his first stint of the night and <b>'+n(ls.t.net)+'</b> in his stints after that.' }); }
+  if (ok(fs)&&ok(ls)){ const a=rel(fs), c=rel(ls);
+    if (a!=null&&c!=null){ const d=a-c;
+      out.push({ k:'first', gap:Math.abs(d), s:Math.abs(d)*Math.min(1,Math.min(fs.t.poss,ls.t.poss)/400), t:'Against the Celtics\' usual in the same minutes, they were <b>'+n(a)+'</b> in his first stint of the night and <b>'+n(c)+'</b> in his stints after that.' }); } }
   const good=blocks.filter(b=>b.t.poss>=SMALL_POSS&&b.d!=null).sort((a,b)=>b.d-a.d);
   if (good.length>=3){ const hi=good[0], lo=good[good.length-1];
-    out.push({ k:'block', gap:hi.d-lo.d, s:((hi.d-lo.d)/2)*Math.min(1,Math.min(hi.t.poss,lo.t.poss)/400), t:'His best stretch was <b>'+hi.k.label+'</b> ('+n(hi.d)+' vs. the Celtics\' usual in those minutes). His toughest was <b>'+lo.k.label+'</b> ('+n(lo.d)+').' }); }
+    out.push({ k:'block', gap:hi.d-lo.d, s:((hi.d-lo.d)/2)*Math.min(1,Math.min(hi.t.poss,lo.t.poss)/400), t:'Among stretches with at least '+SMALL_POSS+' possessions, his best was <b>'+hi.k.label+'</b> ('+n(hi.d)+' vs. the Celtics\' usual in those minutes). His toughest was <b>'+lo.k.label+'</b> ('+n(lo.d)+').' }); }
   // Strongest first; one sentence per theme; skip gaps too small to mean anything.
   const seen=new Set();
   return out.filter(x=>x.gap>=3).sort((a,b)=>b.s-a.s).filter(x=>!seen.has(x.k)&&seen.add(x.k)).slice(0,3).map(x=>x.t);
@@ -926,12 +943,13 @@ function renderSplits(){
     +'<div class="strip">'+[1,2,3,4].map(q=>'<div class="ql">Q'+q+'</div>').join('');
   blocks.forEach((b,i)=>{
     if (!b.ok){ h+='<button class="blk thin" data-b="'+i+'" aria-label="'+b.k.label+': too few minutes">—</button>'; return; }
+    if (!b.solid){ h+='<button class="blk small" data-b="'+i+'" aria-label="'+b.k.label+': '+sgn(b.d,1)+' versus the team, small sample">'+sgn(b.d,0)+'</button>'; return; }
     const c=divColor(b.d);
     h+='<button class="blk'+(c.dark?' dark':'')+'" data-b="'+i+'" style="background:'+c.bg+'" aria-label="'+b.k.label+': '+sgn(b.d,1)+' versus the team">'+sgn(b.d,0)+'</button>';
   });
   blocks.forEach(b=>{ h+='<div class="mn">'+(b.mpg>=0.05?b.mpg.toFixed(1)+'m':'–')+'</div>'; });
   h+='</div><div class="strip-detail" id="stripDetail">Tap a block for details. Under each block: his average minutes in that stretch per game.</div>'
-    +'<div class="legend"><span><i style="background:'+POS+'"></i>Celtics better than usual</span><span><i style="background:'+NEG+'"></i>worse than usual</span><span><i style="background:repeating-linear-gradient(135deg,#f0efec 0 3px,#d5d3ca 3px 5px)"></i>under '+BLOCK_MIN_POSS+' possessions</span></div></section>';
+    +'<div class="legend"><span><i style="background:'+POS+'"></i>Celtics better than usual</span><span><i style="background:'+NEG+'"></i>worse than usual</span><span><i style="background:#faf9f5;border:1px dashed var(--line-strong)"></i>small sample ('+BLOCK_MIN_POSS+'–'+(SMALL_POSS-1)+' possessions)</span><span><i style="background:repeating-linear-gradient(135deg,#f0efec 0 3px,#d5d3ca 3px 5px)"></i>under '+BLOCK_MIN_POSS+'</span></div></section>';
   // 2. takeaways
   h+='<section class="sec"><h3 class="sec-h">Takeaways</h3><p class="sec-sub">Net rating: Celtics points scored minus allowed per 100 possessions.</p>'
     +(takes.length ? '<ul class="takes">'+takes.map(t=>'<li>'+t+'</li>').join('')+'</ul>'
