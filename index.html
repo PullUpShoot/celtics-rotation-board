@@ -34,6 +34,7 @@
   }
   * { box-sizing: border-box; }
   [hidden] { display: none !important; }
+  html { -webkit-text-size-adjust: 100%; text-size-adjust: 100%; }
   html, body { margin: 0; background: var(--bg); color: var(--ink); font-family: "Helvetica Neue", Helvetica, Arial, sans-serif; }
   body { padding-block: 16px; padding-inline: 16px; }
   h1 { font-family: "Archivo", "Helvetica Neue", Helvetica, Arial, sans-serif; font-stretch: 78%; font-weight: 800; font-size: 30px; line-height: 1.02; letter-spacing: -0.005em; margin: 0; text-transform: uppercase; text-wrap: balance; }
@@ -61,6 +62,20 @@
   .sec-h::before { content: ""; display: inline-block; width: 8px; height: 8px; background: var(--green); border-radius: 2px; margin-right: 8px; vertical-align: 2px; }
   .sec-h { font-family: "Archivo", "Helvetica Neue", Helvetica, Arial, sans-serif; font-stretch: 85%; font-weight: 700; font-size: 17px; text-transform: uppercase; letter-spacing: .01em; margin: 0 0 2px; }
   .sec-sub { font-size: 12px; color: var(--ink-2); margin: 0 0 10px; line-height: 1.45; }
+  .sr { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); }
+  .sp .barcol { width: 110px; padding-left: 6px; }
+  .nb { position: relative; display: block; height: 10px; width: 68px; margin-left: auto; background: linear-gradient(var(--line-strong),var(--line-strong)) center/1px 100% no-repeat; }
+  .nb i, .mbar i { position: absolute; top: 0; bottom: 0; border-radius: 2px; }
+  .nb.faded i, .mate.small .mbar i { opacity: .35; }
+  .mates { display: grid; gap: 4px; }
+  .mate { display: grid; grid-template-columns: 92px 1fr 52px 64px; align-items: center; gap: 8px; font-size: 13px; }
+  .mn-name { white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .mbar { position: relative; height: 16px; background: linear-gradient(var(--line-strong),var(--line-strong)) center/1px 100% no-repeat, #fbfaf6; border-radius: 3px; }
+  .mnet { text-align: right; font-weight: 700; font-variant-numeric: tabular-nums; }
+  .mposs { text-align: right; font-size: 11px; color: var(--ink-3); font-variant-numeric: tabular-nums; }
+  .mate.small .mn-name, .mate.small .mnet { color: var(--ink-3); }
+  .sp .barcol .nb { width: 96px; }
+  @media (max-width: 640px) { .mate { grid-template-columns: 78px 1fr 46px 52px; gap: 6px; font-size: 12px; } }
   .method ul { margin: 6px 0 0; padding-left: 18px; }
   .method li { margin: 0 0 6px; }
   .sub { font-size: 13px; color: var(--ink-2); margin: 0 0 16px; }
@@ -82,7 +97,8 @@
   .row.bench-start { border-top: 2px solid var(--line-strong); }
   .reorder-hint { font-size: 12px; color: var(--ink-3); margin: 0 0 10px; line-height: 1.45; }
   .src { color: var(--ink-3); opacity: .85; }
-  .grouplab { font-size: 10px; letter-spacing: .06em; text-transform: uppercase; color: var(--ink-3); padding: 5px 8px 3px; background: #fbfaf6; border-bottom: 1px solid var(--line); position: sticky; left: 0; }
+  .grouplab { font-size: 10px; letter-spacing: .06em; text-transform: uppercase; color: var(--green); font-weight: 700; padding: 5px 0 3px; background: #fbfaf6; border-bottom: 1px solid var(--line); }
+  .grouplab span { position: sticky; left: 0; display: inline-block; padding: 0 8px; background: #fbfaf6; }
   .grip { width: 14px; height: 20px; flex-shrink: 0; cursor: grab; margin-right: 8px; border-radius: 3px;
     background-image: radial-gradient(circle, var(--line-strong) 1.1px, transparent 1.2px);
     background-size: 5px 5px; background-position: 2px 4px; background-repeat: repeat; }
@@ -96,7 +112,7 @@
   .row.drop-before { box-shadow: inset 0 2px 0 var(--green); }
   .row.drop-after { box-shadow: inset 0 -2px 0 var(--green); }
   .hdr { border-bottom: 1px solid var(--line-strong); position: sticky; top: 0; background: var(--panel); z-index: 2; }
-  .name { width: 112px; flex-shrink: 0; padding: 4px 6px; position: sticky; left: 0; background: var(--panel); z-index: 1; border-right: 1px solid var(--line); }
+  .name { width: 112px; flex-shrink: 0; padding: 4px 6px; position: sticky; left: 0; background: var(--panel); z-index: 1; border-right: 1px solid var(--line); align-self: stretch; }
 
   .cells { display: flex; }
   .q { width: calc(var(--cw) * 12); text-align: center; font-size: 12px; color: var(--ink-3); padding: 6px 0; border-right: 2px solid var(--line-strong); }
@@ -452,6 +468,7 @@ function tally(segs){
   return t;
 }
 const SMALL_POSS = 200;
+const HAS_CLUTCH = Object.values(STATS.games).some(g=>g.some(x=>x.length>8));
 let inclGarbage = false;               // splits: include garbage time (matches NBA.com, which doesn't filter it)
 const keep = x => inclGarbage || !x[7];   // below this, a net rating is mostly noise
 function sgn(v,d){ if (v==null) return '—'; const r=(+v).toFixed(d||0); if (+r===0) return (0).toFixed(d||0); return (+r>0?'+':'')+r; }
@@ -702,10 +719,10 @@ function render(){
       if (i>=m0 && i<m1) html += '<div class="k'+(c===5?' full':c>0?' part':'')+(((i+1)%12===0)?' qe':'')+'">'+c+'</div>';
     }
     html += '</div><div class="tot" style="font-weight:600;">'+used+'/240</div><div class="del"></div></div>';
-    html += '<div class="grouplab">Starters</div>';
+    html += '<div class="grouplab"><span>Starters</span></div>';
   }
   players.forEach((p,r)=>{
-    if (isPlan && r===5) html += '<div class="grouplab">Bench</div>';
+    if (isPlan && r===5) html += '<div class="grouplab"><span>Bench</span></div>';
     const firstBench = isPlan ? (r===5) : (!p.starter && r>0 && players[r-1].starter);
     html += '<div class="row'+(firstBench?' bench-start':'')+'"'+(isPlan?' draggable="true" data-row-i="'+r+'"':'')+'>';
     html += '<div class="name">'+(isPlan?'<span class="grip" title="Drag to reorder"></span>':'')+'<span class="pname">'+p.name.replace(/</g,'&lt;')+'</span></div><div class="cells">';
@@ -852,12 +869,13 @@ function splitRows(name){
   add('', 'All his minutes', gs.map(g=>[g.id, live(g).filter(on)]));
   add('Role', 'Games he started', gs.filter(started).map(g=>[g.id, live(g).filter(on)]));
   add('Role', 'Games off the bench', gs.filter(g=>!started(g)).map(g=>[g.id, live(g).filter(on)]));
-  add('Stints', 'First stint', gs.map(g=>[g.id, live(g).filter(x=>on(x)&&inStint(x,g.s[name][0]))]));
-  add('Stints', 'First stint, games off the bench', gs.filter(g=>!started(g)).map(g=>[g.id, live(g).filter(x=>on(x)&&inStint(x,g.s[name][0]))]));
-  add('Stints', 'Later stints', gs.map(g=>[g.id, live(g).filter(x=>on(x)&&!inStint(x,g.s[name][0]))]));
-  for (let q=0;q<4;q++) add('By quarter', 'Q'+(q+1), gs.map(g=>[g.id, live(g).filter(x=>on(x)&&x[0]>=q*720&&x[1]<=(q+1)*720)]));
-  const ot = gs.map(g=>[g.id, live(g).filter(x=>on(x)&&x[0]>=2880)]);
-  if (ot.some(([,l])=>l.length)) add('By quarter', 'Overtime', ot);
+  if (HAS_CLUTCH){
+    add('Clutch', 'Clutch: last 5 min, within 5', gs.map(g=>[g.id, live(g).filter(x=>on(x)&&x[8])]));
+    add('Clutch', 'All other minutes', gs.map(g=>[g.id, live(g).filter(x=>on(x)&&!x[8])]));
+  }
+  const home = g => g.m.startsWith('vs');
+  add('Home / road', 'Home games', gs.filter(home).map(g=>[g.id, live(g).filter(on)]));
+  add('Home / road', 'Road games', gs.filter(g=>!home(g)).map(g=>[g.id, live(g).filter(on)]));
   add('On / off', 'Celtics with him on the floor', gs.map(g=>[g.id, live(g).filter(on)]));
   add('On / off', 'Celtics with him on the bench', gs.map(g=>[g.id, live(g).filter(x=>!on(x))]));
   rows.push({ grp:'Baseline', label:'Celtics, whole season', base:true, g:SEASON.games.length, t:tally(SEASON.games.flatMap(live)) });
@@ -923,13 +941,29 @@ function takeaways(name, rows, blocks){
   const seen=new Set();
   return out.filter(x=>x.gap>=3).sort((a,b)=>b.s-a.s).filter(x=>!seen.has(x.k)&&seen.add(x.k)).slice(0,3).map(x=>x.t);
 }
+function teammates(name){
+  const me=1<<PBIT[name], out=[];
+  for (const q of STATS.players){
+    if (q===name) continue;
+    const both=me|(1<<PBIT[q]);
+    const segs=SEASON.games.flatMap(g=>(STATS.games[g.id]||[]).filter(x=>keep(x)&&(x[6]&both)===both));
+    const t=tally(segs); if (t.poss>=50 && t.net!=null) out.push({ q, t });
+  }
+  return out.sort((a,b)=>b.t.net-a.t.net);
+}
+// A small diverging bar: centered on the Celtics' season average, green right / purple left.
+function netBar(net, base, faded){
+  if (net==null) return '';
+  const d=net-base, w=Math.min(1,Math.abs(d)/10)*50;   // full half-width at 10 points
+  return '<span class="nb'+(faded?' faded':'')+'" aria-hidden="true"><i style="'+(d>=0?'left:50%;background:'+POS:'right:50%;background:'+NEG)+';width:'+w+'%"></i></span>';
+}
 function renderSplits(){
   const el=document.getElementById('splits');
   const names = STATS.players.map(n=>({ n, sec: playerGames(n).reduce((a,g)=>a+g.s[n].reduce((x,[p,q])=>x+q-p,0),0) }))
     .filter(x=>x.sec>=60).sort((a,b)=>b.sec-a.sec).map(x=>x.n);
   if (!splitPlayer || !names.includes(splitPlayer)) splitPlayer = names.includes('Pritchard') ? 'Pritchard' : names[0];
   const name=splitPlayer, gs=playerGames(name), st=gs.filter(g=>g.s[name][0][0]===0).length;
-  const rows=splitRows(name), blocks=playerBlocks(name), takes=takeaways(name, rows, blocks);
+  const rows=splitRows(name), blocks=playerBlocks(name);
   const fmtN=v=>Math.round(v).toLocaleString('en-US');
   let h='<div class="ph"><div><div class="eyebrow">Player splits · 2025-26 regular season</div>'
    +'<h2 class="pbig">'+(FULL[name]||name)+'</h2>'
@@ -950,20 +984,31 @@ function renderSplits(){
   blocks.forEach(b=>{ h+='<div class="mn">'+(b.mpg>=0.05?b.mpg.toFixed(1)+'m':'–')+'</div>'; });
   h+='</div><div class="strip-detail" id="stripDetail">Tap a block for details. Under each block: his average minutes in that stretch per game.</div>'
     +'<div class="legend"><span><i style="background:'+POS+'"></i>Celtics better than usual</span><span><i style="background:'+NEG+'"></i>worse than usual</span><span><i style="background:#faf9f5;border:1px dashed var(--line-strong)"></i>small sample ('+BLOCK_MIN_POSS+'–'+(SMALL_POSS-1)+' possessions)</span><span><i style="background:repeating-linear-gradient(135deg,#f0efec 0 3px,#d5d3ca 3px 5px)"></i>under '+BLOCK_MIN_POSS+'</span></div></section>';
-  // 2. takeaways
-  h+='<section class="sec"><h3 class="sec-h">Takeaways</h3><p class="sec-sub">Net rating: Celtics points scored minus allowed per 100 possessions.</p>'
-    +(takes.length ? '<ul class="takes">'+takes.map(t=>'<li>'+t+'</li>').join('')+'</ul>'
-                   : '<ul class="takes none"><li>Not enough minutes yet for a firm takeaway. The full splits are below.</li></ul>')+'</section>';
-  // 3. full splits, open
-  h+='<section class="sec"><h3 class="sec-h">Full splits</h3><p class="sec-sub">Greyed rows have under '+SMALL_POSS+' possessions: read them as hints.</p>'
-    +'<div style="overflow-x:auto"><table class="sp"><thead><tr><th>Split</th><th>G</th><th>Min</th><th class="wide">Poss</th><th>+/-</th><th class="wide">ORtg</th><th class="wide">DRtg</th><th>Net</th></tr></thead><tbody>';
+  const base=teamBase().all.net;
+  // 2. alongside each teammate
+  const mates=teammates(name);
+  h+='<section class="sec"><h3 class="sec-h">Alongside each teammate</h3>'
+    +'<p class="sec-sub">Celtics net rating with '+name+' and each teammate on the floor together. The center line is the Celtics\' season average ('+sgn(base,1)+').</p>'
+    +'<div class="mates">';
+  for (const m of mates){
+    const small=m.t.poss<SMALL_POSS, d=m.t.net-base, w=Math.min(1,Math.abs(d)/20)*50;
+    h+='<div class="mate'+(small?' small':'')+'" title="'+(FULL[m.q]||m.q)+': '+sgn(m.t.net,1)+' net in '+Math.round(m.t.poss)+' possessions together">'
+      +'<span class="mn-name">'+m.q+'</span>'
+      +'<span class="mbar"><i style="'+(d>=0?'left:50%;background:'+POS:'right:50%;background:'+NEG)+';width:'+w+'%"></i></span>'
+      +'<span class="mnet">'+sgn(m.t.net,1)+'</span>'
+      +'<span class="mposs">'+Math.round(m.t.poss)+' poss</span></div>';
+  }
+  h+='</div><p class="sec-sub" style="margin-top:6px">Faded: fewer than '+SMALL_POSS+' possessions together.</p></section>';
+  // 3. full splits
+  h+='<section class="sec"><h3 class="sec-h">Full splits</h3><p class="sec-sub">Greyed rows have under '+SMALL_POSS+' possessions.</p>'
+    +'<div style="overflow-x:auto"><table class="sp"><thead><tr><th>Split</th><th class="gcol">G</th><th>Min</th><th class="wide">Poss</th><th>+/-</th><th class="wide">ORtg</th><th class="wide">DRtg</th><th>Net</th></tr></thead><tbody>';
   let lastGrp='';
   for (const r of rows){
     if (r.grp && r.grp!==lastGrp){ h+='<tr class="grp"><td colspan="8">'+r.grp+'</td></tr>'; lastGrp=r.grp; }
     const t=r.t, small=t.poss<SMALL_POSS && !r.base;
     if (!t.sec){ h+='<tr class="small"><td>'+r.label+'</td><td>0</td><td colspan="6" style="text-align:left">—</td></tr>'; continue; }
     h+='<tr class="'+(small?'small':'')+(r.base?' base':'')+'"><td>'+r.label+(small?'<span class="tag">small sample</span>':'')+'</td>'
-      +'<td>'+r.g+'</td><td>'+Math.round(t.sec/60)+'</td><td class="wide">'+Math.round(t.poss)+'</td>'
+      +'<td class="gcol">'+r.g+'</td><td>'+Math.round(t.sec/60)+'</td><td class="wide">'+Math.round(t.poss)+'</td>'
       +'<td class="'+(small?'':cls(t.pm))+'">'+sgn(t.pm)+'</td>'
       +'<td class="wide">'+(t.ortg==null?'—':t.ortg.toFixed(1))+'</td><td class="wide">'+(t.drtg==null?'—':t.drtg.toFixed(1))+'</td>'
       +'<td class="'+(small?'':cls(t.net))+'"><b>'+sgn(t.net,1)+'</b></td></tr>';
@@ -973,19 +1018,20 @@ function renderSplits(){
    +'<li>Minutes and plus-minus come from NBA.com play-by-play and match the official box scores (plus-minus exactly in 98.9% of player-games).</li>'
    +'<li>Possessions are counted from the play-by-play, like NBA.com. With garbage time included, every regular\'s net rating is within 1 point of NBA.com\'s.</li>'
    +'<li>Offensive and defensive ratings on their own run 1–2 points above NBA.com\'s, because we credit each possession to the five players who finish it.</li>'
+   +(HAS_CLUTCH?'<li>Clutch uses NBA.com\'s definition: the last 5 minutes of the fourth quarter or overtime with the score within 5.</li>':'')
    +'<li>Garbage time is fourth-quarter minutes after a game is out of reach (a 20+ point lead that never falls under 15) or the starters are done for the night. It\'s our rule; other sites use their own.</li>'
    +'<li>Compare: <a href="https://www.nba.com/stats/players/advanced?TeamID=1610612738&Season=2025-26" target="_blank" rel="noopener">NBA.com Celtics advanced stats</a> (set garbage time to Included).</li>'
    +'</ul></div></details>';
   el.innerHTML=h;
   document.getElementById('spSel').addEventListener('change', e=>{ splitPlayer=e.target.value; renderSplits(); });
   document.getElementById('gtMode').addEventListener('click', e=>{ const b=e.target.closest('[data-gt]'); if (!b) return; inclGarbage = b.dataset.gt==='1'; renderSplits(); });
-  const det=document.getElementById('stripDetail'), base=teamBase().blocks;
+  const det=document.getElementById('stripDetail'), bbase=teamBase().blocks;
   el.querySelectorAll('.blk').forEach(btn=>{
     const show=()=>{
       el.querySelectorAll('.blk.act').forEach(x=>x.classList.remove('act')); btn.classList.add('act');
       const i=+btn.dataset.b, b=blocks[i];
       det.innerHTML = b.ok
-        ? '<b>'+b.k.label.replace(/^./,c=>c.toUpperCase())+' ('+b.k.clock+')</b>: Celtics '+sgn(b.t.net,1)+' per 100 with '+name+' on the floor vs. '+sgn(base[i].net,1)+' for the team in those minutes all season. '+Math.round(b.t.poss)+' possessions, '+b.mpg.toFixed(1)+' min per game.'+(b.t.poss<SMALL_POSS?' Small sample: read it as a hint.':'')
+        ? '<b>'+b.k.label.replace(/^./,c=>c.toUpperCase())+' ('+b.k.clock+')</b>: Celtics '+sgn(b.t.net,1)+' per 100 with '+name+' on the floor vs. '+sgn(bbase[i].net,1)+' for the team in those minutes all season. '+Math.round(b.t.poss)+' possessions, '+b.mpg.toFixed(1)+' min per game.'+(b.t.poss<SMALL_POSS?' Small sample: read it as a hint.':'')
         : '<b>'+b.k.label.replace(/^./,c=>c.toUpperCase())+'</b>: '+name+' played only '+Math.round(b.t.sec/60)+' minutes here all season, too few to rate.';
     };
     btn.addEventListener('click', show); btn.addEventListener('mouseenter', show);
