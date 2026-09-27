@@ -477,8 +477,12 @@ const SMALL_POSS = 200;
 // Players not listed (short-term contracts) fall back to the games they played.
 const ROSTER_SPAN = {"Boucher":[0,51],"Brown":[0,82],"Garza":[0,82],"Gonzalez":[0,82],"Harper Jr.":[0,82],"Hauser":[0,82],"Minott":[0,51],"Pritchard":[0,82],"Queta":[0,82],"Scheierman":[0,82],"Shulga":[0,82],"Simons":[0,51],"Tatum":[0,82],"Tillman":[0,51],"Tonje":[51,82],"Vucevic":[51,82],"Walsh":[0,82],"White":[0,82],"Williams":[0,82]};
 function rosterGames(name){ const sp=ROSTER_SPAN[name]; return sp ? SEASON.games.slice(sp[0],sp[1]) : playerGames(name); }
+// NBA.com player dashboards (games as a Celtic) and team on/off, 2025-26 regular season, all minutes.
+// Each row: [games, minutes per game, possessions, plus-minus, ORtg, DRtg, net rating]
+const NBA_SPLITS = {"Banton":{"all":[4,13.0,112.0,-11,106.3,115.0,-8.8],"bench":[4,13.0,112.0,-11,106.3,115.0,-8.8],"home":[2,21.2,95.0,-1,109.5,109.4,0.1],"road":[2,4.7,17.0,-10,88.2,147.1,-58.8],"off":[6,39.3,null,null,120.1,102.6,17.5]},"Bassey":{"all":[5,3.4,36.0,-5,83.3,97.2,-13.9],"bench":[5,3.4,36.0,-5,83.3,97.2,-13.9],"home":[2,2.0,8.0,1,100.0,87.5,12.5],"road":[3,4.4,28.0,-6,78.6,100.0,-21.4],"off":[10,46.3,null,null,123.3,112.5,10.8]},"Boucher":{"all":[9,10.5,189.0,5,114.3,109.9,4.4],"bench":[9,10.5,189.0,5,114.3,109.9,4.4],"home":[6,11.1,135.0,12,125.2,115.4,9.7],"road":[3,9.2,54.0,-7,87.0,96.4,-9.4],"off":[51,46.4,null,null,120.8,112.6,8.2]},"Brown":{"all":[71,34.4,4973.0,321,119.5,113.0,6.5],"start":[71,34.4,4973.0,321,119.5,113.0,6.5],"home":[38,34.1,2644.0,234,119.8,110.9,8.9],"road":[33,34.7,2329.0,87,119.1,115.4,3.7],"off":[82,18.3,null,null,117.3,106.7,10.6]},"Garza":{"all":[69,16.2,2265.0,124,119.4,113.6,5.8],"start":[6,22.8,282.0,20,110.3,105.4,4.8],"bench":[63,15.6,1983.0,104,120.7,114.7,6.0],"home":[33,15.6,1066.0,4,112.6,113.4,-0.8],"road":[36,16.8,1199.0,120,125.4,113.7,11.7],"off":[82,34.5,null,null,118.3,108.8,9.4]},"Gonzalez":{"all":[74,14.6,2201.0,246,118.0,106.2,11.9],"start":[3,22.1,133.0,23,113.5,96.2,17.3],"bench":[71,14.3,2068.0,223,118.3,106.8,11.5],"home":[37,14.7,1095.0,67,118.9,112.0,6.9],"road":[37,14.6,1106.0,179,117.2,100.4,16.7],"off":[82,34.9,null,null,118.7,112.2,6.5]},"Harper Jr.":{"all":[29,10.9,637.0,18,111.6,109.0,2.7],"start":[3,33.4,195.0,48,122.1,97.9,24.1],"bench":[26,8.4,442.0,-30,107.0,113.8,-6.8],"home":[14,9.4,270.0,-38,103.7,117.8,-14.1],"road":[15,12.4,367.0,56,117.4,102.5,15.0],"off":[82,44.2,null,null,120.3,111.7,8.6]},"Hauser":{"all":[78,24.8,3928.0,369,119.8,111.0,8.8],"start":[49,27.1,2662.0,299,120.8,109.9,10.9],"bench":[29,20.9,1266.0,70,117.8,113.4,4.4],"home":[38,23.4,1812.0,181,121.2,112.2,9.0],"road":[40,26.1,2116.0,188,118.6,109.9,8.7],"off":[82,24.5,null,null,116.5,109.7,6.7]},"Minott":{"all":[33,15.9,1061.0,35,116.3,111.0,5.3],"start":[10,20.9,413.0,14,118.2,110.2,7.9],"bench":[23,13.8,648.0,21,115.1,111.5,3.6],"home":[18,15.6,565.0,25,119.3,112.7,6.6],"road":[15,16.3,496.0,10,112.9,109.1,3.8],"off":[51,37.9,null,null,120.7,112.0,8.8]},"Pritchard":{"all":[79,32.3,5109.0,426,120.1,112.1,8.0],"start":[50,32.8,3310.0,198,120.1,114.7,5.4],"bench":[29,31.6,1799.0,228,120.0,107.2,12.8],"home":[40,31.2,2515.0,282,120.3,109.8,10.5],"road":[39,33.5,2594.0,144,119.9,114.3,5.6],"off":[82,17.0,null,null,115.3,107.5,7.8]},"Queta":{"all":[76,25.3,3846.0,480,118.8,105.6,13.2],"start":[75,25.4,3797.0,477,118.8,105.5,13.3],"bench":[1,24.3,49.0,3,116.3,112.5,3.8],"home":[38,24.7,1874.0,260,119.2,104.9,14.3],"road":[38,26.0,1972.0,220,118.4,106.3,12.1],"off":[82,24.6,null,null,117.3,113.4,3.9]},"Scheierman":{"all":[77,18.6,2877.0,199,116.3,109.0,7.3],"start":[20,28.3,1134.0,68,113.1,107.6,5.4],"bench":[57,15.1,1743.0,131,118.4,110.0,8.5],"home":[39,18.5,1457.0,101,116.3,109.5,6.9],"road":[38,18.6,1420.0,98,116.3,108.6,7.7],"off":[82,30.7,null,null,120.0,111.4,8.6]},"Shulga":{"all":[11,3.3,79.0,-9,92.4,100.0,-7.6],"start":[1,17.8,38.0,8,121.1,95.0,26.1],"bench":[10,1.8,41.0,-17,65.9,104.8,-38.9],"home":[5,5.8,62.0,-9,103.2,112.3,-9.1],"road":[6,1.2,17.0,0,52.9,52.9,0.0],"off":[82,47.7,null,null,120.2,111.8,8.5]},"Simons":{"all":[49,24.5,2432.0,164,118.8,112.7,6.1],"bench":[49,24.5,2432.0,164,118.8,112.7,6.1],"home":[24,23.6,1143.0,32,117.2,115.2,2.0],"road":[25,25.4,1289.0,132,120.2,110.4,9.7],"off":[51,24.6,null,null,119.1,110.2,9.0]},"Tatum":{"all":[16,32.6,1069.0,118,120.7,110.2,10.5],"start":[16,32.6,1069.0,118,120.7,110.2,10.5],"home":[9,33.1,624.0,91,117.0,103.2,13.8],"road":[7,31.9,445.0,27,125.8,119.8,6.1],"off":[82,41.8,null,null,119.4,111.7,7.8]},"Tillman":{"all":[14,8.0,226.0,-32,111.1,121.5,-10.4],"start":[1,29.8,64.0,0,115.6,115.6,0.0],"bench":[13,6.3,162.0,-32,109.3,123.7,-14.4],"home":[5,6.1,62.0,-19,100.0,120.9,-20.9],"road":[9,9.0,164.0,-13,115.2,121.7,-6.4],"off":[51,46.0,null,null,121.0,111.9,9.1]},"Tonje":{"all":[6,7.0,91.0,-6,106.6,108.4,-1.8],"bench":[6,7.0,91.0,-6,106.6,108.4,-1.8],"home":[2,17.4,78.0,2,115.4,110.0,5.4],"road":[4,1.8,13.0,-8,53.8,100.0,-46.2],"off":[31,46.6,null,null,119.0,109.9,9.0]},"Vucevic":{"all":[16,21.1,691.0,78,112.6,102.3,10.3],"start":[1,26.3,53.0,25,122.6,75.5,47.2],"bench":[15,20.8,638.0,53,111.8,104.6,7.2],"home":[10,19.7,409.0,36,114.2,106.7,7.5],"road":[6,23.5,282.0,42,110.3,96.1,14.2],"off":[31,37.1,null,null,119.6,111.1,8.5]},"Walsh":{"all":[68,17.8,2407.0,95,117.9,112.8,5.1],"start":[25,22.7,1145.0,11,120.9,118.8,2.1],"bench":[43,15.0,1262.0,84,115.2,107.5,7.8],"home":[31,19.0,1184.0,46,116.6,111.7,4.8],"road":[37,16.8,1223.0,49,119.2,113.9,5.3],"off":[82,33.3,null,null,119.1,109.6,9.5]},"White":{"all":[77,34.1,5270.0,598,119.3,108.0,11.3],"start":[77,34.1,5270.0,598,119.3,108.0,11.3],"home":[40,33.0,2664.0,334,119.4,107.6,11.8],"road":[37,35.2,2606.0,264,119.3,108.5,10.8],"off":[82,16.1,null,null,117.0,115.4,1.7]},"Williams":{"all":[22,6.6,309.0,-58,89.0,106.4,-17.4],"start":[2,12.7,51.0,-14,100.0,130.0,-30.0],"bench":[20,6.0,258.0,-44,86.8,101.9,-15.1],"home":[12,7.6,189.0,-36,90.5,107.8,-17.3],"road":[10,5.4,120.0,-22,86.7,104.1,-17.5],"off":[82,46.3,null,null,121.0,111.8,9.3]}};
+const NBA_TEAM = [82, 48.1, 7850, 631.0, 120.0, 111.7, 8.3];
 const HAS_CLUTCH = Object.values(STATS.games).some(g=>g.some(x=>x.length>8));
-let inclGarbage = false;               // splits: include garbage time (matches NBA.com, which doesn't filter it)
+let inclGarbage = true;                // all minutes count, as on NBA.com
 const keep = x => inclGarbage || !x[7];   // below this, a net rating is mostly noise
 function sgn(v,d){ if (v==null) return '—'; const r=(+v).toFixed(d||0); if (+r===0) return (0).toFixed(d||0); return (+r>0?'+':'')+r; }
 function cls(v){ return v>0?'pos':v<0?'neg':''; }
@@ -938,14 +942,14 @@ function renderSplits(){
     .filter(x=>x.sec>=60).sort((a,b)=>b.sec-a.sec).map(x=>x.n);
   if (!splitPlayer || !names.includes(splitPlayer)) splitPlayer = names.includes('Pritchard') ? 'Pritchard' : names[0];
   const name=splitPlayer, gs=playerGames(name), st=gs.filter(g=>g.s[name][0][0]===0).length;
-  const rows=splitRows(name), blocks=playerBlocks(name);
+  const blocks=playerBlocks(name), NS=NBA_SPLITS[name]||{};
   const fmtN=v=>Math.round(v).toLocaleString('en-US');
   let h='<div class="ph"><div><div class="eyebrow">Player splits · 2025-26 regular season</div>'
    +'<h2 class="pbig">'+(FULL[name]||name)+'</h2>'
-   +'<div class="meta">'+gs.length+' games · '+st+' starts · '+fmtN(rows[0].t.sec/60)+' minutes'+(inclGarbage?'':' outside garbage time')+'</div></div>'
+   +'<div class="meta">'+(NS.all?NS.all[0]+' games · '+(NS.start?NS.start[0]:0)+((NS.start&&NS.start[0]===1)?' start · ':' starts · ')+NS.all[1].toFixed(1)+' minutes per game':gs.length+' games')+'</div></div>'
    +'<label for="spSel">Switch player<select id="spSel" class="seasonsel">'+names.map(n=>'<option value="'+n+'"'+(n===name?' selected':'')+'>'+(FULL[n]||n)+'</option>').join('')+'</select></label></div>'
    ;
-  const gt='<span class="gt" role="group" aria-label="Garbage time"><span class="gt-l">Garbage time</span><button class="qb'+(inclGarbage?'':' active')+'" data-gt="0">Excluded</button><button class="qb'+(inclGarbage?' active':'')+'" data-gt="1">Included</button></span>';
+  const gt=''; const _unused='<span class="gt" role="group" aria-label="Garbage time"><span class="gt-l">Garbage time</span><button class="qb'+(inclGarbage?'':' active')+'" data-gt="0">Excluded</button><button class="qb'+(inclGarbage?' active':'')+'" data-gt="1">Included</button></span>';
   // 1. the game clock
   h+='<section class="sec"><div class="sec-top"><h3 class="sec-h">When he played, and how it went</h3>'+gt+'</div>'
     +'<p class="sec-sub">Celtics net rating with '+name+' on the floor in each 6-minute stretch, compared with the Celtics in the same minutes all season.</p>'
@@ -974,30 +978,30 @@ function renderSplits(){
       +'<span class="mposs">'+m.min+' min</span></div>';
   }
   h+='</div><p class="sec-sub" style="margin-top:6px">Faded: fewer than '+SMALL_POSS+' possessions together.</p></section>';
-  // 3. full splits
-  h+='<section class="sec"><div class="sec-top"><h3 class="sec-h">Full splits</h3>'+gt+'</div><p class="sec-sub">Greyed rows have under '+SMALL_POSS+' possessions.</p>'
-    +'<div style="overflow-x:auto"><table class="sp"><thead><tr><th>Split</th><th class="gcol">G</th><th>Min</th><th class="wide">Poss</th><th>+/-</th><th class="wide">ORtg</th><th class="wide">DRtg</th><th>Net</th></tr></thead><tbody>';
+  // 3. full splits, straight from NBA.com
+  h+='<section class="sec"><div class="sec-top"><h3 class="sec-h">Full splits</h3><span class="src-tag">All minutes · NBA.com</span></div>'
+    +'<p class="sec-sub">From NBA.com\'s player dashboard and on/off stats, counting only games as a Celtic. Greyed rows have under '+SMALL_POSS+' possessions.</p>'
+    +'<div style="overflow-x:auto"><table class="sp"><thead><tr><th>Split</th><th class="gcol">G</th><th>MPG</th><th class="wide">Poss</th><th>+/-</th><th class="wide">ORtg</th><th class="wide">DRtg</th><th>Net</th></tr></thead><tbody>';
+  const nrows=[['Role','Games he started',NS.start],['Role','Games off the bench',NS.bench],['Home / road','Home games',NS.home],['Home / road','Road games',NS.road],
+    ['On / off','Celtics with him on the floor',NS.all],['On / off','Celtics with him off the floor',NS.off],['Baseline','Celtics, whole season',NBA_TEAM,true]];
   let lastGrp='';
-  for (const r of rows){
-    if (r.grp && r.grp!==lastGrp){ h+='<tr class="grp"><td colspan="8">'+r.grp+'</td></tr>'; lastGrp=r.grp; }
-    const t=r.t, small=t.poss<SMALL_POSS && !r.base;
-    if (!t.sec){ h+='<tr class="small"><td>'+r.label+'</td><td>0</td><td colspan="6" style="text-align:left">—</td></tr>'; continue; }
-    h+='<tr class="'+(small?'small':'')+(r.base?' base':'')+'"><td>'+r.label+(small?'<span class="tag">small sample</span>':'')+'</td>'
-      +'<td class="gcol">'+r.g+'</td><td>'+Math.round(t.sec/60)+'</td><td class="wide">'+Math.round(t.poss)+'</td>'
-      +'<td class="'+(small?'':cls(t.pm))+'">'+sgn(t.pm)+'</td>'
-      +'<td class="wide">'+(t.ortg==null?'—':t.ortg.toFixed(1))+'</td><td class="wide">'+(t.drtg==null?'—':t.drtg.toFixed(1))+'</td>'
-      +'<td class="'+(small?'':cls(t.net))+'"><b>'+sgn(t.net,1)+'</b></td></tr>';
+  const f1=v=>v==null?'—':(+v).toFixed(1);
+  for (const [grp,label,v,base] of nrows){
+    if (grp!==lastGrp){ h+='<tr class="grp"><td colspan="8">'+grp+'</td></tr>'; lastGrp=grp; }
+    if (!v || !v[0]){ h+='<tr class="small"><td>'+label+'</td><td class="gcol">0</td><td colspan="6" style="text-align:left">—</td></tr>'; continue; }
+    const small=!base && (v[2]!=null ? v[2]<SMALL_POSS : v[0]*v[1]<100);
+    h+='<tr class="'+(small?'small':'')+(base?' base':'')+'"><td>'+label+(small?'<span class="tag">small sample</span>':'')+'</td>'
+      +'<td class="gcol">'+v[0]+'</td><td>'+f1(v[1])+'</td><td class="wide">'+(v[2]==null?'—':Math.round(v[2]))+'</td>'
+      +'<td class="'+(small||v[3]==null?'':cls(v[3]))+'">'+(v[3]==null?'—':sgn(v[3]))+'</td>'
+      +'<td class="wide">'+f1(v[4])+'</td><td class="wide">'+f1(v[5])+'</td>'
+      +'<td class="'+(small?'':cls(v[6]))+'"><b>'+sgn(v[6],1)+'</b></td></tr>';
   }
   h+='</tbody></table></div></section>'
    +'<details class="full method"><summary>How these numbers work</summary><div class="sp-note" style="margin-top:0"><ul>'
-   +'<li>On/off uses NBA.com\'s definition: "off the floor" counts every Celtics minute without him while he was on the roster, including games he missed. Off-court minutes match NBA.com exactly for every player except Banton and Bassey, whose short-term contracts aren\'t in the play-by-play; theirs cover the games they played.</li>'
-   +'<li>The teammate chart shows NBA.com\'s own two-man lineup numbers, so it matches NBA.com exactly.</li>'
-   +'<li>Minutes and plus-minus come from NBA.com play-by-play and match the official box scores (plus-minus exactly in 98.9% of player-games).</li>'
-   +'<li>Possessions are counted from the play-by-play, like NBA.com. With garbage time included, every regular\'s net rating is within 1 point of NBA.com\'s.</li>'
-   +'<li>Offensive and defensive ratings on their own run 1–2 points above NBA.com\'s, because we credit each possession to the five players who finish it.</li>'
-   +(HAS_CLUTCH?'<li>Clutch uses NBA.com\'s definition: the last 5 minutes of the fourth quarter or overtime with the score within 5.</li>':'')
-   +'<li>Garbage time is fourth-quarter minutes after a game is out of reach (a 20+ point lead that never falls under 15) or the starters are done for the night. It\'s our rule; other sites use their own.</li>'
-   +'<li>Compare: <a href="https://www.nba.com/stats/players/advanced?TeamID=1610612738&Season=2025-26" target="_blank" rel="noopener">NBA.com Celtics advanced stats</a> (set garbage time to Included).</li>'
+   +'<li>Every section counts all minutes, garbage time included, the same way NBA.com does.</li>'
+   +'<li>Full splits and the teammate chart are NBA.com\'s own numbers (player dashboard, on/off and two-man lineup stats), limited to games as a Celtic, so they match NBA.com exactly. NBA.com doesn\'t publish possessions or a season plus-minus for the off-court row, so those show as a dash.</li>'
+   +'<li>The game-clock strip is our own calculation from NBA.com play-by-play, because NBA.com doesn\'t split by 6-minute stretch. Its minutes and plus-minus match NBA.com\'s box scores; its net ratings can differ from NBA.com\'s by a few tenths because of how possessions are credited around substitutions.</li>'
+   +'<li>Compare: <a href="https://www.nba.com/stats/players/advanced?TeamID=1610612738&Season=2025-26" target="_blank" rel="noopener">NBA.com Celtics advanced stats</a> · <a href="https://www.nba.com/stats/lineups/advanced?GroupQuantity=2&TeamID=1610612738&Season=2025-26" target="_blank" rel="noopener">two-man lineups</a>.</li>'
    +'</ul></div></details>';
   el.innerHTML=h;
   document.getElementById('spSel').addEventListener('change', e=>{ splitPlayer=e.target.value; renderSplits(); });
