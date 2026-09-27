@@ -909,15 +909,18 @@ function playerBlocks(name){
     return { k, t, d:(t.net!=null&&base!=null)?t.net-base:null, mpg:t.sec/60/Math.max(1,gs.length), ok:t.poss>=BLOCK_MIN_POSS, solid:t.poss>=SMALL_POSS };
   });
 }
+// NBA.com two-man lineup stats, 2025-26 regular season, all minutes: "A|B": [net rating, possessions, minutes, games]
+const NBA_PAIRS = {"Brown|White":[8.8,3526,1713,68],"Brown|Pritchard":[5.1,3452,1681,69],"Queta|White":[14.4,3179,1583,73],"Pritchard|White":[11.9,3087,1530,75],"Hauser|White":[11.6,2771,1362,74],"Brown|Queta":[11.1,2695,1323,67],"Pritchard|Queta":[12.9,2492,1249,74],"Brown|Hauser":[8.3,2346,1124,68],"Hauser|Pritchard":[9.5,2248,1098,74],"Hauser|Queta":[15.5,1998,994,71],"Pritchard|Scheierman":[7.7,1587,797,69],"Pritchard|Walsh":[3.6,1571,788,63],"Scheierman|White":[10.5,1526,755,64],"Garza|Pritchard":[3.1,1425,702,64],"Walsh|White":[9.1,1367,687,59],"Gonzalez|Pritchard":[10.5,1288,637,70],"Brown|Scheierman":[3.8,1310,636,57],"Simons|White":[8.3,1279,626,47],"Brown|Walsh":[1.4,1267,620,53],"Hauser|Simons":[4.1,1270,608,48],"Brown|Simons":[0.0,1218,585,45],"Queta|Scheierman":[13.7,1161,583,61],"Brown|Garza":[3.9,1212,582,52],"Garza|White":[8.6,1159,569,58],"Hauser|Scheierman":[7.5,1146,564,58],"Pritchard|Simons":[2.3,1130,538,48],"Gonzalez|White":[27.1,1075,522,65],"Queta|Walsh":[15.1,1028,521,58],"Garza|Hauser":[2.1,989,475,54],"Garza|Simons":[8.7,934,459,38],"Garza|Scheierman":[10.9,927,457,55],"Brown|Gonzalez":[9.0,946,450,56],"Gonzalez|Simons":[19.6,896,442,43],"Queta|Simons":[5.7,850,417,44],"Gonzalez|Scheierman":[7.3,806,390,62],"Tatum|White":[8.4,798,386,15],"Garza|Gonzalez":[12.6,772,376,55],"Queta|Tatum":[14.6,738,359,16],"Hauser|Walsh":[0.2,707,359,48],"Garza|Walsh":[-1.5,722,358,43],"Simons|Walsh":[3.2,693,349,38],"Scheierman|Simons":[6.6,694,337,41],"Gonzalez|Queta":[14.5,674,331,57],"Hauser|Tatum":[8.4,666,326,16],"Minott|White":[5.9,657,325,28],"Brown|Tatum":[15.0,672,318,13],"Minott|Pritchard":[7.1,640,313,31],"Gonzalez|Hauser":[12.4,656,312,52],"Scheierman|Walsh":[9.0,601,294,51],"Brown|Minott":[-0.5,585,286,25],"Pritchard|Vucevic":[10.1,575,284,16],"Gonzalez|Walsh":[10.6,552,281,51],"Pritchard|Tatum":[18.5,561,278,15],"Minott|Simons":[9.0,533,264,26],"Vucevic|White":[18.1,451,214,15],"Brown|Vucevic":[-0.5,433,204,13],"Harper Jr.|Scheierman":[3.1,388,194,24],"Minott|Queta":[10.1,367,184,22],"Hauser|Minott":[-0.3,370,178,24],"Scheierman|Tatum":[-3.4,342,165,14],"Garza|Harper Jr.":[8.1,322,161,17],"Scheierman|Vucevic":[8.8,328,161,16],"Hauser|Vucevic":[21.9,320,154,13],"Minott|Scheierman":[4.3,305,150,27],"Gonzalez|Harper Jr.":[-12.5,281,139,27],"Gonzalez|Vucevic":[16.0,268,131,13],"Minott|Walsh":[19.0,261,128,24],"Harper Jr.|Pritchard":[7.1,251,128,16],"Harper Jr.|Walsh":[-4.1,259,126,19],"Gonzalez|Minott":[8.1,241,116,27],"Harper Jr.|White":[0.5,200,101,10],"Garza|Tatum":[15.2,194,91,12],"Vucevic|Walsh":[-3.3,192,91,14],"Scheierman|Williams":[-19.2,182,85,17],"Brown|Williams":[-12.7,162,76,9],"Pritchard|Williams":[-10.9,163,76,14],"Tatum|Walsh":[0.3,151,75,7],"Gonzalez|Williams":[-11.4,159,74,18],"Garza|Minott":[-1.1,150,73,15],"Harper Jr.|Queta":[20.0,135,72,9],"Simons|Tillman":[-10.2,130,66,10],"Brown|Tillman":[-4.8,129,65,9],"Boucher|Simons":[16.4,122,59,9],"Hauser|Tillman":[-16.9,123,57,9],"Pritchard|Tillman":[-20.1,116,56,10],"Brown|Harper Jr.":[9.6,115,54,8],"Harper Jr.|Hauser":[19.3,109,53,8],"Boucher|Brown":[-5.6,103,51,8],"Simons|Williams":[-19.7,108,50,9],"Harper Jr.|Vucevic":[4.9,108,50,5],"Boucher|Pritchard":[16.6,98,49,8],"Garza|Queta":[7.9,92,49,6],"Walsh|Williams":[0.0,98,47,11],"Tatum|Vucevic":[-2.4,92,44,3],"Boucher|White":[-21.3,88,42,8],"Banton|Garza":[-7.0,93,42,4],"Tillman|White":[-4.9,80,40,8],"Banton|Tonje":[-4.4,84,39,3],"White|Williams":[-26.8,82,39,8],"Hauser|Williams":[-16.9,88,39,8],"Gonzalez|Tillman":[-20.5,79,39,10],"Harper Jr.|Williams":[-28.1,82,38,11],"Banton|Harper Jr.":[3.0,78,37,3],"Banton|Walsh":[-28.1,74,33,3],"Scheierman|Shulga":[-2.9,68,32,9],"Boucher|Hauser":[12.8,65,32,6],"Boucher|Minott":[10.8,65,31,6],"Minott|Tillman":[-5.5,58,31,9],"Garza|Tonje":[3.1,64,29,3],"Harper Jr.|Shulga":[-11.4,61,29,8],"Scheierman|Tillman":[-17.7,62,29,9],"Tillman|Walsh":[18.0,61,29,5],"Boucher|Scheierman":[5.7,55,28,7],"Banton|Scheierman":[17.6,63,27,1],"Boucher|Gonzalez":[32.7,49,25,5],"Boucher|Queta":[-11.8,51,25,6],"Harper Jr.|Tonje":[15.2,54,25,3],"Gonzalez|Tatum":[-19.8,49,23,6],"Garza|Shulga":[-3.3,50,23,2],"Tonje|Walsh":[-21.7,49,22,3],"Scheierman|Tonje":[25.4,47,21,2],"Harper Jr.|Tatum":[22.4,45,21,2],"Gonzalez|Shulga":[-38.9,41,18,10],"Boucher|Walsh":[-32.8,29,16,4],"Queta|Vucevic":[-15.8,32,16,5],"Bassey|Scheierman":[-3.7,28,13,4],"Minott|Williams":[-13.3,24,13,5],"Tonje|Williams":[-23.4,26,12,3],"Shulga|Walsh":[15.7,24,12,3],"Bassey|Gonzalez":[4.2,24,11,4],"Harper Jr.|Tillman":[4.2,24,11,3],"Banton|Gonzalez":[-71.1,19,10,3],"Bassey|Walsh":[-16.7,18,9,2],"Bassey|Harper Jr.":[12.0,19,9,3],"Banton|Williams":[-34.5,20,9,1],"Harper Jr.|Minott":[-26.3,19,9,3],"Boucher|Garza":[-30.8,19,8,3],"Shulga|Tonje":[24.6,18,8,4],"Garza|Williams":[-29.7,17,8,3],"Garza|Tillman":[27.1,16,8,3],"Harper Jr.|Simons":[53.8,13,7,1],"Shulga|Williams":[-28.3,17,7,4],"Bassey|Pritchard":[-50.0,14,7,2],"Boucher|Tillman":[53.8,13,7,2],"Gonzalez|Tonje":[-46.2,13,7,4],"Tillman|Williams":[-94.4,16,7,3],"Banton|Shulga":[46.3,15,6,1],"Bassey|White":[-50.0,12,6,1],"Bassey|Shulga":[6.8,11,5,3],"Boucher|Harper Jr.":[-11.1,9,4,1],"Banton|Pritchard":[-133.3,6,4,1],"Pritchard|Tonje":[-133.3,6,4,1],"Bassey|Hauser":[-63.3,5,3,1],"Bassey|Brown":[-28.6,7,3,1],"Minott|Shulga":[-50.0,4,2,1],"Pritchard|Shulga":[-90.0,4,2,2],"Shulga|Tillman":[-50.0,4,2,1],"Bassey|Williams":[-16.7,3,1,1],"Bassey|Tonje":[-16.7,3,1,1],"Garza|Vucevic":[-100.0,4,1,2]};
+const NBA_TEAM_NET = 8.3;
 function teammates(name){
-  const me=1<<PBIT[name], out=[];
+  // straight from NBA.com, so every value matches its two-man lineup page
+  const out=[];
   for (const q of STATS.players){
     if (q===name) continue;
-    const both=me|(1<<PBIT[q]);
-    const segs=SEASON.games.flatMap(g=>(STATS.games[g.id]||[]).filter(x=>keep(x)&&(x[6]&both)===both));
-    const t=tally(segs); if (t.poss>=50 && t.net!=null) out.push({ q, t });
+    const k=[name,q].sort().join('|'), v=NBA_PAIRS[k];
+    if (v && v[1]>=50) out.push({ q, net:v[0], poss:v[1], min:v[2], gp:v[3] });
   }
-  return out.sort((a,b)=>b.t.net-a.t.net);
+  return out.sort((a,b)=>b.net-a.net);
 }
 // A small diverging bar: centered on the Celtics' season average, green right / purple left.
 function netBar(net, base, faded){
@@ -953,18 +956,18 @@ function renderSplits(){
   h+='</div><div class="strip-detail" id="stripDetail">Tap a block for details. Under each block: his average minutes in that stretch per game.</div>'
     +'<div class="legend"><span><i style="background:'+POS+'"></i>Celtics better than usual</span><span><i style="background:'+NEG+'"></i>worse than usual</span><span><i style="background:#faf9f5;border:1px dashed var(--line-strong)"></i>small sample ('+BLOCK_MIN_POSS+'–'+(SMALL_POSS-1)+' possessions)</span><span><i style="background:repeating-linear-gradient(135deg,#f0efec 0 3px,#d5d3ca 3px 5px)"></i>under '+BLOCK_MIN_POSS+'</span></div></section>';
   const base=teamBase().all.net;
-  // 2. alongside each teammate
-  const mates=teammates(name);
+  // 2. alongside each teammate (NBA.com data)
+  const mates=teammates(name), tbase=NBA_TEAM_NET;
   h+='<section class="sec"><h3 class="sec-h">Alongside each teammate</h3>'
-    +'<p class="sec-sub">Celtics net rating with '+name+' and each teammate on the floor together. The center line is the Celtics\' season average ('+sgn(base,1)+').</p>'
+    +'<p class="sec-sub">Celtics net rating with '+name+' and each teammate on the floor together, from NBA.com\'s two-man lineup stats (all minutes, so the garbage-time switch doesn\'t apply here). The center line is the Celtics\' season average ('+sgn(tbase,1)+').</p>'
     +'<div class="mates">';
   for (const m of mates){
-    const small=m.t.poss<SMALL_POSS, d=m.t.net-base, w=Math.min(1,Math.abs(d)/20)*50;
-    h+='<div class="mate'+(small?' small':'')+'" title="'+(FULL[m.q]||m.q)+': '+sgn(m.t.net,1)+' net in '+Math.round(m.t.poss)+' possessions together">'
+    const small=m.poss<SMALL_POSS, d=m.net-tbase, w=Math.min(1,Math.abs(d)/20)*50;
+    h+='<div class="mate'+(small?' small':'')+'" title="'+(FULL[m.q]||m.q)+': '+sgn(m.net,1)+' net, '+m.min+' minutes, '+m.gp+' games together">'
       +'<span class="mn-name">'+m.q+'</span>'
       +'<span class="mbar"><i style="'+(d>=0?'left:50%;background:'+POS:'right:50%;background:'+NEG)+';width:'+w+'%"></i></span>'
-      +'<span class="mnet">'+sgn(m.t.net,1)+'</span>'
-      +'<span class="mposs">'+Math.round(m.t.poss)+' poss</span></div>';
+      +'<span class="mnet">'+sgn(m.net,1)+'</span>'
+      +'<span class="mposs">'+m.min+' min</span></div>';
   }
   h+='</div><p class="sec-sub" style="margin-top:6px">Faded: fewer than '+SMALL_POSS+' possessions together.</p></section>';
   // 3. full splits
@@ -984,7 +987,7 @@ function renderSplits(){
   h+='</tbody></table></div></section>'
    +'<details class="full method"><summary>How these numbers work</summary><div class="sp-note" style="margin-top:0"><ul>'
    +'<li>On/off uses NBA.com\'s definition: "off the floor" counts every Celtics minute without him while he was on the roster, including games he missed. Off-court minutes match NBA.com exactly for every player except Banton and Bassey, whose short-term contracts aren\'t in the play-by-play; theirs cover the games they played.</li>'
-   +'<li>Minutes together in the teammate chart match NBA.com\'s two-man lineup data for all 160 pairs.</li>'
+   +'<li>The teammate chart shows NBA.com\'s own two-man lineup numbers, so it matches NBA.com exactly.</li>'
    +'<li>Minutes and plus-minus come from NBA.com play-by-play and match the official box scores (plus-minus exactly in 98.9% of player-games).</li>'
    +'<li>Possessions are counted from the play-by-play, like NBA.com. With garbage time included, every regular\'s net rating is within 1 point of NBA.com\'s.</li>'
    +'<li>Offensive and defensive ratings on their own run 1–2 points above NBA.com\'s, because we credit each possession to the five players who finish it.</li>'
