@@ -217,7 +217,11 @@
   .strip-detail { font-size: 12px; color: var(--ink-2); min-height: 34px; margin: 8px 0 4px; line-height: 1.45; }
   .sp-note p { margin: 0 0 8px; }
   .sp-note a { color: var(--green); }
-  #gtMode { margin: -4px 0 12px; }
+  .sec-top { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 6px 12px; margin-bottom: 2px; }
+  .gt { display: inline-flex; align-items: center; gap: 4px; }
+  .gt-l { font-size: 11px; color: var(--ink-3); margin-right: 2px; }
+  .gt .qb { padding: 4px 9px; font-size: 12px; }
+  .src-tag { font-size: 11px; font-weight: 600; color: var(--green); border: 1px solid var(--green); border-radius: 999px; padding: 2px 9px; }
   .legend { display: flex; flex-wrap: wrap; gap: 4px 14px; font-size: 11px; color: var(--ink-3); margin-bottom: 14px; }
   .legend i { display: inline-block; width: 10px; height: 10px; border-radius: 2px; margin-right: 5px; vertical-align: -1px; }
   details.full { margin-top: 4px; }
@@ -940,10 +944,10 @@ function renderSplits(){
    +'<h2 class="pbig">'+(FULL[name]||name)+'</h2>'
    +'<div class="meta">'+gs.length+' games · '+st+' starts · '+fmtN(rows[0].t.sec/60)+' minutes'+(inclGarbage?'':' outside garbage time')+'</div></div>'
    +'<label for="spSel">Switch player<select id="spSel" class="seasonsel">'+names.map(n=>'<option value="'+n+'"'+(n===name?' selected':'')+'>'+(FULL[n]||n)+'</option>').join('')+'</select></label></div>'
-   +'<div class="qpick" id="gtMode" role="group" aria-label="Garbage time"><span style="font-size:12px;color:var(--ink-3);align-self:center;margin-right:4px">Garbage time:</span>'
-   +'<button class="qb'+(inclGarbage?'':' active')+'" data-gt="0">Excluded</button><button class="qb'+(inclGarbage?' active':'')+'" data-gt="1">Included</button></div>';
+   ;
+  const gt='<span class="gt" role="group" aria-label="Garbage time"><span class="gt-l">Garbage time</span><button class="qb'+(inclGarbage?'':' active')+'" data-gt="0">Excluded</button><button class="qb'+(inclGarbage?' active':'')+'" data-gt="1">Included</button></span>';
   // 1. the game clock
-  h+='<section class="sec"><h3 class="sec-h">When he played, and how it went</h3>'
+  h+='<section class="sec"><div class="sec-top"><h3 class="sec-h">When he played, and how it went</h3>'+gt+'</div>'
     +'<p class="sec-sub">Celtics net rating with '+name+' on the floor in each 6-minute stretch, compared with the Celtics in the same minutes all season.</p>'
     +'<div class="strip">'+[1,2,3,4].map(q=>'<div class="ql">Q'+q+'</div>').join('');
   blocks.forEach((b,i)=>{
@@ -958,8 +962,8 @@ function renderSplits(){
   const base=teamBase().all.net;
   // 2. alongside each teammate (NBA.com data)
   const mates=teammates(name), tbase=NBA_TEAM_NET;
-  h+='<section class="sec"><h3 class="sec-h">Alongside each teammate</h3>'
-    +'<p class="sec-sub">Celtics net rating with '+name+' and each teammate on the floor together, from NBA.com\'s two-man lineup stats (all minutes, so the garbage-time switch doesn\'t apply here). The center line is the Celtics\' season average ('+sgn(tbase,1)+').</p>'
+  h+='<section class="sec"><div class="sec-top"><h3 class="sec-h">Alongside each teammate</h3><span class="src-tag">All minutes · NBA.com</span></div>'
+    +'<p class="sec-sub">Celtics net rating with '+name+' and each teammate on the floor together, from NBA.com\'s two-man lineup stats. The center line is the Celtics\' season average ('+sgn(tbase,1)+').</p>'
     +'<div class="mates">';
   for (const m of mates){
     const small=m.poss<SMALL_POSS, d=m.net-tbase, w=Math.min(1,Math.abs(d)/20)*50;
@@ -971,7 +975,7 @@ function renderSplits(){
   }
   h+='</div><p class="sec-sub" style="margin-top:6px">Faded: fewer than '+SMALL_POSS+' possessions together.</p></section>';
   // 3. full splits
-  h+='<section class="sec"><h3 class="sec-h">Full splits</h3><p class="sec-sub">Greyed rows have under '+SMALL_POSS+' possessions.</p>'
+  h+='<section class="sec"><div class="sec-top"><h3 class="sec-h">Full splits</h3>'+gt+'</div><p class="sec-sub">Greyed rows have under '+SMALL_POSS+' possessions.</p>'
     +'<div style="overflow-x:auto"><table class="sp"><thead><tr><th>Split</th><th class="gcol">G</th><th>Min</th><th class="wide">Poss</th><th>+/-</th><th class="wide">ORtg</th><th class="wide">DRtg</th><th>Net</th></tr></thead><tbody>';
   let lastGrp='';
   for (const r of rows){
@@ -997,7 +1001,7 @@ function renderSplits(){
    +'</ul></div></details>';
   el.innerHTML=h;
   document.getElementById('spSel').addEventListener('change', e=>{ splitPlayer=e.target.value; renderSplits(); });
-  document.getElementById('gtMode').addEventListener('click', e=>{ const b=e.target.closest('[data-gt]'); if (!b) return; inclGarbage = b.dataset.gt==='1'; renderSplits(); });
+  el.querySelectorAll('.gt').forEach(g=>g.addEventListener('click', e=>{ const b=e.target.closest('[data-gt]'); if (!b) return; inclGarbage = b.dataset.gt==='1'; renderSplits(); }));
   const det=document.getElementById('stripDetail'), bbase=teamBase().blocks;
   el.querySelectorAll('.blk').forEach(btn=>{
     const show=()=>{
