@@ -468,6 +468,11 @@ function tally(segs){
   return t;
 }
 const SMALL_POSS = 200;
+// Games each player was on the Celtics roster (index range into SEASON.games), reconstructed from
+// NBA.com's on/off games count. Off-court minutes match NBA.com exactly for every player listed.
+// Players not listed (short-term contracts) fall back to the games they played.
+const ROSTER_SPAN = {"Boucher":[0,51],"Brown":[0,82],"Garza":[0,82],"Gonzalez":[0,82],"Harper Jr.":[0,82],"Hauser":[0,82],"Minott":[0,51],"Pritchard":[0,82],"Queta":[0,82],"Scheierman":[0,82],"Shulga":[0,82],"Simons":[0,51],"Tatum":[0,82],"Tillman":[0,51],"Tonje":[51,82],"Vucevic":[51,82],"Walsh":[0,82],"White":[0,82],"Williams":[0,82]};
+function rosterGames(name){ const sp=ROSTER_SPAN[name]; return sp ? SEASON.games.slice(sp[0],sp[1]) : playerGames(name); }
 const HAS_CLUTCH = Object.values(STATS.games).some(g=>g.some(x=>x.length>8));
 let inclGarbage = false;               // splits: include garbage time (matches NBA.com, which doesn't filter it)
 const keep = x => inclGarbage || !x[7];   // below this, a net rating is mostly noise
@@ -877,8 +882,9 @@ function splitRows(name){
   add('Home / road', 'Home games', gs.filter(home).map(g=>[g.id, live(g).filter(on)]));
   add('Home / road', 'Road games', gs.filter(g=>!home(g)).map(g=>[g.id, live(g).filter(on)]));
   add('On / off', 'Celtics with him on the floor', gs.map(g=>[g.id, live(g).filter(on)]));
-  // NBA.com's off-court definition: every Celtics minute without him, including games he missed
-  add('On / off', 'Celtics with him off the floor', SEASON.games.map(g=>[g.id, live(g).filter(x=>!on(x))]));
+  // NBA.com's off-court definition: every Celtics minute without him while he was on the roster,
+  // including games he missed
+  add('On / off', 'Celtics with him off the floor', rosterGames(name).map(g=>[g.id, live(g).filter(x=>!on(x))]));
   rows.push({ grp:'Baseline', label:'Celtics, whole season', base:true, g:SEASON.games.length, t:tally(SEASON.games.flatMap(live)) });
   return rows;
 }
@@ -977,7 +983,8 @@ function renderSplits(){
   }
   h+='</tbody></table></div></section>'
    +'<details class="full method"><summary>How these numbers work</summary><div class="sp-note" style="margin-top:0"><ul>'
-   +'<li>On/off uses NBA.com\'s definition: "off the floor" counts every Celtics minute without him, including games he missed.</li>'
+   +'<li>On/off uses NBA.com\'s definition: "off the floor" counts every Celtics minute without him while he was on the roster, including games he missed. Off-court minutes match NBA.com exactly for every player except Banton and Bassey, whose short-term contracts aren\'t in the play-by-play; theirs cover the games they played.</li>'
+   +'<li>Minutes together in the teammate chart match NBA.com\'s two-man lineup data for all 160 pairs.</li>'
    +'<li>Minutes and plus-minus come from NBA.com play-by-play and match the official box scores (plus-minus exactly in 98.9% of player-games).</li>'
    +'<li>Possessions are counted from the play-by-play, like NBA.com. With garbage time included, every regular\'s net rating is within 1 point of NBA.com\'s.</li>'
    +'<li>Offensive and defensive ratings on their own run 1–2 points above NBA.com\'s, because we credit each possession to the five players who finish it.</li>'
