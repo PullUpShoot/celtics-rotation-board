@@ -5,19 +5,19 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="color-scheme" content="light">
 <meta name="supported-color-schemes" content="light">
-<title>Build the Celtics rotation — Pull Up Shoot</title>
-<meta property="og:title" content="Build the Celtics rotation">
-<meta property="og:description" content="Draw next season's rotation minute by minute, with last season's usage shaded in as a reference.">
+<title>Celtics Rotations · Pull Up Shoot</title>
+<meta property="og:title" content="Celtics Rotations">
+<meta property="og:description" content="Every Celtics minute from 2025-26: who played when, game by game, with player splits and a board to build next season's rotation.">
 <meta property="og:image" content="https://pullupshoot.github.io/celtics-rotation-board/preview.png">
 <meta property="og:url" content="https://pullupshoot.github.io/celtics-rotation-board/">
 <meta property="og:type" content="website">
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:title" content="Build the Celtics rotation">
-<meta name="twitter:description" content="Draw next season's rotation minute by minute, with last season's usage shaded in as a reference.">
+<meta name="twitter:title" content="Celtics Rotations">
+<meta name="twitter:description" content="Every Celtics minute from 2025-26: who played when, game by game, with player splits and a board to build next season's rotation.">
 <meta name="twitter:image" content="https://pullupshoot.github.io/celtics-rotation-board/preview.png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62..125,500..800&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62..125,500..800&family=IBM+Plex+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
 <style>
   :root {
     --bg: #f6f5f0;
@@ -35,32 +35,34 @@
   * { box-sizing: border-box; }
   [hidden] { display: none !important; }
   html { -webkit-text-size-adjust: 100%; text-size-adjust: 100%; }
-  html, body { margin: 0; background: var(--bg); color: var(--ink); font-family: "Helvetica Neue", Helvetica, Arial, sans-serif; }
+  html, body { margin: 0; background: var(--bg); color: var(--ink); font-family: "IBM Plex Sans", "Helvetica Neue", Helvetica, Arial, sans-serif; }
   body { padding-block: 16px; padding-inline: 16px; }
   h1 { font-family: "Archivo", "Helvetica Neue", Helvetica, Arial, sans-serif; font-stretch: 78%; font-weight: 800; font-size: 30px; line-height: 1.02; letter-spacing: -0.005em; margin: 0; text-transform: uppercase; text-wrap: balance; }
   .page { max-width: 980px; margin: 0 auto; }
   .top { margin-bottom: 16px; }
+  .tagline { margin: 8px 0 0; font-size: 13px; color: var(--ink-2); }
+  .tagline span { color: var(--ink-3); }
   .top h1::after { content: ""; display: block; width: 44px; height: 4px; background: var(--green); border-radius: 2px; margin-top: 8px; }
-  .eyebrow { font-size: 11px; letter-spacing: .12em; text-transform: uppercase; color: var(--green); font-weight: 700; margin-bottom: 4px; }
+  .eyebrow { font-size: 11px; letter-spacing: .12em; text-transform: uppercase; color: var(--ink-2); font-weight: 700; margin-bottom: 4px; }
   .views { display: grid; grid-template-columns: repeat(3, 1fr); background: #e9e7df; border-radius: 10px; padding: 3px; gap: 3px; margin-bottom: 14px; max-width: 560px; }
   .views button { border: 0; background: transparent; border-radius: 8px; padding: 9px 6px; font-weight: 600; font-size: 14px; color: var(--ink-2); }
   .views button.active { background: var(--green); color: #fff; box-shadow: 0 1px 2px rgba(0,122,51,.25); }
   .toolrow { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 8px 16px; margin-bottom: 10px; }
   .toolrow .bar { margin: 0; }
   .links { display: flex; gap: 4px; margin-left: auto; }
-  .lnk { border: 0; background: none; color: var(--green); font-weight: 600; font-size: 13px; padding: 6px 8px; border-radius: 6px; }
-  .lnk:hover { background: var(--green-soft); }
+  .lnk { border: 0; background: none; color: var(--ink); font-weight: 600; font-size: 13px; padding: 6px 8px; border-radius: 6px; }
+  .lnk:hover { background: rgba(0,0,0,.05); }
   .lnk.danger { color: #8a2b24; }
   .lnk.danger:hover { background: #fdf3f2; }
   #gamePickRow { margin-bottom: 12px; }
   .seasonsel.wide { width: 100%; max-width: 560px; font-size: 15px; padding: 9px 10px; }
-  .ph { display: flex; flex-wrap: wrap; align-items: flex-end; justify-content: space-between; gap: 10px 20px; padding-bottom: 12px; border-bottom: 3px solid var(--green); margin-bottom: 14px; }
+  .ph { display: flex; flex-wrap: wrap; align-items: flex-end; justify-content: space-between; gap: 10px 20px; padding-bottom: 12px; border-bottom: 2px solid var(--ink); margin-bottom: 14px; }
   .pbig { font-family: "Archivo", "Helvetica Neue", Helvetica, Arial, sans-serif; font-stretch: 75%; font-weight: 800; font-size: 44px; line-height: .95; text-transform: uppercase; margin: 2px 0 6px; letter-spacing: -0.01em; }
   .ph .meta { font-size: 13px; color: var(--ink-2); font-variant-numeric: tabular-nums; }
   .ph label { display: flex; flex-direction: column; gap: 4px; font-size: 11px; letter-spacing: .06em; text-transform: uppercase; color: var(--ink-3); }
-  .sec { margin: 0 0 22px; }
-  .sec-h::before { content: ""; display: inline-block; width: 8px; height: 8px; background: var(--green); border-radius: 2px; margin-right: 8px; vertical-align: 2px; }
-  .sec-h { font-family: "Archivo", "Helvetica Neue", Helvetica, Arial, sans-serif; font-stretch: 85%; font-weight: 700; font-size: 17px; text-transform: uppercase; letter-spacing: .01em; margin: 0 0 2px; }
+  .sec { margin: 0 0 22px; padding-top: 16px; border-top: 1px solid var(--line); }
+  .ph + .sec { border-top: 0; padding-top: 0; }
+  .sec-h { font-family: "IBM Plex Sans", "Helvetica Neue", Helvetica, Arial, sans-serif; font-weight: 600; font-size: 17px; letter-spacing: -0.005em; margin: 0 0 2px; }
   .sec-sub { font-size: 12px; color: var(--ink-2); margin: 0 0 10px; line-height: 1.45; }
   .sr { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); }
   .sp .barcol { width: 110px; padding-left: 6px; }
@@ -76,6 +78,31 @@
   .mate.small .mn-name, .mate.small .mnet { color: var(--ink-3); }
   .sp .barcol .nb { width: 96px; }
   @media (max-width: 640px) { .mate { grid-template-columns: 78px 1fr 46px 52px; gap: 6px; font-size: 12px; } }
+  .heat { display: grid; grid-template-columns: repeat(12, 1fr) 3px repeat(12, 1fr) 3px repeat(12, 1fr) 3px repeat(12, 1fr) 0px; column-gap: 1px; row-gap: 0; }
+  .heat .gap { width: 3px; }
+  .heat .ql { grid-column: span 13; font-size: 11px; color: var(--ink-3); text-align: center; border-bottom: 1px solid var(--line-strong); padding-bottom: 3px; margin-bottom: 3px; }
+  .hc { border: 0; padding: 0; height: 34px; border-radius: 2px; cursor: pointer; }
+  .hc.act { outline: 2px solid var(--ink); outline-offset: 1px; position: relative; z-index: 1; }
+  .tiles { display: grid; grid-template-columns: repeat(auto-fill, minmax(150px, 210px)); gap: 8px; margin: 12px 0; }
+  @media (max-width: 640px) { .tiles { grid-template-columns: 1fr 1fr; } }
+  .tile { background: var(--panel); border: 1px solid var(--line); border-radius: 8px; padding: 10px 12px; }
+  .tile b { display: block; font-family: "Archivo", "Helvetica Neue", Helvetica, Arial, sans-serif; font-stretch: 85%; font-size: 22px; font-weight: 800; font-variant-numeric: tabular-nums; }
+  .tile b small { font-size: 13px; font-weight: 600; color: var(--ink-3); }
+  .tile span { font-size: 11px; color: var(--ink-2); line-height: 1.35; display: block; margin-top: 2px; }
+  .qbars { display: grid; gap: 5px; max-width: 520px; }
+  .qb-h { font-size: 12px; color: var(--ink-2); margin-bottom: 2px; }
+  .qbar { display: grid; grid-template-columns: 28px 1fr 40px; align-items: center; gap: 8px; font-size: 12px; }
+  .qbar i { height: 8px; background: #eeede6; border-radius: 4px; position: relative; overflow: hidden; }
+  .qbar i b { position: absolute; left: 0; top: 0; bottom: 0; background: #8d8b82; border-radius: 4px; }
+  .qbar em { font-style: normal; text-align: right; font-weight: 600; font-variant-numeric: tabular-nums; }
+  .night { margin: 4px 0 16px; }
+  .nt-track { position: relative; height: 26px; background: #eeede6; border-radius: 4px; }
+  .nt-q { position: absolute; top: -3px; bottom: -3px; width: 2px; background: var(--line-strong); }
+  .nt-bar { position: absolute; top: 3px; bottom: 3px; background: var(--green); border-radius: 3px; }
+  .nt-axis { display: grid; grid-template-columns: repeat(4,1fr); font-size: 11px; color: var(--ink-3); text-align: center; margin-top: 3px; }
+  .nt-list { margin: 8px 0 0; padding-left: 20px; font-size: 13px; display: grid; gap: 2px; }
+  .nt-list li::marker { color: var(--ink-3); font-weight: 600; }
+  .nt-list span { color: var(--ink-2); font-size: 12px; }
   .method ul { margin: 6px 0 0; padding-left: 18px; }
   .method li { margin: 0 0 6px; }
   .sub { font-size: 13px; color: var(--ink-2); margin: 0 0 16px; }
@@ -87,17 +114,19 @@
   button.primary { background: var(--green); border-color: var(--green); color: #fff; }
   button:focus-visible { outline: 2px solid var(--gold); outline-offset: 2px; }
   .wrap { overflow-x: auto; border: 1px solid var(--line); border-radius: 8px; background: var(--panel); }
-  .grid { min-width: max-content; }
+  .grid { min-width: max-content; position: relative; }
+  .qline { position: absolute; width: 2px; background: var(--line-strong); pointer-events: none; }
+  .grid .c.qe, .grid .k.qe, .grid .mc.qe { border-right-color: transparent; }
   .qpick { display:flex; gap:4px; margin-bottom:8px; }
   .qb { padding:5px 10px; font-size:12px; border-radius:6px; }
-  .qb.active { background:var(--green); color:#fff; border-color:var(--green); }
+  .qb.active { background:var(--ink); color:#fff; border-color:var(--ink); }
   .k { font-size: 9px; }
   .row { display: flex; align-items: center; border-bottom: 1px solid var(--line); }
   .row:last-child { border-bottom: 0; }
   .row.bench-start { border-top: 2px solid var(--line-strong); }
   .reorder-hint { font-size: 12px; color: var(--ink-3); margin: 0 0 10px; line-height: 1.45; }
   .src { color: var(--ink-3); opacity: .85; }
-  .grouplab { font-size: 10px; letter-spacing: .06em; text-transform: uppercase; color: var(--green); font-weight: 700; padding: 5px 0 3px; background: #fbfaf6; border-bottom: 1px solid var(--line); }
+  .grouplab { font-size: 10px; letter-spacing: .06em; text-transform: uppercase; color: var(--ink-3); font-weight: 700; padding: 5px 0 3px; background: #fbfaf6; border-bottom: 1px solid var(--line); }
   .grouplab span { position: sticky; left: 0; display: inline-block; padding: 0 8px; background: #fbfaf6; }
   .grip { width: 14px; height: 20px; flex-shrink: 0; cursor: grab; margin-right: 8px; border-radius: 3px;
     background-image: radial-gradient(circle, var(--line-strong) 1.1px, transparent 1.2px);
@@ -116,7 +145,6 @@
 
   .cells { display: flex; }
   .q { width: calc(var(--cw) * 12); text-align: center; font-size: 12px; color: var(--ink-3); padding: 6px 0; border-right: 2px solid var(--line-strong); }
-  .q:last-child { border-right: 0; }
   :root { --cw: 11px; }
   .c { width: var(--cw); height: 24px; border-right: 1px solid #fff; background: var(--cell-off); cursor: pointer; flex-shrink: 0; }
   .c.on { background: var(--green); }
@@ -150,7 +178,7 @@
   summary { cursor: pointer; font-size: 13px; color: var(--ink-2); }
   textarea { width: 100%; min-height: 140px; margin-top: 8px; font-family: monospace; font-size: 12px; padding: 8px; border: 1px solid var(--line); border-radius: 6px; }
   button:disabled { opacity:.45; cursor:default; }
-  button.on { background: var(--green-soft); border-color: var(--green); }
+  button.on { background: #efeee8; border-color: var(--ink-3); }
   button.danger { color: #8a2b24; border-color: #e0cdca; }
   button.danger:hover { background: #fdf3f2; }
   .wrap.paint .c { touch-action: none; }
@@ -158,7 +186,7 @@
   .modal[hidden] { display: none; }
   .modal-box { background: var(--panel); border-radius: 10px; padding: 12px; max-width: 96vw; max-height: 92vh; overflow: auto; color-scheme: light; }
   .modal-bar { display: flex; gap: 12px; align-items: center; font-size: 12px; color: var(--ink-2); margin-bottom: 10px; flex-wrap: wrap; }
-  .modal-bar a { color: var(--green); font-weight: 600; text-decoration: none; }
+  .modal-bar a { color: var(--ink); font-weight: 600; }
   .modal-bar button { margin-left: auto; }
   #exportImg { display: block; border: 1px solid var(--line); max-width: none; height: 60vh; width: auto; }
   @media (max-width: 640px) { #exportImg { height: 62vh; } }
@@ -188,17 +216,28 @@
   #refMode { margin: 0 0 8px; }
   .c.sel { box-shadow: inset 0 0 0 2px var(--gold); }
   .season-view .c { cursor: pointer; }
-  .card { margin-top: 10px; background: var(--panel); border: 1px solid var(--line); border-left: 3px solid var(--green); border-radius: 8px; padding: 10px 12px; position: relative; }
+  .card { margin-top: 12px; background: var(--panel); border: 1px solid var(--line); border-radius: 8px; padding: 14px 16px 12px; position: relative; }
   .card[hidden] { display: none; }
-  .card h3 { font-size: 14px; margin: 0 0 2px; font-weight: 600; }
-  .card .when { font-size: 12px; color: var(--ink-2); margin-bottom: 8px; }
-  .card .nums { display: flex; flex-wrap: wrap; gap: 6px 18px; }
-  .card .num b { display: block; font-size: 18px; font-variant-numeric: tabular-nums; }
+  .card h3 { font-size: 15px; margin: 0; font-weight: 600; padding-right: 28px; }
+  .card h3 span { font-weight: 400; color: var(--ink-2); }
+  .card .x { position: absolute; top: 8px; right: 8px; border: 0; background: none; font-size: 18px; color: var(--ink-3); padding: 2px 6px; }
+  .sc-track { position: relative; height: 10px; margin: 12px 0 0; background: var(--cell-off); border-radius: 2px; }
+  .sc-track i { position: absolute; top: 0; bottom: 0; background: #b8d8c4; }
+  .sc-track i.me { background: var(--gold); top: -3px; bottom: -3px; border-radius: 2px; }
+  .sc-track u { position: absolute; top: -3px; bottom: -3px; width: 1px; background: var(--line-strong); }
+  .sc-ends .ar { color: var(--ink-3); margin: 0 3px; }
+  .sc-ends { font-size: 12px; color: var(--ink-2); margin: 7px 0 12px; font-variant-numeric: tabular-nums; }
+  .sc-ends b { color: var(--ink); font-weight: 600; }
+  .sc-ends .r { text-align: right; }
+  .card .nums { display: grid; grid-template-columns: repeat(3, minmax(0,1fr)); border-top: 1px solid var(--line); border-bottom: 1px solid var(--line); }
+  .card .num { padding: 9px 10px 8px; border-left: 1px solid var(--line); }
+  .card .num:first-child { border-left: 0; padding-left: 0; }
+  .card .num b { display: block; font-size: 22px; font-weight: 600; line-height: 1.1; font-variant-numeric: tabular-nums; }
   .card .num span { font-size: 11px; color: var(--ink-3); }
-  .card .x { position: absolute; top: 6px; right: 8px; border: 0; background: none; font-size: 18px; color: var(--ink-3); padding: 2px 6px; }
-  .card .fine { font-size: 11px; color: var(--ink-3); margin-top: 8px; }
-  .card a { color: var(--green); font-weight: 600; text-decoration: none; }
-  .pos { color: var(--green); } .neg { color: #b3261e; }
+  .card .fine { font-size: 11px; color: var(--ink-3); margin-top: 9px; }
+  @media (max-width: 640px) { .card .num { padding: 8px 8px 7px; } .card .num b { font-size: 19px; } }
+  .card a { color: var(--ink); font-weight: 600; }
+  .pos { color: var(--green); } .neg { color: #8e44ad; }
   #splits[hidden] { display: none; }
   .takes { background: var(--panel); border: 1px solid var(--line); border-radius: 8px; padding: 10px 12px 10px 28px; margin: 0 0 14px; }
   .takes li { font-size: 14px; line-height: 1.45; margin: 4px 0; }
@@ -216,16 +255,16 @@
   .strip .mn { font-size: 11px; color: var(--ink-3); text-align: center; padding-top: 3px; font-variant-numeric: tabular-nums; }
   .strip-detail { font-size: 12px; color: var(--ink-2); min-height: 34px; margin: 8px 0 4px; line-height: 1.45; }
   .sp-note p { margin: 0 0 8px; }
-  .sp-note a { color: var(--green); }
+  .sp-note a { color: var(--ink); }
   .sec-top { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 6px 12px; margin-bottom: 2px; }
   .gt { display: inline-flex; align-items: center; gap: 4px; }
   .gt-l { font-size: 11px; color: var(--ink-3); margin-right: 2px; }
   .gt .qb { padding: 4px 9px; font-size: 12px; }
-  .src-tag { font-size: 11px; font-weight: 600; color: var(--green); border: 1px solid var(--green); border-radius: 999px; padding: 2px 9px; }
+  .src-tag { font-size: 11px; color: var(--ink-3); letter-spacing: .02em; }
   .legend { display: flex; flex-wrap: wrap; gap: 4px 14px; font-size: 11px; color: var(--ink-3); margin-bottom: 14px; }
   .legend i { display: inline-block; width: 10px; height: 10px; border-radius: 2px; margin-right: 5px; vertical-align: -1px; }
   details.full { margin-top: 4px; }
-  details.full summary { font-size: 13px; color: var(--green); font-weight: 600; margin-bottom: 8px; }
+  details.full summary { font-size: 13px; color: var(--ink); font-weight: 600; margin-bottom: 8px; }
   .sp-head { display: flex; gap: 10px; align-items: center; flex-wrap: wrap; margin-bottom: 6px; }
   .sp-sum { font-size: 12px; color: var(--ink-2); margin: 0 0 10px; }
   .sp { width: 100%; border-collapse: collapse; background: var(--panel); border: 1px solid var(--line); border-radius: 8px; overflow: hidden; font-size: 13px; }
@@ -233,7 +272,7 @@
   .sp th:first-child, .sp td:first-child { text-align: left; }
   .sp td { padding: 7px 8px; border-bottom: 1px solid var(--line); text-align: right; font-variant-numeric: tabular-nums; white-space: nowrap; }
   .sp td:first-child { white-space: normal; }
-  .sp tr.grp td { background: #fbfaf6; font-size: 10px; letter-spacing: .06em; text-transform: uppercase; color: var(--green); font-weight: 700; padding: 5px 8px 3px; }
+  .sp tr.grp td { background: #fbfaf6; font-size: 10px; letter-spacing: .06em; text-transform: uppercase; color: var(--ink-3); font-weight: 700; padding: 5px 8px 3px; }
   .sp tr.small td { color: var(--ink-3); }
   .sp tr.base td { background: #fbfaf6; }
   .tag { display: inline-block; font-size: 10px; border: 1px solid var(--line-strong); border-radius: 999px; padding: 0 6px; margin-left: 6px; color: var(--ink-3); vertical-align: 1px; }
@@ -242,23 +281,92 @@
   .foot { font-size: 11px; color: var(--ink-3); margin-top: 28px; }
   .msg { font-size: 12px; color: var(--ink-2); margin-top: 6px; }
   .msg.err { color: #b3261e; }
+
+  /* game header + stepper */
+  .gh { margin-top: 2px; }
+  .gh .rs { font-weight: 700; }
+  .gh .rs.w { color: var(--green); } .gh .rs.l { color: #8e44ad; }
+  .gpick { display: flex; flex-direction: column; gap: 4px; font-size: 11px; letter-spacing: .06em; text-transform: uppercase; color: var(--ink-3); }
+  .gp-in { display: flex; gap: 4px; align-items: stretch; }
+  .gp-in select { max-width: 240px; text-transform: none; letter-spacing: 0; }
+  .gstep { padding: 0 11px; font-size: 18px; line-height: 1; color: var(--ink-2); }
+  .gstep:disabled { opacity: .35; cursor: default; }
+  /* margin row */
+  .row.mg { border-top: 2px solid var(--line-strong); background: #fbfaf6; }
+  .row.mg .name { flex-direction: column; align-items: flex-start; justify-content: center; font-size: 11px; color: var(--ink-3); line-height: 1.25; background: #fbfaf6; }
+  .row.mg .name b { font-size: 13px; color: var(--ink); font-variant-numeric: tabular-nums; }
+  .row.mg .cells { position: relative; }
+  .mc { width: var(--cw); height: 64px; flex-shrink: 0; border-right: 1px solid transparent; cursor: pointer; }
+  .mgsvg { position: absolute; inset: 0; width: 100%; height: 100%; pointer-events: none; overflow: visible; }
+  .mgz { stroke: var(--line-strong); stroke-width: 1; vector-effect: non-scaling-stroke; fill: none; }
+  .mgg { stroke: var(--line); stroke-width: 1; stroke-dasharray: 2 3; vector-effect: non-scaling-stroke; fill: none; }
+  .mga { stroke: none; } .mga.up { fill: rgba(0,122,51,.16); } .mga.dn { fill: rgba(142,68,173,.16); }
+  .mgl { fill: none; stroke-width: 1.5; vector-effect: non-scaling-stroke; stroke-linejoin: round; } .mgl.up { stroke: #007a33; } .mgl.dn { stroke: #8e44ad; }
+  .mc.qe { border-right: 2px solid var(--line-strong); }
+  .mc.hov { background: rgba(0,0,0,.05); }
+  .gh .ext { color: var(--ink-3); }
+  .tot .dnp { color: var(--ink-3); }
+  .mgf { width: 96px; flex-shrink: 0; align-self: stretch; display: flex; flex-direction: column; justify-content: center; align-items: center; gap: 1px; font-size: 11px; color: var(--ink-3); line-height: 1.2; }
+  .mgf b { font-size: 15px; font-variant-numeric: tabular-nums; } .mgf b.w { color: #007a33; } .mgf b.l { color: #8e44ad; }
+  @media (max-width: 640px) { .mgf { width: 68px; } .mgf b { font-size: 13px; } }
+  .wrap.has-pm .del { width: 40px; font-size: 12px; cursor: default; font-variant-numeric: tabular-nums; font-weight: 600; color: var(--ink-3); }
+  .wrap.has-pm .del:hover { color: inherit; }
+  .wrap.has-pm .del.pos { color: #007a33; } .wrap.has-pm .del.neg { color: #8e44ad; }
+  .wrap.has-pm .hdr .del { font-weight: 400; font-size: 12px; }
+  @media (max-width: 640px) { .wrap.has-pm .del { width: 30px; font-size: 11px; } .gp-in select { max-width: none; flex: 1; } .gpick { width: 100%; } }
+  /* builder */
+  .k.full { background: var(--green-soft); color: var(--green); }
+  .k.part { color: #9a5b00; }
+  .k.over { background: #b3261e; color: #fff; }
+  .k.hl { box-shadow: inset 0 -3px 0 var(--gold); }
+  button.tog::before { content: ""; display: inline-block; width: 8px; height: 8px; border-radius: 50%; border: 1.5px solid var(--ink-3); margin-right: 7px; vertical-align: 0; }
+  button.tog.on::before { background: var(--green); border-color: var(--green); }
+  .lu { margin-top: 18px; }
+  .lu-h { display: flex; flex-wrap: wrap; align-items: baseline; justify-content: space-between; gap: 2px 12px; margin-bottom: 8px; }
+  .lu-meta { font-size: 12px; color: var(--ink-3); font-variant-numeric: tabular-nums; }
+  .lu-row { display: grid; grid-template-columns: minmax(0,1fr) 120px 48px; gap: 10px; align-items: center; width: 100%; text-align: left; padding: 7px 10px; border: 1px solid var(--line); border-radius: 6px; margin-bottom: 4px; background: var(--panel); font-size: 13px; }
+  .lu-row.on { border-color: var(--gold); box-shadow: inset 3px 0 0 var(--gold); background: #fbf7ee; }
+  .lu-row span { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+  .lu-row i { height: 8px; background: var(--cell-off); border-radius: 2px; overflow: hidden; }
+  .lu-row i b { display: block; height: 100%; background: var(--green); }
+  .lu-row em { font-style: normal; text-align: right; font-weight: 600; font-variant-numeric: tabular-nums; }
+  .lu-empty, .lu-more { font-size: 12px; color: var(--ink-3); }
+  @media (max-width: 640px) { .lu-row { grid-template-columns: minmax(0,1fr) 44px; } .lu-row i { display: none; } .lu-row span { white-space: normal; } }
+
+  .tl-plot { position: relative; display: flex; align-items: flex-end; height: 72px; gap: 1px; border-bottom: 1px solid var(--line-strong); touch-action: pan-y; }
+  .tl-c { flex: 1 1 0; min-width: 0; height: 100%; display: flex; align-items: flex-end; cursor: pointer; }
+  .tl-c i { display: block; width: 100%; border-radius: 1px 1px 0 0; }
+  .tl-c i.st { background: #007a33; } .tl-c i.bn { background: #8fc2a3; }
+  .tl-c i.dnp { height: 3px; background: #b9b7ae; border-radius: 0; }
+  .tl-c.off { background: repeating-linear-gradient(135deg, transparent 0 3px, rgba(0,0,0,.035) 3px 5px); }
+  .tl-c.act { background: rgba(186,150,83,.18); } .tl-c.act i { box-shadow: 0 0 0 1px var(--gold); }
+  .tl-avg { position: absolute; left: 0; right: 0; border-top: 1px dashed var(--ink-3); pointer-events: none; }
+  .tl-avg span { position: absolute; right: 0; bottom: 2px; font-size: 10px; color: var(--ink-2); background: rgba(255,255,255,.8); padding: 0 3px; border-radius: 2px; font-variant-numeric: tabular-nums; }
+  .tl-mon { position: relative; height: 16px; font-size: 10px; color: var(--ink-3); }
+  .tl-mon span { position: absolute; top: 3px; transform: translateX(1px); }
+  .strip-detail .rs.w { color: #007a33; font-weight: 700; } .strip-detail .rs.l { color: #8e44ad; font-weight: 700; }
+  .strip-detail .tl-open { color: var(--ink); font-weight: 600; white-space: nowrap; }
+  /* links: ink with a quiet underline; green is kept for data and the active view */
+  .card a, .sp-note a, .modal-bar a, .strip-detail a, .method a { text-decoration: underline; text-decoration-color: var(--line-strong); text-underline-offset: 2px; text-decoration-thickness: 1px; }
+  .card a:hover, .sp-note a:hover, .modal-bar a:hover, .strip-detail a:hover, .method a:hover { text-decoration-color: var(--ink); }
 </style>
 </head>
 <body>
 
 <div class="page">
 <header class="top">
-  <h1>Celtics Rotation Board</h1>
+  <h1>Celtics Rotations</h1>
+  <p class="tagline">2025-26 minutes, lineups and splits <span>· by Pull Up Shoot</span></p>
 </header>
 <nav class="views" id="views" aria-label="View">
   <button data-view="plan">Build 2026-27</button><button data-view="games">Game log</button><button data-view="splits">Player splits</button>
 </nav>
-<div id="gamePickRow" hidden><select id="gamePick" class="seasonsel wide" aria-label="Pick a game"></select></div>
+<div class="ph gh" id="gameHead" hidden><div id="ghText"></div><div class="gpick" id="gamePickRow"><label for="gamePick">Game</label><div class="gp-in"><button class="gstep" id="gPrev" aria-label="Previous game">&#8249;</button><select id="gamePick" class="seasonsel"></select><button class="gstep" id="gNext" aria-label="Next game">&#8250;</button></div></div></div>
 <div id="gnote" class="note"></div>
 <div class="toolrow">
   <div class="bar" id="tools">
-    <button id="refBtn">Reference: off</button>
-    <button id="paintBtn">Paint mode: off</button>
+    <button id="refBtn" class="tog" aria-pressed="false">Reference</button>
+    <button id="paintBtn" class="tog" aria-pressed="false">Paint</button>
     <button id="undoBtn" disabled>Undo</button>
     <button id="addBtn">Add player</button>
   </div>
@@ -269,7 +377,7 @@
   </div>
 </div>
 
-<p class="reorder-hint" id="gameHint" style="display:none">Tap any stint to see how the Celtics did while that player was on the floor.</p>
+<p class="reorder-hint" id="gameHint" style="display:none">Tap a stint to see the score while he was on the floor.</p>
 <p class="reorder-hint" id="reorderHint">Drag a row by its handle to reorder. The top five are your starters.</p>
 <div class="qpick" id="refMode" style="display:none"><button class="qb" data-rm="reg">Regular season</button><button class="qb" data-rm="po">Playoffs</button></div>
 <p class="reorder-hint" id="refHint" style="display:none">Shading shows how often each player was on the floor in that minute across the games below. Garbage time is excluded: fourth-quarter blowouts, and the stretch after a team pulls its starters for good.<br><span class="src" id="refSrc"></span></p>
@@ -277,32 +385,26 @@
 <div class="wrap"><div class="grid" id="grid"></div></div>
 <div id="bump"></div>
 <div id="stintCard" class="card" hidden></div>
+<div id="lineups" class="lu" hidden></div>
 <div id="splits" hidden></div>
 <div id="modal" class="modal" hidden>
   <div class="modal-box">
-    <div class="modal-bar"><span>Right-click or long-press the image to save it.</span><a id="dl" download="rotation-board.png" href="#">Download</a><button id="closeModal">Close</button></div>
+    <div class="modal-bar"><span>Right-click or long-press the image to save it.</span><a id="dl" download="celtics-rotations.png" href="#">Download</a><button id="closeModal">Close</button></div>
     <img id="exportImg" alt="Rotation board export">
   </div>
 </div>
 
 
-<details id="addGame">
-  <summary>Add another game (paste play-by-play)</summary>
-  <label style="font-size:12px;color:var(--ink-2);display:block;margin-top:8px;">Celtics roster for this game (comma separated, last names as they appear in the play-by-play)</label>
-  <input id="roster" style="width:100%;font:inherit;font-size:12px;padding:8px;border:1px solid var(--line);border-radius:6px;margin-top:4px;">
-  <input id="gname" placeholder="Game label (e.g. Game 3 vs PHI)" style="width:100%;font:inherit;font-size:12px;padding:8px;border:1px solid var(--line);border-radius:6px;margin-top:8px;">
-  <textarea id="pbp" placeholder="Paste the raw play-by-play text here"></textarea>
-  <div class="bar" style="margin-top:8px;">
-    <button class="primary" id="parseBtn">Add this game</button>
-  </div>
-  <div class="msg" id="msg"></div>
-</details>
+
 
 <p class="foot">Play-by-play from NBA.com; minutes verified against official box scores.</p>
 </div>
 
 <script>
 const TOTAL_MIN = 48;
+// Every score change from the NBA.com play-by-play (seconds since the previous change + a=BOS+1 b=+2 c=+3, x/y/z=opp, m/n=correction), and official box-score +/-.
+const FLOW = {"0022500017":{"e":"57c35y20b7z16b17y10c44b40a0a17x21a0a60y27y43c16y0x57x0x14b5y0x16c15x0x33b65y22x0x20a15a0a89b34y18b21y57y92z35y26a0a17y0x8a0a20y19b18c36z41y18a0a12y20b9y32z32x0x37y9c32x12a0a21y18c40c48c20y24b17x24b17z41b37a0a38x0x24y21c12z22b34y9c44y28c17y47a22y47b18y56c72b10z26x69z17b34b28y64z65a0a43b0m70c22z14a0a23y44z15b37b","h":0,"pm":{"Brown":2,"Hauser":2,"Queta":15,"White":9,"Pritchard":2,"Garza":-8,"Simons":-13,"Gonzalez":-2,"Walsh":-7,"Tillman":-2,"Scheierman":-3}},"0022500018":{"e":"20c38b0a15z15y79y8b30b69b52b23z39z75b26b25x0x52b33z23c29y20c0a20y12c33y53z24z63z55c41c19x0x42y56z45y12x0x23z42y0x13a7a0a23x0x15c30b11x0x25x0x21y20y0x40z74c32b65c20z29z23b22z26b28z37x0x27y58b34y9c43b97b138c50b33x0x18b17z17a0a18a106y13c16x0x54c32y15b44y47a29a23z18b25y7b6x9c21z10c34x","h":0,"pm":{"Brown":-14,"Hauser":-14,"Queta":-2,"Pritchard":-7,"White":0,"Scheierman":1,"Boucher":5,"Tillman":-9,"Simons":-9,"Gonzalez":7,"Walsh":-8,"Williams":0}},"0022500021":{"e":"33b21b35y17b20x0x60c33b20z35b18y0x26b40y19b15y36y24b10x16b16c17b17z20b0a40c17c39z34c36x0x43b13y36a44c31x0x13b23a7z54a0a25z13c25c48b22y33c17y15b26x24b13y36z27y0x21b47z25y1x0x26b18y23y19y32y62b70b21y9y0n45z0x39y33c31b40y9b54y21x14b0a41b93c15b16z23x0x78z66c50y43b41b51y17b19x0x0x19b31c56z23b19z26c23y78z39z18a12y","h":0,"pm":{"Brown":-11,"Minott":-4,"Queta":-3,"Pritchard":-4,"White":-15,"Hauser":3,"Garza":5,"Simons":23,"Gonzalez":10,"Scheierman":2,"Tillman":-1}},"0022500028":{"e":"46y28b74c17b9z12c15z25y9b13z22x0x28x0x31y40y8b24z33z12y0x12c18z60c45b39x0x42b0a24z50b35y8b46z14c34b17b0a93a23a29z23y0x26y47b93x0x19c22y17c21y8b72y20b55b18z59b20b62a0a15c23z15b5y0x48b9y64b21x9b8y22y17b26z21b21b46y33x43a0a27b13z112y25c48c22x18c19y19b15y30y26c20x0x55b23y31z50x13z51b19z28x0x12b25y0x8b11x0x10c20x0x7b6y7a0a17z8a20y","h":0,"pm":{"Brown":-21,"Minott":-2,"Queta":7,"White":-9,"Pritchard":-11,"Simons":-14,"Garza":-16,"Hauser":-15,"Walsh":7,"Gonzalez":9}},"0022500049":{"e":"27b49z43y58y15b15y15c24z24y14b19y19c84z111c29a0a15z13c30b22c37c79y18y17b22y28y29y21x12c37a4c18y18b9z11b15z13b71x0x35x0x19b13y0x18a18b30z19c44x50z36y22x21b14y13y18b44y39z21b15b49a0a39y18x0x15b0a34b44b49y0x20b18y20y43b14z0x69z34y24x24y29c16y17b42b0a74b24y20b45b100b17y24b32b36b12z46a15y26z26b21y13a15y35y22y6b19x7c26b","h":1,"pm":{"Brown":-4,"Walsh":8,"Queta":-5,"Pritchard":-13,"White":-7,"Simons":-10,"Hauser":-6,"Garza":-5,"Minott":-2,"Scheierman":-8,"Gonzalez":12}},"0022500060":{"e":"45z78y12a0a32a0a26c12x56x0x40z22y37a15y21b22c25z23y22b20y12a12y43y26c35b16y12c23y48c23c0a32b16z79y20a0a94x8x0x13b54y47y41b39y0x26c25c12x12b0a31b18x0x23b15y32b9z20x0x11c4z59y28b42x22c36c15b22y32b23y0x14c48z36y13c37z69x0x12c46z19b34x0x44c48x0x22a0a0a26y17c55c21y0x38a16y46y33y40z23b51b53y28c23y21b25c56y33x0x18b0a20x0x12c15z40a0a1x0x3a0a2x0x2a0a","h":1,"pm":{"Brown":-9,"Walsh":-5,"Garza":-2,"Pritchard":1,"White":11,"Hauser":3,"Scheierman":8,"Williams":-10,"Simons":13,"Minott":3,"Gonzalez":2}},"0022500083":{"e":"17b22z19a29b12x35z19b32y0x41b48b33b31y18c27z49b11y16b12z26b95y16c38z12c56x35x0x17y25y20c22b46y25b0a29c18x0x30y44x24x0x53b26b31y19b56z22z33b10y16y68x0x15b10y12a0a46b94a13b23y27y8c43c28c77a0a0a29a0a20b39z17a0a24y43c20y25a0a18x0x0a0a23z23y19a0a22b29a80b27z10b8z22z20b25b20z32z30y18a0a51y17c35b18y19a0a24y10b16y20b21b14z33y50x0x20b8x0x26z20x34x0x6c2x0x5b","h":1,"pm":{"Brown":0,"Hauser":8,"Queta":2,"Pritchard":6,"White":-3,"Tillman":0,"Minott":-6,"Simons":-5,"Boucher":-4,"Garza":-3}},"0022500106":{"e":"24b27y74c7b66c11b33b25z12b19y6b23a39z15c94b18y12b22c23y14b19z19y12b37z18x0x73y15b22y17c41c66y15x0x18b31y34y35x0x28c18z14b0a18y23c14b29x0x37y0x106z25z11b7y21a0a9z33x29y27c51x0x16c62a9y20c10y0x0x32x0x47y14b20y34x12a17x0x22c13y28x0x30x0x25y0x11a0a23a23y17b16y52b38y67x0x26b14a0a53x0x44c16b0a16x0x16b12y21b0a27z16b67y19c43a0a48y15a32b30y15y17b33y7c9x0x17a0a22y","h":0,"pm":{"Gonzalez":-7,"Brown":-1,"Queta":12,"White":11,"Pritchard":-4,"Garza":-12,"Hauser":5,"Simons":-13,"Minott":-11,"Boucher":-6,"Scheierman":-4}},"0022500117":{"e":"6b15z23c74b33b33b23y43a24c23a0a14y46y12c38b17a13z15a9x0x54x10y22y16a0a18x0x13c14x0x19b37x21c19y30y93y73y26b60c32y0x12b15x0x18b31c22b59c33x20z34b11x0x14b19z25c15x0x0x11c19z31b22x0x10a0a21y28b14y39b45b16z13a0a100z25b19y29y0x30y28c59z25c108b17y14b58b27y44x0x0x18b29x0x71b10z17c57c36b44c17y46c48c34a59b43b33c13y20b39b23b","h":0,"pm":{"Brown":4,"Minott":42,"Queta":10,"White":21,"Pritchard":27,"Garza":14,"Simons":9,"Hauser":16,"Scheierman":7,"Tillman":8,"Boucher":-6,"Walsh":4,"Harper Jr.":4}},"0022500128":{"e":"16y20b28b23c10z99b13z24z12y12b33a0a38y27c30c14z18c11z28c12z20c18b16x0x16z17b17z37x0x31z15c11x0x18c32a0a4z31b53z41c126a0a38a11x0x16c20y73b13y18b25z21z20a0a32c42c53x0x14b23b8b25c2x15c55x0x25b21z21c90a0a28z0x10b15y17a0a52b24a0a93y24b8y0x33y27y32b31c17a25z41y56z17b12x22c18y40y0x42c21y24c30y55c23y29y111b15b69a41a34b4x11c12y15a0a","h":1,"pm":{"Brown":20,"Minott":8,"Queta":25,"Pritchard":18,"White":15,"Simons":6,"Garza":-1,"Hauser":4,"Gonzalez":-2,"Tillman":-1,"Scheierman":5,"Walsh":3}},"0022500146":{"e":"18y29y26b30b13y0x39b0a20z29b19y23z18c20z33y20y56b35b13y26c17y9c49y23z21b20x0x91y21x0x30z18b61y18c34z53b81z28y15c7z36c18b50b25x0x27b19y35x0x15y43c13z33y31b140y0x30b35x15x11y0x56x14b15x0x21b0a14x0x27c18x29x7c17y22z71x39b17y15c21z21b27y10b16z40a0a85c15z21z24c27y23z23z21a0a60y17b17z19x0x42b24b22x23b28b25a32b17z51b18y5c12z6c31x","h":1,"pm":{"Brown":-20,"Minott":-20,"Queta":-7,"Pritchard":-19,"White":-20,"Hauser":-10,"Simons":-10,"Garza":-12,"Gonzalez":-7,"Tillman":-4,"Boucher":-7,"Scheierman":-2,"Walsh":-7,"Harper Jr.":1,"Williams":9}},"0022500158":{"e":"48b20c26b51c60y27b70b13z30y22b13y22c45z19a0a71a21z25y48y78c9y48y16b15y115y16b27b39y16b25c43c126b55b24y15x0x55c26y61x66y15b27y21b40y10b11x0x0x17b10x0x29y26y19a0a21y20b26b10z30x0x22y0x61y17a13z15a15b13b0a62c21y33z22a0a19y0x23x61y32b0a16z31z18a0a20y30b18x7y36y16c22z9c25x0x19b33b0a40y106a0a10b17b14x12c10x20b8x0x16a16y19a24y","h":1,"pm":{"Brown":21,"Minott":6,"Queta":15,"Pritchard":2,"White":-8,"Hauser":-1,"Simons":-11,"Garza":-12,"Tillman":-10,"Gonzalez":-11,"Scheierman":-3,"Boucher":2}},"0022500174":{"e":"20x13b19y18b15y28y35b15z14b34y0x21b13z75b18y18b7x31x0x27b5y15b0a60a13y27x0x20y58y0x11c35c22y25z37b25b9y23b26c53c14y25b72b38b62c23a0a14z14a0a14y0x8a25c15y0x11a0a15x9a12z12b57b18z17b22z6b26b23b31b24a44b18y66x38y34c46a0a13z11b39c30c40y7a0a24c16y17b50y16x0x81y18b28c26y5b44b26b23b0a37b21x0x35y25z42y21b29c17y11b29b17y19y0x24y13c8x46y22c30b42c38c7x0x15b22y22y","h":1,"pm":{"Brown":11,"Minott":18,"Queta":23,"Pritchard":36,"White":22,"Simons":6,"Garza":-3,"Hauser":3,"Gonzalez":0,"Walsh":27,"Scheierman":2}},"0022500193":{"e":"26x0x0x35z24y14c43b25z18y27y20a0a47b17y11y32y21c26y35b38b34b13z42c25c31x0x25x36y19b0a5y10b0a42b34c22x0x8a0a0a14c32c42y17b92b47y0x83z46y25b21y37b15y42b65y0x23x0x84z51a21b0a17z56c17y9a0a30b53y0x15a25y26b22a0a13x0x41y22a22b21y9x0x25b0a50y50b19y46x46c47b15z26y57b32c29b43b28b57b14x0x32y36y19b19x0x20x0x59b14x0x13a18y11c9x0x26y15c12y20c7a1x0x","h":0,"pm":{"Brown":-17,"Minott":-17,"Queta":0,"White":-4,"Pritchard":2,"Garza":9,"Hauser":6,"Simons":9,"Walsh":13,"Gonzalez":19}},"0022500209":{"e":"22y18b26y49b10z12c27a0a18b22y20z82y60x0x54c16y83c26b21z34y87a25a0a89b38c12z29z38b17z81y0x36z63b7y0x17b19y34a0x0x16a34b76y34a0a21y20y46b25b20x0x58b23b24b34b38c20y17x0x20c11x0x14b32y81b28b42y24z10b0a33c43y19b71c31c3z12x0x60y44a0a45c19y12c10z20y22b50c28y23a0a15z43z35z18b23y37b14x0x50z27c79a25y","h":0,"pm":{"Brown":-5,"Minott":-10,"Queta":1,"Pritchard":-9,"White":0,"Simons":12,"Hauser":5,"Garza":-3,"Walsh":4,"Gonzalez":-5}},"0022500216":{"e":"27b40b33z18a0a19y14c43b22b11z17c95y17b33b15b15x30y11c11y16c14y51c15x0x22z60y27y13c48b0a19y30x71y101y0x16b25c31y0x22b53x0x11b44b24c9x0x14b48b21y13b26c67c6z22b29b30b33a0a37c58y29b34b22a8z10a9y45c14z17b39b20x0x16b10z29z43c10y81c11z23b9z31x0x22c68b0a12y46y15c36y44c62x36c51b27a0a13y21b19b94x0x24b23y0x47x29y6c18c13x0x16c16y","h":1,"pm":{"Brown":29,"Walsh":19,"Queta":27,"Pritchard":42,"White":22,"Hauser":15,"Simons":-1,"Garza":2,"Minott":2,"Gonzalez":-1,"Scheierman":11,"Boucher":14,"Harper Jr.":-1}},"0022500233":{"e":"46b34x0x27c48b34b29b20z40x0x13a0a27b24y18c23c22y13c20b0a24y23b19z17c14z15b42z19c29y0x29x0x41z23c56x0x47z63c76y53b21b27b41b20y7b19y12c23b0a58y52y25y42y21b30b50c28c29b17x0x12c14x15b13x10y41c52y0x26x0x0x39b13z54y23y51y16c21y0x12b23x0x54z16b15y14b42y32z17x0x79b36c14b0a17z25y39b0a15x19a30b28b19z81b13y30y39z37x0x17b19a0a59c12y26y29x0x0x8b5z1a0a5z1a0a","h":1,"pm":{"Brown":22,"Walsh":4,"Queta":16,"Pritchard":-15,"White":20,"Simons":-1,"Garza":-14,"Minott":-13,"Hauser":-16,"Scheierman":12}},"0022500250":{"e":"19z16b31b55x44z16z33z22b25c21y23x49y22a0a9z22c39a39y8c37b15y19b18y17y20c35a0a31b59y16b33c66y0x33c36b73y25y10a0a58z13b17y19c21x21c14z17b21z16c20x0x0x21b27z22c19x0x41c10z61y140c14a0a12y18b18b0a36c17x0x32c112x0x13b18z62x34y19a0a16y13a0a20y14a0a12z33z17c152x0x36z62a14b27b25c21x0x69c14x70c32a39c59y13b11y46b28a0a11y","h":0,"pm":{"Brown":2,"Walsh":-12,"Queta":5,"White":15,"Pritchard":11,"Simons":0,"Garza":14,"Hauser":22,"Minott":15,"Scheierman":3,"Tillman":-5}},"0022500277":{"e":"45b49y25b9y10b19a10x19b10y15b47x31z14b24y24x0x22c24c26c27z22b44a27b14y30x0x23c30x20b17y32x0x31b0a15z47b54y44a15y16b0a9y17x0x15b27a23b22c14y15b12y30y14c21b14y13c21z21b21b11c26z16b0a11y0x15a0a47c20b5x0x17b30b20b17y31y13c15y19b51a0a33y17y20b73b33z20y21b47b24z23b19y16b43z39c20z11c20z52y0x18c21z14b14y12b25y24b33a0a26y7a38z17b44z44y0x23z18c29z21c11y22b21z60y0x16b31b17y25y43x0x47a1b3y3a0a","h":1,"pm":{"Brown":12,"Walsh":-6,"Queta":-2,"Pritchard":15,"White":-2,"Simons":7,"Hauser":-6,"Boucher":9,"Minott":15,"Scheierman":-6,"Gonzalez":9}},"0022500293":{"e":"18y42c29z31b50b9x23b16y34y17b13z21b41y14b17z29b16z16b11y19c16y25c14z18b70b22b33b21x0x13x0x18c36z31y34b18y13c24c26c19z33y25b10z27x30z17b30b20b14y50c30a34b58a13b19y22b40x0x19c22y25b18z46b23y8c11z39z27a22b15z30y0x33c60z81y29y7c18z50c21z50x0x73z14b26b94y50b87y39z17b73b13z30x0x51y40y17a0a25b27a0a33c30c26z27x0x7a0a24z8x6c","h":0,"pm":{"Brown":1,"Walsh":1,"Queta":0,"Pritchard":-12,"White":4,"Simons":3,"Garza":-13,"Hauser":10,"Minott":-1,"Scheierman":-13}},"0022500302":{"e":"9c37b22b22y14c42c38z25a47b0a35z51z18b8x0x19a0a79b13z58y28b12y27y20c12y83x0x20y19b14z30y57c12z9b40b14z77b26z32y11b35x0x15c29b23c25z26y112b30a0a35b28c11z23b11y12b12z35b0a18z29b26c58b38z37b15a0a31b26a0a17c27c12y41y54y24c23z48a31y32z75y23y10b24y35z29a0a47y70c41x38y22a0a18c47b42y29y14b17y26b29a0a11z13x1x6a0a12y27z18b7z14a0a5z0a","h":0,"pm":{"Hauser":19,"Walsh":-2,"Tillman":0,"Brown":16,"Pritchard":10,"Simons":-7,"Williams":-4,"Scheierman":-9,"Minott":-4,"Gonzalez":-9}},"0022500320":{"e":"47z22z14b21y16z29y0x41b22z18b21y39b44b25z15b28z13b82y13b36x17b38x83y6c23x20y26b14z24b15y21b20b34b24c24b0a24y23y63c26z24c35a0a23b39b23y19x0a16b22b23b54z25b89a0a33c19z30y41c29b40y32y28b27y17b15z17c33b40z28c13z22b22y53y9b43b30b26c47c41y23b20z32z0x26y22c54b0a48z24x0x0x14y0x30z17c14y23b35b75y0x15c22y0x14a14z27b26a0a20a0a7y34z35b5y4b","h":1,"pm":{"Brown":15,"Walsh":-9,"Queta":-8,"Pritchard":0,"White":10,"Simons":9,"Minott":12,"Hauser":-2,"Williams":-1,"Scheierman":1,"Gonzalez":3}},"0022500334":{"e":"19b18y23b24y19b49c12b27y41y27b28b14x0x0x43y27c22b16z100c37b26y34z21y11c30a36z15c18x0x22b13y17c12x0x27b0a16y25c29a26b15b41x36y21c51c15y31z35y35x0x11y0x24b27b38z19b30y39y15c19z12c56c9z22b21a0a38b32a10z0x11b36y20b0a46y9a0a0a25b18c19y21a15x0x15b15y5a0a24z5b29x0x18b27y23b23a0a29b22c22y18x39b16c57b26c27b15y22c21z23c19b18c56y26b0a24y82x0x20b29a0a23b12x0x82b40c14y11b","h":0,"pm":{"Walsh":20,"Hauser":4,"Queta":29,"White":17,"Pritchard":27,"Simons":34,"Gonzalez":23,"Minott":2,"Scheierman":42,"Garza":9,"Harper Jr.":9,"Tillman":9}},"0022500338":{"e":"32c18z24b105c28c40y28x0x24b22b0a20c30y24b15z19c16z63b27b31c56a0a21y11c32b12a36a0a25b29y10c22y14c21y22b22y16c12x0x85b25x0x51x0x16c26z118z20b24b12x0x24c12x17x50y14c17x0x0x36x22c18y11c15z11c14x0x18b24y15c15z14b91x0x22y10y42z22c31b23y0x14c16b70z25b18x25z32y59y102c30c38c15z39z16c44x0x22a0a25b14y34x33a0a28y18c36b46b26y13b20y14b8z25z","h":1,"pm":{"Brown":12,"Walsh":28,"Queta":8,"Pritchard":15,"White":19,"Simons":23,"Hauser":8,"Minott":21,"Scheierman":-4,"Gonzalez":-9,"Tillman":-4,"Garza":-6,"Williams":-6}},"0022500358":{"e":"100b31c40z18c18b14y11c28b17y58y17c22a20y14b10y17c35b17z69x0x18c13x0x17b0a13y30y33y25b52y26c11y22b21y13b11z28b14c14y0x14c13y30b12z20b17y35b22c46y20b0a25b11x0x34b24y17c7x0x18b40c63b18x0x27x0x5a0a5y30b34z36y15b45c47c18y47y18b24x0x0x30y29y22y19b49y72y41z37z13c55y8c22y25y27z38y55a0a48y42y23c36c58b46y74c48c73x19b27a0a7y11y0x6a0a7z40a0a","h":0,"pm":{"Brown":18,"Walsh":10,"Queta":12,"Pritchard":18,"White":8,"Hauser":0,"Simons":-9,"Minott":-12,"Scheierman":-5,"Gonzalez":0}},"0022500381":{"e":"34a0a11z29z17b31b38b12y11c34c11x0x16a0a73x0x32y60a0a12y29c12z38y13x6z62b29c31b49x19b10z39b31b16z35y23b8x0x60y24b11z14b25y39z42b7z47a17y8c18y42b45b22c73z12a0a16y11c50c28x0x34y22b21y18a9z18a0a9c18z30y14a0a50z36b18y30z11b0a58a0a21c14x0x24x0x18b31x15a14b28x17a32c20x34y9b22y19c19c31z23c31c20y20c20c42b58z23c14z45c42y25b14y24c17y34a79b8y6c49z32z","h":1,"pm":{"Brown":8,"Walsh":-6,"Queta":5,"Pritchard":-2,"White":27,"Simons":13,"Minott":-5,"Hauser":13,"Gonzalez":22,"Scheierman":-10}},"0022500388":{"e":"16b23z22c23y61z70z73b18y9c33b17y19b24y14b19z16a0a76b20c59b18a0a27b23c62z17b18y53b55a0a69z19c72z38y101y18b21z19c13z30c14y0x24y32x0x45z87z22b29c36b11z21b44z71z20b18y26y48b11y20b51c37c17x20b15y8y27b0a9y0x11z16b22b31b31b12b43b24y36b15y19b38c53c14z31x17b0a16y24a0a12y42y118b13b43b5x0x14a0a70b","h":0,"pm":{"Hauser":-8,"Walsh":-15,"Queta":-12,"Pritchard":4,"White":1,"Garza":22,"Gonzalez":37,"Minott":10,"Simons":32,"Scheierman":9}},"0022500403":{"e":"20c44x39z21a0a18z11b15z14b5x29y14b32z37z22b18b33c11z18z28y26z99b34c36c44y0x18x0x53z17b16y93b22y23b15z17c16y18b25y69z95b29b24y25y92z23x0x21b111x0x13b30x0x16b15y11b22y25b28c18y38b28c63z13c88a0a0a67c44y20b12y26y26a0a29b35y24b51a0a110b14x0x24c61b25y17b38b30y89b11y0x50a0a34c12a0a58a33b10x0x21a0a7y","h":1,"pm":{"Brown":-2,"Minott":-7,"Queta":-3,"Pritchard":-6,"White":9,"Garza":13,"Simons":4,"Hauser":2,"Gonzalez":21,"Scheierman":9}},"0022500426":{"e":"14z72b20y14c8z22z26b13z45b10z12y14b17y27z39a0a13y41y21c25c10y36y15c64y16b19z27b34a0a16y41c41c37c19z38b13x0x14c42x0x17a0a12y11c21a0a33b16b31b16a0a13y20b29a7c22y65b68x0x16b14z21b7x0x7b29a0a10y17b67y27b20y12b16z35c17y18y105b36b24y11c14y15c17a0a12z27c19z22b17b11x0x15c15z16a0a26c25b10y46y37z54b51c27a0a17y25x0x22b93a6x14a0a11y16c32c19z37z24y40b14x18b7z28y29c11y15a0a20z20a0a17x0x","h":0,"pm":{"Walsh":-5,"Brown":19,"Queta":-3,"White":16,"Pritchard":8,"Gonzalez":-13,"Simons":7,"Garza":26,"Hauser":17,"Scheierman":18}},"0022500444":{"e":"32b20b34c12x16b22y47y17b21c24z8b29z27z17c47y43b18y12b15y29y25x0x35b29b7y92z3y9b27a44a0a62y25z51y18b23z39c31b20a0a26y19c31b37y15b34c39y58x22a0a6z19b0a42b19x0x9b17y17c22b21z25y45y67b31z25y31y26b40b34z25a21y6a0a21z31z24c98z30c28a0a0a30b8z55z36a43b48y23x0x25b20y60b50z28c30c24y22b17z68b16z24c94x20y5c21y0x6x0x","h":0,"pm":{"Walsh":0,"Brown":0,"Queta":2,"White":0,"Pritchard":2,"Gonzalez":3,"Simons":-15,"Garza":-9,"Hauser":-9,"Scheierman":-4}},"0022500459":{"e":"21y29x0x16b12y20y11b13y10b48y27z23z13c67b21z11c14z18b27b29y10y22b30y13c13x16b50b27a40y25b0a9z32y11c25c108b36c12y31a0a25b42c18y11b0a12z43y19z56a38b14z73x0x29z20b19z48z6a0a44b15y12b21b18b18x0x13a0a41y18c16y23b36b19z24b14x0x20y0x12c16z58b23y17b9z17c13a17b27c20z63x30y17a20x0x5b24b23x17b40b3x0x8a0a42y27y38b15x0x13c25a0a48b9x0x18a0a15y37y28x15b37b33c26y48y23b39b40z18a0a","h":0,"pm":{"Walsh":-7,"Brown":2,"Queta":-5,"White":3,"Pritchard":1,"Garza":13,"Hauser":7,"Simons":27,"Gonzalez":7,"Scheierman":2}},"0022500474":{"e":"30z25y39z21b29b17z17b32c30y16b0a18y32y31y39c15y33c29c24y0x90a0a14y56z21b22c60z21b15y25b18z14c15z15c20z19c11y13c23b23y21c52y60y73b13y15b35b16y16a13y21x0x46y28b22b35b54c33b21a0a14y25z11b24c14z42z34y32z35c32y35y12c77b36x0x36x28b15y66b12y33b17a0a14y45c19y21b39b57x0x19a0a14y29c22x0x8a0a15x0x16b0a27c67y17b38b65a13y30x0x16b30a30b","h":0,"pm":{"Walsh":-5,"Brown":-2,"Queta":-2,"White":14,"Pritchard":4,"Hauser":15,"Simons":12,"Garza":16,"Gonzalez":20,"Scheierman":-2}},"0022500493":{"e":"15c41z25b44c16y22b19y33b25y10b35b47c20y15c20y21y41c16y16a0a12y33y12b20c17y39b32c20y17b14z23a0a0a86b15z15c26y25y14b62b16z42y17b16y0x13b21z13c19z11c12z42c13x0x28x0x19a0a66y36c26y36z20a0a33y28y19b37b39y0x14b34x0x8a0a14x0x24b26c37y31z15a24b20z18c16x0x20c19z15c15z15b28c22z21c15z14a0a27b30c15z17a0a51y12b76b28b59y13b56c26y13b19y13b25c74y40b25c30c17y10b29c21x0x53x0x22b","h":0,"pm":{"Brown":21,"Hauser":2,"Queta":15,"White":17,"Pritchard":27,"Simons":18,"Gonzalez":9,"Garza":17,"Walsh":24,"Scheierman":4,"Minott":1}},"0022500503":{"e":"56b39b20z21y68b12y62y18b32c24a0a0a23y46c26c42b14z90a0a41b26c26b46y26b21y22b153b63b11y14a0a42y10a69b18x0x19c15z18b60z28z50b69c10y60x0x24c27c15y67y8c8x0x13b0a18x0x15y24b20z20y35c52z23b11z18c76z36b33a20c17z25c27z66c10z32z50c15y46c10y23b45y12b9y19c21y0x29y14c22y28y32z28b13z20c32y74b0a18z15c","h":1,"pm":{"Brown":12,"Hauser":6,"Queta":11,"Pritchard":11,"White":0,"Garza":3,"Gonzalez":5,"Simons":10,"Walsh":7,"Scheierman":5}},"0022500520":{"e":"35y51c46z29z38c21z11c29b44z33z12c24x0x13b36c79b18z11b29y26c15z15b14x0x15b24y12c31b32c20z20b54a67y16x30z65y32y38b30b19y26z20c28b27b34b13y27y25y12b63b25z35b10y38z44b108c162b29c35b14z31z16b43z35x0x22y15b42c11z15c52b20z54b11z51y18b43b65y0x55y40z25y37y30x0x13b0a16y67z20a0a23x4c19y25b0a6x15b8x0x4c3x3a8a0a0a3x","h":1,"pm":{"Brown":-14,"Hauser":4,"Queta":-16,"Pritchard":-5,"White":-14,"Simons":-9,"Garza":8,"Gonzalez":9,"Walsh":4,"Scheierman":13}},"0022500532":{"e":"23a0a39c13z16b19b16y33z20c9y18b21z13b27c27c60y8b57b21x10b6y30y10c17x0x22b25z19b11y72z27b40y31y15b33b13z31b30b14z41y20a45y40z49c26b25b20z55c53b25b27y46z16c11z9c25x0x7a0a17z28y25b21c19c54b17y0x20a0a10z46b37b47b34a0a11y25c78b30z12b7x0x52y34y28y20a0a39y44y17a0a21z33y23c54y19b17z27b18y73b12z13b29b16z36b0a23a0a57c11y0x10a20y11b52y16b9y34y","h":1,"pm":{"Brown":17,"Hauser":23,"Queta":0,"Pritchard":11,"White":14,"Gonzalez":-12,"Garza":6,"Walsh":-9,"Simons":-10}},"0022500545":{"e":"35y49b14y27z21b26b29b21b33b42b9y0x21c26x0x54c13z16y89c81c19y49y78b19a18y14b19z21b39b99y27z19c29y17c13z25y25b14z27c23y17b10y21y24b28c81b10x29y66y15c64b22x54b12y34y25y20b40x0x112y0x13c47y51b50c12z68c2x0x33y42z33y25c15y44c47c11z0x84c96b57y0x27x64b12y28z19b23y53y3a0a18y12x","h":1,"pm":{"Brown":-1,"Gonzalez":3,"Queta":3,"Pritchard":-1,"White":-6,"Garza":-14,"Walsh":-12,"Simons":-1,"Scheierman":4}},"0022500559":{"e":"37b52y50y32y40b23c23y35y21b34c13x0x20b21z42b16y19a0a129b23b35a0a28y43b28b54z19c13z12b10y37c14z21y13z17b14z20c17z15b33y0x32y20b19y22c14z27b43b36b65b13y168z94y29z53b46y32z25y16b23y27z32b30b45c16z11b29b19z24b32b17b53y87a0a19y13b14z28y34x19b32b69y47b41c56z16a59y25c107b22y","h":0,"pm":{"Scheierman":-8,"Hauser":-6,"Queta":-12,"White":1,"Pritchard":1,"Simons":-4,"Garza":10,"Walsh":4,"Gonzalez":4}},"0022500580":{"e":"29z17b27b11z19z29y25y89y0x16y37c13z17b12y0x29z39x30c16y47c21y19b29c14x16c13z25a0a109y20b38a33b44b40b4z18y19b40z29b18y22c14x0x18b12y73z39a0a31a0a54z20b17y18c11y34y23a0a47b18z0x44b32b22x0x37y18b26b29a0a14y25x0x20y30c26x25y0x12b9y21b10x32a0a0a10y25x0x0x73a0a10z44b29c52b58b18y29b54b84x0x15c39z23b32b30c20x0x16c20z20c32a0a15y45b55b14y70a0a3z3a0a3y2a0a","h":0,"pm":{"Brown":-10,"Hauser":1,"Queta":-1,"White":12,"Pritchard":-20,"Simons":18,"Walsh":1,"Garza":5,"Gonzalez":19,"Scheierman":0}},"0022500594":{"e":"42y49c59b55b14y19c38y18b27b34z28y55b43x0x13c59b14y8a0a23x0x19a0a0a25x15b12z14b15y42y16c15y25y31c9x0x23c21b14x0x0x25b16c28b17c35z20c27c21z22z17b47c26c28a0a13z12b26b0a28c25b14y28c51b19z18b13y9b0a26c26a0a14y22c37z20c10z38b66y33b25z29b27b29a0a15y0x28y33a26b0a15z11b144c30z48y9c19z24x99c23c87y42y0x63z18c38y27y37a0a8y21a20y0x32y0x34z","h":0,"pm":{"Brown":36,"Hauser":30,"Queta":39,"Scheierman":2,"White":36,"Garza":4,"Gonzalez":6,"Simons":11,"Walsh":7,"Williams":-17,"Harper Jr.":-12,"Tillman":-12}},"0022500621":{"e":"16c52c21z23y50b99y39a0a39z19b0a27y28y13b11y42b0a14y33a0a38b28c43a0a12y70c52y8a0a98c22c13y16b19y0x17x0x58z25c36b21b30b24a0a28a0a22b26y6a0a17z13b10x0x17z15b35c8y28y25b64y22b14z57b16y14c14y0x49a0a54a0a34b16y28z9b48y0x29x0x26b29x0x33y32y16b15x33z20c33y18b0a63x0x17c47y18b38c45z22z24b29b23b58b10x0x21y16a0a28b37b79y17b13x0x24z19b52y7b13z","h":1,"pm":{"Brown":11,"Hauser":13,"Queta":8,"Pritchard":26,"White":18,"Scheierman":-5,"Garza":13,"Simons":2,"Walsh":0,"Gonzalez":-1,"Williams":-6,"Harper Jr.":-4}},"0022500637":{"e":"48c46c39b33z26c15z19b10z36z41y0x23a48c23y31x10b14z46y14c23x0x44x15c29b54y6a40c25z44b17x0x30y20c18y67x0x60y19c20y28y20y89x39c19y29z74b20c39b14y36c17x0x0x33c49y42c16y34a16x0x24y17b54z39c37b43y17b31y21b43b13b9x21b50z44x0x16b13y93c29z34b0a28y12b41b23y17b35z38b21b84b33a0a47c13z27b12y37y46x0x34y6a9y87x0x15c21x0x25c17b71y24z22x0x12x0x4c1x3c48b22y20b0a41y14a0a17y27c20y47b","h":0,"pm":{"Brown":11,"Hauser":-5,"Queta":2,"Scheierman":-2,"Pritchard":-3,"Gonzalez":4,"Simons":6,"Garza":-1,"Walsh":-6,"Harper Jr.":7,"Williams":7}},"0022500647":{"e":"35c11z17z11c19z51b28b17z16c17y21y61b13y91x0x24a0a17z18c17z28b54y52b37a0a51y14b18b74b16y22x0x29c22y9b19z16b39c94y3b35b14y71b44b12y38z20b0a32c42x2z41b40y30y41z12c18y34c29b42z12b50y15b14z25b12y29y10c15x0x26z23y20b0a17y21z12b15z21c117b71c20y20z12c15z21a0a48c16z24b58b26z25c17y27y15b7z105b12y66b129b13z","h":0,"pm":{"Brown":-13,"Hauser":-12,"Williams":-3,"White":1,"Pritchard":-4,"Simons":0,"Scheierman":1,"Garza":-3,"Queta":3,"Gonzalez":7,"Walsh":8}},"0022500660":{"e":"98b45b38b38b15x0x14c17z38b34b62b15y17b57b36y20b25c58c63y29c38b47y46z32x0x44y62a13z19b12y0x124a10c16z0x74a0a12x0x55b11x0x35a0a15z16c40b39b39y33b47y23c29b16z41x24c59z44x11b13z36x0x25y15a24y20b7x0x17b20b18x31y38y45b20y33b11x42b51y19a0a14c29z40b25b16y17c22y36z20c18y43y25c66a44y16a14y33y9y21x0x18c","h":1,"pm":{"Brown":6,"Hauser":5,"Queta":4,"Pritchard":23,"White":2,"Williams":4,"Gonzalez":19,"Simons":-9,"Scheierman":-12,"Walsh":-2}},"0022500673":{"e":"19y58c33b14y19z55y55z23x0x20b68y0x28z62a0a11z38z18b11z44z16c8x0x10c82a19y9y24b75y20b29c35b0a22y12b23y24b8z47b9z46b18y31b7y49z28z27b91b18b43b53b14y20b43z29z20y20z14c13y18b24b36b77a0a35y39c61b18y37a50x0x22b16y22b0a13a0a16y30y13b16y56y25b14z15c10y20b14y22b10z13a0a31b12z40b0a11y9x23y49b23z15b14y0x96b35c24y72b28c","h":1,"pm":{"Brown":-24,"Hauser":-12,"Williams":-11,"Pritchard":-30,"White":0,"Garza":3,"Simons":-4,"Gonzalez":-3,"Scheierman":11,"Walsh":7,"Minott":8}},"0022500689":{"e":"14b29b18x11b38c25b35z26b70y18c17z19b33b11y22x0x14c10x0x18b21x0x23b19b40y21z21c35c53b11x0x0x19a29b10y0x24a0a13z24y33y20a0a26c50y28z18b45b54c66x0x38b33c10y34c11x0x19c17b84c30b65a0a34y53c10y136y88c17y29b65a57b10z0x24b75y0x22z12b56y52c56y30y10b27z63a0a14y17b41y16c35b14y103z68y18c21x0x29y11c39z34x0x21c","h":1,"pm":{"Scheierman":25,"Hauser":11,"Queta":25,"Pritchard":20,"White":28,"Garza":-4,"Simons":-8,"Gonzalez":9,"Walsh":-8,"Boucher":-2,"Minott":-1}},"0022500702":{"e":"39y34z27y31y29z27c5x36c15z26b30y20c21b56y80b18z81b22c31z60c31c25c49y25a0a31b23z26b16y20c18y114a0a36b13y46z25b42a37b18y65c31b31b29b27y26b16z18b25b38b0a21c20x57y53b40b46x106x5y32x0x43x0x0x60b15y10b22a33a50b13x0x43b22b28a0a25b22y37c21y30z43y18b34y18c53b37c32c12y82c42z","h":1,"pm":{"Brown":16,"Hauser":20,"Queta":17,"Pritchard":10,"White":27,"Gonzalez":11,"Simons":10,"Garza":7,"Scheierman":13,"Walsh":8,"Williams":4,"Minott":-3}},"0022500721":{"e":"37b24b12y44c24y25x0x13y18y22b42y14c60c21y19y16b12y25b12z13b29z18b19y20b48a35b18y10b20x49b82z19b25c37b13y37b31a0a97b37b33c11y35y39y100b57y18y78y20b26y22b69b43z20c20y16c11z12b28b12y48b56x0x20b18x0x0x13c34c21y47y34c29c22b86b25y21b17b21y23z17b15x0x31z16c25z34x0x19c14x0x30y20b13x50b9x0x10b18y38b81y47y17b7z","h":0,"pm":{"Brown":-1,"Hauser":6,"Queta":10,"Scheierman":16,"White":14,"Garza":0,"Pritchard":0,"Walsh":-4,"Gonzalez":9}},"0022500728":{"e":"17c95y59b23y34z11b51y35x0x14b22y52y40c105y24b36b102a0a71c42b18y27c65z33z18c22a0a23x0x27z15x18b9x0x60y18c45x0x15a0a49c22y8b37a0a39b8z20b33z62c30b0a24y0x42c28c41c49c15y44b56c11x20c40b18y6x23b17y36y64x0x18b7z46a0a0a0a17b47z33a0a12z25c37y20c29b17y24b31z19b17y14b37c16y17c14y61y28y58c16y26y55a0a49z","h":0,"pm":{"Scheierman":7,"Garza":16,"Queta":22,"White":15,"Harper Jr.":16,"Pritchard":17,"Walsh":7,"Gonzalez":3,"Minott":4,"Shulga":-1,"Tillman":-1}},"0022500741":{"e":"16z87z31z41b12y33y34y96b12y29y28b20z34z22b25a0a20b14y134c20y60a0a0a26y28x0x19b27y0x13b35z19z13b14x19b0a20y43a9y23a25b17x0x0x51b49y41y62a9y21b9y19b44x35b11b32b43x49z89c22y23b7x0x99c22c30c40b0a10z31b56b27a0a38b13y20c31a0a9y71b46c12y31z40c15z20c33a10z28b14y33y78a0a0a15x0x36z26b54y22b45c","h":1,"pm":{"Hauser":3,"Garza":-7,"Queta":-6,"Brown":-16,"White":6,"Pritchard":4,"Vucevic":11,"Gonzalez":-2,"Scheierman":17}},"0022500757":{"e":"17z106y29a0a20b20b22y9c12y20b22y9a0a23y22y28y15b14y0x20b57z17b21z86y8c20y49z25b26y19a8b19x0x21b26y77y11b11z28y21y19c14x28b49b26c85z31y22b43y47c19y19a0a23b0a22x0x6b84b25z53a0a20b10x0x29b67x0x47z41b26b17y69z34x74y10b0a1x0x23y38x34y92b70c16y28z24b42c32y17x0x0x8b85y21b22y28z25b17z11a81z16b11z55a0a","h":1,"pm":{"Brown":-14,"Garza":-6,"Queta":0,"Scheierman":1,"White":-9,"Pritchard":-27,"Vucevic":-24,"Harper Jr.":-17,"Gonzalez":-8,"Walsh":-4,"Williams":-2}},"0022500778":{"e":"25x0x11b14z37b41c25y22b38z36z17b14z9c24c26y47c48b43y28z69b19b21a0a43c24y5c9y24b37b90b23y15b24c38b14y16b32b42c17y23c47z32a35y15c26b0a10y0x15b24b49a0a19y10b59x28y49y65b20b17x36b15y18b59c14y59y14c15z82y19c13y19x0x23b53y21c25a16y19c16y30c26z53b23c12y17b40z89z43b12z27b16y0x22b21y19b33y34y32x0x23b26c15y29y0x14a10z18b22y","h":1,"pm":{"Brown":15,"Hauser":8,"Queta":1,"Scheierman":-7,"White":22,"Vucevic":26,"Pritchard":13,"Harper Jr.":5,"Gonzalez":5,"Walsh":15,"Garza":-8}},"0022500799":{"e":"20z17a69y18b9y8c18z33c41b25y11b9z19b46b12z20c16b55z11b31c26b13y35b24b17z69c19z28z19c52c22y17c29b22b34b59b49x0x19b93y28z41a0a43b0a15y24y10c53z7c29c15z5c34b61z13b29b29c29b43b35b15y15b23z81a0a22b44y52b14y28y16c19z42z43b8y59b20y40c10z26y24y11z18y37z21b33b12y39b16y29z25y34c31c15z37y67y68b13x0x36b41y","h":0,"pm":{"Brown":11,"Hauser":22,"Queta":3,"Scheierman":0,"White":14,"Pritchard":5,"Harper Jr.":-6,"Vucevic":17,"Walsh":-9,"Gonzalez":7,"Garza":-9}},"0022500823":{"e":"27y36y30c41y11b13y26y8b18b20z21c15y38c29b14y22b34y50b15z30z11b31b48a43b88x0x0x95c55y73z27c39a0a18b17y67a0a13x22z7b25b16x0x41b13y26c34a17a0a43z7x7b25c12z22c77c27z65b36z36y35b0a0a46y23c16y25y0x19b39c61b121y25a0a7x0x14x0x17c67y15b49y27y44b31b33a0a42y25b80y26b26b0a35c12y35c16y23a0a9y27b15y92b","h":0,"pm":{"Brown":18,"Hauser":5,"Queta":5,"Scheierman":18,"White":18,"Pritchard":21,"Vucevic":15,"Walsh":-1,"Gonzalez":5,"Williams":2,"Garza":2,"Harper Jr.":2}},"0022500839":{"e":"22c14z20c31b57y22b13y25z53y97z20b25y13c20z62b40y30y63b31b51x0x49y20b22b11x0x49z24c44y35z60a0a16z19a0a74c30b25b34c41a0a22x0x0x16b49b24y20b100c27b10x0x14b38a0a31b17y44c15y70c35b106b66b48b22c25b15z60y68y39y29z44x0x91b29y24c40b29c23y16b48b54z57c13y49z61z","h":0,"pm":{"Scheierman":13,"Hauser":12,"Queta":29,"Harper Jr.":25,"White":20,"Walsh":7,"Vucevic":-7,"Pritchard":11,"Gonzalez":-6,"Garza":-8,"Tonje":-8,"Banton":-8}},"0022500847":{"e":"66y11b32z23c36b0a14z22b14y104b14z12a0a64b56z23c67y61y23c67x9b37b25c20y0x10b16z33b18x13c9z80z54y12c37y33x0x81a0a100b57z25b14x0x13y16c50a20a0a11z49c121y13a0a18z25y17b34y63c64x0x25z39b30b16y27a0a9y20y23y32z14y83y37y17c80z35x52y13a0a14y132y11c26y41b22y32c16y13b16z14b10z","h":0,"pm":{"Brown":-12,"Hauser":-2,"Queta":-7,"Scheierman":-16,"White":-20,"Vucevic":-9,"Pritchard":-13,"Gonzalez":-4,"Harper Jr.":-4,"Walsh":-4,"Garza":-2,"Banton":-2}},"0022500859":{"e":"18b18y77c25b14y32y42z19c17y18c17y8c15y16b15c47b35b0a34z51b12z16c75y19z21y18b7x0x7b26y32y20c26y26c119c46y21b16y28y68c19y7b0a13y32z25c21z22b18x0x21a0a23a0a67y0x19b27c19c20y12b18x0x16b21y11b29b18y19b15z30y0x50y20c44z17a0a30c45c27a0a25b11y21b20a0a13x0x19b39a0a14z13b30b26c66b23b37b37b41z28c8z15c31a0a38b0a13b21y25b19y23z45a0a9y21c15y16y17b13x20z21c43c21a0a21z23a10y","h":1,"pm":{"Brown":25,"Hauser":27,"Queta":1,"Scheierman":18,"White":31,"Vucevic":35,"Pritchard":40,"Gonzalez":16,"Walsh":-2,"Garza":1,"Banton":-4,"Harper Jr.":-4,"Tonje":1}},"0022500874":{"e":"15y32z33b20z11c37b0a14y42a0a49y53b22y0x30y0x32c19z65y70y21b23a0a38c19x18b30a0a19y25c11y21a32a0a49b16y17b56z33b23b86c26x27b10y8a0a16z30a0a50b34x24c25z2a30b17x0x17y0x12b31c20c15y14c71y32z0x26x0x55b29b14x19b14y40y13c27c19y24z22y15b71x0x22b9x23b23y47z32c21z40c21z52b13z54b36c55y66c15y59a32y26y78b10x10a0a40b37b28c","h":1,"pm":{"Brown":7,"Hauser":10,"Queta":20,"Scheierman":15,"White":21,"Vucevic":-4,"Pritchard":7,"Gonzalez":-5,"Walsh":9}},"0022500880":{"e":"43y24y25z27b40b17c42c11x47y18b40y13a0a37z29b27c83b24x26c19z33x21b41b33b42b34c52b0a32y33b35y16c12z22c17z14c23c70x107y24b20x0x45z16a27x0x21b12z89y28y0x19b32y11c30c44b38b29c64b9x68z46z38z23c24z98y17b23a0a36b16b50y44c32x0x49b62c45c134c27y15c12y36z25c24z66c43x0x","h":0,"pm":{"Scheierman":6,"Hauser":16,"Vucevic":25,"Gonzalez":27,"White":31,"Pritchard":15,"Garza":1,"Harper Jr.":3,"Walsh":8,"Tonje":1,"Shulga":1,"Williams":1}},"0022500894":{"e":"16y36y39x78z17b18b36z23c15z16c10x0x19c15y76y18c11z78z26a0a42y28y27y13c32a0a22z40x0x47z51b21y73b24z38x29z39b35c12y14b21z23c32y13b52z34y41a0a19b23z67y59c17y13b19b16y14b24b75a0a11y33y24b11z33z27y88b58a0a0a30c38z19a0a60y21x7y0x40y17c64y31b25x18a0a30a0a20x0x0x11y35z11b24z15b53b36x0x18a0a19x0x0x42b58b29z65z","h":1,"pm":{"Brown":-20,"Hauser":-21,"Queta":-12,"Scheierman":-10,"White":-18,"Vucevic":-9,"Pritchard":-14,"Gonzalez":-19,"Walsh":-10,"Garza":-8,"Harper Jr.":-4}},"0022500908":{"e":"113b70y23x0x9c33b10x7y61y12b50c35y36y50y18x0x17b25b36c13y11b65z36x21c32y84b11y21y52c22b18x0x51y22c19y14z22c19z16c15y35a22y12c31z11b0a16y0x29b29a10b11y11c25b0a46y36y24z17b42x11b24b0a38c11z35b21b23y34b12z28z46b34z11b0a43b38c40y42c24z20c75y24b28b13z37c52b19y61b26b23c26a0a47b26b36z16a0a8z21b9z23b29b17y77y","h":1,"pm":{"Hauser":0,"Tatum":20,"Queta":16,"Brown":20,"White":23,"Pritchard":19,"Vucevic":-1,"Scheierman":0,"Gonzalez":2,"Garza":9,"Harper Jr.":-4,"Williams":-4}},"0022500921":{"e":"15y32x0x39z27c12y62y16b64c21y12c21b33b11y22b25a0a0a15y25b11z71b0a9x0x28y13c30a40c20x0x14c168b39y23a0a66c115b61x12a0a26a0a15y17y25b45y28b47a0a39a0a14x47x31y0x50z22b13z22b55b19y18y16b0a12z33b30c28y17b33c22c30c11z43z25c35b11y25z58z34y19b0a8z22b44x0x31y38z60c74y32z23c21y25a14y23b50b26b26z33y24c8x0x0x75a0a","h":0,"pm":{"Tatum":-3,"Hauser":11,"Queta":13,"Brown":17,"White":-6,"Pritchard":18,"Scheierman":10,"Garza":-4,"Gonzalez":-1}},"0022500942":{"e":"42y15c31z56y27y26y20c11x22b12c38b51z22a29b46b10x45y24c34b17y11c13y9c41x0x13b9y32z37c15z48b7z15y25c32y15b43c56b53z15b15z9c13x0x104y14x12x16c35b13z42a0a12y75y30b14z28z19b9z39b9z23a19a0a14y22b15z22b29c26b13y51z30b6y23b28z18c10x0x23a0a13y30z17a55a0a21x0x14b18y17x60x41x0x18b37b33c76z28c12z19b26c15y26z38y18y64x39y40a0a29c26c18z28y5c11y","h":0,"pm":{"Tatum":-1,"Hauser":-9,"Queta":-10,"Brown":1,"White":-14,"Garza":3,"Scheierman":-10,"Gonzalez":2,"Harper Jr.":-12,"Walsh":3,"Williams":1,"Shulga":1}},"0022500959":{"e":"29b48z53b35y20b37b27y0x27y20c31y13y46y24b14z19b26b28x0x28x0x24x15b25a0a18b45c23z26b35c31b35b67y38c19y23b40c36z29y14c20z74x27y82z24y9a15c19z13c12y19c23y15y20c28b0a12y84y44c12z22b15y17a0a18x0x44y24y46b12y19c26c13y13b138y21b29a0a23z98y46z20a0a25b26y64y67a0a13y55b66x0x16a0a0a12z71y18a0a53b66y13a0a21y7b22x0x","h":0,"pm":{"Brown":-10,"Hauser":-6,"Queta":-11,"Scheierman":-9,"Pritchard":-7,"Garza":9,"Harper Jr.":15,"Gonzalez":-3,"Walsh":12}},"0022500971":{"e":"34b28b32b12z22b17y32b14z71a0a35c112b34z19b0a15z19z28z62a0a11x0x18b9y15b16z34c46b22a0a48y40b46c19b27c69b37a99b20z13c53b19y9a0a13y17b11y11c14y0x48b66a0a20b14y25b28b47x0x22z23x14c32y15c53c34b9y54b8y77b50y29y9a12y24z15b15z15b24z22c20y110y36x31y25a0a30c40y18b22z28y20y62a0a14z23b14z66b44c58x11y0x19b8x0x18y","h":1,"pm":{"Hauser":29,"Tatum":18,"Queta":14,"Brown":8,"White":33,"Pritchard":-6,"Scheierman":-6,"Gonzalez":-22,"Garza":2,"Shulga":-5,"Harper Jr.":-5,"Williams":-5}},"0022500986":{"e":"14z28y46z10b0a17c53y15b19y13c16x0x19z12a0a12z75a0a22c15b55c70z33y21a0a31a0a15x0x53c20x0x20z10a21c44c36c22y38z22b13x0x32y52c39b23y32z47c23y15c24y16b50c17y17c15y28x0x14b22y30y0x23b49b14z22x0x13b0a9z12b24b40b17b12y91x0x14b10y53c114x0x22b19y22x24y23c22y71y16c86a0a33c18x21y36y29b6z24a0a14y22x0x21b14z22b30x0x33y16y17a0a10z38a0a20x43b35b48a0a42b37x14a0a6a0a","h":1,"pm":{"Hauser":5,"Tatum":11,"Queta":5,"Brown":9,"White":-2,"Pritchard":8,"Garza":6,"Scheierman":5,"Gonzalez":-7}},"0022500999":{"e":"61z30b19z23a0a56c20y11c16z18b25c21z32b26c26c54b43z43b26y22c39y24b26b20y38b27y17y20c55x0x98c64x7y17b41b33y12a0a29a0a20a0a45b9y0x35y22z18b13y25a0a15y14b50y3c22y60y32x38z36b0a24a29b18x0x48c22y37y23b14x0x13b58a0a27a0a12x23b45x22b36c16z37b22x3z52z45y23c37c56b29y31y13b17b13y13b41c51y36y11b12a39b0a16b36y15b13y13b43y0x24x0x11b12x0x","h":1,"pm":{"Hauser":6,"Tatum":18,"Queta":16,"Brown":23,"White":13,"Pritchard":25,"Scheierman":10,"Gonzalez":2,"Garza":10,"Harper Jr.":-8,"Shulga":-5,"Bassey":-5}},"0022501019":{"e":"22a0a12y34c12z80a0a13y36a0a18y81y0x10b29c10y10a0a28z47y21b27c51b18y46b16y38y15b28y17b19y45a0a20y25b11y10a54y22y0x14a0a13z25b49a0a69b80b18z38c13y27b34x0x28c21c18z39z70b30x0x44b16x13y0x30y16c16y22a0a17y14a0a35b8z78y17z15b17y49b45c18x0x23b24y39x0x8a0a29z20c10z23a0a22c62y12b18z27b19z15y46b24c37b21z19b38b30y27b25b26b42b106b14y18b7x0x50y2a9a0a5z","h":0,"pm":{"Hauser":-6,"Tatum":-5,"Queta":0,"Brown":9,"White":-2,"Garza":9,"Pritchard":9,"Scheierman":7,"Gonzalez":7,"Harper Jr.":-3}},"0022501035":{"e":"38b22y51b16b73b27c38y32z65x26b51y28b39a0a99y29b10y28b22b45c37c14x0x49x0x41b10y27z60b17y27z82y14z15y7b30b19y18c38z23y24y83b0a58a8z17b21a0a30c19b31b12z29y35c13y36a0a21c27x23a25y22y15b7y23c31y27z60c29b9y8a37z15b27y0x15y74y24b66b26y41z40x0x55y0x35z27y80x36b0a15z86x9a0a45y12y23b30b32a0a","h":1,"pm":{"Hauser":-5,"Tatum":-4,"Queta":-9,"Brown":-8,"White":-12,"Pritchard":-11,"Scheierman":-16,"Garza":-4,"Gonzalez":1,"Shulga":6,"Bassey":6,"Harper Jr.":6}},"0022501054":{"e":"47z17c12z39z82y27b37x20y55b29c42y34c15z30x0x27c14y48y18y26y16b72a0a11y42c17y16a31b35y50b46y17b57c28y17b11y21c12y25z14c36c130b42c17z27y29y31y44b12z16c39x26y15b13z25b0a14x0x19c15z13b32a0a20x0x18c34a0a10y19c37a13x0x12b19y60a0a17y21a0a31x15c35x17b8x0x16a0a41b23y15c48x0x10a0a0a22z33y31b24b27b0a14y43c26a0a21z23c12y66a0y0m0n0x29a0y31x0x17b12z21a47x43b15a0a","h":1,"pm":{"Hauser":4,"Tatum":2,"Queta":3,"Brown":7,"White":6,"Pritchard":11,"Gonzalez":-3,"Scheierman":11,"Garza":9}},"0022501067":{"e":"16b16x12z24b14z32c11y0x46z102z16b63x0x23y63y37z33c32b24a34b39b25x0x6c9x0x12b30b14z11b12y61z22a0a51c43b46b10y0x12c84c22y13c11x28z23z26b10y18b20z29y58c35y8b36x0x37y18b0a31b32y38y72y15c21c29c81y15c83b0a9y20c56x19a0a15z31x0x17b24a0a30x6a9z24b24b92b15y11b30b81y23b49z22c12z62z20a53x0x49a0a22y49a52a0a0a10y10a0a22x","h":1,"pm":{"Hauser":-3,"Tatum":1,"Queta":5,"Scheierman":-13,"White":-4,"Walsh":3,"Gonzalez":10,"Pritchard":26,"Garza":10}},"0022501085":{"e":"57z41b23b12y32y58c12y50c37b25c40z40b28y30b49b18y67z19b24b39y18a0a37c28c63a16c21y22y18c17x0x16b0a16y35c6x0x22b18z24b31c9y20b18y34x0x14a0a14a0a16y57y39z22b7x0x5a28a84b35b13y51b23y18c94y48c24z30z17b54b26y18b59b19z23b14y21b12y40z9a0a13x0x61y18c18z14c82z35z24b24b26y16a0a18y21b29c21y22a82b14x17b22y20b13x0x96a1x0x","h":0,"pm":{"Walsh":14,"Tatum":15,"Queta":13,"Hauser":13,"Pritchard":12,"Scheierman":6,"Harper Jr.":10,"Gonzalez":-12,"Garza":8,"Williams":-1,"Shulga":-1,"Bassey":-1,"Tonje":-1}},"0022501092":{"e":"39y19b21y19y15a0a38b15y39b28y14b14y39b91b31z26a22b28c11y20b11y17c62y24z27b11z9c24y16y41z38y59b24c19y33a0a86z16b30c62y27c17y25z40b29x21b34c40y13b13z62y20a0a14y14a25b15a15y43y36z21c18z27b13y34x0x35y18c18z68y20a0a10x0x44c16y45a20a0a16y18x0x74z23a37z31y66a27z20b11z49c115b32b38b42y11c60c21z8c22y49b19x0x13a0a3x0x","h":0,"pm":{"Brown":-5,"Walsh":0,"Garza":6,"Scheierman":-3,"White":-8,"Pritchard":-19,"Hauser":-3,"Williams":-8,"Gonzalez":-4,"Bassey":-6,"Tonje":0,"Shulga":0}},"0022501106":{"e":"22y21b14z11b6z14c10z10a0a19b14x0x14b12x0x42y5c16z24b43x22c25z20c12y20b9x0x21c10x0x32c32c36b17b37c16z13c38c30c30b66c19x0x25c57x24b15z22z18b11y17c50y37b52z21y12b18y15b26y42y18b102b28b26b18b26b11x32z30a11b10z26a0a18z14c12x0x14b0a16y30z36z57b25b41b36y0x16c14y19z10c14z19c12y20b37z32z27z39z41b38z25b18a0a21c9y14b12z14a61b34y21c33b11y27a0a10y21b25b16z59a0a9z38a21y0x44b8y17c11y20b","h":0,"pm":{"Hauser":23,"Tatum":7,"Queta":28,"Brown":9,"White":6,"Scheierman":14,"Pritchard":20,"Garza":-10,"Walsh":-7,"Gonzalez":0,"Shulga":0}},"0022501126":{"e":"20b18c47b10z15a24c31c14z15a0a19c54c38b14y16b51y13a10a34z17c16z25x11b64c15z18b11x0x15c33b11y33y44y13c35b15z23b13y15c24y34b29y22y11b59b12y61a0a25b38y19b25c18z24z22b60b40x0x0x12c9z40x16c0a37b27b39b56z28a0a33b12a25y18b86b20a0a15z22b21z57z13b0a38z47b22z7a0a116c47b23z31z18c14z45z22c13y20b29c48b18z18b13x0x27b40b32z16y31b18x63b","h":0,"pm":{"Hauser":25,"Tatum":30,"Queta":33,"Brown":27,"White":34,"Pritchard":2,"Scheierman":4,"Garza":0,"Walsh":1,"Bassey":1,"Gonzalez":1,"Harper Jr.":2}},"0022501132":{"e":"7b46b35y23b40b21b21y15b18z24y0x41y23c37b25b16z20c34x0x85x0x22y22z54b59b11y60y29c1a12z35z52y20y59b57b43b119b9y21b15y16a0a27c24y9b17y25b25c39b79y35y12b33a0a15z55b7y19y38a0a11y5b15y6a16x19y23b29b14z19y21b14x10b24b12z69x0x23c42b25y75c32b11y21b28a0a23b15y15b18y54b0a26x0x29b55y52y30y16b21c18x0x17b3b12b15y23b11b53y35y1a0a22y","h":1,"pm":{"Hauser":9,"Tatum":13,"Queta":30,"Brown":13,"White":20,"Scheierman":0,"Walsh":-6,"Pritchard":9,"Vucevic":-14,"Harper Jr.":-2,"Gonzalez":-2}},"0022501149":{"e":"16b51z16b36y22b43z35y16b7z20c34b42z24b13y20c33y29x0x14b48z32z142z51c23a0a0a20y29b82z27b21z16c11z18b14y9b28c16z10a0a13y33a0a29c31a32c9z24y36b41y54x0x14b20z51y49c47y24b22b11x0x13c14y18c14z47x0x13c23b41b40y27y41y15x0x34b30y39c19z20c31c39b33b34y22b23a0a68y23b19z54b37c66c27b45y103y23b35b53y25c16y","h":1,"pm":{"Hauser":4,"Tatum":12,"Queta":10,"Brown":9,"White":18,"Vucevic":1,"Pritchard":5,"Walsh":-3,"Scheierman":-1}},"0022501168":{"e":"21y43z36y29b36b12c30a0a41x0x39y12b41b60b25b29y25b45x31b14z48x27c13z15b16x0x23c8z35y51z34y20a0a53y25b25z16b52a0a72c18y48b13y28y20a0a12y14c24y0x31z30a0a30b31a0a11y47z18b18z49z15b28z20b20y83y32y23c24c61a24c18y43y23c26c34c22y16b12x59c21y52y23c84c21y50b0a15y63z33y17b16y24b22y21b16z59c14x0x38y25c28y25x43z7b21z","h":0,"pm":{"Hauser":1,"Tatum":-16,"Queta":-7,"Walsh":-9,"White":-3,"Pritchard":4,"Scheierman":-1,"Vucevic":1}},"0022501174":{"e":"52y21c22c12y24c22z30y43b37b37c56y9c65b18c20y15b17y20c6y11c24x14c21c65b14z11b4y20a0a9y35x0x27y19b35c24z20b0a35b22c67c39x0x15c21z12b29y45y29b36x0x9c18b12a0a22y12a0a37c15x21c16z19x0x50b31y16c56c11x0x14c25x13c17y20c38z30b21y44y51y18a7x12b12y38y45y26b20c41c25c14y0x31y19a4y0x27z33b0a14y18z77c9y23y16y41b24b12x26b18c23b22c20a25y30y31y15y12b8z27y32y49y9c14x0x19b20x0x","h":1,"pm":{"Hauser":21,"Walsh":17,"Queta":13,"Brown":24,"White":18,"Pritchard":29,"Vucevic":15,"Gonzalez":11,"Scheierman":5,"Garza":-2,"Harper Jr.":-8,"Shulga":-13}},"0022501186":{"e":"18c22z25y14c45z90b25b71y31y36x26c16z52a0a11y10c20y44z19x24z97x0x22a0a19a0a12y16a0a27y12c34x0x32b16y31c16y13b0a23z34y13a0a77y16b32b50x0x14a0a32z39y16a0a35y0x40c14z25a0a17b11x0x76x0x12b8y24b41c16x24b48y15c20z20c27c26y60c28b22b14y22c40c18x0x22c28c16y13b0a56b16y57y13b12x0x18c60a0a76z53y30x0x60y34x16c12y30y37b64b14x0x28z23x61z4c24a0a","h":1,"pm":{"Scheierman":15,"Walsh":-14,"Garza":13,"Shulga":8,"Harper Jr.":7,"Banton":3,"Williams":-8,"Tonje":1}},"0022501206":{"e":"20y15c26b29y39x0x13a0a40b26c41c27c34y14c46z37y44b21y10b16z40y16y15c24z37y23b23y9c35b18a42b16z16c18y21b0a69b39y19c12y33c60y0x28b14y21x0x6a0a14y7a3a25y18y32z20a0a0a22x20b28a27y16z54c21b67b19y25x0x31z29y40y61a0a16y29x0x24b53z22b21y46y4a89x22a14y58y7a41z23b17z26y20b61z53b21y24c11z38z20b63y77y22y18c22y13a0a74b28c10y","h":0,"pm":{"Brown":-15,"Walsh":-5,"Queta":-13,"Pritchard":-21,"White":7,"Minott":-3,"Hauser":-15,"Scheierman":-5,"Simons":-5,"Gonzalez":0}},"0022501222":{"e":"20b20y9a14z50y19b36c17z18c11y25c49y13z19y23b51b26b0a32b31b108c17y29a0a13z34x16c36y19a0a0a18b0a13y67x0x27z22b13y74z29y16y23b31b58y23b52x24b27b17z31y46x0x15b27b18b31y67c20z57b60b20b25x0x51z40y79a15z11b33a0a12x0x24y0x9a13y0x31a19y9b26a0a12z26b14y10y16b34y32y17b24y16a0a21y66b26c15z41b0a19y37z23y1a74c35x54c23b22x0x40y12c18y50x0x","h":1,"pm":{"Brown":-6,"Walsh":-10,"Queta":5,"Pritchard":-1,"White":-16,"Gonzalez":9,"Simons":8,"Minott":-11,"Hauser":-1,"Scheierman":-12}},"0042500111":{"e":"22a23c18z48b14y0x19b57x14c32b29b31b25y9c58b17y75y0x14b56x0x35b21y24c27b51b25a0a11x0x30x0x18b29c12z57b16y18b13y9b42b5a13y23a0a54c67y17b12x62y21a0a9y0x35b13y0x36a0a14y31a0a19y53b25y11b16y0x84b22z15c22y21y77c28c32b33b18x0x26y21b10y0x41c51c16y24b12y62b10y11y42c61c10y14b26b13b24z97a0a11y16a62y37a0a46x13c46y19b20c17y32y20y38c","h":1,"pm":{"Hauser":14,"Tatum":20,"Queta":12,"Brown":23,"White":24,"Vucevic":13,"Pritchard":21,"Walsh":14,"Garza":5,"Scheierman":8,"Harper Jr.":3,"Gonzalez":3}},"0042500112":{"e":"23c28y27c25y26y24b4x14y46b10y25y24c22b37b75c32a17b61c18z43y20z21y47b50y28c40a0a11x18y14b24z30z18b19z16b20y50y16a41a0a32b13z16b17z31z45b17y68y12b0a13z12a0a0a39y5z70z14a0a19y81y17b22b25z17b18c60y23c18x23y29b36b70a0a57z57y23c19y91c41b19y54z21b22x0x133c32b46z33z30y29z27c27z31y0x38c55z34b","h":1,"pm":{"Hauser":-2,"Tatum":1,"Queta":-4,"Brown":-9,"White":-8,"Vucevic":-7,"Pritchard":-15,"Walsh":-15,"Scheierman":-8,"Harper Jr.":-1,"Garza":-1,"Shulga":-1}},"0042500113":{"e":"38b31a0a15y45z46y8b48x0x81c46z19c25y44y16c57c12y23b39y10c54c15x0x20x0x19c43z33c75c19y21c18x0x16c20y22y14b84z106b25y14x18b52y31y37b28c25y23b15c17z16c32y28z30a0a101b20y19z25y43y31z19a0a15a66b31z25a0a18a0a18y64c36y19c95z25c19x23y31b8y34z98b20b34b31a0a46z38y26b16y19b19y16a20y22c16y24c17x0x33c21a0a","h":0,"pm":{"Tatum":2,"Hauser":-6,"Queta":-2,"Brown":13,"White":-6,"Vucevic":7,"Pritchard":18,"Walsh":18,"Garza":1,"Scheierman":-5}},"0042500114":{"e":"20b20x0x81b24a8x0x77y17b54b13y66b16y31a12z11c34c26b41a0a0a13z21b86c17c25y7c16x128c45c19z20b43y90c16y37y23x0x19c40x0x54c29y36y30x21c8x40b12z21b0a26a10y37c110b0a33c32x0x19b15y0x62z20a0a16y14b18y19c20y18c21z22c20z36y10a0a16y9a12b29x0x13b4z19b6x0x6a0a18c39b25c0a24y13y63c16z30y24a0a22y18c44y22c32a0a16y32x56c32y27x0x16c26y15b27c","h":0,"pm":{"Tatum":25,"Hauser":13,"Queta":12,"Brown":7,"White":11,"Vucevic":11,"Pritchard":20,"Garza":12,"Walsh":13,"Scheierman":12,"Harper Jr.":6,"Banton":6,"Shulga":6,"Gonzalez":6}},"0042500115":{"e":"45z20b50y33z83b34y43b59b15z44b13y34b45b23b13y13c22y22b77b16y82b0a14y14b32y22b27b13x13c18x18b15y11a0a19x0x10c17z0x42y33c22y36x0x39x0x27b33c17y32z15b21b59c20x0x30b27b65a0a16y25y26x0x25a22y11a16y33a19y23z19b18y48c19z17c31b31a0a42z24c14z22b8z11a12z23b44z31z85y81c27y32y21c17x0x0x17b65z41y25x0x73y74z9a0a26y70x0x16a","h":1,"pm":{"Hauser":-21,"Tatum":-9,"Queta":-10,"Brown":-17,"White":-14,"Pritchard":8,"Vucevic":-10,"Walsh":-2,"Scheierman":-3,"Garza":5,"Harper Jr.":-3,"Gonzalez":-3,"Williams":-1}},"0042500116":{"e":"14y75b65y0x15b53z32z44b28b49a23y33c29b18y21y23b22z42c26a64c58b15x0x27x51z14b44y42b22y44y9c20z21a11z20c12y33x0x61y13a0a12x0x20b14z23b8y1a0a73y28z16c39b9y26z25y15b23x0x98c17y15y11c22y25z104b72b17y81y85y35y48b28b15y25y33y15c118b0a26c35b23y29y13b19x0x22x14z17b43a34b78c15y0x7c21y21x0x0x14b16b","h":0,"pm":{"Tatum":-11,"Hauser":-12,"Queta":-14,"Brown":-24,"White":-25,"Pritchard":-6,"Vucevic":-5,"Walsh":10,"Garza":6,"Scheierman":2,"Harper Jr.":10,"Banton":4}},"0042500117":{"e":"19y31y50y58z25c26y33a19y21b37y33y38c19y10b22a0a51y17y14b12y31z39y19b57b20y37a0a22y21b25b41b22y49b43b33c34c31y24z28c14y0x39x15b45y37c29z48x11b21x0x7c55y29b23z35z61y15b0a15y36c86z30c29y6a0a11x0x24y56y10c64z28y26z17b68b18z11c23x7b56c37b17x0x13b31b25y6a14b0a42b0a19z108c32x0x18b17x0x56a0a109y45y55x0x5x0x5b1x0x","h":1,"pm":{"Scheierman":-9,"Brown":-16,"Garza":-15,"Harper Jr.":-7,"White":-6,"Pritchard":-2,"Queta":9,"Hauser":-3,"Walsh":1,"Gonzalez":3}}};
+const TEAM = {ATL:"Hawks",BKN:"Nets",CHA:"Hornets",CHI:"Bulls",CLE:"Cavaliers",DAL:"Mavericks",DEN:"Nuggets",DET:"Pistons",GSW:"Warriors",HOU:"Rockets",IND:"Pacers",LAC:"Clippers",LAL:"Lakers",MEM:"Grizzlies",MIA:"Heat",MIL:"Bucks",MIN:"Timberwolves",NOP:"Pelicans",NYK:"Knicks",OKC:"Thunder",ORL:"Magic",PHI:"76ers",PHX:"Suns",POR:"Trail Blazers",SAC:"Kings",SAS:"Spurs",TOR:"Raptors",UTA:"Jazz",WAS:"Wizards",BOS:"Celtics"};
 
 const GAMES = [
  { name: "G1", result:"W 123-91", gbFrom:36, stints: {
@@ -461,6 +563,8 @@ const SEASON = {"games":[{"id":"0022500083","d":"2025-10-22","m":"vs PHI","r":"L
 // play-by-play. Checked against NBA.com: player +/- matches in 98.9% of player-games,
 // team net rating +8.2 vs +8.3, the 12 regulars' on-court net within 0.8.
 const STATS = {"players":["Banton","Bassey","Boucher","Brown","Garza","Gonzalez","Harper Jr.","Hauser","Minott","Pritchard","Queta","Scheierman","Shulga","Simons","Tatum","Tillman","Tonje","Vucevic","Walsh","White","Williams"],"games":{"0022500083":[[0,178,7,7,60,50,525960,0],[178,307,6,3,50,50,557704,0],[307,360,3,2,10,10,41736,0],[360,526,6,8,40,50,41736,0],[526,564,0,0,20,10,565508,0],[564,676,6,5,40,50,532508,0],[676,720,0,1,20,10,533516,0],[720,904,8,8,70,70,533636,0],[904,1025,3,5,40,50,41608,0],[1025,1049,0,2,10,10,8984,0],[1049,1080,0,0,10,0,8980,0],[1080,1198,6,2,50,50,8980,0],[1198,1257,0,6,20,30,525076,0],[1257,1334,2,4,40,30,525068,0],[1334,1440,4,4,30,40,525836,0],[1440,1703,14,4,90,80,525960,0],[1703,1779,3,0,20,20,557704,0],[1779,1800,0,0,0,0,565384,0],[1800,1808,2,0,10,10,565384,0],[1808,1884,4,3,30,30,565768,0],[1884,1918,0,2,10,10,534272,0],[1918,2009,5,2,30,30,10112,0],[2009,2160,7,7,50,60,9988,0],[2160,2190,0,0,10,0,565260,0],[2190,2322,8,9,50,50,565384,0],[2322,2404,0,8,20,30,533640,0],[2404,2520,5,2,30,30,534024,0],[2520,2778,12,15,90,90,534024,0],[2778,2824,0,4,20,20,557704,0],[2824,2865,3,4,20,20,565768,0],[2865,2870,2,0,10,0,533128,0],[2870,2871,0,0,0,0,533256,0],[2871,2872,0,0,0,10,557832,0],[2872,2880,0,0,10,0,525192,0]],"0022500018":[[0,360,14,10,120,120,525960,0],[360,388,0,3,20,10,525960,0],[388,600,6,5,60,70,43044,0],[600,720,10,4,40,30,41004,0],[720,826,0,8,30,30,794636,0],[826,877,0,3,10,20,533004,0],[877,906,0,0,10,10,534024,0],[906,1071,6,4,60,50,534144,0],[1071,1080,0,0,0,0,9888,0],[1080,1100,0,3,10,10,9888,0],[1100,1146,0,4,10,20,1704,0],[1146,1170,0,3,10,10,33448,0],[1170,1440,8,17,90,80,41608,0],[1440,1721,12,9,70,70,525960,0],[1721,1800,0,7,20,30,565384,0],[1800,1881,2,0,40,30,565384,0],[1881,1920,3,2,10,10,565288,0],[1920,2011,2,0,30,30,532524,0],[2011,2153,2,0,40,50,8748,0],[2153,2160,0,0,10,0,8872,0],[2160,2362,10,5,70,70,533028,0],[2362,2466,3,4,40,40,525984,0],[2466,2520,3,0,30,20,524968,0],[2520,2583,2,2,10,20,524968,0],[2583,2766,6,8,60,60,525864,0],[2766,2820,6,3,20,10,525960,0],[2820,2839,0,1,10,10,525960,1],[2839,2880,0,0,10,20,1313312,1]],"0022500106":[[0,327,19,7,130,120,525864,0],[327,360,0,0,10,10,533136,0],[360,528,10,5,60,60,533136,0],[528,691,4,12,50,50,9104,0],[691,720,0,0,10,10,8624,0],[720,918,8,8,80,80,10508,0],[918,1036,2,6,30,40,11276,0],[1036,1080,3,0,10,0,525480,0],[1080,1091,0,3,0,10,525480,0],[1091,1211,8,4,50,40,525960,0],[1211,1246,0,3,10,20,534048,0],[1246,1331,0,3,30,30,533040,0],[1331,1386,4,5,30,20,524856,0],[1386,1429,0,4,10,10,524712,0],[1429,1440,0,0,10,10,525192,0],[1440,1800,12,17,120,130,525864,0],[1800,1922,4,8,40,40,8856,0],[1922,1958,2,3,20,10,8844,0],[1958,2109,5,4,40,50,532620,0],[2109,2160,0,2,20,20,533028,0],[2160,2347,10,4,70,60,533888,0],[2347,2440,5,7,20,30,526088,0],[2440,2520,2,0,20,20,525960,0],[2520,2577,3,2,20,20,525960,0],[2577,2584,2,0,10,0,524952,0],[2584,2647,1,2,20,20,524600,0],[2647,2724,2,4,20,20,524952,0],[2724,2807,7,4,30,30,525960,0],[2807,2880,0,2,20,30,526088,0]],"0022500117":[[0,297,17,5,100,90,526088,0],[297,340,0,2,10,10,8984,0],[340,360,0,2,0,10,8856,0],[360,461,7,5,40,40,8856,0],[461,515,0,1,20,20,10896,0],[515,581,2,6,30,30,534672,0],[581,720,8,5,50,40,567424,0],[720,901,0,6,50,60,533516,0],[901,1045,7,5,40,40,526088,0],[1045,1080,2,0,10,10,920,0],[1080,1135,5,0,30,20,920,0],[1135,1208,3,1,30,40,9104,0],[1208,1273,2,5,30,30,8600,0],[1273,1323,2,3,10,10,41608,0],[1323,1346,3,3,10,10,565768,0],[1346,1440,7,5,40,40,565888,0],[1440,1777,10,12,110,110,526088,0],[1777,1800,0,3,0,10,10896,0],[1800,1974,6,5,60,50,10896,0],[1974,2101,4,2,50,50,11904,0],[2101,2158,2,2,10,20,534672,0],[2158,2160,0,0,10,0,535168,0],[2160,2245,2,5,20,20,533640,0],[2245,2268,0,0,10,0,533768,0],[2268,2403,8,3,40,40,533888,0],[2403,2520,5,2,40,40,532880,0],[2520,2580,3,0,10,20,532880,0],[2580,2608,3,0,10,10,532880,1],[2608,2684,3,0,20,10,533264,1],[2684,2796,7,2,30,30,11024,1],[2796,2880,4,0,30,30,297280,1]],"0022500128":[[0,301,13,13,100,110,526088,0],[301,340,0,2,20,20,8984,0],[340,360,3,0,10,0,8856,0],[360,570,16,14,70,70,8856,0],[570,609,0,5,10,20,8880,0],[609,715,8,5,40,30,565408,0],[715,720,0,3,10,10,557472,0],[720,971,7,3,70,60,535808,0],[971,1020,1,2,10,20,41736,0],[1020,1080,3,2,20,10,8856,0],[1080,1177,4,2,30,30,8856,0],[1177,1209,0,6,10,20,525080,0],[1209,1424,17,3,80,80,526088,0],[1424,1440,3,0,10,10,525960,0],[1440,1722,11,11,100,90,526088,0],[1722,1772,0,0,10,20,525080,0],[1772,1800,4,0,20,10,8984,0],[1800,1923,2,5,30,40,8984,0],[1923,2160,6,9,80,80,535680,0],[2160,2361,8,11,60,60,532872,0],[2361,2450,3,2,20,30,532760,0],[2450,2482,3,0,10,0,533136,0],[2482,2520,0,4,10,20,525200,0],[2520,2555,0,0,20,10,525200,0],[2555,2615,0,0,20,30,526208,0],[2615,2700,4,0,30,20,526088,0],[2700,2713,1,0,0,10,526088,1],[2713,2754,1,0,10,10,526208,1],[2754,2792,2,1,20,10,3968,1],[2792,2829,5,2,20,20,264368,1],[2829,2880,0,0,10,20,297008,1]],"0022500021":[[0,292,13,10,80,80,526088,0],[292,335,2,0,10,10,525960,0],[335,360,0,2,10,10,8856,0],[360,548,14,8,80,70,8856,0],[548,569,0,0,0,10,533640,0],[569,714,9,5,60,60,533664,0],[714,720,0,0,10,0,534144,0],[720,793,2,2,20,20,567328,0],[793,881,4,2,30,40,565536,0],[881,978,5,3,40,30,567552,0],[978,1053,6,3,20,20,565512,0],[1053,1080,0,0,0,10,8984,0],[1080,1202,7,5,50,50,8984,0],[1202,1239,2,2,10,0,8856,0],[1239,1302,0,6,20,30,524952,0],[1302,1440,4,9,60,50,525960,0],[1440,1721,4,13,100,110,526088,0],[1721,1748,0,0,10,0,525080,0],[1748,1800,3,2,10,10,8856,0],[1800,1948,4,5,50,50,8856,0],[1948,2123,10,0,60,60,8880,0],[2123,2160,0,5,20,30,532656,0],[2160,2187,0,0,10,0,532656,0],[2187,2430,7,5,80,80,533664,0],[2430,2515,2,5,20,30,565408,0],[2515,2520,0,0,0,0,565768,0],[2520,2552,2,0,10,10,565768,0],[2552,2859,9,16,80,80,557832,0],[2859,2868,0,0,10,0,533128,0],[2868,2876,0,0,10,10,557832,0],[2876,2880,0,0,0,10,557832,0]],"0022500146":[[0,306,12,18,100,100,526088,0],[306,360,0,4,20,20,8856,0],[360,421,2,0,20,30,8856,0],[421,606,10,11,70,70,8376,0],[606,718,0,4,30,30,565408,0],[718,720,0,0,10,0,565888,0],[720,882,5,8,60,60,527492,0],[882,998,2,0,30,20,527620,0],[998,1080,3,8,30,30,1804,0],[1080,1167,7,0,30,30,1804,0],[1167,1273,2,6,20,30,796,0],[1273,1288,0,2,10,0,524828,0],[1288,1432,5,5,60,60,526872,0],[1432,1438,0,0,0,10,524572,0],[1438,1440,0,0,10,0,524952,0],[1440,1548,0,3,30,30,526088,0],[1548,1613,2,1,30,20,787976,0],[1613,1695,0,5,20,30,786956,0],[1695,1724,2,2,10,10,795140,0],[1724,1800,6,2,20,10,270980,0],[1800,1804,0,1,0,10,270980,0],[1804,1950,3,7,50,50,270992,0],[1950,2160,11,10,80,80,10896,0],[2160,2291,3,6,30,40,272672,1],[2291,2508,7,15,70,70,264544,1],[2508,2520,0,0,0,0,1312864,1],[2520,2880,19,10,140,130,1312864,1]],"0022500158":[[0,283,12,2,80,80,526088,0],[283,304,2,0,10,10,525960,0],[304,360,0,5,10,20,532632,0],[360,569,8,8,80,70,532632,0],[569,720,3,6,60,60,41632,0],[720,845,2,4,30,20,11808,0],[845,899,0,0,20,20,12032,0],[899,912,0,2,0,10,11648,0],[912,971,4,0,20,10,11400,0],[971,1080,8,2,40,40,9608,0],[1080,1178,0,0,30,40,9608,0],[1178,1220,2,0,10,0,565512,0],[1220,1298,2,4,20,30,525960,0],[1298,1431,3,2,50,40,524952,0],[1431,1440,0,1,0,10,557704,0],[1440,1630,6,9,70,70,525960,0],[1630,1687,2,4,20,20,526872,0],[1687,1731,2,2,20,10,532536,0],[1731,1800,4,2,20,20,565288,0],[1800,1829,0,3,10,10,565288,0],[1829,1890,0,5,20,30,565536,0],[1890,1938,1,2,20,10,528000,0],[1938,1954,0,3,0,10,526980,0],[1954,1966,1,0,0,0,2700,0],[1966,1994,5,0,20,10,10764,0],[1994,2131,5,5,50,50,9740,0],[2131,2151,0,3,0,10,11276,0],[2151,2160,0,0,10,10,9740,0],[2160,2267,3,3,30,30,8984,0],[2267,2315,0,6,10,20,533264,0],[2315,2400,4,3,30,20,534272,0],[2400,2401,0,0,0,0,566016,0],[2401,2423,0,2,10,10,565888,0],[2423,2520,6,7,20,30,524940,0],[2520,2637,5,2,40,40,524940,0],[2637,2880,13,8,100,100,525960,0]],"0022500174":[[0,46,2,1,10,10,526088,0],[46,281,8,15,80,90,533768,0],[281,360,4,2,30,20,532632,0],[360,441,5,5,30,30,532632,0],[441,541,1,4,30,40,8376,0],[541,619,0,5,30,30,270512,0],[619,720,6,5,40,40,264992,0],[720,1018,16,4,90,80,788224,0],[1018,1080,2,0,20,20,787976,0],[1080,1098,3,0,10,10,787976,0],[1098,1220,10,9,50,50,527112,0],[1220,1440,13,10,80,90,526088,0],[1440,1663,5,5,80,70,526088,0],[1663,1800,7,3,40,50,271880,0],[1800,1803,3,0,10,0,271880,0],[1803,1878,5,2,30,30,270872,0],[1878,1891,0,0,0,10,270488,0],[1891,2030,5,6,50,50,270728,0],[2030,2160,7,4,50,50,271232,0],[2160,2220,2,0,10,20,533664,0],[2220,2371,7,7,50,50,533664,1],[2371,2503,7,4,40,40,532896,1],[2503,2520,2,0,10,0,270752,1],[2520,2880,16,16,110,120,270752,1]],"0022500028":[[0,298,12,17,100,110,526088,0],[298,329,0,2,10,10,533768,0],[329,360,0,0,10,0,532632,0],[360,411,2,5,20,20,532632,0],[411,446,0,6,20,30,8856,0],[446,503,3,3,20,10,262808,0],[503,720,8,5,70,70,262832,0],[720,1006,14,5,100,90,787720,0],[1006,1016,0,0,0,0,787592,0],[1016,1080,0,6,20,20,786584,0],[1080,1118,0,2,10,20,786584,0],[1118,1162,2,0,20,10,786608,0],[1162,1209,0,0,10,20,524976,0],[1209,1224,0,2,10,10,524952,0],[1224,1257,3,0,10,0,526088,0],[1257,1440,7,6,60,70,525960,0],[1440,1800,17,11,140,130,526088,0],[1800,1817,0,1,0,0,526088,0],[1817,2020,8,10,70,80,8856,0],[2020,2160,4,3,50,40,272000,0],[2160,2288,6,2,30,30,795680,0],[2288,2381,5,5,20,20,794912,0],[2381,2411,0,2,10,10,794888,0],[2411,2520,5,2,30,30,533768,0],[2520,2570,0,5,20,30,533768,0],[2570,2727,2,9,50,60,526088,0],[2727,2783,4,5,30,30,533256,0],[2783,2858,8,7,30,30,533128,0],[2858,2879,0,2,10,10,795264,0],[2879,2880,0,0,10,0,534144,0]],"0022500193":[[0,339,9,21,100,110,526088,0],[339,360,3,0,10,0,532632,0],[360,604,12,7,80,90,532632,0],[604,683,3,3,30,20,794768,0],[683,720,3,2,20,20,795008,0],[720,966,16,4,80,70,271904,0],[966,1049,2,3,20,30,271136,0],[1049,1080,0,0,10,10,271112,0],[1080,1099,0,0,10,0,271112,0],[1099,1181,0,5,20,30,533256,0],[1181,1405,6,9,80,80,525960,0],[1405,1440,0,0,20,10,525192,0],[1440,1744,11,11,100,100,526088,0],[1744,1800,1,2,10,10,533640,0],[1800,1832,4,0,20,10,533640,0],[1832,1845,0,2,0,10,794648,0],[1845,2122,8,10,80,80,270488,0],[2122,2149,0,1,10,0,271496,0],[2149,2160,0,0,10,20,9864,0],[2160,2373,10,5,60,60,788000,0],[2373,2520,6,0,40,40,786992,0],[2520,2579,2,4,20,30,786992,0],[2579,2670,2,6,30,30,795656,0],[2670,2682,0,0,10,0,794648,0],[2682,2845,9,8,60,60,786968,0],[2845,2867,3,2,10,10,787208,0],[2867,2875,1,2,10,20,786728,0],[2875,2880,0,0,10,0,786968,0]],"0022500209":[[0,326,11,14,100,110,526088,0],[326,360,0,0,10,0,533640,0],[360,387,0,2,10,10,533640,0],[387,580,8,5,70,70,532632,0],[580,693,1,2,40,50,270992,0],[693,712,2,0,10,0,272000,0],[712,717,0,0,0,0,271520,0],[717,720,0,0,0,10,787616,0],[720,903,5,6,50,50,271904,0],[903,988,2,3,20,20,270896,0],[988,1016,0,3,10,10,944,0],[1016,1080,0,3,20,10,524696,0],[1080,1158,4,5,20,20,524696,0],[1158,1192,1,2,10,20,786584,0],[1192,1208,1,0,0,0,787592,0],[1208,1352,4,2,60,50,787976,0],[1352,1440,2,4,30,40,795656,0],[1440,1797,18,10,120,110,787976,0],[1797,1800,0,0,0,0,794648,0],[1800,1851,0,0,20,30,794648,0],[1851,2055,12,7,70,70,532632,0],[2055,2098,0,0,30,20,532656,0],[2098,2143,3,0,10,20,794768,0],[2143,2160,3,3,20,10,795776,0],[2160,2276,2,4,40,40,9864,0],[2276,2382,6,7,30,40,272000,0],[2382,2505,7,2,40,30,270992,0],[2505,2520,0,3,0,10,786968,0],[2520,2600,0,6,20,20,786968,0],[2600,2754,4,7,40,40,787976,0],[2754,2846,4,0,30,20,795656,0],[2846,2871,0,2,0,10,787976,0],[2871,2880,0,0,10,0,534024,0]],"0022500216":[[0,309,16,8,110,120,787976,0],[309,360,2,2,20,10,525960,0],[360,406,4,0,20,20,525960,0],[406,542,6,7,40,50,8856,0],[542,720,6,9,60,60,532880,0],[720,858,3,5,50,50,533792,0],[858,958,0,3,30,30,535808,0],[958,1001,5,0,20,10,265856,0],[1001,1080,2,3,10,20,262796,0],[1080,1105,0,2,10,10,262796,0],[1105,1184,7,0,30,20,1676,0],[1184,1224,2,2,10,20,668,0],[1224,1440,14,5,80,80,524952,0],[1440,1700,13,5,80,70,787976,0],[1700,1769,3,5,20,30,524952,0],[1769,1800,2,0,10,0,8856,0],[1800,1977,7,10,70,70,8856,0],[1977,2160,8,8,60,60,10640,0],[2160,2336,6,6,50,60,535808,1],[2336,2363,3,0,10,0,534788,1],[2363,2520,5,1,40,50,11012,1],[2520,2526,2,0,10,0,11012,1],[2526,2624,4,2,30,30,262948,1],[2624,2880,11,12,90,90,262500,1]],"0022500233":[[0,360,18,9,100,100,787976,0],[360,438,9,2,30,30,787976,0],[438,462,0,2,0,10,271880,0],[462,536,5,6,30,30,270872,0],[536,720,5,11,70,60,9104,0],[720,887,3,5,40,40,535808,0],[887,920,3,0,10,10,527624,0],[920,978,0,2,10,10,526616,0],[978,1049,4,0,40,30,789512,0],[1049,1080,2,0,10,10,788504,0],[1080,1198,10,4,40,40,788504,0],[1198,1256,0,2,10,20,786968,0],[1256,1440,4,6,60,60,787976,0],[1440,1682,16,6,90,80,787976,0],[1682,1800,2,9,30,40,787088,0],[1800,1894,0,4,20,20,787088,0],[1894,1913,0,2,10,10,264728,0],[1913,1985,5,5,20,20,2840,0],[1985,2160,4,10,60,50,3848,0],[2160,2292,5,2,40,40,535560,0],[2292,2362,3,5,20,30,795656,0],[2362,2400,3,1,20,10,534552,0],[2400,2419,1,0,10,10,535560,0],[2419,2520,4,3,20,30,789512,0],[2520,2577,2,0,20,20,789512,0],[2577,2858,7,16,100,100,787976,0],[2858,2866,2,0,10,0,534024,0],[2866,2871,0,3,0,10,787976,0],[2871,2872,2,0,10,0,533128,0],[2872,2878,2,3,10,10,787080,0],[2878,2880,0,0,0,10,787080,0]],"0022500250":[[0,269,9,13,110,110,787976,0],[269,305,0,3,10,10,270872,0],[305,360,0,2,10,20,8856,0],[360,387,2,3,10,10,8856,0],[387,621,14,8,80,70,9104,0],[621,720,4,0,30,40,10112,0],[720,859,5,5,50,50,11648,0],[859,906,3,0,20,20,535680,0],[906,924,0,0,0,0,534672,0],[924,1080,4,4,40,40,534552,0],[1080,1164,5,6,30,20,534552,0],[1164,1362,13,14,60,70,796160,0],[1362,1440,3,3,30,30,795152,0],[1440,1514,0,2,20,10,787976,0],[1514,1575,0,0,30,30,526088,0],[1575,1800,16,4,70,70,525080,0],[1800,1873,0,2,30,40,525080,0],[1873,2160,11,16,90,90,41736,0],[2160,2271,0,0,20,30,535680,0],[2271,2481,8,7,70,70,527496,0],[2481,2520,0,0,10,10,525960,0],[2520,2564,3,1,10,0,525960,0],[2564,2764,7,2,70,70,524952,0],[2764,2820,2,2,20,30,525960,0],[2820,2843,2,0,10,10,525960,1],[2843,2862,2,0,10,0,2960,1],[2862,2880,0,2,10,10,264976,1]],"0022500049":[[0,354,12,16,110,120,787976,0],[354,360,0,0,0,0,9864,0],[360,401,0,0,20,10,9864,0],[401,720,16,6,110,120,8856,0],[720,1036,15,19,110,110,535808,0],[1036,1080,0,0,20,10,262808,0],[1080,1152,2,7,20,30,262808,0],[1152,1170,1,0,10,0,8856,0],[1170,1204,2,0,20,20,533016,0],[1204,1281,3,4,20,30,534024,0],[1281,1381,0,5,40,30,533016,0],[1381,1440,2,5,30,30,533256,0],[1440,1610,6,5,60,60,787976,0],[1610,1695,5,4,40,30,786968,0],[1695,1800,4,0,20,30,787976,0],[1800,1808,0,0,10,0,787976,0],[1808,1822,0,3,0,10,534144,0],[1822,1866,2,2,20,10,533136,0],[1866,2160,7,16,90,100,10896,0],[2160,2413,9,2,60,60,795680,0],[2413,2520,4,2,30,40,795656,0],[2520,2639,5,5,40,40,795656,0],[2639,2710,2,5,20,20,271880,0],[2710,2820,3,7,40,40,534024,0],[2820,2880,5,0,30,20,264992,1]],"0022500277":[[0,351,13,15,110,120,787976,0],[351,360,0,0,0,0,8844,0],[360,587,14,7,80,80,8844,0],[587,688,5,3,40,30,532868,0],[688,720,0,2,10,10,795008,0],[720,900,6,5,50,50,534660,0],[900,931,3,2,20,10,534564,0],[931,957,0,4,10,20,534816,0],[957,999,3,0,20,10,532776,0],[999,1080,7,2,30,30,9000,0],[1080,1228,10,9,50,50,9000,0],[1228,1304,8,6,30,40,525096,0],[1304,1440,11,2,60,60,787208,0],[1440,1780,13,13,120,120,787208,0],[1780,1800,0,2,10,10,684,0],[1800,1928,6,3,30,20,684,0],[1928,2016,2,5,30,40,2700,0],[2016,2092,6,6,20,20,534660,0],[2092,2160,3,3,20,20,534912,0],[2160,2280,6,7,30,30,534912,0],[2280,2472,5,11,60,70,794760,0],[2472,2520,3,3,20,10,787080,0],[2520,2880,14,19,130,120,787080,0]],"0022500060":[[0,261,7,8,80,90,786968,0],[261,323,0,5,30,30,262808,0],[323,360,1,0,10,10,1051272,0],[360,482,5,7,40,40,1051272,0],[482,575,3,6,40,40,1058952,0],[575,720,8,4,50,40,11136,0],[720,758,7,0,20,10,534816,0],[758,957,4,5,60,60,1583360,0],[957,999,0,1,10,10,1581320,0],[999,1080,2,4,20,30,1573640,0],[1080,1138,0,2,10,10,1573640,0],[1138,1245,5,3,40,40,525192,0],[1245,1264,3,1,10,10,264840,0],[1264,1440,12,12,80,70,1313288,0],[1440,1797,15,11,110,100,786968,0],[1797,1800,0,0,0,0,1835528,0],[1800,1882,3,5,30,30,1835528,0],[1882,1906,0,0,0,10,1837064,0],[1906,1935,0,2,20,20,788744,0],[1935,2138,8,7,70,70,788864,0],[2138,2159,3,0,10,0,534912,0],[2159,2160,0,0,0,10,1837312,0],[2160,2317,7,5,50,50,10656,0],[2317,2380,0,4,20,30,2976,0],[2380,2512,2,5,30,30,264744,0],[2512,2520,0,0,0,0,789000,0],[2520,2862,16,13,100,90,789000,0],[2862,2867,0,0,0,10,788744,0],[2867,2870,2,2,10,10,535048,0],[2870,2873,2,0,10,0,533128,0],[2873,2875,0,2,0,0,794888,0],[2875,2880,2,0,20,20,1835528,0]],"0022500293":[[0,359,15,15,120,120,787976,0],[359,360,0,0,0,0,794648,0],[360,473,7,8,30,30,794648,0],[473,522,3,5,10,20,532632,0],[522,684,8,2,60,60,532872,0],[684,720,3,2,20,20,533640,0],[720,798,0,5,30,30,11904,0],[798,899,11,2,40,30,11136,0],[899,1000,2,8,30,30,2960,0],[1000,1012,0,1,0,10,264848,0],[1012,1043,0,3,10,10,262808,0],[1043,1080,2,0,10,10,787592,0],[1080,1377,15,4,100,90,787592,0],[1377,1389,0,2,0,10,786824,0],[1389,1440,3,2,20,10,525192,0],[1440,1530,4,3,30,20,787976,0],[1530,1800,9,17,70,80,527880,0],[1800,1830,0,0,20,10,527880,0],[1830,1868,0,2,20,30,525704,0],[1868,2147,8,13,100,100,532872,0],[2147,2160,2,0,10,10,533128,0],[2160,2387,2,4,70,80,11136,0],[2387,2520,4,3,40,30,787976,0],[2520,2625,0,7,20,30,787976,0],[2625,2880,17,11,100,100,525960,0]],"0022500302":[[0,344,17,11,120,120,295560,0],[344,360,2,0,10,0,1319432,0],[360,368,0,2,0,0,1319432,0],[368,672,9,11,90,100,1320968,0],[672,720,0,2,20,10,1059104,0],[720,854,2,7,40,50,43296,0],[854,976,7,6,40,30,41376,0],[976,1038,2,3,20,30,41856,0],[1038,1080,2,2,20,10,270984,0],[1080,1214,8,5,40,50,270984,0],[1214,1290,0,2,30,20,295560,0],[1290,1440,9,0,60,60,303240,0],[1440,1763,18,14,110,110,295560,0],[1763,1800,2,0,10,10,2952,0],[1800,1903,8,2,40,40,2952,0],[1903,1974,0,4,20,30,271112,0],[1974,2066,4,3,20,20,272648,0],[2066,2153,0,5,30,20,305160,0],[2153,2160,0,0,10,10,297224,0],[2160,2247,2,4,30,20,272768,0],[2247,2296,0,5,10,20,271008,0],[2296,2414,2,2,40,30,303744,0],[2414,2503,3,1,20,30,8872,0],[2503,2520,0,0,10,0,295560,0],[2520,2864,17,21,120,130,295560,0],[2864,2874,2,0,10,0,270984,0],[2874,2878,0,3,0,10,297096,0],[2878,2879,1,0,10,0,10888,0],[2879,2880,0,0,0,10,1345544,0]],"0022500320":[[0,318,8,19,100,100,787976,0],[318,360,2,3,10,10,795656,0],[360,434,4,3,20,20,795656,0],[434,545,2,2,30,20,532872,0],[545,546,0,1,0,10,1057664,0],[546,713,5,4,50,60,11136,0],[713,718,0,0,0,0,1057664,0],[718,720,0,0,10,0,11136,0],[720,1031,16,11,90,100,9768,0],[1031,1080,3,3,10,10,525096,0],[1080,1417,18,6,110,100,525096,0],[1417,1440,0,0,10,20,787232,0],[1440,1743,12,11,90,100,787976,0],[1743,1800,5,3,20,10,532776,0],[1800,2041,9,10,70,80,532776,0],[2041,2160,10,0,40,40,532872,0],[2160,2375,8,11,70,60,9888,0],[2375,2447,0,6,20,20,9120,0],[2447,2492,0,6,10,20,524712,0],[2492,2520,3,0,10,0,786824,0],[2520,2867,14,16,100,110,786824,0],[2867,2880,4,2,20,20,533128,0]],"0022500334":[[0,277,13,8,90,90,788096,0],[277,360,2,5,20,20,795776,0],[360,461,5,3,40,30,795776,0],[461,475,0,0,0,10,533664,0],[475,572,5,2,40,40,532896,0],[572,720,7,8,60,50,533280,0],[720,801,5,6,20,30,11040,0],[801,949,11,2,60,50,273152,0],[949,1080,3,3,30,40,265984,0],[1080,1089,3,0,10,0,265984,0],[1089,1154,0,5,20,20,264064,0],[1154,1433,9,17,90,100,787328,0],[1433,1440,3,0,10,10,795264,0],[1440,1748,18,11,110,110,788096,0],[1748,1793,5,0,20,20,797696,0],[1793,1800,0,0,0,0,796928,0],[1800,2121,18,16,110,110,796928,0],[2121,2155,0,0,10,20,535296,0],[2155,2160,2,0,10,10,536064,0],[2160,2386,18,5,80,70,11808,1],[2386,2520,6,4,30,40,10800,1],[2520,2597,0,2,20,20,10800,1],[2597,2880,13,4,100,100,34928,1]],"0022500338":[[0,360,19,7,120,120,787976,0],[360,377,0,2,0,10,787976,0],[377,535,9,6,70,60,795656,0],[535,601,3,0,20,20,532872,0],[601,720,8,2,40,50,9096,0],[720,836,10,4,50,40,11136,0],[836,927,5,6,20,30,10112,0],[927,1033,2,0,30,20,272000,0],[1033,1080,0,2,10,20,263816,0],[1080,1088,0,2,10,10,263816,0],[1088,1131,3,3,10,10,787592,0],[1131,1304,4,5,60,60,527496,0],[1304,1340,3,1,10,10,787208,0],[1340,1440,3,6,40,40,527112,0],[1440,1662,16,13,70,60,787976,0],[1662,1764,0,4,40,50,525864,0],[1764,1794,0,2,10,10,525480,0],[1794,1800,0,0,0,0,1704,0],[1800,1892,5,6,30,30,1704,0],[1892,2160,7,11,90,90,2952,0],[2160,2400,12,6,60,60,795008,0],[2400,2456,0,2,10,20,795008,1],[2456,2520,4,2,20,20,787720,1],[2520,2563,2,1,30,20,787720,1],[2563,2630,3,2,20,30,787208,1],[2630,2682,2,0,10,10,264992,1],[2682,2740,4,2,20,10,297248,1],[2740,2880,2,8,50,60,1083440,1]],"0022500358":[[0,360,18,9,130,130,787976,0],[360,374,1,0,10,10,787976,0],[374,500,7,7,40,40,533640,0],[500,660,6,8,60,60,534912,0],[660,720,2,2,10,20,272768,0],[720,862,7,9,50,50,271232,0],[862,917,5,3,20,20,270984,0],[917,1058,9,7,50,40,8872,0],[1058,1080,3,0,10,10,9864,0],[1080,1146,3,2,20,20,9864,0],[1146,1403,14,8,80,90,525960,0],[1403,1434,2,2,20,10,525192,0],[1434,1440,0,2,10,10,526632,0],[1440,1754,12,12,100,100,787976,0],[1754,1784,0,2,10,10,271880,0],[1784,1800,0,0,0,0,9864,0],[1800,1912,2,6,40,40,9864,0],[1912,2018,0,5,30,30,532872,0],[2018,2160,6,7,50,50,534912,0],[2160,2204,0,5,10,20,796160,0],[2204,2520,10,6,80,70,787976,0],[2520,2744,6,3,60,70,787976,0],[2744,2808,4,5,30,30,525960,0],[2808,2814,2,0,10,0,533128,0],[2814,2859,0,3,10,20,525960,0],[2859,2861,2,0,10,0,533128,0],[2861,2870,0,0,0,10,527496,0],[2870,2880,0,0,10,0,533128,0]],"0022501206":[[0,129,5,6,50,60,787976,0],[129,331,16,2,70,60,787208,0],[331,360,0,0,10,10,263048,0],[360,384,0,3,10,10,263048,0],[384,554,4,11,50,60,2952,0],[554,720,10,7,50,50,533640,0],[720,1012,14,9,100,100,795680,0],[1012,1064,3,0,30,20,271136,0],[1064,1080,0,0,0,0,9000,0],[1080,1146,2,7,20,30,9000,0],[1146,1173,3,2,10,10,270888,0],[1173,1219,1,4,20,20,263720,0],[1219,1237,0,0,10,0,787976,0],[1237,1440,9,9,70,80,788096,0],[1440,1716,4,11,80,80,787976,0],[1716,1800,4,4,30,20,794888,0],[1800,1946,3,7,30,40,794888,0],[1946,1971,0,0,10,0,532872,0],[1971,2057,1,1,20,30,9096,0],[2057,2160,1,4,50,40,9120,0],[2160,2337,4,11,40,50,272000,0],[2337,2520,7,8,50,50,787976,0],[2520,2554,0,2,10,10,787976,1],[2554,2880,10,8,130,120,10656,1]],"0022501222":[[0,289,14,14,90,80,787976,0],[289,320,0,5,10,20,525864,0],[320,360,2,0,10,0,9768,0],[360,529,9,0,60,60,9768,0],[529,545,0,0,0,0,9000,0],[545,593,3,0,20,20,532776,0],[593,624,0,2,0,10,532896,0],[624,683,2,4,20,20,534688,0],[683,720,3,0,10,10,533664,0],[720,755,3,2,10,10,533664,0],[755,853,3,4,40,50,795776,0],[853,977,2,5,40,30,534792,0],[977,1018,0,5,10,20,527112,0],[1018,1080,2,2,20,20,2856,0],[1080,1182,4,2,40,30,2856,0],[1182,1221,0,1,10,20,1832,0],[1221,1440,10,7,80,80,525864,0],[1440,1506,0,2,20,30,525864,0],[1506,1800,9,10,70,70,527880,0],[1800,1831,0,0,10,10,527880,0],[1831,1980,6,8,60,50,794888,0],[1980,2126,7,8,50,50,272648,0],[2126,2160,2,4,20,30,264488,0],[2160,2314,4,8,40,40,787976,0],[2314,2505,8,8,60,60,796160,0],[2505,2520,0,0,0,0,534024,0],[2520,2880,12,11,130,130,534024,0]],"0022500381":[[0,317,16,12,100,110,787976,0],[317,360,0,2,10,10,271880,0],[360,409,2,0,30,20,271880,0],[409,513,3,8,40,40,9096,0],[513,690,7,4,70,80,532896,0],[690,720,2,3,20,10,533664,0],[720,887,6,7,50,50,535680,0],[887,920,0,0,10,0,11784,0],[920,1010,4,7,30,40,265736,0],[1010,1080,0,3,20,20,262952,0],[1080,1140,3,3,40,30,262952,0],[1140,1440,15,9,120,120,786984,0],[1440,1750,13,17,100,100,787976,0],[1750,1800,2,2,20,10,9768,0],[1800,1844,3,3,10,20,9768,0],[1844,1986,7,5,60,60,8872,0],[1986,2160,9,4,70,70,532648,0],[2160,2520,23,13,110,120,533664,0],[2520,2528,0,0,0,0,533664,0],[2528,2820,14,8,100,90,532648,0],[2820,2825,0,0,10,0,532648,1],[2825,2880,0,6,20,20,272544,1]],"0022500388":[[0,360,12,13,130,120,788096,0],[360,408,2,4,10,20,788096,0],[408,630,13,3,80,70,9008,0],[630,720,5,0,30,40,532784,0],[720,922,6,5,60,60,532784,0],[922,1006,3,3,30,30,533792,0],[1006,1037,0,0,0,0,525984,0],[1037,1080,0,3,10,10,788096,0],[1080,1116,0,2,10,20,788096,0],[1116,1299,8,11,60,60,272000,0],[1299,1392,0,4,20,20,787088,0],[1392,1440,0,3,10,20,525200,0],[1440,1722,9,12,80,90,526208,0],[1722,1800,2,4,20,20,525200,0],[1800,1840,2,0,20,10,525200,0],[1840,1969,8,3,40,50,8880,0],[1969,2160,13,10,70,70,10800,0],[2160,2444,14,8,90,90,534576,0],[2444,2501,5,2,20,10,533040,0],[2501,2520,0,2,0,10,525872,0],[2520,2610,0,2,30,20,525872,0],[2610,2762,8,2,50,60,525984,0],[2762,2880,2,0,30,30,533152,0]],"0022500403":[[0,216,9,13,80,80,526088,0],[216,339,6,6,50,40,525080,0],[339,360,0,0,0,10,8856,0],[360,437,3,8,30,30,8856,0],[437,475,0,3,10,10,9864,0],[475,524,0,0,20,10,9888,0],[524,609,5,0,20,30,533664,0],[609,720,3,5,50,40,532656,0],[720,865,4,5,50,50,532656,0],[865,1047,7,9,50,50,1704,0],[1047,1067,0,0,0,0,3624,0],[1067,1080,0,3,0,10,3848,0],[1080,1182,2,0,30,30,3848,0],[1182,1243,2,4,20,20,526088,0],[1243,1440,2,5,70,60,525864,0],[1440,1598,6,8,50,60,525864,0],[1598,1800,10,5,70,70,10416,0],[1800,2085,11,6,100,100,10416,0],[2085,2160,4,2,40,30,526392,0],[2160,2520,13,4,90,90,524856,0],[2520,2589,2,2,30,20,524856,0],[2589,2847,12,5,90,100,525864,0],[2847,2869,2,0,10,0,534024,0],[2869,2880,0,2,10,10,535072,0]],"0022500426":[[0,185,7,11,70,70,787976,0],[185,353,6,13,80,80,525864,0],[353,360,0,0,0,0,9768,0],[360,386,0,2,10,10,9768,0],[386,455,6,2,30,30,8856,0],[455,544,3,4,30,30,10896,0],[544,720,6,7,60,60,532656,0],[720,846,9,3,40,40,535680,0],[846,904,5,2,20,10,535560,0],[904,952,2,2,20,20,527880,0],[952,1080,11,2,50,50,526872,0],[1080,1316,10,6,80,90,526872,0],[1316,1440,10,7,50,50,527880,0],[1440,1758,9,11,110,100,787976,0],[1758,1800,2,0,10,10,262808,0],[1800,2160,25,19,130,140,262808,0],[2160,2343,7,7,60,70,535584,0],[2343,2400,2,0,20,10,534576,0],[2400,2418,0,0,10,20,534576,1],[2418,2520,6,3,40,30,533016,1],[2520,2579,3,3,20,20,533016,1],[2579,2618,0,5,10,20,272928,1],[2618,2779,9,8,50,40,270992,1],[2779,2811,0,3,0,10,272912,1],[2811,2880,2,2,20,20,10800,1]],"0022500444":[[0,270,16,8,100,100,787976,0],[270,309,0,6,10,20,525864,0],[309,360,3,0,10,10,9768,0],[360,471,4,6,50,40,9768,0],[471,586,4,6,40,40,8760,0],[586,708,2,5,50,60,532632,0],[708,716,1,0,10,0,533128,0],[716,720,0,0,0,10,526504,0],[720,862,2,5,60,50,534672,0],[862,900,0,2,10,20,535680,0],[900,970,2,3,20,20,527904,0],[970,1080,10,2,50,40,525864,0],[1080,1440,19,12,140,150,525864,0],[1440,1756,6,14,100,100,787976,0],[1756,1783,2,0,10,0,525864,0],[1783,1800,0,0,0,10,9768,0],[1800,1832,1,3,10,10,9768,0],[1832,1898,2,5,40,30,8760,0],[1898,1993,3,3,30,30,8880,0],[1993,2160,8,6,50,60,534688,0],[2160,2311,3,5,30,30,533664,0],[2311,2334,0,2,10,20,525960,0],[2334,2455,4,2,40,40,524952,0],[2455,2520,3,3,20,10,524968,0],[2520,2548,3,0,10,10,524968,0],[2548,2678,4,5,40,40,525864,0],[2678,2857,6,9,60,70,524968,0],[2857,2864,0,2,10,10,533128,0],[2864,2880,0,0,10,10,525960,0]],"0022500459":[[0,360,14,24,120,130,787976,0],[360,441,4,4,40,40,787976,0],[441,611,10,3,60,60,8856,0],[611,676,3,2,40,30,532632,0],[676,720,0,5,20,20,532656,0],[720,849,6,0,50,50,533664,0],[849,890,2,0,10,10,532656,0],[890,1080,13,7,70,70,534576,0],[1080,1100,0,2,20,10,534576,0],[1100,1108,0,0,0,0,2616,0],[1108,1144,0,3,10,20,3624,0],[1144,1291,3,5,50,50,263816,0],[1291,1413,4,9,40,30,525960,0],[1413,1440,0,0,10,10,525864,0],[1440,1648,13,8,70,70,787976,0],[1648,1765,6,8,40,40,525864,0],[1765,1800,3,3,10,10,524856,0],[1800,1818,0,0,10,0,524856,0],[1818,2037,13,8,70,70,8760,0],[2037,2160,5,5,70,70,8376,0],[2160,2304,6,5,50,50,534672,0],[2304,2339,0,2,0,10,535056,0],[2339,2520,11,6,60,50,536064,0],[2520,2559,0,3,10,20,536064,0],[2559,2820,11,7,70,70,534024,0],[2820,2834,0,0,0,0,534024,1],[2834,2838,2,0,10,0,533128,1],[2838,2880,0,0,10,20,527008,1]],"0022500474":[[0,306,12,17,90,90,787976,0],[306,360,0,2,20,10,9864,0],[360,402,3,2,20,20,9864,0],[402,567,8,3,60,60,8856,0],[567,649,0,5,20,30,532632,0],[649,720,5,0,30,20,532656,0],[720,949,18,16,70,70,532656,0],[949,1023,3,2,20,20,534576,0],[1023,1072,0,2,0,10,10776,0],[1072,1080,0,0,0,0,11784,0],[1080,1307,7,10,80,80,11784,0],[1307,1440,6,2,50,50,534024,0],[1440,1742,12,16,100,110,525960,0],[1742,1800,3,0,20,10,8856,0],[1800,1844,0,4,10,20,8856,0],[1844,2005,5,3,60,60,10296,0],[2005,2160,6,4,60,60,533544,0],[2160,2427,11,8,70,70,532656,0],[2427,2520,8,4,30,30,524952,0],[2520,2644,7,2,50,40,524952,0],[2644,2668,0,0,10,20,524976,0],[2668,2751,1,4,30,30,524952,0],[2751,2880,5,0,40,40,525984,0]],"0022500493":[[0,360,19,11,110,110,525960,0],[360,409,3,4,20,20,525960,0],[409,591,10,8,70,60,8760,0],[591,606,0,0,0,10,532536,0],[606,648,5,0,20,10,794648,0],[648,719,5,5,20,20,794768,0],[719,720,0,0,0,10,787600,0],[720,1007,9,10,90,90,795776,0],[1007,1080,4,5,20,20,786968,0],[1080,1158,6,9,30,30,786968,0],[1158,1274,5,4,30,40,787976,0],[1274,1440,5,7,60,60,787080,0],[1440,1788,14,16,110,110,525960,0],[1788,1800,0,0,0,0,532536,0],[1800,1874,5,5,20,30,532536,0],[1874,1936,6,6,20,20,8760,0],[1936,2139,17,9,70,60,270872,0],[2139,2160,0,0,0,10,270896,0],[2160,2280,4,2,50,40,796160,0],[2280,2328,2,0,10,10,795152,0],[2328,2400,2,2,20,30,786968,0],[2400,2520,7,4,40,40,786968,1],[2520,2635,3,2,30,30,786968,1],[2635,2656,2,0,10,10,787976,1],[2656,2690,3,0,10,10,788000,1],[2690,2709,3,0,10,0,265760,1],[2709,2880,7,6,50,50,264992,1]],"0022500503":[[0,352,14,9,120,110,525960,0],[352,360,0,0,0,0,532656,0],[360,497,8,2,40,40,532656,0],[497,581,0,3,30,40,794672,0],[581,715,9,0,50,50,270872,0],[715,720,0,0,10,0,8856,0],[720,894,4,4,50,60,270872,0],[894,1011,2,0,30,30,525864,0],[1011,1080,4,2,30,20,527400,0],[1080,1094,1,2,0,10,527400,0],[1094,1306,7,8,80,70,527496,0],[1306,1440,5,3,40,50,786968,0],[1440,1690,12,12,90,100,525960,0],[1690,1792,2,7,30,30,524952,0],[1792,1800,0,0,0,0,272912,0],[1800,2037,10,9,70,70,272912,0],[2037,2135,7,3,30,20,273440,0],[2135,2160,0,3,20,20,795680,0],[2160,2244,3,3,30,20,795680,0],[2244,2286,0,3,10,10,794672,0],[2286,2347,3,2,20,30,532536,0],[2347,2518,10,9,60,50,532632,0],[2518,2520,0,0,0,0,533016,0],[2520,2626,3,9,30,40,533016,0],[2626,2797,8,5,60,50,534024,0],[2797,2880,3,3,20,30,796160,0]],"0022500520":[[0,318,11,14,100,100,525960,0],[318,360,3,3,20,10,8856,0],[360,449,5,2,30,30,8856,0],[449,546,4,3,30,30,8760,0],[546,629,5,7,20,30,532536,0],[629,720,7,2,30,30,794672,0],[720,948,6,6,60,60,795680,0],[948,1062,0,7,40,40,9864,0],[1062,1080,0,0,0,10,2712,0],[1080,1237,11,5,60,50,2712,0],[1237,1322,2,4,20,30,786968,0],[1322,1440,4,5,50,40,787976,0],[1440,1636,4,5,70,70,525960,0],[1636,1775,3,0,40,40,524952,0],[1775,1796,0,0,0,10,8856,0],[1796,1800,0,0,0,0,8760,0],[1800,1981,9,6,70,60,8760,0],[1981,2015,0,3,10,10,9888,0],[2015,2160,8,7,40,50,533664,0],[2160,2415,8,8,60,60,533664,0],[2415,2470,0,3,10,10,533544,0],[2470,2520,0,2,10,10,533016,0],[2520,2573,0,5,20,20,533016,0],[2573,2626,0,2,20,10,786968,0],[2626,2760,5,7,40,40,787080,0],[2760,2808,3,3,20,20,787080,1],[2808,2862,8,4,30,40,264864,1],[2862,2866,1,0,10,0,3744,1],[2866,2880,3,1,10,20,264864,1]],"0022500532":[[0,343,22,13,100,100,525960,0],[343,360,0,2,10,10,525480,0],[360,395,2,0,20,20,525480,0],[395,513,7,7,50,50,524472,0],[513,649,4,5,40,30,786608,0],[649,715,2,3,10,20,786992,0],[715,720,0,0,10,10,795264,0],[720,917,8,10,60,60,271904,0],[917,957,1,2,10,10,9768,0],[957,1061,0,5,30,30,8760,0],[1061,1080,0,0,0,0,532632,0],[1080,1235,10,3,50,50,532632,0],[1235,1432,10,10,70,80,533640,0],[1432,1435,2,0,10,0,533128,0],[1435,1440,0,0,0,10,787496,0],[1440,1766,16,11,100,110,525960,0],[1766,1800,2,0,10,10,8760,0],[1800,1974,9,7,50,50,8760,0],[1974,2027,0,2,20,20,9768,0],[2027,2160,2,6,50,40,533544,0],[2160,2445,9,14,70,70,795776,0],[2445,2520,4,3,30,20,524952,0],[2520,2700,11,6,60,70,524952,0],[2700,2880,4,8,60,60,533016,0]],"0022500545":[[0,255,12,7,90,80,525864,0],[255,353,5,5,30,40,786968,0],[353,360,0,0,0,0,270872,0],[360,546,6,5,70,60,270872,0],[546,661,3,2,40,40,794648,0],[661,720,0,2,20,20,795656,0],[720,900,9,5,50,50,535560,0],[900,926,0,0,10,10,535584,0],[926,1008,0,5,20,30,794672,0],[1008,1080,6,2,20,10,526896,0],[1080,1178,5,8,30,30,526896,0],[1178,1418,9,7,80,80,527880,0],[1418,1440,0,2,10,10,526872,0],[1440,1671,7,5,80,80,525864,0],[1671,1772,2,6,30,40,786968,0],[1772,1800,0,0,10,0,270872,0],[1800,1884,0,3,30,40,270872,0],[1884,1934,3,0,20,10,10776,0],[1934,1972,0,2,10,10,534552,0],[1972,2160,8,7,80,80,535560,0],[2160,2520,12,11,120,120,534552,0],[2520,2557,2,0,20,10,534552,0],[2557,2641,0,4,20,30,535560,0],[2641,2710,2,0,20,10,527880,0],[2710,2780,2,5,20,20,526872,0],[2780,2839,0,4,20,30,525848,0],[2839,2843,2,0,10,0,535048,0],[2843,2880,0,3,20,20,527880,0]],"0022500559":[[0,349,12,10,110,110,528000,0],[349,360,0,2,0,10,10896,0],[360,478,6,5,40,30,10896,0],[478,508,0,0,0,10,272912,0],[508,532,0,0,10,0,270896,0],[532,716,6,2,60,60,794672,0],[716,720,0,0,0,10,796704,0],[720,945,12,13,80,80,795680,0],[945,1067,7,9,50,40,11904,0],[1067,1073,0,3,0,10,10896,0],[1073,1080,0,0,0,0,526992,0],[1080,1253,9,7,60,50,526992,0],[1253,1440,4,2,50,60,528000,0],[1440,1656,0,8,70,70,528000,0],[1656,1778,2,2,50,40,534144,0],[1778,1800,0,3,0,10,271904,0],[1800,1811,0,2,10,10,271904,0],[1811,2160,19,11,120,110,270896,0],[2160,2219,0,2,10,10,794672,0],[2219,2380,4,8,50,60,795776,0],[2380,2520,4,2,40,30,788096,0],[2520,2846,9,5,90,100,788096,0],[2846,2851,2,0,10,0,533136,0],[2851,2873,0,2,0,10,788096,0],[2873,2880,0,0,10,10,535168,0]],"0022500580":[[0,279,4,18,110,100,525960,0],[279,341,5,6,20,30,271880,0],[341,360,0,0,0,0,270872,0],[360,477,3,6,40,30,270872,0],[477,636,11,6,40,50,794672,0],[636,713,2,0,30,20,795680,0],[713,720,0,0,10,10,273440,0],[720,883,7,2,60,60,273416,0],[883,1006,4,8,40,50,272408,0],[1006,1080,5,2,20,10,533136,0],[1080,1212,2,7,30,40,533136,0],[1212,1436,11,9,70,60,787088,0],[1436,1440,0,0,0,10,788096,0],[1440,1749,12,12,90,100,525960,0],[1749,1800,3,2,30,20,270872,0],[1800,1969,7,12,50,60,270872,0],[1969,2148,7,3,70,70,532536,0],[2148,2160,0,0,10,10,532632,0],[2160,2445,11,4,90,80,533664,0],[2445,2520,2,3,20,30,532656,0],[2520,2549,2,0,10,10,532656,0],[2549,2865,15,9,90,90,532632,0],[2865,2866,2,0,10,0,533128,0],[2866,2871,2,3,10,10,788616,0],[2871,2880,2,2,10,20,794760,0]],"0022500594":[[0,360,14,9,120,120,527496,0],[360,384,0,2,10,10,527496,0],[384,720,16,12,100,100,270392,0],[720,981,21,11,110,110,535680,0],[981,1080,6,3,20,20,534672,0],[1080,1106,0,6,10,20,534672,0],[1106,1130,2,0,10,10,532632,0],[1130,1178,3,0,20,20,524472,0],[1178,1440,20,8,100,90,525480,0],[1440,1728,18,10,120,120,527496,0],[1728,1800,2,5,20,30,526392,0],[1800,1862,4,0,20,10,526392,0],[1862,1937,2,5,30,30,270392,0],[1937,2156,9,3,80,80,271400,0],[2156,2160,0,0,0,10,273440,0],[2160,2520,9,11,140,140,1058976,1],[2520,2534,0,3,10,10,1058976,1],[2534,2585,0,0,20,10,1050848,1],[2585,2880,6,18,110,110,1083488,1]],"0022500017":[[0,246,14,7,100,90,525960,0],[246,307,2,1,30,30,524952,0],[307,360,0,2,10,20,8856,0],[360,430,3,5,30,30,8856,0],[430,506,2,5,30,30,9768,0],[506,537,3,2,10,10,533544,0],[537,720,5,4,70,60,795656,0],[720,887,4,4,40,50,795776,0],[887,898,0,0,10,0,794768,0],[898,980,0,2,20,20,827520,0],[980,994,0,0,0,0,819720,0],[994,1080,2,5,20,20,787976,0],[1080,1089,2,3,10,10,787976,0],[1089,1241,7,7,50,50,525960,0],[1241,1404,5,11,50,50,526984,0],[1404,1423,0,1,0,0,525960,0],[1423,1436,2,0,10,10,527880,0],[1436,1440,0,0,0,10,789000,0],[1440,1624,11,5,40,50,525960,0],[1624,1743,6,3,40,30,527880,0],[1743,1800,0,2,20,20,11784,0],[1800,1830,3,2,10,10,11784,0],[1830,2039,9,9,60,70,10776,0],[2039,2160,2,4,50,50,272912,0],[2160,2324,5,4,60,60,796688,0],[2324,2448,4,5,30,30,794648,0],[2448,2520,0,3,20,20,532632,0],[2520,2547,0,0,20,10,532632,0],[2547,2875,12,8,80,90,525960,0],[2875,2880,0,0,10,0,533128,0]],"0022500621":[[0,358,13,10,130,120,525960,0],[358,360,0,0,0,0,10776,0],[360,453,2,6,40,40,10776,0],[453,720,15,4,90,100,272912,0],[720,877,5,2,50,50,795776,0],[877,1001,5,7,50,50,533640,0],[1001,1062,3,3,10,20,532536,0],[1062,1080,0,0,0,0,524856,0],[1080,1130,4,0,20,20,524856,0],[1130,1278,12,7,60,60,525864,0],[1278,1440,7,7,60,50,525960,0],[1440,1637,7,10,60,70,525960,0],[1637,1710,4,0,30,20,524952,0],[1710,1716,0,0,0,0,526872,0],[1716,1775,2,2,20,20,264728,0],[1775,1800,2,3,10,10,272408,0],[1800,1845,0,3,10,20,272408,0],[1845,1929,2,4,30,30,272432,0],[1929,2011,2,4,40,30,795680,0],[2011,2128,6,6,40,40,533640,0],[2128,2159,0,0,0,10,789512,0],[2159,2160,0,0,10,0,789000,0],[2160,2315,8,4,60,50,8856,0],[2315,2451,4,6,40,50,9864,0],[2451,2520,4,0,30,20,525960,0],[2520,2580,2,4,20,20,525960,0],[2580,2625,4,0,20,20,525960,1],[2625,2649,0,0,0,10,790016,1],[2649,2677,0,0,10,10,1837568,1],[2677,2734,2,4,20,20,1313312,1],[2734,2880,4,8,50,50,1312864,1]],"0022500637":[[0,313,13,15,100,110,3720,0],[313,360,1,0,10,10,9768,0],[360,438,3,3,30,30,9768,0],[438,463,2,3,10,10,270392,0],[463,589,3,5,30,20,270424,0],[589,710,6,2,40,50,8312,0],[710,720,0,0,10,10,8408,0],[720,903,8,9,50,50,2736,0],[903,954,0,2,20,20,3744,0],[954,1080,3,4,40,30,11904,0],[1080,1093,0,2,10,10,11904,0],[1093,1190,0,3,30,40,11400,0],[1190,1296,3,5,20,20,271496,0],[1296,1440,7,2,50,50,9416,0],[1440,1651,10,7,50,50,3720,0],[1651,1800,2,7,60,60,265736,0],[1800,1817,3,0,10,10,265736,0],[1817,1920,4,2,30,20,271880,0],[1920,2008,6,2,30,30,8760,0],[2008,2160,4,8,60,60,270896,0],[2160,2377,8,5,50,60,270512,0],[2377,2464,4,2,20,10,10392,0],[2464,2520,2,3,10,10,11400,0],[2520,2593,2,0,20,30,11400,0],[2593,2661,4,0,20,10,11784,0],[2661,2721,3,3,10,20,10888,0],[2721,2770,2,2,20,10,9864,0],[2770,2869,1,6,30,30,8856,0],[2869,2878,0,2,0,10,8872,0],[2878,2880,0,0,10,0,10888,0],[2880,2957,0,0,20,10,8856,0],[2957,3001,3,4,10,20,2712,0],[3001,3139,5,5,40,40,2728,0],[3139,3172,0,4,20,20,10888,0],[3172,3176,3,0,10,0,1057416,0],[3176,3177,0,1,0,10,2728,0],[3177,3179,3,0,10,0,2728,0],[3179,3180,0,0,0,10,1050792,0],[3180,3325,7,4,50,50,1059336,0],[3325,3480,5,4,60,60,1051272,0]],"0022500647":[[0,339,15,18,110,120,1573512,0],[339,360,0,0,10,0,534552,0],[360,408,0,2,10,20,534552,0],[408,576,7,8,50,50,535560,0],[576,720,6,2,60,60,535584,0],[720,850,4,4,40,40,9888,0],[850,872,0,0,0,0,8880,0],[872,945,7,5,40,30,9888,0],[945,997,3,0,10,20,270872,0],[997,1080,0,2,10,10,786968,0],[1080,1202,6,2,50,40,786968,0],[1202,1235,0,0,0,10,794648,0],[1235,1440,10,9,70,80,795656,0],[1440,1543,0,7,30,30,525960,0],[1543,1764,12,7,80,70,524952,0],[1764,1800,2,3,10,10,8856,0],[1800,1887,3,9,30,40,8856,0],[1887,2053,8,10,60,60,1319432,0],[2053,2156,2,0,20,20,1843208,0],[2156,2160,0,0,10,0,533128,0],[2160,2445,15,11,80,80,795680,0],[2445,2520,3,5,20,20,532632,0],[2520,2532,0,2,0,10,532632,0],[2532,2664,4,3,50,40,525960,0],[2664,2694,0,2,0,10,787976,0],[2694,2865,4,0,60,50,525960,0],[2865,2879,0,3,0,10,525480,0],[2879,2880,0,0,10,0,533128,0]],"0022500660":[[0,273,11,5,90,90,525960,0],[273,304,2,0,10,10,1573512,0],[304,360,2,0,10,20,1573416,0],[360,488,6,2,50,50,1573416,0],[488,623,5,2,40,40,1057320,0],[623,720,6,2,40,40,1059360,0],[720,898,2,7,60,60,535680,0],[898,957,0,2,20,20,1583232,0],[957,988,1,0,20,10,1843328,0],[988,1004,0,3,0,10,1843208,0],[1004,1032,2,3,10,10,795656,0],[1032,1047,0,0,10,0,271880,0],[1047,1080,0,0,10,20,1319432,0],[1080,1156,1,0,20,20,1319432,0],[1156,1334,7,8,60,60,1573512,0],[1334,1369,2,0,20,10,1057416,0],[1369,1440,5,3,30,40,1057320,0],[1440,1688,9,7,80,80,525960,0],[1688,1800,3,4,40,40,1575432,0],[1800,1810,0,0,0,0,1575432,0],[1810,2133,9,17,110,110,1059336,0],[2133,2160,2,0,10,10,1057416,0],[2160,2502,16,12,120,130,533664,0],[2502,2520,0,0,0,0,525960,0],[2520,2673,6,7,40,40,525960,0],[2673,2720,1,0,10,0,1573512,0],[2720,2808,1,6,30,30,1581192,0],[2808,2838,0,4,10,20,533640,0],[2838,2856,3,0,10,0,525960,0],[2856,2880,0,0,20,20,525480,0]],"0022500673":[[0,276,5,14,90,100,1573512,0],[276,342,2,0,30,20,524952,0],[342,360,0,0,0,0,8856,0],[360,364,0,3,0,10,8856,0],[364,500,2,6,40,30,1057320,0],[500,505,0,3,0,10,1059360,0],[505,720,9,12,90,80,1583136,0],[720,851,4,2,40,40,794768,0],[851,1008,10,7,50,50,532632,0],[1008,1080,2,3,30,20,8856,0],[1080,1094,2,0,10,10,8856,0],[1094,1276,4,10,50,60,262712,0],[1276,1440,6,0,60,50,524856,0],[1440,1662,9,15,80,80,524952,0],[1662,1787,6,0,40,30,788624,0],[1787,1800,0,0,0,0,796704,0],[1800,2160,15,12,130,140,796704,0],[2160,2200,0,2,10,10,262824,0],[2200,2477,16,18,100,100,696,0],[2477,2520,0,2,0,10,787080,0],[2520,2580,2,3,20,20,787080,0],[2580,2601,2,3,10,10,787080,1],[2601,2675,0,0,20,20,1313536,1],[2675,2880,10,2,60,60,1313056,1]],"0022500689":[[0,330,18,9,100,90,528000,0],[330,360,2,0,10,10,10896,0],[360,386,0,4,10,20,10896,0],[386,449,5,4,20,20,10800,0],[449,594,7,5,50,50,270896,0],[594,720,8,3,50,50,795680,0],[720,825,2,10,30,40,794768,0],[825,966,7,5,40,40,534672,0],[966,980,0,0,10,0,526896,0],[980,1080,5,0,20,20,527904,0],[1080,1257,8,6,60,70,527904,0],[1257,1440,10,0,60,50,528000,0],[1440,1799,8,6,110,110,528000,0],[1799,1800,0,0,0,0,272000,0],[1800,1887,2,2,20,30,272000,0],[1887,2160,7,12,90,80,271904,0],[2160,2456,9,9,90,90,532656,1],[2456,2520,3,2,20,20,534672,1],[2520,2577,2,2,20,20,534672,1],[2577,2669,0,3,30,20,11904,1],[2669,2745,3,4,20,30,272900,1],[2745,2880,6,7,50,50,264484,1]],"0022500702":[[0,340,13,18,110,110,525960,0],[340,360,0,0,0,0,533544,0],[360,555,2,5,50,60,533544,0],[555,609,5,0,20,20,532536,0],[609,720,6,3,40,40,10800,0],[720,818,5,2,30,20,10800,0],[818,1011,7,7,50,50,272912,0],[1011,1052,0,0,0,10,263816,0],[1052,1080,2,0,10,0,787592,0],[1080,1440,16,7,100,110,787592,0],[1440,1800,16,8,120,110,525960,0],[1800,1826,0,1,10,20,525960,0],[1826,2012,0,8,60,60,270872,0],[2012,2097,4,2,30,20,272912,0],[2097,2152,2,0,20,30,796688,0],[2152,2160,0,0,10,0,796800,0],[2160,2280,6,2,40,40,533664,0],[2280,2488,7,9,50,60,533664,1],[2488,2520,2,0,10,0,525960,1],[2520,2635,5,2,30,40,525960,1],[2635,2647,3,0,10,0,1575432,1],[2647,2800,6,2,40,40,1320992,1],[2800,2880,0,3,20,30,1313056,1]],"0022500721":[[0,336,15,12,140,140,527496,0],[336,360,0,2,0,10,262712,0],[360,589,11,12,70,70,262712,0],[589,720,6,3,50,50,525864,0],[720,1019,11,5,100,100,528000,0],[1019,1080,2,0,20,10,526392,0],[1080,1177,5,4,30,40,526392,0],[1177,1255,0,2,30,20,264728,0],[1255,1440,2,4,60,60,524952,0],[1440,1755,16,12,100,90,527496,0],[1755,1800,0,2,10,10,3720,0],[1800,1842,2,0,10,20,2712,0],[1842,1996,8,7,50,40,2616,0],[1996,2128,8,2,40,50,786992,0],[2128,2142,0,0,10,0,526992,0],[2142,2160,0,0,10,20,528000,0],[2160,2334,8,9,50,60,525984,0],[2334,2352,0,0,10,0,525960,0],[2352,2473,6,10,30,40,524952,0],[2473,2520,0,2,10,10,526872,0],[2520,2536,2,1,10,10,526872,0],[2536,2713,6,4,60,50,527880,0],[2713,2880,2,7,50,60,787976,0]],"0022500728":[[0,325,7,11,90,90,527440,0],[325,360,2,0,10,0,789008,0],[360,397,0,2,10,10,789008,0],[397,437,0,2,10,20,262960,0],[437,662,7,2,70,70,263968,0],[662,720,2,0,20,20,788224,0],[720,977,8,8,60,70,525920,0],[977,1080,5,5,40,30,788560,0],[1080,1081,0,1,0,10,788560,0],[1081,1225,5,4,60,50,789008,0],[1225,1231,0,2,0,10,527888,0],[1231,1440,13,5,70,70,525904,0],[1440,1781,18,8,110,120,527440,0],[1781,1800,2,0,10,0,525904,0],[1800,1864,3,1,10,20,525904,0],[1864,1948,5,3,30,30,524912,0],[1948,2160,8,9,60,60,525920,0],[2160,2340,7,8,60,60,265744,0],[2340,2396,5,2,30,30,265744,1],[2396,2447,2,0,10,0,3664,1],[2447,2520,4,5,20,30,525904,1],[2520,2779,9,12,80,80,525904,1],[2779,2880,2,3,40,30,39200,1]],"0022500741":[[0,182,2,9,60,60,525464,0],[182,360,2,6,60,60,656008,0],[360,392,0,4,10,20,656008,0],[392,590,8,8,60,60,133672,0],[590,607,0,0,10,0,657952,0],[607,720,3,2,40,50,527904,0],[720,868,5,7,50,50,528000,0],[868,962,4,7,40,40,656008,0],[962,1076,5,4,30,30,655528,0],[1076,1080,0,0,10,0,656424,0],[1080,1188,4,3,30,40,656424,0],[1188,1244,0,2,10,10,525872,0],[1244,1308,0,2,30,30,525848,0],[1308,1321,1,0,10,0,655896,0],[1321,1440,4,5,40,50,656008,0],[1440,1734,11,8,90,90,525464,0],[1734,1747,0,0,10,0,656008,0],[1747,1800,0,0,10,10,658048,0],[1800,2150,25,5,110,110,658048,0],[2150,2160,0,2,10,10,527008,0],[2160,2278,5,0,30,30,527904,0],[2278,2308,0,2,10,10,657952,0],[2308,2349,0,3,0,10,133672,0],[2349,2514,9,10,50,50,131752,0],[2514,2520,0,0,0,0,656008,0],[2520,2591,3,0,30,20,656008,0],[2591,2773,4,7,40,50,525960,0],[2773,2839,3,0,30,20,656008,0],[2839,2879,0,0,10,20,527496,0],[2879,2880,0,0,10,0,525960,0]],"0022500757":[[0,286,13,11,100,100,527384,0],[286,331,0,4,10,20,525848,0],[331,360,0,2,10,10,131688,0],[360,545,6,9,60,60,131688,0],[545,611,3,2,30,20,655968,0],[611,720,2,7,30,30,918080,0],[720,838,5,4,30,20,658944,0],[838,991,5,10,50,60,527880,0],[991,1080,4,0,30,20,789512,0],[1080,1095,3,0,10,10,789512,0],[1095,1096,0,0,0,0,788504,0],[1096,1097,0,0,0,10,1837064,0],[1097,1165,0,0,20,10,789512,0],[1165,1287,2,7,40,40,790016,0],[1287,1440,10,4,50,50,527880,0],[1440,1696,8,5,70,60,527384,0],[1696,1747,0,5,20,30,657432,0],[1747,1800,2,0,20,10,131688,0],[1800,1933,2,6,40,50,131688,0],[1933,2017,3,2,40,30,393800,0],[2017,2079,0,5,20,30,132680,0],[2079,2160,0,2,30,30,655944,0],[2160,2355,7,5,50,60,657984,0],[2355,2520,5,5,60,50,657928,0],[2520,2580,2,4,10,20,657928,0],[2580,2598,0,3,10,10,657928,1],[2598,2880,7,9,90,80,1310832,1]],"0022500778":[[0,341,17,18,110,110,527496,0],[341,360,0,0,0,0,131688,0],[360,534,5,5,70,70,131688,0],[534,720,14,4,70,70,393800,0],[720,913,9,2,70,70,918144,0],[913,1080,9,4,40,50,788096,0],[1080,1149,3,3,20,20,788096,0],[1149,1169,1,0,10,0,787496,0],[1169,1245,6,2,30,30,917544,0],[1245,1255,0,3,0,10,393768,0],[1255,1431,8,3,60,60,655912,0],[1431,1440,0,0,10,0,657928,0],[1440,1611,4,5,50,50,527496,0],[1611,1790,7,4,60,70,657544,0],[1790,1800,0,0,0,0,133768,0],[1800,1857,3,5,20,20,133768,0],[1857,1973,3,6,50,50,265856,0],[1973,2087,5,2,30,30,395840,0],[2087,2160,4,4,40,30,919616,0],[2160,2467,10,11,100,100,918024,1],[2467,2520,4,3,20,10,262768,1],[2520,2534,0,3,0,10,262768,1],[2534,2880,12,18,110,110,264784,1]],"0022500799":[[0,343,17,15,110,110,527496,0],[343,360,0,3,0,10,133704,0],[360,413,5,0,20,20,133704,0],[413,636,11,8,90,90,393800,0],[636,720,3,6,40,30,788032,0],[720,973,17,2,90,80,656032,0],[973,1080,2,2,30,30,527400,0],[1080,1180,0,5,40,40,527400,0],[1180,1324,8,4,60,60,657928,0],[1324,1440,11,6,40,50,656008,0],[1440,1800,15,8,120,120,527496,0],[1800,1811,2,0,10,0,527496,0],[1811,1888,2,2,20,30,655944,0],[1888,2002,5,4,40,30,131688,0],[2002,2160,4,8,50,60,655912,0],[2160,2291,3,12,40,50,264784,0],[2291,2476,6,9,60,50,658048,0],[2476,2520,0,5,10,20,656008,0],[2520,2796,8,9,90,80,656008,0],[2796,2880,2,2,30,30,525960,0]],"0022500823":[[0,305,15,15,110,110,527496,0],[305,360,2,2,10,20,133768,0],[360,424,2,2,30,20,133768,0],[424,440,0,0,0,0,395784,0],[440,499,2,6,20,30,393768,0],[499,714,7,0,80,70,918048,0],[714,719,0,3,0,10,788000,0],[719,720,0,0,10,0,919040,0],[720,855,3,0,30,30,656008,0],[855,985,3,5,40,40,525960,0],[985,1080,4,2,40,40,3720,0],[1080,1110,2,0,20,10,3720,0],[1110,1123,0,1,0,0,3624,0],[1123,1374,12,11,100,110,525864,0],[1374,1440,8,3,30,30,655912,0],[1440,1747,9,8,100,90,527496,0],[1747,1800,3,2,10,10,133768,0],[1800,1943,5,5,40,50,133768,0],[1943,2091,4,2,40,30,133672,0],[2091,2112,0,4,10,20,655912,0],[2112,2160,3,0,20,20,918024,0],[2160,2287,2,6,40,50,918144,0],[2287,2395,6,0,40,30,658048,0],[2395,2456,0,2,10,20,528000,0],[2456,2520,2,0,20,20,527880,0],[2520,2580,2,2,20,10,527880,0],[2580,2678,9,2,30,30,527880,1],[2678,2794,4,6,30,30,528000,1],[2794,2880,2,0,30,40,1049200,1]],"0022500839":[[0,360,10,15,100,110,527552,0],[360,375,2,0,10,0,527552,0],[375,549,5,7,40,40,393888,0],[549,578,0,2,0,10,918048,0],[578,709,4,2,40,40,918080,0],[709,720,0,0,10,0,656064,0],[720,932,7,9,60,60,657984,0],[932,1058,4,6,40,30,134784,0],[1058,1080,0,0,0,10,788096,0],[1080,1284,12,3,60,60,788096,0],[1284,1435,6,2,50,40,526016,0],[1435,1440,0,0,10,10,527520,0],[1440,1734,14,6,100,90,527552,0],[1734,1796,5,0,20,20,528000,0],[1796,1800,0,0,0,0,658048,0],[1800,1842,0,0,10,20,658048,0],[1842,1912,2,0,30,20,133824,0],[1912,1929,0,0,10,10,131808,0],[1929,2015,4,0,30,30,133728,0],[2015,2156,5,5,40,50,657504,0],[2156,2160,0,0,10,0,658048,0],[2160,2274,0,7,30,40,658048,0],[2274,2316,0,2,10,10,528000,0],[2316,2520,7,2,40,30,527936,0],[2520,2532,3,0,10,10,527936,1],[2532,2644,4,2,20,30,3680,1],[2644,2880,3,11,60,60,66097,1]],"0022500847":[[0,257,10,10,80,70,527496,0],[257,348,4,3,30,30,658440,0],[348,360,0,0,0,0,134664,0],[360,432,2,0,10,20,134664,0],[432,471,0,3,10,10,132648,0],[471,694,6,4,80,70,131688,0],[694,709,0,1,0,10,656928,0],[709,720,2,0,10,10,657024,0],[720,982,12,13,60,70,788096,0],[982,1071,3,2,30,20,658440,0],[1071,1080,0,0,0,0,657480,0],[1080,1154,0,4,30,30,657480,0],[1154,1245,2,0,40,40,657928,0],[1245,1440,7,7,70,70,656008,0],[1440,1703,8,8,80,80,527496,0],[1703,1800,2,4,30,40,658440,0],[1800,1802,0,0,10,0,658440,0],[1802,1906,3,2,30,40,132744,0],[1906,2043,6,5,50,40,393864,0],[2043,2160,0,11,50,60,657928,0],[2160,2393,3,8,70,60,528000,0],[2393,2458,2,2,30,30,527880,0],[2458,2520,0,2,20,20,787976,0],[2520,2547,0,0,10,10,787976,1],[2547,2880,12,14,110,110,262257,1]],"0022500859":[[0,262,10,11,80,90,527496,0],[262,354,11,4,40,30,657544,0],[354,360,0,0,0,0,657928,0],[360,476,5,3,40,50,657928,0],[476,720,9,14,90,80,393768,0],[720,918,6,4,50,40,918048,0],[918,1080,5,6,50,50,656032,0],[1080,1083,0,0,0,0,656032,0],[1083,1176,6,4,20,30,525960,0],[1176,1389,9,11,70,70,527496,0],[1389,1440,5,0,20,20,525960,0],[1440,1714,13,16,80,80,527496,0],[1714,1800,5,3,30,20,656008,0],[1800,1896,8,0,30,30,656008,0],[1896,2160,17,7,90,90,131752,0],[2160,2413,16,6,80,80,657952,1],[2413,2433,0,0,0,0,526896,1],[2433,2520,7,2,30,30,264752,1],[2520,2521,0,0,0,0,264752,1],[2521,2570,0,5,20,20,262257,1],[2570,2880,16,15,110,120,327761,1]],"0022500874":[[0,328,12,15,100,110,527496,0],[328,360,0,3,10,10,131752,0],[360,438,3,3,20,20,131752,0],[438,506,0,2,20,10,393768,0],[506,588,4,2,30,30,263720,0],[588,720,7,3,40,50,787976,0],[720,1000,14,7,90,80,788096,0],[1000,1031,0,0,10,10,528000,0],[1031,1060,0,0,0,0,527880,0],[1060,1080,0,0,0,10,527400,0],[1080,1101,3,0,10,0,527400,0],[1101,1262,8,6,70,80,657448,0],[1262,1282,0,1,10,10,657928,0],[1282,1380,6,5,20,30,527880,0],[1380,1440,5,3,30,30,657928,0],[1440,1716,10,11,100,100,527496,0],[1716,1800,2,4,30,30,657544,0],[1800,1848,6,2,20,10,657544,0],[1848,1894,0,5,20,30,655912,0],[1894,2157,9,11,80,70,393768,0],[2157,2160,0,0,0,10,263720,0],[2160,2449,10,8,70,80,658048,0],[2449,2520,3,2,20,20,657928,0],[2520,2542,0,0,10,0,657928,0],[2542,2578,1,0,10,10,527880,0],[2578,2880,11,5,80,90,527496,0]],"0022500880":[[0,347,14,12,120,110,657568,0],[347,360,0,0,0,10,524976,0],[360,370,0,0,10,0,524976,0],[370,425,2,3,10,20,752,0],[425,473,3,0,10,10,262864,0],[473,705,9,5,60,60,264784,0],[705,720,2,0,10,10,2768,0],[720,1080,22,10,130,140,656032,0],[1080,1097,0,0,10,10,656032,0],[1097,1261,2,3,60,50,657952,0],[1261,1334,1,5,30,30,787088,0],[1334,1440,2,5,40,50,526992,0],[1440,1800,17,8,110,120,657568,0],[1800,1822,0,0,10,10,657568,0],[1822,1874,0,3,10,10,133792,0],[1874,2037,3,9,40,40,262864,0],[2037,2138,4,2,40,40,787024,0],[2138,2160,2,0,10,10,525008,0],[2160,2400,7,4,60,60,918048,0],[2400,2415,3,0,10,0,918048,1],[2415,2515,3,0,10,20,786992,1],[2515,2520,0,0,0,0,524976,1],[2520,2593,3,0,30,20,524976,1],[2593,2768,6,10,40,40,2672,1],[2768,2880,3,2,40,40,1118304,1]],"0022500894":[[0,91,0,5,20,30,527496,0],[91,304,10,11,80,80,657544,0],[304,352,3,2,10,10,656008,0],[352,360,0,0,0,0,655912,0],[360,414,0,2,20,20,655912,0],[414,540,3,6,30,30,263720,0],[540,720,7,9,70,60,786992,0],[720,801,0,5,30,30,656032,0],[801,912,2,2,40,30,133768,0],[912,1080,4,7,50,50,3720,0],[1080,1108,3,0,10,10,3720,0],[1108,1299,7,10,50,50,527496,0],[1299,1440,4,5,50,50,657544,0],[1440,1800,15,13,120,110,527496,0],[1800,1810,0,3,0,10,527496,0],[1810,1951,2,2,50,40,655912,0],[1951,2160,8,9,70,70,393768,0],[2160,2381,9,5,70,70,526896,1],[2381,2401,0,3,0,10,524976,1],[2401,2458,2,5,30,20,696,1],[2458,2520,2,3,10,10,262264,1],[2520,2524,0,0,0,0,262264,1],[2524,2880,8,11,110,110,264304,1]],"0022500908":[[0,352,9,9,130,130,541832,0],[352,360,0,0,0,0,133672,0],[360,459,3,4,40,40,133672,0],[459,527,0,4,20,20,2616,0],[527,720,9,5,80,70,526896,0],[720,901,5,7,60,70,542336,0],[901,920,0,0,10,0,541328,0],[920,1055,5,4,40,50,540824,0],[1055,1080,3,0,10,0,2616,0],[1080,1204,7,10,50,50,2616,0],[1204,1280,6,5,20,20,3624,0],[1280,1440,11,5,70,70,542216,0],[1440,1800,16,16,120,130,541832,0],[1800,1804,0,0,10,0,541832,0],[1804,1877,2,3,20,30,3720,0],[1877,2160,14,8,90,90,2616,0],[2160,2388,9,7,70,70,541328,0],[2388,2460,4,0,30,20,542216,0],[2460,2520,5,0,20,30,542216,1],[2520,2579,4,0,30,30,542216,1],[2579,2620,2,3,20,10,527880,1],[2620,2718,6,6,30,30,3680,1],[2718,2880,0,4,40,50,1051232,1]],"0022500921":[[0,321,13,13,100,100,541832,0],[321,360,2,0,10,10,18056,0],[360,412,5,2,20,20,18056,0],[412,521,2,5,30,30,19976,0],[521,720,13,6,80,80,2616,0],[720,826,0,0,40,30,524976,0],[826,955,4,2,40,40,526992,0],[955,1025,3,0,20,30,528000,0],[1025,1080,0,0,10,10,544256,0],[1080,1231,6,5,70,70,543752,0],[1231,1375,6,2,40,30,542216,0],[1375,1414,2,0,20,20,527880,0],[1414,1427,0,1,0,10,526872,0],[1427,1440,0,0,10,10,526984,0],[1440,1760,9,17,100,100,541832,0],[1760,1800,5,0,20,10,3720,0],[1800,2041,16,8,70,70,3720,0],[2041,2104,0,5,20,20,2736,0],[2104,2160,0,3,20,30,526896,0],[2160,2292,5,9,40,50,526872,0],[2292,2429,3,3,40,30,527880,0],[2429,2520,3,5,30,30,544256,0],[2520,2531,0,0,0,0,544256,0],[2531,2565,1,2,10,10,542336,0],[2565,2842,9,10,70,80,542216,0],[2842,2860,2,0,10,0,541320,0],[2860,2880,0,0,10,10,525960,0]],"0022500942":[[0,190,3,9,70,70,541832,0],[190,283,8,3,30,40,540824,0],[283,323,2,0,10,10,526488,0],[323,360,0,3,10,10,527400,0],[360,458,5,1,40,40,527400,0],[458,720,13,13,100,100,19552,0],[720,798,3,3,20,20,540880,0],[798,1080,14,10,110,100,524504,0],[1080,1194,3,5,40,40,524504,0],[1194,1222,0,3,10,10,526488,0],[1222,1340,7,4,40,40,543808,0],[1340,1440,0,4,40,40,542912,0],[1440,1617,9,12,70,60,543872,0],[1617,1745,9,5,40,40,542864,0],[1745,1800,0,2,10,20,526544,0],[1800,1932,7,10,40,40,526544,0],[1932,1992,2,5,20,20,527456,0],[1992,2062,3,0,30,20,789536,0],[2062,2160,2,5,30,40,526544,0],[2160,2322,7,3,50,50,18640,0],[2322,2520,8,8,60,60,526544,0],[2520,2525,0,3,0,10,526544,0],[2525,2643,0,5,40,40,543808,0],[2643,2671,0,0,10,0,543872,0],[2671,2820,8,5,50,50,542912,0],[2820,2823,0,2,0,10,542912,1],[2823,2880,3,2,30,20,1054816,1]],"0022500959":[[0,276,8,10,90,90,3720,0],[276,360,3,4,20,30,2712,0],[360,386,0,2,10,10,2712,0],[386,525,6,7,40,40,2168,0],[525,685,9,4,60,50,262264,0],[685,720,2,0,10,20,264304,0],[720,836,7,0,40,30,262864,0],[836,908,3,2,30,30,264848,0],[908,1054,5,7,40,50,265856,0],[1054,1080,3,0,10,0,3624,0],[1080,1248,0,6,40,50,3624,0],[1248,1304,1,5,20,20,1704,0],[1304,1370,6,5,20,20,696,0],[1370,1436,3,4,20,20,2736,0],[1436,1440,3,0,10,10,2768,0],[1440,1760,10,15,90,90,2712,0],[1760,1800,0,0,10,10,3624,0],[1800,1911,10,4,50,40,3624,0],[1911,2133,4,5,60,70,263272,0],[2133,2160,0,0,10,0,1640,0],[2160,2364,4,7,70,70,1704,0],[2364,2520,4,4,50,50,2616,0],[2520,2526,0,0,0,10,2616,0],[2526,2679,3,7,50,50,3624,0],[2679,2697,2,0,10,0,1704,0],[2697,2843,4,2,30,30,3720,0],[2843,2850,0,2,0,10,3744,0],[2850,2880,2,2,20,10,2760,0]],"0022500971":[[0,339,15,8,110,110,541832,0],[339,360,0,0,0,10,19976,0],[360,462,5,3,50,40,19976,0],[462,498,0,6,10,20,3624,0],[498,663,6,10,60,50,2616,0],[663,720,3,0,20,20,526872,0],[720,964,14,2,70,70,526992,0],[964,1043,3,0,30,20,543872,0],[1043,1080,0,0,0,10,543752,0],[1080,1130,0,0,30,30,543752,0],[1130,1435,18,12,110,100,542216,0],[1435,1440,0,0,0,10,527400,0],[1440,1800,17,12,140,130,541832,0],[1800,1826,2,0,10,10,541832,0],[1826,1891,0,2,20,20,19976,0],[1891,1970,2,2,20,30,20000,0],[1970,2160,8,15,80,80,18992,0],[2160,2418,5,7,70,80,526992,0],[2418,2509,2,7,30,30,527880,0],[2509,2520,0,0,0,0,541832,0],[2520,2685,6,6,60,50,541832,0],[2685,2760,3,0,10,20,542336,0],[2760,2787,0,1,10,10,542336,1],[2787,2880,2,7,40,40,1053280,1]],"0022500986":[[0,349,15,20,150,150,541832,0],[349,360,0,0,0,10,18968,0],[360,500,8,0,50,40,18968,0],[500,713,8,12,70,70,2616,0],[713,720,0,0,10,10,3624,0],[720,969,11,9,70,60,528000,0],[969,1080,5,2,30,30,527880,0],[1080,1082,0,0,0,0,527880,0],[1082,1194,6,5,30,30,542216,0],[1194,1406,10,13,60,70,541320,0],[1406,1440,2,0,10,10,18056,0],[1440,1728,13,10,100,90,541832,0],[1728,1732,0,2,0,10,542216,0],[1732,1800,2,2,20,20,19976,0],[1800,1902,3,0,40,30,19976,0],[1902,1923,0,2,0,10,20000,0],[1923,2119,5,7,60,50,18992,0],[2119,2160,3,2,10,20,20000,0],[2160,2279,5,1,30,40,526872,0],[2279,2431,4,11,50,50,527880,0],[2431,2518,4,5,30,30,525960,0],[2518,2520,0,0,0,0,19976,0],[2520,2632,4,7,50,40,19976,0],[2632,2695,2,1,20,20,542216,0],[2695,2857,6,1,40,50,18056,0],[2857,2871,2,0,10,0,542216,0],[2871,2876,2,0,10,10,19592,0],[2876,2880,0,0,0,10,19616,0]],"0022500999":[[0,360,20,14,140,140,541832,0],[360,410,3,0,20,20,18056,0],[410,613,7,7,60,70,19976,0],[613,720,6,2,40,40,2616,0],[720,870,3,6,60,50,526928,0],[870,917,0,0,0,10,525008,0],[917,1000,3,1,20,10,525960,0],[1000,1045,2,2,10,20,524952,0],[1045,1080,2,0,10,10,541208,0],[1080,1213,8,5,50,50,541208,0],[1213,1440,9,13,100,90,540824,0],[1440,1762,9,10,100,90,541832,0],[1762,1800,2,2,10,10,18056,0],[1800,1869,2,2,20,30,18056,0],[1869,1921,4,1,20,20,18968,0],[1921,2080,7,4,50,40,2616,0],[2080,2160,2,4,20,30,3624,0],[2160,2460,14,11,100,100,544256,0],[2460,2520,3,0,10,20,544256,1],[2520,2528,0,0,10,0,544256,1],[2528,2644,6,4,50,40,527880,1],[2644,2674,2,0,20,20,2616,1],[2674,2746,4,4,20,20,2672,1],[2746,2880,2,7,50,50,6242,1]],"0022501019":[[0,295,9,9,90,80,541832,0],[295,308,0,3,0,10,540824,0],[308,360,5,2,20,20,17048,0],[360,367,2,0,10,0,17048,0],[367,442,0,5,20,30,18968,0],[442,720,13,8,100,100,2616,0],[720,925,5,11,70,80,541328,0],[925,1080,6,3,50,40,525960,0],[1080,1298,9,5,80,80,542216,0],[1298,1440,6,8,60,60,543240,0],[1440,1800,13,15,110,110,541832,0],[1800,1838,0,5,20,30,541832,0],[1838,1950,4,2,30,30,17048,0],[1950,2160,12,12,80,80,2616,0],[2160,2520,18,13,110,100,526896,0],[2520,2539,0,0,0,0,526896,0],[2539,2812,12,6,80,90,542744,0],[2812,2844,0,0,0,0,541208,0],[2844,2873,3,2,30,20,543240,0],[2873,2880,0,3,10,10,526944,0]],"0022501035":[[0,360,11,7,110,110,541832,0],[360,362,0,1,0,10,541832,0],[362,491,4,2,40,40,19976,0],[491,660,4,4,50,50,2616,0],[660,720,4,0,30,20,526896,0],[720,839,6,4,50,50,526896,0],[839,953,2,5,40,30,527520,0],[953,1023,2,5,20,30,543872,0],[1023,1050,0,0,10,10,542864,0],[1050,1080,0,0,10,0,540824,0],[1080,1234,7,9,60,60,540824,0],[1234,1440,4,10,80,80,541832,0],[1440,1611,11,5,60,60,541832,0],[1611,1754,9,3,70,60,542216,0],[1754,1800,0,2,10,10,19976,0],[1800,1906,5,9,40,50,19976,0],[1906,2089,8,8,70,70,18968,0],[2089,2160,0,2,30,20,526872,0],[2160,2430,4,12,70,80,527904,0],[2430,2520,0,5,30,20,526872,0],[2520,2559,0,0,20,20,526872,0],[2559,2660,3,4,40,40,541208,0],[2660,2760,2,1,30,30,543240,0],[2760,2775,0,4,10,20,543240,1],[2775,2880,6,0,30,30,6242,1]],"0022501054":[[0,336,7,14,120,120,541832,0],[336,360,0,0,0,10,3624,0],[360,428,3,2,20,20,3624,0],[428,575,6,9,50,50,2616,0],[575,706,4,4,50,40,18992,0],[706,720,0,2,10,10,20000,0],[720,878,6,4,50,50,542336,0],[878,986,4,2,40,40,525960,0],[986,1022,0,0,10,10,541832,0],[1022,1080,5,2,20,10,540824,0],[1080,1107,3,2,10,10,540824,0],[1107,1246,6,5,40,50,540840,0],[1246,1286,0,0,10,10,541224,0],[1286,1440,5,7,60,50,542216,0],[1440,1752,17,16,110,100,541832,0],[1752,1772,0,2,0,10,525960,0],[1772,1800,3,0,10,0,527880,0],[1800,1806,0,0,0,10,527880,0],[1806,1994,10,6,70,60,526872,0],[1994,2032,2,2,10,10,526984,0],[2032,2113,3,2,30,40,3720,0],[2113,2154,4,2,20,10,524952,0],[2154,2160,0,0,0,10,524968,0],[2160,2281,5,4,30,40,20096,0],[2281,2403,7,5,40,30,19088,0],[2403,2520,8,2,40,40,19976,0],[2520,2587,3,5,20,20,19976,0],[2587,2674,1,4,20,30,542216,0],[2674,2790,3,6,40,40,541320,0],[2790,2847,4,0,30,20,542216,0],[2847,2880,0,0,10,10,543240,0]],"0022501067":[[0,352,9,18,130,130,543872,0],[352,360,0,0,0,0,786992,0],[360,661,10,9,90,90,786992,0],[661,720,7,2,30,30,279088,0],[720,892,7,8,60,60,279184,0],[892,937,2,0,10,10,280192,0],[937,989,2,3,10,20,265856,0],[989,1080,3,0,30,30,528000,0],[1080,1131,6,3,20,20,528000,0],[1131,1352,7,13,70,60,804992,0],[1352,1440,2,4,40,40,805376,0],[1440,1651,5,8,60,70,543872,0],[1651,1800,9,2,50,50,542336,0],[1800,1864,3,0,20,20,542336,0],[1864,1894,3,0,10,0,788000,0],[1894,1938,3,2,10,10,786992,0],[1938,2044,2,6,30,40,789008,0],[2044,2121,5,1,30,20,281104,0],[2121,2160,2,3,10,20,282112,0],[2160,2296,6,2,50,40,281104,0],[2296,2520,7,8,60,70,282112,0],[2520,2543,0,0,0,0,282112,0],[2543,2839,9,9,80,70,542336,0],[2839,2862,0,1,0,10,803968,0],[2862,2867,0,0,0,0,544256,0],[2867,2880,0,0,10,0,543360,0]],"0022501085":[[0,332,12,9,120,110,280192,0],[332,360,3,0,10,10,20096,0],[360,404,0,3,20,20,20096,0],[404,571,6,4,50,50,3776,0],[571,712,4,5,30,40,2672,0],[712,719,2,0,10,0,2768,0],[719,720,0,0,0,10,2784,0],[720,1014,19,10,100,110,280656,0],[1014,1080,4,3,20,10,264848,0],[1080,1175,5,4,30,30,264848,0],[1175,1440,8,11,90,90,280192,0],[1440,1800,12,9,90,100,280192,0],[1800,1801,0,0,10,0,280192,0],[1801,1961,6,5,50,60,20096,0],[1961,2123,8,10,50,40,2672,0],[2123,2160,0,2,10,10,264752,0],[2160,2366,6,11,60,60,280736,0],[2366,2520,8,4,40,40,280192,0],[2520,2523,3,0,10,0,280192,0],[2523,2648,3,2,30,30,265856,0],[2648,2700,2,1,10,10,265760,0],[2700,2734,2,4,10,20,265760,1],[2734,2817,0,0,30,20,1054816,1],[2817,2880,1,2,30,40,1118242,1]],"0022501092":[[0,336,12,12,130,120,788504,0],[336,360,0,0,0,10,1049256,0],[360,720,18,17,150,150,1049256,0],[720,944,7,9,70,70,787088,0],[944,1024,0,0,20,20,787074,0],[1024,1080,5,3,20,20,526858,0],[1080,1209,3,7,40,50,526858,0],[1209,1429,9,6,70,70,786584,0],[1429,1440,0,0,10,0,524952,0],[1440,1630,6,8,80,80,786584,0],[1630,1739,5,8,30,30,788504,0],[1739,1800,0,4,10,20,1575432,0],[1800,1834,3,3,20,10,1575432,0],[1834,2160,8,13,120,120,1051176,0],[2160,2247,1,5,30,30,787074,0],[2247,2313,1,0,20,10,787088,0],[2313,2389,2,6,10,20,786968,0],[2389,2520,3,0,50,50,788504,0],[2520,2820,17,7,90,80,788504,0],[2820,2837,0,2,0,10,788504,1],[2837,2850,2,0,0,0,264248,1],[2850,2862,0,2,20,10,788520,1],[2862,2880,0,0,0,10,333856,1]],"0022501106":[[0,297,18,21,100,100,541832,0],[297,329,3,0,10,10,527496,0],[329,360,0,3,0,10,2712,0],[360,487,11,6,50,50,2712,0],[487,650,13,3,70,60,3720,0],[650,720,8,0,30,40,20096,0],[720,884,6,3,50,40,543248,0],[884,1062,7,10,60,70,803344,0],[1062,1080,2,0,10,0,786584,0],[1080,1163,2,5,40,40,786584,0],[1163,1440,10,6,90,100,541832,0],[1440,1744,15,20,100,100,541832,0],[1744,1800,2,0,20,10,18056,0],[1800,1842,2,0,10,10,18056,0],[1842,1865,2,0,10,10,19976,0],[1865,2131,11,22,90,100,18968,0],[2131,2151,0,0,10,0,264848,0],[2151,2160,0,3,10,10,265856,0],[2160,2352,12,8,70,70,542336,0],[2352,2520,7,4,40,50,542216,0],[2520,2580,4,2,20,10,542216,0],[2580,2717,5,6,40,50,542216,1],[2717,2872,7,7,50,40,527880,1],[2872,2880,0,0,0,10,268832,1]],"0022501126":[[0,360,26,8,130,130,541832,0],[360,399,1,2,10,10,541832,0],[399,558,6,7,50,50,3720,0],[558,693,10,7,50,40,543248,0],[693,720,0,2,10,10,805376,0],[720,908,10,9,50,60,543248,0],[908,979,2,4,20,20,526872,0],[979,1043,2,0,20,20,527880,0],[1043,1080,2,2,20,10,542216,0],[1080,1122,2,0,20,20,542216,0],[1122,1440,14,14,110,110,541832,0],[1440,1702,15,4,80,80,541832,0],[1702,1800,2,2,30,30,18056,0],[1800,1809,0,0,0,0,18056,0],[1809,2160,13,15,120,120,17048,0],[2160,2506,16,14,90,90,790016,1],[2506,2520,2,0,10,0,264738,1],[2520,2568,2,5,10,20,264738,1],[2568,2880,8,6,110,100,264290,1]],"0022501132":[[0,360,17,12,130,120,541832,0],[360,402,2,3,10,20,541832,0],[402,423,3,0,10,0,265736,0],[423,553,0,6,50,60,395784,0],[553,720,4,5,60,50,412160,0],[720,898,4,10,70,70,672384,0],[898,917,0,2,10,10,671880,0],[917,1080,6,0,40,40,527496,0],[1080,1137,0,0,10,10,527496,0],[1137,1247,6,4,40,40,541832,0],[1247,1440,12,4,60,70,542216,0],[1440,1706,8,11,110,110,541832,0],[1706,1759,3,5,20,30,671880,0],[1759,1800,0,2,10,10,395784,0],[1800,1898,6,6,40,40,395784,0],[1898,2160,9,7,70,70,265736,0],[2160,2254,7,2,30,30,672384,0],[2254,2501,11,6,70,60,542336,0],[2501,2520,0,2,0,10,542216,0],[2520,2760,15,8,80,80,542216,0],[2760,2812,2,4,40,30,542216,1],[2812,2880,0,2,10,20,264800,1]],"0022501149":[[0,360,13,16,110,110,541832,0],[360,417,5,2,20,10,541832,0],[417,715,2,13,80,90,395784,0],[715,720,0,0,10,0,672264,0],[720,1005,15,13,80,90,542336,0],[1005,1080,7,3,30,20,672264,0],[1080,1098,0,2,10,10,672264,0],[1098,1440,13,12,140,140,933896,0],[1440,1709,13,11,80,80,541832,0],[1709,1777,5,2,20,30,803848,0],[1777,1800,2,0,10,0,280072,0],[1800,1914,0,8,40,50,280072,0],[1914,2160,15,5,80,80,265736,0],[2160,2520,14,7,110,100,672264,0],[2520,2784,6,4,70,70,672264,0],[2784,2880,3,4,30,30,542216,0]],"0022501168":[[0,360,13,11,110,110,803968,0],[360,365,0,0,10,0,803968,0],[365,524,6,3,60,70,790016,0],[524,720,10,12,70,60,412160,0],[720,894,2,7,50,60,150144,0],[894,912,0,2,10,10,672384,0],[912,1030,6,3,40,30,542336,0],[1030,1080,0,0,10,10,672384,0],[1080,1104,3,0,10,10,672384,0],[1104,1229,4,6,40,40,934016,0],[1229,1279,3,5,10,20,803968,0],[1279,1436,6,5,60,50,542336,0],[1436,1440,0,0,0,10,803456,0],[1440,1588,4,12,30,40,803968,0],[1588,1650,2,2,20,10,543872,0],[1650,1718,0,2,10,20,544256,0],[1718,1800,6,2,30,20,674304,0],[1800,1850,1,0,10,10,674304,0],[1850,1959,6,4,40,40,150144,0],[1959,2160,11,5,60,60,658048,0],[2160,2295,3,2,30,30,658048,0],[2295,2444,6,4,40,40,150144,0],[2444,2470,0,3,10,10,674304,0],[2470,2520,2,2,20,10,544256,0],[2520,2794,10,14,70,80,544256,0],[2794,2880,2,6,30,30,674304,0]],"0022501174":[[0,312,16,9,100,110,787592,0],[312,360,0,2,10,10,263816,0],[360,415,3,0,20,20,263816,0],[415,720,25,14,120,110,133672,0],[720,967,13,7,90,90,524976,0],[967,993,0,0,10,10,918144,0],[993,1080,6,5,30,30,393864,0],[1080,1256,9,6,90,80,393864,0],[1256,1354,7,3,30,40,395784,0],[1354,1440,3,5,30,30,395304,0],[1440,1800,19,14,120,120,787592,0],[1800,1812,0,0,0,0,787592,0],[1812,1872,1,3,30,30,393864,0],[1872,1994,2,6,40,40,133768,0],[1994,2160,12,8,70,60,133792,0],[2160,2520,17,15,130,130,2672,1],[2520,2544,3,0,10,10,2672,1],[2544,2880,8,21,120,130,6256,1]],"0022501186":[[0,360,10,12,120,130,268368,0],[360,377,0,1,10,10,268368,0],[377,389,0,0,10,0,1312833,0],[389,715,8,16,100,110,1376321,0],[715,717,2,0,10,0,264273,0],[717,720,0,0,0,10,69713,0],[720,986,15,13,110,100,71697,0],[986,1080,2,2,40,40,264273,0],[1080,1191,4,4,30,40,264273,0],[1191,1406,9,11,90,80,327761,0],[1406,1434,2,2,10,20,329793,0],[1434,1440,0,0,10,0,264273,0],[1440,1753,15,10,100,100,268368,0],[1753,1800,3,2,20,20,6225,0],[1800,1862,3,0,20,10,6225,0],[1862,2152,21,8,100,100,67665,0],[2152,2160,0,0,0,10,1376321,0],[2160,2384,7,7,70,80,1116225,0],[2384,2465,0,4,30,30,264273,0],[2465,2520,0,0,20,20,329745,0],[2520,2880,12,16,150,140,329745,0]]}};
+// 2026 playoff lineup segments (same cutting rule as STATS.games; checked: every player-game matches NBA.com +/-).
+const PO_SEGS = {"0042500111":[[0,201,8,7,80,90,541832],[201,430,14,4,80,70,671880],[430,491,0,3,20,30,672264],[491,693,9,4,60,50,934400],[693,720,2,0,20,20,803336],[720,917,9,9,60,60,2712],[917,1004,7,2,30,20,525960],[1004,1161,5,4,40,40,542216],[1161,1273,4,3,40,40,672264],[1273,1310,0,3,10,10,672384],[1310,1330,2,3,10,20,541328],[1330,1340,0,0,10,0,540824],[1340,1440,4,4,40,40,541328],[1440,1535,4,5,30,30,541832],[1535,1755,5,7,60,60,671880],[1755,1944,12,7,70,70,672264],[1944,2117,8,4,50,40,786968],[2117,2160,2,2,20,20,787080],[2160,2445,12,7,90,100,20096],[2445,2528,3,2,30,20,265856],[2528,2630,2,3,40,50,264848],[2630,2819,8,8,70,60,264784],[2819,2880,3,0,20,30,264304]],"0042500112":[[0,433,20,13,130,130,541832],[433,525,6,0,40,30,672264],[525,713,2,10,60,60,918024],[713,720,0,2,10,10,789000],[720,880,7,6,50,50,150144],[880,1023,5,10,40,40,20096],[1023,1156,6,6,40,40,543752],[1156,1315,5,7,50,50,541832],[1315,1435,3,8,30,40,671880],[1435,1440,0,0,10,0,672264],[1440,1761,14,12,100,100,541832],[1761,1926,6,3,60,60,672264],[1926,2028,0,3,30,30,918024],[2028,2160,3,4,40,40,395784],[2160,2330,7,7,40,40,542336],[2330,2636,5,11,100,100,542216],[2636,2768,6,6,40,40,672264],[2768,2880,2,3,30,20,268368]],"0042500113":[[0,231,6,9,70,80,541832],[231,282,0,0,20,10,671880],[282,672,20,13,120,130,410120],[672,692,0,2,10,10,672264],[692,720,3,0,20,10,918024],[720,978,12,11,70,70,543248],[978,1094,2,3,40,30,527880],[1094,1156,0,0,20,20,19976],[1156,1221,2,3,20,20,150024],[1221,1440,9,6,60,70,671880],[1440,1738,10,15,100,100,671880],[1738,1823,0,5,20,20,541832],[1823,1968,7,3,50,40,280072],[1968,2095,5,2,40,40,263816],[2095,2160,3,2,20,20,393864],[2160,2359,5,11,60,70,674304],[2359,2855,22,15,140,130,672264],[2855,2880,2,0,10,20,543240]],"0042500114":[[0,153,5,4,50,50,541832],[153,325,4,4,60,50,671880],[325,409,2,2,10,20,672264],[409,427,1,0,10,0,541208],[427,551,11,3,40,40,803344],[551,720,11,5,50,60,412160],[720,910,6,1,60,60,133768],[910,1134,5,9,60,70,525960],[1134,1250,3,4,50,50,672264],[1250,1365,3,5,30,20,541208],[1365,1440,5,1,30,40,672264],[1440,1715,13,7,100,110,541832],[1715,1749,2,3,10,10,671880],[1749,2020,13,15,80,70,672264],[2020,2045,2,2,10,10,410120],[2045,2070,1,2,0,10,279064],[2070,2153,6,7,40,40,264728],[2153,2159,2,0,10,0,2712],[2159,2160,0,0,0,10,264728],[2160,2307,9,4,50,40,280192],[2307,2549,13,9,70,70,544256],[2549,2597,0,3,10,20,805376],[2597,2712,3,4,40,40,264848],[2712,2880,8,2,50,50,4209]],"0042500115":[[0,351,6,10,120,130,541832],[351,541,10,5,80,70,542216],[541,720,7,6,50,60,395784],[720,908,9,5,60,60,803344],[908,983,7,3,30,20,674304],[983,1029,3,6,10,20,672264],[1029,1144,3,4,50,40,671880],[1144,1201,0,4,10,20,541832],[1201,1425,12,7,70,70,542216],[1425,1440,0,0,10,0,672264],[1440,1563,6,2,40,30,541832],[1563,1703,2,8,50,50,671880],[1703,1765,1,5,30,30,934016],[1765,1885,8,5,40,30,410120],[1885,2040,7,6,40,50,279064],[2040,2160,5,9,50,50,410120],[2160,2289,0,5,40,50,527880],[2289,2636,8,14,90,90,541832],[2636,2744,2,5,40,30,542216],[2744,2761,0,0,0,0,265736],[2761,2787,0,2,10,10,265312],[2787,2880,1,2,30,30,1312864]],"0042500116":[[0,336,8,11,120,120,541832],[336,375,1,0,0,10,542216],[375,478,5,4,40,40,672264],[478,612,6,5,50,40,410240],[612,708,3,0,40,40,280192],[708,720,0,0,10,10,410240],[720,909,4,8,70,60,526872],[909,1135,9,14,80,80,542216],[1135,1154,0,0,10,10,542336],[1154,1271,8,9,50,50,672384],[1271,1440,5,7,60,60,934400],[1440,1741,8,16,110,100,541832],[1741,1846,2,0,30,40,542216],[1846,1917,2,2,20,20,672264],[1917,2133,0,6,70,70,656008],[2133,2160,2,0,10,10,393864],[2160,2256,2,6,30,40,265736],[2256,2806,24,18,170,170,264784],[2806,2880,4,0,30,20,264273]],"0042500117":[[0,242,4,11,100,100,526424],[242,374,2,6,40,50,526872],[374,441,7,2,30,20,527880],[441,562,2,6,40,40,525960],[562,720,4,7,50,50,263816],[720,933,10,4,60,50,525984],[933,1053,8,0,30,30,527904],[1053,1164,3,9,30,40,525864],[1164,1226,2,2,20,20,527400],[1226,1338,3,4,40,40,526504],[1338,1370,2,2,10,10,527496],[1370,1440,3,2,30,20,526488],[1440,1507,2,3,20,10,527880],[1507,1581,0,5,20,30,526872],[1581,1714,6,2,60,50,789000],[1714,1797,5,5,20,20,526888],[1797,1873,0,4,30,30,524968],[1873,2019,3,10,40,50,528000],[2019,2160,9,4,50,50,525960],[2160,2860,23,17,200,210,525960],[2860,2865,0,2,10,10,526984],[2865,2880,2,2,20,20,525960]]};
 const FULL = {"Banton":"Dalano Banton","Bassey":"Charles Bassey","Boucher":"Chris Boucher","Brown":"Jaylen Brown","Garza":"Luka Garza","Gonzalez":"Hugo González","Harper Jr.":"Ron Harper Jr.","Hauser":"Sam Hauser","Minott":"Josh Minott","Pritchard":"Payton Pritchard","Queta":"Neemias Queta","Scheierman":"Baylor Scheierman","Shulga":"Max Shulga","Simons":"Anfernee Simons","Tatum":"Jayson Tatum","Tillman":"Xavier Tillman","Tonje":"John Tonje","Vucevic":"Nikola Vučević","Walsh":"Jordan Walsh","White":"Derrick White","Williams":"Amari Williams"};
 const PBIT = {}; STATS.players.forEach((n,i)=>PBIT[n]=i);
 function tally(segs){
@@ -487,14 +591,14 @@ const keep = x => inclGarbage || !x[7];   // below this, a net rating is mostly 
 function sgn(v,d){ if (v==null) return '—'; const r=(+v).toFixed(d||0); if (+r===0) return (0).toFixed(d||0); return (+r>0?'+':'')+r; }
 function cls(v){ return v>0?'pos':v<0?'neg':''; }
 function clockLabel(t, isEnd){
-  if (t>=2880){
-    const k=Math.floor((t-2880)/300), off=(t-2880)%300;
-    if (isEnd && off===0) return 'end of '+(k===1?'OT':'OT'+k);
-    const rem=300-off; return 'OT'+(k>0?k+1:'')+' '+Math.floor(rem/60)+':'+String(rem%60).padStart(2,'0');
+  const mmss=r=>Math.floor(r/60)+':'+String(r%60).padStart(2,'0');
+  if (t<2880 || (isEnd && t===2880)){
+    if (isEnd && t%720===0) return 'end of Q'+(t/720);
+    return 'Q'+(Math.floor(t/720)+1)+' '+mmss(720-t%720);
   }
-  if (isEnd && t%720===0) return 'end of Q'+(t/720);
-  const q=Math.floor(t/720)+1, rem=720-t%720;
-  return 'Q'+q+' '+Math.floor(rem/60)+':'+String(rem%60).padStart(2,'0');
+  const o=Math.floor((t-2880)/300), off=(t-2880)%300;       // o = overtime periods already finished
+  if (isEnd && off===0) return 'end of '+(o===1?'OT':'OT'+o);
+  return (o===0?'OT':'OT'+(o+1))+' '+mmss(300-off);
 }
 let refMode = 'reg';   // reference sample: 'reg' = 2025-26 regular season, 'po' = 2026 playoffs
 function sampleStints(name, mode){
@@ -549,7 +653,6 @@ function refSampleText(){
 function median(a){ const b=[...a].sort((x,y)=>x-y), k=b.length>>1; return b.length%2? b[k] : (b[k-1]+b[k])/2; }
 function shade(t){ const r=Math.round(255+(0x8f-255)*t), g=Math.round(255+(0xc9-255)*t), b=Math.round(255+(0xa4-255)*t); return 'rgb('+r+','+g+','+b+')'; }
 const PLAN_ROSTER = ["Pritchard","White","George","Tatum","Queta","Robinson","Hauser","Conley","Scheierman","Walsh","Gonzalez","Garza","Harper Jr.","Williams","Mitchell","Cenac Jr."];
-const DEFAULT_ROSTER = "Tatum, Brown, White, Hauser, Pritchard, Queta, Vucevic, Walsh, Garza, Scheierman, Harper Jr., Gonzalez, Banton, Shulga, Williams";
 function toMinutes(stints){
   const arr = new Array(TOTAL_MIN).fill(false);
   for (let i=0;i<TOTAL_MIN;i++){
@@ -572,7 +675,10 @@ function fromStints(obj){
 function floorCount(list, m){ let c=0; for (const p of list) if (p.minutes[m]) c++; return c; }
 function totalLabel(p){ return p.edited || p.exact==null ? p.minutes.filter(Boolean).length+':00' : fmt(p.exact); }
 
-const state = GAMES.map(g=>({ name:g.name, result:g.result, note:g.note, players: fromStints(g.stints), stints:g.stints, excl: !!g.excl }));
+// A stint that runs through a quarter break is one stint, even when the source lists it as two pieces.
+function mergeStints(obj){ const o={}; for (const n in obj){ const out=[]; [...obj[n]].sort((x,y)=>x[0]-y[0]).forEach(([s,e])=>{ const l=out[out.length-1]; if (l && s<=l[1]) l[1]=Math.max(l[1],e); else out.push([s,e]); }); o[n]=out; } return o; }
+GAMES.forEach(g=>{ g.stints=mergeStints(g.stints); });
+const state = GAMES.map(g=>({ name:g.name, result:g.result, note:g.note, po:/^G\d$/.test(g.name), id:/^G\d$/.test(g.name)?'004250011'+g.name.slice(1):undefined, players: fromStints(g.stints), stints:g.stints, excl: !!g.excl }));
 const MON = ["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"];
 function shortDate(d){ const [y,m,dd]=d.split('-'); return MON[+m-1]+' '+(+dd); }
 SEASON.games.forEach(g=>state.push({ name: shortDate(g.d)+' '+g.m, result:g.r, id:g.id, date:g.d, season:true, excl:true, stints:g.s, players: fromStints(g.s) }));
@@ -631,7 +737,7 @@ function decodePlan(tok){
 }
 function shareURL(){
   // On a regular-season game, share that game; everywhere else, share the plan.
-  if (state[cur] && state[cur].season) return location.origin + location.pathname + '#g=' + state[cur].id;
+  if (state[cur] && (state[cur].season||state[cur].po)) return location.origin + location.pathname + '#g=' + state[cur].id;
   if (state[cur] && state[cur].splits) return location.origin + location.pathname + '#s=' + encodeURIComponent(splitPlayer);
   return location.origin + location.pathname + '#p=' + encodePlan(state.find(g=>g.plan).players);
 }
@@ -658,7 +764,7 @@ function viewRange(){ return view==='all' ? [0,TOTAL_MIN] : [view*12, view*12+12
 let cur = state.findIndex(g=>g.plan);
 try {
   const gm = (location.hash||'').match(/[#&]g=(\d+)/);
-  if (gm){ const i = state.findIndex(g=>g.season && g.id===gm[1]); if (i>=0){ cur=i; seasonOpen=true; } }
+  if (gm){ const i = state.findIndex(g=>(g.season||g.po) && g.id===gm[1]); if (i>=0){ cur=i; seasonOpen=true; } }
   const sm = (location.hash||'').match(/[#&]s=([^&]+)/);
   if (sm){ const nm=decodeURIComponent(sm[1]); if (PBIT[nm]!=null){ splitPlayer=nm; cur=state.findIndex(g=>g.splits); } }
 } catch(e){}
@@ -671,7 +777,7 @@ function renderTabs(){
   const v=viewOf(cur); if (v==='games') lastGame=cur;
   document.querySelectorAll('#views [data-view]').forEach(b=>{ const on=b.dataset.view===v; b.classList.toggle('active',on); b.setAttribute('aria-pressed',on); });
   // one picker for every game: the playoff series, each month of the regular season, then pasted games
-  const row=document.getElementById('gamePickRow'); row.hidden = v!=='games';
+  document.getElementById('gameHead').hidden = v!=='games';
   if (v==='games'){
     const opt=(g,i,label)=>'<option value="'+i+'"'+(i===cur?' selected':'')+'>'+label+'</option>';
     let h='<optgroup label="2026 playoffs · Round 1 vs. Philadelphia">';
@@ -684,6 +790,7 @@ function renderTabs(){
     const added=state.map((g,i)=>[g,i]).filter(([g])=>g.added);
     if (added.length) h+='<optgroup label="Added games">'+added.map(([g,i])=>opt(g,i,g.name)).join('')+'</optgroup>';
     document.getElementById('gamePick').innerHTML=h;
+    renderGameHead();
   }
   const isPlan=v==='plan', isSplits=v==='splits';
   document.getElementById('tools').hidden = !isPlan;
@@ -693,11 +800,54 @@ function renderTabs(){
   const rh=document.getElementById('refHint'); if (rh) rh.style.display = (isPlan && showRef) ? '' : 'none';
   ['qpick','bump'].forEach(id=>{ const el=document.getElementById(id); if (el) el.style.display = isSplits?'none':''; });
   document.querySelector('.wrap').style.display = isSplits?'none':'';
-  document.getElementById('addGame').hidden = v!=='games';
   document.getElementById('splits').hidden = !isSplits;
-  document.getElementById('gameHint').style.display = state[cur].season ? '' : 'none';
+  document.getElementById('lineups').hidden = !isPlan;
+  document.getElementById('gameHint').style.display = (state[cur].season||state[cur].po) ? '' : 'none';
   const n=document.getElementById('gnote'); n.textContent = state[cur].note || ''; n.style.display = state[cur].note ? 'block' : 'none';
 }
+
+
+function flowEvents(f){
+  if (f._ev) return f._ev;
+  const ev=[]; let t=0,b=0,o=0;
+  for (const [,n,c] of f.e.matchAll(/(\d+)([abcxyzmn])/g)){
+    t+=+n;
+    if (c==='m') b--; else if (c==='n') o--; else { const v='abcxyz'.indexOf(c); if (v<3) b+=v+1; else o+=v-2; }
+    ev.push([t,b,o]);
+  }
+  return f._ev=ev;
+}
+function scoreAt(f,t){ let r=[0,0]; for (const [tt,b,o] of flowEvents(f)){ if (tt>t) break; r=[b,o]; } return r; }
+const DOW = ["Sun","Mon","Tue","Wed","Thu","Fri","Sat"];
+function renderGameHead(){
+  const g=state[cur], f=FLOW[g.id];
+  let eb, title, meta='';
+  const res=(g.result||'').match(/^([WL])\s+(\d+)-(\d+)/);
+  const reg = f ? scoreAt(f,2880) : null;
+  const ot = res && f && (+res[2]!==reg[0] || +res[3]!==reg[1]);
+  let hi=0, lo=0; if (f) flowEvents(f).forEach(([,b,o])=>{ hi=Math.max(hi,b-o); lo=Math.min(lo,b-o); });
+  if (g.season){
+    const [y,m,d]=g.date.split('-').map(Number), dt=new Date(Date.UTC(y,m-1,d));
+    eb='2025-26 regular season · '+DOW[dt.getUTCDay()]+', '+MON[m-1]+' '+d;
+    const mm=g.name.match(/(vs|@) ([A-Z]{3})$/);
+    title = mm ? (mm[1]==='@'?'at ':'vs ')+(TEAM[mm[2]]||mm[2]) : g.name;
+  } else if (g.po){
+    eb='2026 playoffs · Round 1'; title='Game '+g.name.slice(1)+' '+(f&&!f.h?'at':'vs')+' 76ers';
+  } else { eb='Added game'; title=g.name; }
+  if (res) meta='<span class="rs '+(res[1]==='W'?'w':'l')+'">'+(res[1]==='W'?'Won':'Lost')+'</span> '+res[2]+'–'+res[3]+(ot?' · OT':'')+(f?'<span class="ext"> · Led by up to '+hi+(lo<0?' · trailed by up to '+(-lo):'')+'</span>':'');
+  else if (g.result) meta=g.result;
+  document.getElementById('ghText').innerHTML='<div class="eyebrow">'+eb+'</div><h2 class="pbig">'+title+'</h2><div class="meta">'+meta+'</div>';
+  const sel=document.getElementById('gamePick'), k=sel.selectedIndex;
+  document.getElementById('gPrev').disabled = k<=0;
+  document.getElementById('gNext').disabled = k<0 || k>=sel.options.length-1;
+}
+function stepGame(d){
+  const sel=document.getElementById('gamePick'), k=sel.selectedIndex+d;
+  if (k<0 || k>=sel.options.length) return;
+  cur=+sel.options[k].value; players=state[cur].players; painting=null; selStint=null; renderTabs(); render();
+}
+document.getElementById('gPrev').addEventListener('click',()=>stepGame(-1));
+document.getElementById('gNext').addEventListener('click',()=>stepGame(1));
 document.getElementById('views').addEventListener('click', e=>{
   const b=e.target.closest('[data-view]'); if (!b) return;
   const v=b.dataset.view;
@@ -706,6 +856,89 @@ document.getElementById('views').addEventListener('click', e=>{
 });
 document.getElementById('gamePick').addEventListener('change', e=>{ cur=+e.target.value; players=state[cur].players; painting=null; renderTabs(); render(); });
 
+
+
+function marginSVG(f,m0,m1){
+  const ev=flowEvents(f).filter(e=>e[0]<=2880);
+  const big=Math.max(1,...ev.map(e=>Math.abs(e[1]-e[2])));
+  const M=Math.max(8, big);   // biggest lead or deficit reaches 80% of the half-height, never the edge
+  const T0=m0*60, T1=m1*60, W=T1-T0, y=v=>(50 - v/M*40).toFixed(2);
+  let [b,o]=scoreAt(f,T0), v=b-o, d='M0 '+y(v);
+  for (const [t,bb,oo] of ev){ if (t<=T0) continue; if (t>T1) break; d+=' H'+(t-T0)+' V'+y(bb-oo); }
+  d+=' H'+W;
+  const id='mg'+(++svgSeq), area=d+' V50 H0 Z';
+  let grid='';
+  if (M>=12) for (const g of [10]) grid+='<path d="M0 '+y(g)+' H'+W+' M0 '+y(-g)+' H'+W+'" class="mgg"/>';
+  return '<svg class="mgsvg" viewBox="0 0 '+W+' 100" preserveAspectRatio="none" aria-hidden="true">'
+   +'<defs><clipPath id="'+id+'u"><rect x="0" y="0" width="'+W+'" height="50"/></clipPath><clipPath id="'+id+'d"><rect x="0" y="50" width="'+W+'" height="50"/></clipPath></defs>'
+   +grid+'<path d="M0 50 H'+W+'" class="mgz"/>'
+   +'<path d="'+area+'" clip-path="url(#'+id+'u)" class="mga up"/><path d="'+area+'" clip-path="url(#'+id+'d)" class="mga dn"/>'
+   +'<path d="'+d+'" clip-path="url(#'+id+'u)" class="mgl up"/><path d="'+d+'" clip-path="url(#'+id+'d)" class="mgl dn"/></svg>';
+}
+let svgSeq=0;
+function qSecs(iv,q){ const a=q*720,b=a+720; return Math.round(iv.reduce((t,[s,e])=>t+Math.max(0,Math.min(e,b)-Math.max(s,a)),0)); }
+// Quarter +/- from the lineup segments (a basket at the second of a substitution counts for the unit going
+// out). Summed over the game this matches NBA.com's official +/- in 99% of player-games.
+function segPM(id, name, a, b){
+  const sg=STATS.games[id]||PO_SEGS[id], bit=PBIT[name]; if (!sg || bit==null) return null;
+  return sg.reduce((t,x)=>t+((x[0]>=a && x[1]<=b && (x[6]>>bit&1)) ? x[2]-x[3] : 0),0);
+}
+function pmCell(flow, name, q){
+  if (!flow) return '<div class="del"></div>';
+  const v = q!=null ? segPM(state[cur].id, name, q*720, q*720+720) : flow.pm[name];
+  if (v==null) return '<div class="del"></div>';
+  return '<div class="del '+(v>0?'pos':v<0?'neg':'')+'">'+(v>0?'+':'')+v+'</div>';
+}
+function wireMargin(flow){
+  const lab=document.getElementById('mgLab'); if (!lab) return;
+  const show=i=>{
+    document.querySelectorAll('.mc.hov').forEach(x=>x.classList.remove('hov'));
+    if (i==null){ lab.innerHTML='Scoring margin'; return; }
+    const el=document.querySelector('.mc[data-mm="'+i+'"]'); if (el) el.classList.add('hov');
+    const [sb,so]=scoreAt(flow,(i+1)*60), v=sb-so, q=Math.floor(i/12)+1, left=11-(i%12);
+    lab.innerHTML='<b>'+(v>0?'+':'')+v+' · '+sb+'–'+so+'</b>'+(left?'Q'+q+' '+left+':00':'End of Q'+q);
+  };
+  document.querySelectorAll('.mc').forEach(c=>{
+    const i=+c.dataset.mm;
+    c.addEventListener('mouseenter',()=>show(i));
+    c.addEventListener('click',()=>show(i));
+  });
+  const row=document.querySelector('.row.mg'); if (row) row.addEventListener('mouseleave',()=>show(null));
+}
+let selLineup = null;
+function lineupAt(i){
+  const on=players.filter(p=>p.minutes[i]);
+  return on.length===5 ? on.map(p=>p.name).join(' · ') : null;
+}
+function renderLineups(isPlan){
+  const el=document.getElementById('lineups');
+  el.hidden = !isPlan; if (!isPlan) return;
+  const cnt={}; let full=0;
+  for (let i=0;i<TOTAL_MIN;i++){ const k=lineupAt(i); if (k){ cnt[k]=(cnt[k]||0)+1; full++; } }
+  const list=Object.entries(cnt).sort((a,b)=>b[1]-a[1]);
+  if (selLineup && !cnt[selLineup]) selLineup=null;
+  let h='<div class="lu-h"><h3 class="sec-h">Lineups</h3>'
+    +(list.length?'<span class="lu-meta">'+list.length+(list.length===1?' unit':' units')+' · five on the floor for '+full+' of 48 min</span>':'')+'</div>';
+  if (!list.length) h+='<p class="lu-empty">Draw minutes to see the five-man units you’ve built.</p>';
+  const TOP=8;
+  list.slice(0,TOP).forEach(([k,n])=>{
+    h+='<button class="lu-row'+(k===selLineup?' on':'')+'" data-lu="'+k.replace(/"/g,'&quot;')+'" aria-pressed="'+(k===selLineup)+'"><span>'+k.replace(/</g,'&lt;')+'</span><i><b style="width:'+(n/48*100)+'%"></b></i><em>'+n+' min</em></button>';
+  });
+  if (list.length>TOP) h+='<p class="lu-more">+'+(list.length-TOP)+' more, '+list.slice(TOP).reduce((a,x)=>a+x[1],0)+' min</p>';
+  el.innerHTML=h;
+  el.querySelectorAll('.lu-row').forEach(b=>b.addEventListener('click',()=>{ selLineup = selLineup===b.dataset.lu ? null : b.dataset.lu; render(); }));
+}
+// Quarter dividers drawn as one unbroken line through every row, instead of per-cell borders
+function drawQLines(g){
+  const gr=g.getBoundingClientRect(), hdr=g.querySelector('.row.hdr'); if (!hdr) return;
+  const top=hdr.getBoundingClientRect().bottom-gr.top;
+  g.querySelectorAll('.row.hdr .q').forEach(q=>{
+    const x=q.getBoundingClientRect().right-gr.left-2;
+    const d=document.createElement('div'); d.className='qline';
+    d.style.cssText='left:'+x+'px;top:'+top+'px;bottom:0';
+    g.appendChild(d);
+  });
+}
 let lastCell = null;
 function render(){
   if (state[cur].splits){ document.getElementById('stintCard').hidden=true; renderSplits(); return; }
@@ -723,13 +956,24 @@ function render(){
   let html = '<div class="row hdr"><div class="name"></div><div class="cells">';
   if (view==='all'){ for (let q=1;q<=4;q++) html += '<div class="q">Q'+q+'</div>'; }
   else html += '<div class="q" style="width:'+(12*cw)+'px">Q'+(view+1)+'</div>';
-  html += '</div><div class="tot">Min</div><div class="del"></div></div>';
+  const flow = !isPlan ? FLOW[state[cur].id] : null;
+  html += '</div><div class="tot">Min</div><div class="del">'+(flow?'+/-':'')+'</div></div>';
+  let mgRow='';
+  if (flow){
+    mgRow += '<div class="row mg"><div class="name" id="mgLab">Scoring margin</div><div class="cells">';
+    for (let i=m0;i<m1;i++) mgRow += '<div class="mc'+(((i+1)%12===0)?' qe':'')+'" data-mm="'+i+'"></div>';
+    const fr=(state[cur].result||'').match(/^([WL])\s+(\d+)-(\d+)/), fev=flowEvents(flow), fl=fev[fev.length-1]||[0,0,0];
+    const fot=fev.some(e=>e[0]>2880);
+    let fb=fl[1], fo=fl[2], flab='Final'+(fot?' · OT':'');
+    if (view!=='all'){ const s0=scoreAt(flow,view*720), s1=scoreAt(flow,view*720+720); fb=s1[0]-s0[0]; fo=s1[1]-s0[1]; flab='Q'+(view+1); }
+    mgRow += marginSVG(flow,m0,m1)+'</div><div class="mgf"><span>'+flab+'</span><b class="'+(fb>fo?'w':fb<fo?'l':'')+'">'+fb+'–'+fo+'</b></div></div>';
+  }
   if (isPlan){
     let used=0;
     html += '<div class="row cnt"><div class="name" style="font-size:11px;color:var(--ink-3);">On floor</div><div class="cells">';
     for (let i=0;i<TOTAL_MIN;i++){
       const c = floorCount(players,i); used+=c;
-      if (i>=m0 && i<m1) html += '<div class="k'+(c===5?' full':c>0?' part':'')+(((i+1)%12===0)?' qe':'')+'">'+c+'</div>';
+      if (i>=m0 && i<m1) html += '<div class="k'+(c===5?' full':c>5?' over':c>0?' part':'')+(selLineup&&lineupAt(i)===selLineup?' hl':'')+(((i+1)%12===0)?' qe':'')+'">'+(c||'')+'</div>';
     }
     html += '</div><div class="tot" style="font-weight:600;">'+used+'/240</div><div class="del"></div></div>';
     html += '<div class="grouplab"><span>Starters</span></div>';
@@ -744,11 +988,18 @@ function render(){
       const st = (ref && !p.minutes[i] && ref.f[i]>0) ? ' style="background:'+shade(ref.f[i])+'"' : '';
       html += '<div class="c'+(p.minutes[i]?' on':'')+(((i+1)%12===0)?' qe':'')+'" data-r="'+r+'" data-m="'+i+'"'+st+'></div>';
     }
-    html += '</div><div class="tot">'+totalLabel(p)+'</div>'+(isPlan?'<div class="del" data-del="'+r+'" title="Remove row">×</div>':'<div class="del"></div>')+'</div>';
+    const qv = !isPlan && view!=='all' && state[cur].stints && state[cur].stints[p.name];
+    const qs = qv ? qSecs(state[cur].stints[p.name], view) : null;
+    const tl = qv ? (qs ? fmt(qs) : '<span class="dnp">–</span>') : totalLabel(p);
+    html += '</div><div class="tot">'+tl+'</div>'+(isPlan?'<div class="del" data-del="'+r+'" title="Remove row">×</div>':(qv && !qs ? '<div class="del"></div>' : pmCell(flow,p.name,qv?view:null)))+'</div>';
   });
-  g.innerHTML = html;
-  document.querySelector('.wrap').classList.toggle('season-view', !!state[cur].season);
-  if (state[cur].season){
+  g.innerHTML = html + mgRow;
+  drawQLines(g);
+  document.querySelector('.wrap').classList.toggle('has-pm', !!flow);
+  if (flow) wireMargin(flow);
+  renderLineups(isPlan);
+  document.querySelector('.wrap').classList.toggle('season-view', !!(state[cur].season||state[cur].po));
+  if (state[cur].season||state[cur].po){
     g.querySelectorAll('.c').forEach(c=>c.addEventListener('click',()=>{ openStint(players[+c.dataset.r].name, +c.dataset.m); }));
     if (selStint && selStint.cur===cur) markStint(); else closeStint();
   } else closeStint();
@@ -832,29 +1083,38 @@ function markStint(){
   document.querySelectorAll('.c.sel').forEach(c=>c.classList.remove('sel'));
   if (!selStint) return;
   const r = players.findIndex(p=>p.name===selStint.name);
-  document.querySelectorAll('.c[data-r="'+r+'"]').forEach(c=>{
-    const m=+c.dataset.m, o=Math.min(selStint.b,(m+1)*60)-Math.max(selStint.a,m*60);
-    if (o>0) c.classList.add('sel');
-  });
+  // Outline the same minutes the grid colours (on the floor 30+ seconds of that minute), so the box
+  // never covers an empty cell. Only a stint too short to colour any minute falls back to every minute it touched.
+  const touched=[...document.querySelectorAll('.c[data-r="'+r+'"]')].filter(c=>{
+    const m=+c.dataset.m; return Math.min(selStint.b,(m+1)*60)-Math.max(selStint.a,m*60) > 0; });
+  const shown=touched.filter(c=>c.classList.contains('on'));
+  (shown.length ? shown : touched).forEach(c=>c.classList.add('sel'));
   showStintCard();
 }
 function showStintCard(){
   const g=state[cur], {name,a,b}=selStint;
-  const segs=(STATS.games[g.id]||[]).filter(x=>x[0]>=a && x[1]<=b);
+  const segs=(STATS.games[g.id]||PO_SEGS[g.id]||[]).filter(x=>x[0]>=a && x[1]<=b);
   const t=tally(segs), gar=segs.some(x=>x[7]);
   const len=b-a, k=(g.stints[name]||[]).findIndex(v=>v[0]===a)+1;
   const ord=['First','Second','Third','Fourth','Fifth','Sixth','Seventh','Eighth'][k-1]||(k+'th');
   const card=document.getElementById('stintCard');
+  const end=Math.max(2880, ...Object.values(g.stints).flat().map(v=>v[1])), pct=v=>(v/end*100).toFixed(2)+'%';
+  let track='';
+  for (let q=720;q<end;q+=(q<2880?720:300)) track+='<u style="left:'+pct(q)+'"></u>';
+  (g.stints[name]||[]).forEach(([x,y])=>{ track+='<i'+(x===a?' class="me"':'')+' style="left:'+pct(x)+';width:'+pct(y-x)+'"></i>'; });
+  // Score at check-in/out from the same lineup segments as the stint totals, so out minus in always equals the stint score
+  const all=STATS.games[g.id]||PO_SEGS[g.id]||[], pre=all.filter(x=>x[1]<=a).reduce((r,x)=>[r[0]+x[2],r[1]+x[3]],[0,0]);
+  const sIn=all.length?pre:null, sOut=all.length?[pre[0]+t.pf,pre[1]+t.pa]:null, opp=g.po?'PHI':g.name.split(' ').pop();
   card.innerHTML='<button class="x" id="closeStint" aria-label="Close">×</button>'
-    +'<h3>'+name+' · '+ord+' stint</h3>'
-    +'<div class="when">'+clockLabel(a,false)+' → '+clockLabel(b,true)+' · '+Math.floor(len/60)+':'+String(len%60).padStart(2,'0')+' on the floor · '+g.name+'</div>'
+    +'<h3>'+name+' <span>· '+ord.toLowerCase()+' stint · '+Math.floor(len/60)+':'+String(len%60).padStart(2,'0')+' on the floor</span></h3>'
+    +'<div class="sc-track" aria-hidden="true">'+track+'</div>'
+    +'<div class="sc-ends">In at <b>'+clockLabel(a,false)+'</b>'+(sIn?', '+sIn[0]+'–'+sIn[1]:'')+' <span class="ar">→</span> out at <b>'+clockLabel(b,true)+'</b>'+(sOut?', '+sOut[0]+'–'+sOut[1]:'')+'</div>'
     +'<div class="nums">'
-    +'<div class="num"><b>'+t.pf+'–'+t.pa+'</b><span>Celtics–'+g.name.split(' ').pop()+'</span></div>'
+    +'<div class="num"><b>'+t.pf+'–'+t.pa+'</b><span>Celtics–'+opp+' in the stint</span></div>'
     +'<div class="num"><b class="'+cls(t.pm)+'">'+sgn(t.pm)+'</b><span>plus-minus</span></div>'
     +'<div class="num"><b>'+Math.round(t.poss)+'</b><span>possessions each</span></div>'
-    +'<div class="num"><b class="'+cls(t.net)+'">'+sgn(t.net,1)+'</b><span>net rating</span></div>'
     +'</div>'
-    +'<div class="fine">'+(t.poss<25?'Short stint: the net rating swings a lot on a few possessions. ':'')+(gar?'Includes garbage time. ':'')
+    +'<div class="fine">'+(gar?'Includes garbage time. ':'')
     +'<a href="#" id="toSplits">'+name+'\'s season splits →</a></div>';
   card.hidden=false;
   try { card.scrollIntoView({block:'nearest', behavior:'smooth'}); } catch(_){}
@@ -913,8 +1173,9 @@ function playerBlocks(name){
   const bit=1<<PBIT[name], gs=playerGames(name);
   return BLOCKS.map((k,i)=>{
     const segs=gs.flatMap(g=>(STATS.games[g.id]||[]).filter(x=>keep(x) && (x[6]&bit) && x[0]>=k.a && x[1]<=k.b));
-    const t=tally(segs); const base=teamBase().blocks[i].net;
-    return { k, t, d:(t.net!=null&&base!=null)?t.net-base:null, mpg:t.sec/60/Math.max(1,gs.length), ok:t.poss>=BLOCK_MIN_POSS, solid:t.poss>=SMALL_POSS };
+    const t=tally(segs); const base=teamBase().blocks[i].net, r1=v=>Math.round(v*10)/10;
+    // difference of the two rounded ratings, so the block always equals what the detail line shows
+    return { k, t, d:(t.net!=null&&base!=null)?r1(r1(t.net)-r1(base)):null, mpg:t.sec/60/Math.max(1,gs.length), ok:t.poss>=BLOCK_MIN_POSS, solid:t.poss>=SMALL_POSS };
   });
 }
 // NBA.com two-man lineup stats, 2025-26 regular season, all minutes: "A|B": [net rating, possessions, minutes, games]
@@ -936,38 +1197,143 @@ function netBar(net, base, faded){
   const d=net-base, w=Math.min(1,Math.abs(d)/10)*50;   // full half-width at 10 points
   return '<span class="nb'+(faded?' faded':'')+'" aria-hidden="true"><i style="'+(d>=0?'left:50%;background:'+POS:'right:50%;background:'+NEG)+';width:'+w+'%"></i></span>';
 }
+// Celtics score margin with 5:00 left in regulation, per game (from the play-by-play)
+const MARGIN_5 = {"0022500083":7,"0022500018":-10,"0022500106":-6,"0022500117":17,"0022500128":10,"0022500021":11,"0022500146":-32,"0022500158":-5,"0022500174":22,"0022500028":-4,"0022500193":7,"0022500209":2,"0022500216":37,"0022500233":12,"0022500250":7,"0022500049":-5,"0022500277":12,"0022500060":-2,"0022500293":-8,"0022500302":9,"0022500320":8,"0022500334":38,"0022500338":22,"0022500358":3,"0022501206":-17,"0022501222":-9,"0022500381":16,"0022500388":8,"0022500403":1,"0022500426":25,"0022500444":-2,"0022500459":6,"0022500474":10,"0022500493":24,"0022500503":16,"0022500520":-7,"0022500532":6,"0022500545":5,"0022500559":-4,"0022500580":-1,"0022500594":38,"0022500017":-3,"0022500621":17,"0022500637":3,"0022500647":-4,"0022500660":12,"0022500673":-18,"0022500689":24,"0022500702":22,"0022500721":13,"0022500728":29,"0022500741":-1,"0022500757":-17,"0022500778":25,"0022500799":15,"0022500823":15,"0022500839":22,"0022500847":-17,"0022500859":36,"0022500874":10,"0022500880":27,"0022500894":-24,"0022500908":25,"0022500921":8,"0022500942":-10,"0022500959":-2,"0022500971":16,"0022500986":-3,"0022500999":20,"0022501019":1,"0022501035":-13,"0022501054":12,"0022501067":5,"0022501085":15,"0022501092":-14,"0022501106":19,"0022501126":30,"0022501132":9,"0022501149":10,"0022501168":0,"0022501174":40,"0022501186":9};
+function median(a){ const b=[...a].sort((x,y)=>x-y), k=b.length>>1; return b.length? (b.length%2? b[k] : (b[k-1]+b[k])/2) : null; }
+function habits(name){
+  const gs=playerGames(name), n=gs.length;
+  const ov=(iv,a,b)=>iv.reduce((t,[x,y])=>t+Math.max(0,Math.min(y,b)-Math.max(x,a)),0);
+  const started=gs.filter(g=>g.s[name][0][0]===0), bench=gs.filter(g=>g.s[name][0][0]!==0);
+  const share=[...Array(48)].map((_,m)=>gs.filter(g=>ov(g.s[name],m*60,m*60+60)>=30).length/n);
+  const q=[0,1,2,3].map(k=>gs.reduce((t,g)=>t+ov(g.s[name],k*720,k*720+720),0)/n/60);
+  const ot=gs.reduce((t,g)=>t+ov(g.s[name],2880,99999),0)/n/60;
+  const stints=gs.flatMap(g=>g.s[name]), counts=gs.map(g=>g.s[name].length);
+  // crunch time: share of the last 5:00 of regulation he played, in games within 5 points with 5:00 left
+  const close=gs.filter(g=>MARGIN_5[g.id]!=null && Math.abs(MARGIN_5[g.id])<=5);
+  const crunch=close.length? close.reduce((t,g)=>t+ov(g.s[name],2580,2880),0)/(300*close.length) : null;
+  return { n, starts:started.length, share, q, ot, crunch, closeN:close.length,
+    mpg:(q.reduce((a,b)=>a+b,0)+ot),
+    firstIn: bench.length? median(bench.map(g=>g.s[name][0][0])) : null, benchN:bench.length,
+    firstOut: started.length? median(started.map(g=>g.s[name][0][1])) : null,
+    stintsPer: median(counts), stintLen: median(stints.map(([a,b])=>(b-a)/60)),
+    nights: [[started.length+' starts',started],[bench.length+' bench games',bench]].filter(([,set])=>set.length>=5).map(([label,set])=>{
+      const on=[...Array(48)].map((_,m)=>set.filter(g=>ov(g.s[name],m*60,m*60+60)>=30).length/set.length>=0.5);
+      const runs=[]; let st=null;
+      on.forEach((v,m)=>{ if (v && st===null) st=m; if ((!v||m===47) && st!==null){ runs.push({ a:st*60, b:(v&&m===47?48:m)*60 }); st=null; } });
+      return { label, n:set.length, stints:runs };
+    }) };
+}
+function clockAt(t){ return clockLabel(Math.round(t), false); }
+
+// ---- Game by game: one bar per regular-season game, height = minutes (OT included) ----
+function tlGame(g, name){
+  const iv=g.s[name]; if (!iv) return null;
+  const sec=iv.reduce((t,[a,b])=>t+b-a,0), f=FLOW[g.id];
+  return { sec, start: iv[0][0]===0, pm: f && f.pm[name]!=null ? f.pm[name] : null };
+}
+function seasonTimeline(name){
+  const sp=ROSTER_SPAN[name] || [0, SEASON.games.length];
+  const rows=SEASON.games.map((g,i)=>({ g, i, x:tlGame(g,name), on: i>=sp[0] && i<sp[1] }));
+  const played=rows.filter(r=>r.x), avg=played.reduce((t,r)=>t+r.x.sec,0)/60/Math.max(1,played.length);
+  const top=Math.max(48, ...played.map(r=>r.x.sec/60));
+  let bars='', months='', lastMon='';
+  rows.forEach(r=>{
+    const mon=r.g.d.slice(5,7);
+    if (mon!==lastMon){ months+='<span style="left:'+(r.i/rows.length*100)+'%">'+MON[+mon-1]+'</span>'; lastMon=mon; }
+    let inner='', cls='tl-c';
+    if (r.x) inner='<i class="'+(r.x.start?'st':'bn')+'" style="height:'+(r.x.sec/60/top*100).toFixed(1)+'%"></i>';
+    else if (r.on) { inner='<i class="dnp"></i>'; }
+    else cls+=' off';
+    bars+='<div class="'+cls+'" data-gi="'+r.i+'">'+inner+'</div>';
+  });
+  const nS=played.filter(r=>r.x.start).length;
+  return '<section class="sec"><div class="sec-top"><h3 class="sec-h">Game by game</h3><span class="src-tag">Source: NBA.com play-by-play</span></div>'
+    +'<p class="sec-sub">His minutes each game. Tap a bar for the game.</p>'
+    +'<div class="tl"><div class="tl-plot">'+bars
+    +'<div class="tl-avg" style="bottom:'+(avg/top*100).toFixed(1)+'%"></div></div>'
+    +'<div class="tl-mon">'+months+'</div></div>'
+    +'<div class="strip-detail" id="tlDetail">'+played.length+' games · '+nS+(nS===1?' start':' starts')+' · '+avg.toFixed(1)+' mpg</div>'
+    +'<div class="legend"><span><i style="background:#007a33"></i>Started</span><span><i style="background:#8fc2a3"></i>Off the bench</span><span><i style="background:#b9b7ae;height:3px;margin-top:4px"></i>Did not play</span><span><i style="background:none;border-top:1px dashed var(--ink-3);height:0;margin-top:5px"></i>His average</span></div></section>';
+}
+function wireTimeline(el, name){
+  const det=el.querySelector('#tlDetail'), plot=el.querySelector('.tl-plot'); if (!plot) return;
+  const cells=[...plot.querySelectorAll('.tl-c')];
+  const show=c=>{
+    cells.forEach(x=>x.classList.toggle('act', x===c));
+    const g=SEASON.games[+c.dataset.gi], x=tlGame(g,name), mm=g.m.match(/(vs|@) ([A-Z]{3})$/);
+    const opp=mm?(mm[1]==='@'?'at ':'vs ')+(TEAM[mm[2]]||mm[2]):g.m;
+    const res=g.r.replace(/^([WL]) (\d+)-(\d+)/,(_,w,a,b)=>'<span class="rs '+(w==='W'?'w':'l')+'">'+w+'</span> '+a+'–'+b);
+    let t='<b>'+shortDate(g.d)+' '+opp+'</b> · '+res+' · ';
+    if (x) t+=fmt(x.sec)+(x.start?', started':', off the bench')+(x.pm!=null?' · '+(x.pm>0?'+':'')+x.pm:'');
+    else t+= c.classList.contains('off') ? 'not on the roster' : 'did not play';
+    t+=' · <a href="#" class="tl-open" data-gi="'+c.dataset.gi+'">Open game</a>';
+    det.innerHTML=t;
+  };
+  cells.forEach(c=>{ c.addEventListener('mouseenter',()=>show(c)); c.addEventListener('click',()=>show(c)); });
+  // drag across on touch screens
+  plot.addEventListener('touchmove',e=>{ const t=e.touches[0], hit=document.elementFromPoint(t.clientX,t.clientY); const c=hit&&hit.closest('.tl-c'); if (c){ e.preventDefault(); show(c); } },{passive:false});
+  det.addEventListener('click',e=>{
+    const a=e.target.closest('.tl-open'); if (!a) return; e.preventDefault();
+    const id=SEASON.games[+a.dataset.gi].id, i=state.findIndex(x=>x.season&&x.id===id); if (i<0) return;
+    cur=i; players=state[cur].players; view='all'; selStint=null; renderTabs(); render(); window.scrollTo({top:0});
+  });
+}
 function renderSplits(){
   const el=document.getElementById('splits');
   const names = STATS.players.map(n=>({ n, sec: playerGames(n).reduce((a,g)=>a+g.s[n].reduce((x,[p,q])=>x+q-p,0),0) }))
     .filter(x=>x.sec>=60).sort((a,b)=>b.sec-a.sec).map(x=>x.n);
-  if (!splitPlayer || !names.includes(splitPlayer)) splitPlayer = names.includes('Pritchard') ? 'Pritchard' : names[0];
+  if (!splitPlayer || !names.includes(splitPlayer)) splitPlayer = names[0];
   const name=splitPlayer, gs=playerGames(name), st=gs.filter(g=>g.s[name][0][0]===0).length;
   const blocks=playerBlocks(name), NS=NBA_SPLITS[name]||{};
   const fmtN=v=>Math.round(v).toLocaleString('en-US');
-  let h='<div class="ph"><div><div class="eyebrow">Player splits · 2025-26 regular season</div>'
+  let h='<div class="ph"><div><div class="eyebrow">2025-26 regular season</div>'
    +'<h2 class="pbig">'+(FULL[name]||name)+'</h2>'
    +'<div class="meta">'+(NS.all?NS.all[0]+' games · '+(NS.start?NS.start[0]:0)+((NS.start&&NS.start[0]===1)?' start · ':' starts · ')+NS.all[1].toFixed(1)+' minutes per game':gs.length+' games')+'</div></div>'
-   +'<label for="spSel">Switch player<select id="spSel" class="seasonsel">'+names.map(n=>'<option value="'+n+'"'+(n===name?' selected':'')+'>'+(FULL[n]||n)+'</option>').join('')+'</select></label></div>'
+   +'<label for="spSel">Player<select id="spSel" class="seasonsel">'+names.map(n=>'<option value="'+n+'"'+(n===name?' selected':'')+'>'+(FULL[n]||n)+'</option>').join('')+'</select></label></div>'
    ;
   const gt=''; const _unused='<span class="gt" role="group" aria-label="Garbage time"><span class="gt-l">Garbage time</span><button class="qb'+(inclGarbage?'':' active')+'" data-gt="0">Excluded</button><button class="qb'+(inclGarbage?' active':'')+'" data-gt="1">Included</button></span>';
+  // 0. rotation habits (exact minutes, no possession counting)
+  const hb=habits(name);
+  const ramp=v=>mix('#eef4ee', '#007a33', Math.min(1,v));
+  h+=seasonTimeline(name);
+  h+='<section class="sec"><div class="sec-top"><h3 class="sec-h">Minutes</h3><span class="src-tag">Source: NBA.com play-by-play</span></div>'
+    +'<p class="sec-sub">Share of his '+hb.n+' games on the floor, by minute.</p>'
+    +'<div class="heat">'+[1,2,3,4].map(k=>'<div class="ql">Q'+k+'</div>').join('')
+    +hb.share.map((v,m)=>'<button class="hc" data-m="'+m+'" style="background:'+ramp(v)+'" aria-label="'+clockAt(m*60)+': on the floor in '+Math.round(v*100)+'% of his games"></button>'+((m+1)%12===0?'<span class="gap"></span>':'')).join('')
+    +'</div><div class="strip-detail" id="heatDetail">Tap a minute for details.</div>'
+    +'<div class="tiles">'
+    +'<div class="tile"><b>'+hb.starts+' <small>of '+hb.n+'</small></b><span>starts</span></div>'
+    +(hb.firstIn!=null && hb.benchN>=5 ? '<div class="tile"><b>'+clockAt(hb.firstIn)+'</b><span>first check-in off the bench</span></div>' : '')
+    +(hb.firstOut!=null && hb.starts>=5 ? '<div class="tile"><b>'+clockAt(hb.firstOut)+'</b><span>first exit as a starter</span></div>' : '')
+    +(hb.closeN>=3? '<div class="tile" title="Share of the final 5:00 he played, in games within 5 points with 5:00 left"><b>'+Math.round(hb.crunch*100)+'<small>%</small></b><span>of crunch time · '+hb.closeN+' close games</span></div>' : '')
+    +'</div>'
+    +hb.nights.map(nt=>'<div class="night"><div class="qb-h">Typical night · '+nt.label+'</div>'
+      +'<div class="nt-track">'+[1,2,3].map(k=>'<i class="nt-q" style="left:'+(k*25)+'%"></i>').join('')
+      +nt.stints.map((s,i)=>'<b class="nt-bar" style="left:'+(s.a/2880*100)+'%;width:'+((Math.min(s.b,2880)-s.a)/2880*100)+'%" title="'+clockAt(s.a)+' to '+clockLabel(Math.round(s.b),true)+'"></b>').join('')
+      +'</div><div class="nt-axis"><span>Q1</span><span>Q2</span><span>Q3</span><span>Q4</span></div>'
+      +'<ol class="nt-list">'+nt.stints.map(s=>'<li><b>'+clockAt(s.a)+' → '+clockLabel(Math.round(s.b),true)+'</b> <span>'+((s.b-s.a)/60)+' min</span></li>').join('')+'</ol></div>').join('')
+    +'<div class="qbars"><div class="qb-h">Minutes by quarter</div>'
+    +hb.q.map((v,k)=>'<div class="qbar"><span>Q'+(k+1)+'</span><i><b style="width:'+(v/12*100)+'%"></b></i><em>'+v.toFixed(1)+'</em></div>').join('')
+    +'</div>'
+    +'</div></section>';
   // 1. the game clock
-  h+='<section class="sec"><div class="sec-top"><h3 class="sec-h">When he played, and how it went</h3>'+gt+'</div>'
-    +'<p class="sec-sub">Celtics net rating with '+name+' on the floor in each 6-minute stretch, compared with the Celtics in the same minutes all season.</p>'
+  h+='<section class="sec"><div class="sec-top"><h3 class="sec-h">Net rating by stretch</h3><span class="src-tag">Source: NBA.com play-by-play</span>'+gt+'</div>'
+    +'<p class="sec-sub">Celtics with him on the floor vs. their usual in the same minutes.</p>'
     +'<div class="strip">'+[1,2,3,4].map(q=>'<div class="ql">Q'+q+'</div>').join('');
   blocks.forEach((b,i)=>{
     if (!b.ok){ h+='<button class="blk thin" data-b="'+i+'" aria-label="'+b.k.label+': too few minutes">—</button>'; return; }
-    if (!b.solid){ h+='<button class="blk small" data-b="'+i+'" aria-label="'+b.k.label+': '+sgn(b.d,1)+' versus the team, small sample">'+sgn(b.d,0)+'</button>'; return; }
+    if (!b.solid){ h+='<button class="blk small" data-b="'+i+'" aria-label="'+b.k.label+': '+sgn(b.d,1)+' versus the team, small sample">'+sgn(b.d,1)+'</button>'; return; }
     const c=divColor(b.d);
-    h+='<button class="blk'+(c.dark?' dark':'')+'" data-b="'+i+'" style="background:'+c.bg+'" aria-label="'+b.k.label+': '+sgn(b.d,1)+' versus the team">'+sgn(b.d,0)+'</button>';
+    h+='<button class="blk'+(c.dark?' dark':'')+'" data-b="'+i+'" style="background:'+c.bg+'" aria-label="'+b.k.label+': '+sgn(b.d,1)+' versus the team">'+sgn(b.d,1)+'</button>';
   });
-  blocks.forEach(b=>{ h+='<div class="mn">'+(b.mpg>=0.05?b.mpg.toFixed(1)+'m':'–')+'</div>'; });
-  h+='</div><div class="strip-detail" id="stripDetail">Tap a block for details. Under each block: his average minutes in that stretch per game.</div>'
-    +'<div class="legend"><span><i style="background:'+POS+'"></i>Celtics better than usual</span><span><i style="background:'+NEG+'"></i>worse than usual</span><span><i style="background:#faf9f5;border:1px dashed var(--line-strong)"></i>small sample ('+BLOCK_MIN_POSS+'–'+(SMALL_POSS-1)+' possessions)</span><span><i style="background:repeating-linear-gradient(135deg,#f0efec 0 3px,#d5d3ca 3px 5px)"></i>under '+BLOCK_MIN_POSS+'</span></div></section>';
+  blocks.forEach(b=>{ h+='<div class="mn">'+(b.mpg>=0.05?b.mpg.toFixed(1)+' mpg':'–')+'</div>'; });
+  h+='</div><div class="strip-detail" id="stripDetail">Tap a block for details. Below: his minutes per game.</div>'
+    +'<div class="legend"><span><i style="background:'+POS+'"></i>Better</span><span><i style="background:'+NEG+'"></i>Worse</span><span><i style="background:#faf9f5;border:1px dashed var(--line-strong)"></i>Small sample</span><span><i style="background:repeating-linear-gradient(135deg,#f0efec 0 3px,#d5d3ca 3px 5px)"></i>Too few minutes</span></div></section>';
   const base=teamBase().all.net;
   // 2. alongside each teammate (NBA.com data)
   const mates=teammates(name), tbase=NBA_TEAM_NET;
-  h+='<section class="sec"><div class="sec-top"><h3 class="sec-h">Alongside each teammate</h3><span class="src-tag">All minutes · NBA.com</span></div>'
-    +'<p class="sec-sub">Celtics net rating with '+name+' and each teammate on the floor together, from NBA.com\'s two-man lineup stats. The center line is the Celtics\' season average ('+sgn(tbase,1)+').</p>'
+  h+='<section class="sec"><div class="sec-top"><h3 class="sec-h">With teammates</h3><span class="src-tag">Source: NBA.com lineups</span></div>'
+    +'<p class="sec-sub">Celtics net rating with both on the floor. Center line: team average ('+sgn(tbase,1)+').</p>'
     +'<div class="mates">';
   for (const m of mates){
     const small=m.poss<SMALL_POSS, d=m.net-tbase, w=Math.min(1,Math.abs(d)/20)*50;
@@ -977,10 +1343,10 @@ function renderSplits(){
       +'<span class="mnet">'+sgn(m.net,1)+'</span>'
       +'<span class="mposs">'+m.min+' min</span></div>';
   }
-  h+='</div><p class="sec-sub" style="margin-top:6px">Faded: fewer than '+SMALL_POSS+' possessions together.</p></section>';
+  h+='</div><p class="sec-sub" style="margin-top:6px">Faded: small sample.</p></section>';
   // 3. full splits, straight from NBA.com
-  h+='<section class="sec"><div class="sec-top"><h3 class="sec-h">Full splits</h3><span class="src-tag">All minutes · NBA.com</span></div>'
-    +'<p class="sec-sub">From NBA.com\'s player dashboard and on/off stats, counting only games as a Celtic. Greyed rows have under '+SMALL_POSS+' possessions.</p>'
+  h+='<section class="sec"><div class="sec-top"><h3 class="sec-h">Splits</h3><span class="src-tag">Source: NBA.com</span></div>'
+    +'<p class="sec-sub">Games as a Celtic. Greyed: small sample.</p>'
     +'<div style="overflow-x:auto"><table class="sp"><thead><tr><th>Split</th><th class="gcol">G</th><th>MPG</th><th class="wide">Poss</th><th>+/-</th><th class="wide">ORtg</th><th class="wide">DRtg</th><th>Net</th></tr></thead><tbody>';
   const nrows=[['Role','Games he started',NS.start],['Role','Games off the bench',NS.bench],['Home / road','Home games',NS.home],['Home / road','Road games',NS.road],
     ['On / off','Celtics with him on the floor',NS.all],['On / off','Celtics with him off the floor',NS.off],['Baseline','Celtics, whole season',NBA_TEAM,true]];
@@ -997,22 +1363,28 @@ function renderSplits(){
       +'<td class="'+(small?'':cls(v[6]))+'"><b>'+sgn(v[6],1)+'</b></td></tr>';
   }
   h+='</tbody></table></div></section>'
-   +'<details class="full method"><summary>How these numbers work</summary><div class="sp-note" style="margin-top:0"><ul>'
+   +'<details class="full method"><summary>Sources and method</summary><div class="sp-note" style="margin-top:0"><ul>'
    +'<li>Every section counts all minutes, garbage time included, the same way NBA.com does.</li>'
    +'<li>Full splits and the teammate chart are NBA.com\'s own numbers (player dashboard, on/off and two-man lineup stats), limited to games as a Celtic, so they match NBA.com exactly. NBA.com doesn\'t publish possessions or a season plus-minus for the off-court row, so those show as a dash.</li>'
+   +'<li>Minutes come from NBA.com play-by-play and match every box score. Typical night: stretches he was on the floor in at least half of those games. Crunch time: share of the final 5:00 played in games within 5 points with 5:00 left.</li>'
    +'<li>The game-clock strip is our own calculation from NBA.com play-by-play, because NBA.com doesn\'t split by 6-minute stretch. Its minutes and plus-minus match NBA.com\'s box scores; its net ratings can differ from NBA.com\'s by a few tenths because of how possessions are credited around substitutions.</li>'
    +'<li>Compare: <a href="https://www.nba.com/stats/players/advanced?TeamID=1610612738&Season=2025-26" target="_blank" rel="noopener">NBA.com Celtics advanced stats</a> · <a href="https://www.nba.com/stats/lineups/advanced?GroupQuantity=2&TeamID=1610612738&Season=2025-26" target="_blank" rel="noopener">two-man lineups</a>.</li>'
    +'</ul></div></details>';
   el.innerHTML=h;
   document.getElementById('spSel').addEventListener('change', e=>{ splitPlayer=e.target.value; renderSplits(); });
   el.querySelectorAll('.gt').forEach(g=>g.addEventListener('click', e=>{ const b=e.target.closest('[data-gt]'); if (!b) return; inclGarbage = b.dataset.gt==='1'; renderSplits(); }));
+  const hdet=document.getElementById('heatDetail');
+  el.querySelectorAll('.hc').forEach(c=>{ const show=()=>{ el.querySelectorAll('.hc.act').forEach(x=>x.classList.remove('act')); c.classList.add('act');
+    const m=+c.dataset.m; hdet.innerHTML='<b>'+clockAt(m*60)+' to '+clockLabel(m*60+60,true)+'</b>: on the floor in '+Math.round(hb.share[m]*100)+'% of his games ('+Math.round(hb.share[m]*hb.n)+' of '+hb.n+').'; };
+    c.addEventListener('click',show); c.addEventListener('mouseenter',show); });
+  wireTimeline(el, name);
   const det=document.getElementById('stripDetail'), bbase=teamBase().blocks;
   el.querySelectorAll('.blk').forEach(btn=>{
     const show=()=>{
       el.querySelectorAll('.blk.act').forEach(x=>x.classList.remove('act')); btn.classList.add('act');
       const i=+btn.dataset.b, b=blocks[i];
       det.innerHTML = b.ok
-        ? '<b>'+b.k.label.replace(/^./,c=>c.toUpperCase())+' ('+b.k.clock+')</b>: Celtics '+sgn(b.t.net,1)+' per 100 with '+name+' on the floor vs. '+sgn(bbase[i].net,1)+' for the team in those minutes all season. '+Math.round(b.t.poss)+' possessions, '+b.mpg.toFixed(1)+' min per game.'+(b.t.poss<SMALL_POSS?' Small sample: read it as a hint.':'')
+        ? '<b>'+b.k.label.replace(/^./,c=>c.toUpperCase())+' ('+b.k.clock+')</b>: '+sgn(b.t.net,1)+' with '+name+' on the floor, '+sgn(bbase[i].net,1)+' for the team in these minutes, so '+sgn(b.d,1)+'. '+Math.round(b.t.poss)+' possessions · '+b.mpg.toFixed(1)+' min per game.'+(b.t.poss<SMALL_POSS?' Small sample: read it as a hint.':'')
         : '<b>'+b.k.label.replace(/^./,c=>c.toUpperCase())+'</b>: '+name+' played only '+Math.round(b.t.sec/60)+' minutes here all season, too few to rate.';
     };
     btn.addEventListener('click', show); btn.addEventListener('mouseenter', show);
@@ -1038,85 +1410,6 @@ document.getElementById('resetBtn').addEventListener('click',()=>{
   players = state[cur].players; render();
 });
 
-/* ---------- play-by-play parser ---------- */
-const STOP = '(?:\\d|Free Throw|Jump Ball|Bad Pass|Lost Ball|Out Of|Offensive|Traveling|Violation|S\\.FOUL|P\\.FOUL|T\\.FOUL|L\\.B\\.FOUL|OFF\\.Foul|Turnover|REBOUND|STEAL|BLOCK)';
-const NAME_RE = new RegExp("^([A-Za-z.\\-' ]+?)\\s+(?="+STOP+")");
-function leadingName(l){ const m=NAME_RE.exec(l); return m?m[1].trim():null; }
-
-function parseQuarters(text){
-  const lines = text.split('\n').map(l=>l.trim());
-  let quarter=1, clockSec=720; const events=[];
-  for (const line of lines){
-    if (!line) continue;
-    if (/^(undefined Headshot|Logo)$/.test(line)) continue;
-    if (/^Instant Replay/i.test(line)) continue;
-    let m;
-    if ((m=/^(\d{1,2}):(\d{2})$/.exec(line))){ clockSec=+m[1]*60+ +m[2]; continue; }
-    if (/^\d+\s*-\s*\d+$/.test(line)) continue;
-    if (/^Q\d\s*END$/i.test(line)) continue;
-    if ((m=/^Q(\d)\s*START$/i.exec(line))){ quarter=+m[1]; clockSec=720; continue; }
-    if (/^Q\d$/i.test(line)) continue;
-    events.push({ q:quarter, elapsed:(quarter-1)*720+(720-clockSec), raw:line });
-  }
-  return events;
-}
-
-function buildCeltics(text, rosterStr){
-  const roster = rosterStr.split(',').map(x=>x.trim()).filter(Boolean);
-  if (!roster.length) throw new Error('Enter the Celtics roster first.');
-  const isC = n => roster.some(r=>r.toLowerCase()===n.toLowerCase());
-  const events = parseQuarters(text);
-  if (!events.length) throw new Error('No events found. Check the paste.');
-  const nQ = Math.max(...events.map(e=>e.q));
-  const stints = {};
-  for (let q=1;q<=nQ;q++){
-    const qEvents = events.filter(e=>e.q===q);
-    const qStart=(q-1)*720, qEnd=q*720;
-    const first={};
-    const subs=[];
-    for (const ev of qEvents){
-      let m;
-      if ((m=/^SUB:\s*(.+?)\s+FOR\s+(.+)$/i.exec(ev.raw))){
-        const pin=m[1].trim(), pout=m[2].trim();
-        subs.push({e:ev.elapsed,pin,pout});
-        if(!first[pout]) first[pout]='out';
-        if(!first[pin]) first[pin]='in';
-        continue;
-      }
-      if (/^(\S+)\s+(Rebound|Timeout|Turnover|Violation)\b/.test(ev.raw)) continue;
-      const jb=/^Jump Ball\s+(.+?)\s+Vs\.\s+(.+?):\s*Tip To\s+(.+)$/i.exec(ev.raw);
-      if (jb){ for (const n of [jb[1],jb[2],jb[3]]) if(!first[n.trim()]) first[n.trim()]='action'; continue; }
-      const name=leadingName(ev.raw.replace(/^MISS\s+/,''));
-      if (name && !first[name]) first[name]='action';
-      const am=/\(([A-Za-z.\-' ]+?)\s+\d+\s*AST\)/.exec(ev.raw);
-      if (am){ const a=am[1].trim(); if(!first[a]) first[a]='action'; }
-    }
-    const open={};
-    for (const p in first) if (isC(p) && first[p]!=='in') open[p]=qStart;
-    for (const s of subs){
-      if (!isC(s.pin) && !isC(s.pout)) continue;
-      if (open[s.pout]!==undefined){ (stints[s.pout]=stints[s.pout]||[]).push([open[s.pout],s.e]); delete open[s.pout]; }
-      if (isC(s.pin)) open[s.pin]=s.e;
-    }
-    for (const p in open) (stints[p]=stints[p]||[]).push([open[p],qEnd]);
-  }
-  if (!Object.keys(stints).length) throw new Error('Parsed the game but none of the roster names were found.');
-  return stints;
-}
-
-document.getElementById('parseBtn').addEventListener('click',()=>{
-  const msg=document.getElementById('msg');
-  try {
-    const st=buildCeltics(document.getElementById('pbp').value, document.getElementById('roster').value);
-    const nm = (document.getElementById('gname').value.trim()) || ('Game '+(state.length+1));
-    state.push({ name:nm, players:fromStints(st), stints:st, added:true });
-    cur=state.length-1; players=state[cur].players; customCount=0;
-    renderTabs(); render();
-    msg.className='msg'; msg.textContent='Added '+nm+' with '+players.length+' Celtics players.';
-    document.getElementById('pbp').value=''; document.getElementById('gname').value='';
-  } catch(e){ msg.className='msg err'; msg.textContent=e.message; }
-});
-
 document.getElementById('undoBtn').addEventListener('click', undo);
 
 // touch reorder: tap grip to pick up, tap another row's grip to drop there
@@ -1136,7 +1429,7 @@ document.addEventListener('click', e=>{
 const paintBtn=document.getElementById('paintBtn');
 paintBtn.addEventListener('click',()=>{
   paint=!paint;
-  paintBtn.textContent='Paint mode: '+(paint?'on':'off');
+  paintBtn.setAttribute('aria-pressed',paint);
   paintBtn.classList.toggle('on',paint);
   document.querySelector('.wrap').classList.toggle('paint',paint);
 });
@@ -1228,7 +1521,7 @@ function exportImage(){
   x.beginPath(); x.moveTo(pad,gy+gh+0.5); x.lineTo(W-pad,gy+gh+0.5); x.stroke();
 
   x.fillStyle='#9a9a92'; x.font='11px Helvetica Neue, Helvetica, Arial, sans-serif';
-  x.fillText('Pull Up Shoot · Celtics rotation board', pad, H-16);
+  x.fillText('Celtics Rotations · by Pull Up Shoot', pad, H-16);
 
   const url=cv.toDataURL('image/png');
   document.getElementById('exportImg').src=url;
@@ -1261,11 +1554,10 @@ document.getElementById('refMode').addEventListener('click', e=>{
   refMode = b.dataset.rm; render();
 });
 const refBtn=document.getElementById('refBtn');
-refBtn.addEventListener('click',()=>{ showRef=!showRef; refBtn.textContent='Reference: '+(showRef?'on':'off'); refBtn.classList.toggle('on',showRef); render(); });
+refBtn.addEventListener('click',()=>{ showRef=!showRef; refBtn.setAttribute('aria-pressed',showRef); refBtn.classList.toggle('on',showRef); render(); });
 document.getElementById('closeModal').addEventListener('click', ()=>{ document.getElementById('modal').hidden=true; });
 document.getElementById('modal').addEventListener('click', e=>{ if(e.target.id==='modal') e.target.hidden=true; });
 
-document.getElementById('roster').value = DEFAULT_ROSTER;
 renderTabs();
 render();
 window.addEventListener('resize', ()=>{ clearTimeout(window._rt); window._rt=setTimeout(render,150); });
