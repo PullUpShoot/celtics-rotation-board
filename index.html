@@ -253,6 +253,7 @@
   .strip .blk.small { background: #faf9f5; border: 1px dashed var(--line-strong); color: var(--ink-3); font-weight: 500; }
   .strip .blk.act { outline: 2px solid var(--ink); outline-offset: 1px; }
   .strip .mn { font-size: 11px; color: var(--ink-3); text-align: center; padding-top: 3px; font-variant-numeric: tabular-nums; }
+  .strip-detail:empty { min-height: 0; margin: 0 0 6px; }
   .strip-detail { font-size: 12px; color: var(--ink-2); min-height: 34px; margin: 8px 0 4px; line-height: 1.45; }
   .sp-note p { margin: 0 0 8px; }
   .sp-note a { color: var(--ink); }
@@ -261,6 +262,7 @@
   .gt-l { font-size: 11px; color: var(--ink-3); margin-right: 2px; }
   .gt .qb { padding: 4px 9px; font-size: 12px; }
   .src-tag { font-size: 11px; color: var(--ink-3); letter-spacing: .02em; }
+  .legend.top { margin: 2px 0 10px; }
   .legend { display: flex; flex-wrap: wrap; gap: 4px 14px; font-size: 11px; color: var(--ink-3); margin-bottom: 14px; }
   .legend i { display: inline-block; width: 10px; height: 10px; border-radius: 2px; margin-right: 5px; vertical-align: -1px; }
   details.full { margin-top: 4px; }
@@ -377,8 +379,8 @@
   </div>
 </div>
 
-<p class="reorder-hint" id="gameHint" style="display:none">Tap a stint to see the score while he was on the floor.</p>
-<p class="reorder-hint" id="reorderHint">Drag a row by its handle to reorder. The top five are your starters.</p>
+<p class="reorder-hint" id="gameHint" style="display:none" hidden></p>
+<p class="reorder-hint" id="reorderHint">Drag rows to reorder. The top five start.</p>
 <div class="qpick" id="refMode" style="display:none"><button class="qb" data-rm="reg">Regular season</button><button class="qb" data-rm="po">Playoffs</button></div>
 <p class="reorder-hint" id="refHint" style="display:none">Shading shows how often each player was on the floor in that minute across the games below. Garbage time is excluded: fourth-quarter blowouts, and the stretch after a team pulls its starters for good.<br><span class="src" id="refSrc"></span></p>
 <div class="qpick" id="qpick"></div>
@@ -1247,13 +1249,12 @@ function seasonTimeline(name){
     bars+='<div class="'+cls+'" data-gi="'+r.i+'">'+inner+'</div>';
   });
   const nS=played.filter(r=>r.x.start).length;
-  return '<section class="sec"><div class="sec-top"><h3 class="sec-h">Game by game</h3><span class="src-tag">Source: NBA.com play-by-play</span></div>'
-    +'<p class="sec-sub">His minutes each game. Tap a bar for the game.</p>'
+  return '<section class="sec"><div class="sec-top"><h3 class="sec-h">Game by game</h3></div>'
+    +'<div class="legend top"><span><i style="background:#007a33"></i>Started</span><span><i style="background:#8fc2a3"></i>Off the bench</span><span><i style="background:#b9b7ae;height:3px;margin-top:4px"></i>Did not play</span><span><i style="background:none;border-top:1px dashed var(--ink-3);height:0;margin-top:5px"></i>His average</span></div></div>'
     +'<div class="tl"><div class="tl-plot">'+bars
     +'<div class="tl-avg" style="bottom:'+(avg/top*100).toFixed(1)+'%"></div></div>'
     +'<div class="tl-mon">'+months+'</div></div>'
-    +'<div class="strip-detail" id="tlDetail">'+played.length+' games · '+nS+(nS===1?' start':' starts')+' · '+avg.toFixed(1)+' mpg</div>'
-    +'<div class="legend"><span><i style="background:#007a33"></i>Started</span><span><i style="background:#8fc2a3"></i>Off the bench</span><span><i style="background:#b9b7ae;height:3px;margin-top:4px"></i>Did not play</span><span><i style="background:none;border-top:1px dashed var(--ink-3);height:0;margin-top:5px"></i>His average</span></div></section>';
+    +'<div class="strip-detail" id="tlDetail"></div></section>';
 }
 function wireTimeline(el, name){
   const det=el.querySelector('#tlDetail'), plot=el.querySelector('.tl-plot'); if (!plot) return;
@@ -1296,11 +1297,11 @@ function renderSplits(){
   const hb=habits(name);
   const ramp=v=>mix('#eef4ee', '#007a33', Math.min(1,v));
   h+=seasonTimeline(name);
-  h+='<section class="sec"><div class="sec-top"><h3 class="sec-h">Minutes</h3><span class="src-tag">Source: NBA.com play-by-play</span></div>'
+  h+='<section class="sec"><div class="sec-top"><h3 class="sec-h">Minutes</h3></div>'
     +'<p class="sec-sub">Share of his '+hb.n+' games on the floor, by minute.</p>'
     +'<div class="heat">'+[1,2,3,4].map(k=>'<div class="ql">Q'+k+'</div>').join('')
     +hb.share.map((v,m)=>'<button class="hc" data-m="'+m+'" style="background:'+ramp(v)+'" aria-label="'+clockAt(m*60)+': on the floor in '+Math.round(v*100)+'% of his games"></button>'+((m+1)%12===0?'<span class="gap"></span>':'')).join('')
-    +'</div><div class="strip-detail" id="heatDetail">Tap a minute for details.</div>'
+    +'</div><div class="strip-detail" id="heatDetail"></div>'
     +'<div class="tiles">'
     +'<div class="tile"><b>'+hb.starts+' <small>of '+hb.n+'</small></b><span>starts</span></div>'
     +(hb.firstIn!=null && hb.benchN>=5 ? '<div class="tile"><b>'+clockAt(hb.firstIn)+'</b><span>first check-in off the bench</span></div>' : '')
@@ -1317,8 +1318,8 @@ function renderSplits(){
     +'</div>'
     +'</div></section>';
   // 1. the game clock
-  h+='<section class="sec"><div class="sec-top"><h3 class="sec-h">Net rating by stretch</h3><span class="src-tag">Source: NBA.com play-by-play</span>'+gt+'</div>'
-    +'<p class="sec-sub">Celtics with him on the floor vs. their usual in the same minutes.</p>'
+  h+='<section class="sec"><div class="sec-top"><h3 class="sec-h">Net rating by stretch</h3>'+gt+'</div>'
+    +'<p class="sec-sub">Celtics with him on the floor vs. their usual in those minutes. Outlined: small sample.</p>'
     +'<div class="strip">'+[1,2,3,4].map(q=>'<div class="ql">Q'+q+'</div>').join('');
   blocks.forEach((b,i)=>{
     if (!b.ok){ h+='<button class="blk thin" data-b="'+i+'" aria-label="'+b.k.label+': too few minutes">—</button>'; return; }
@@ -1327,13 +1328,13 @@ function renderSplits(){
     h+='<button class="blk'+(c.dark?' dark':'')+'" data-b="'+i+'" style="background:'+c.bg+'" aria-label="'+b.k.label+': '+sgn(b.d,1)+' versus the team">'+sgn(b.d,1)+'</button>';
   });
   blocks.forEach(b=>{ h+='<div class="mn">'+(b.mpg>=0.05?b.mpg.toFixed(1)+' mpg':'–')+'</div>'; });
-  h+='</div><div class="strip-detail" id="stripDetail">Tap a block for details. Below: his minutes per game.</div>'
-    +'<div class="legend"><span><i style="background:'+POS+'"></i>Better</span><span><i style="background:'+NEG+'"></i>Worse</span><span><i style="background:#faf9f5;border:1px dashed var(--line-strong)"></i>Small sample</span><span><i style="background:repeating-linear-gradient(135deg,#f0efec 0 3px,#d5d3ca 3px 5px)"></i>Too few minutes</span></div></section>';
+  h+='</div><div class="strip-detail" id="stripDetail"></div>'
+    +'</section>';
   const base=teamBase().all.net;
   // 2. alongside each teammate (NBA.com data)
   const mates=teammates(name), tbase=NBA_TEAM_NET;
-  h+='<section class="sec"><div class="sec-top"><h3 class="sec-h">With teammates</h3><span class="src-tag">Source: NBA.com lineups</span></div>'
-    +'<p class="sec-sub">Celtics net rating with both on the floor. Center line: team average ('+sgn(tbase,1)+').</p>'
+  h+='<section class="sec"><div class="sec-top"><h3 class="sec-h">With teammates</h3></div>'
+    +'<p class="sec-sub">Celtics net rating with both on the floor. Line: team average ('+sgn(tbase,1)+'). Faded: small sample.</p>'
     +'<div class="mates">';
   for (const m of mates){
     const small=m.poss<SMALL_POSS, d=m.net-tbase, w=Math.min(1,Math.abs(d)/20)*50;
@@ -1343,9 +1344,9 @@ function renderSplits(){
       +'<span class="mnet">'+sgn(m.net,1)+'</span>'
       +'<span class="mposs">'+m.min+' min</span></div>';
   }
-  h+='</div><p class="sec-sub" style="margin-top:6px">Faded: small sample.</p></section>';
+  h+='</div></section>';
   // 3. full splits, straight from NBA.com
-  h+='<section class="sec"><div class="sec-top"><h3 class="sec-h">Splits</h3><span class="src-tag">Source: NBA.com</span></div>'
+  h+='<section class="sec"><div class="sec-top"><h3 class="sec-h">Splits</h3></div>'
     +'<p class="sec-sub">Games as a Celtic. Greyed: small sample.</p>'
     +'<div style="overflow-x:auto"><table class="sp"><thead><tr><th>Split</th><th class="gcol">G</th><th>MPG</th><th class="wide">Poss</th><th>+/-</th><th class="wide">ORtg</th><th class="wide">DRtg</th><th>Net</th></tr></thead><tbody>';
   const nrows=[['Role','Games he started',NS.start],['Role','Games off the bench',NS.bench],['Home / road','Home games',NS.home],['Home / road','Road games',NS.road],
@@ -1364,6 +1365,7 @@ function renderSplits(){
   }
   h+='</tbody></table></div></section>'
    +'<details class="full method"><summary>Sources and method</summary><div class="sp-note" style="margin-top:0"><ul>'
+   +'<li>Sources: NBA.com play-by-play and box scores (game by game, minutes, net rating by stretch) and NBA.com player dashboards and lineup stats (teammates, splits).</li>'
    +'<li>Every section counts all minutes, garbage time included, the same way NBA.com does.</li>'
    +'<li>Full splits and the teammate chart are NBA.com\'s own numbers (player dashboard, on/off and two-man lineup stats), limited to games as a Celtic, so they match NBA.com exactly. NBA.com doesn\'t publish possessions or a season plus-minus for the off-court row, so those show as a dash.</li>'
    +'<li>Minutes come from NBA.com play-by-play and match every box score. Typical night: stretches he was on the floor in at least half of those games. Crunch time: share of the final 5:00 played in games within 5 points with 5:00 left.</li>'
