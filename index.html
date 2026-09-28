@@ -251,7 +251,7 @@
   .strip .blk.dark { color: #fff; }
   .strip .blk.thin { background: repeating-linear-gradient(135deg, #f0efec 0 5px, #e4e2da 5px 7px); color: var(--ink-3); font-weight: 400; font-size: 12px; }
   .strip .blk.small { background: #faf9f5; border: 1px dashed var(--line-strong); color: var(--ink-3); font-weight: 500; }
-  .strip .blk.act { outline: 2px solid var(--ink); outline-offset: 1px; }
+  .strip .blk.act { outline: 2px solid var(--gold); outline-offset: 1px; }
   .strip .mn { font-size: 11px; color: var(--ink-3); text-align: center; padding-top: 3px; font-variant-numeric: tabular-nums; }
   .strip-detail:empty { min-height: 0; margin: 0 0 6px; }
   .strip-detail { font-size: 12px; color: var(--ink-2); min-height: 34px; margin: 8px 0 4px; line-height: 1.45; }
@@ -351,6 +351,30 @@
   /* links: ink with a quiet underline; green is kept for data and the active view */
   .card a, .sp-note a, .modal-bar a, .strip-detail a, .method a { text-decoration: underline; text-decoration-color: var(--line-strong); text-underline-offset: 2px; text-decoration-thickness: 1px; }
   .card a:hover, .sp-note a:hover, .modal-bar a:hover, .strip-detail a:hover, .method a:hover { text-decoration-color: var(--ink); }
+  .smap { border-top: 0; padding-top: 0; margin-bottom: 28px; }
+  .sm-grid { display: grid; grid-template-columns: 92px repeat(8, minmax(0,1fr)); gap: 3px; }
+  .sm-q { grid-column: span 2; font-size: 11px; color: var(--ink-3); text-align: center; border-bottom: 1px solid var(--line-strong); padding-bottom: 3px; }
+  .sm-q:nth-child(2) { grid-column: 2 / span 2; }
+  .sm-sorth { display: flex; }
+  .sm-s { border: 0; background: none; padding: 3px 0 4px; font: inherit; font-size: 10px; color: var(--ink-3); cursor: pointer; border-radius: 3px; font-variant-numeric: tabular-nums; }
+  .sm-sorth .sm-s { text-align: left; padding-left: 0; }
+  .sm-s.on { color: var(--ink); font-weight: 600; text-decoration: underline; text-underline-offset: 3px; }
+  .sm-n { border: 0; background: none; padding: 0 6px 0 0; text-align: left; font: inherit; cursor: pointer; display: flex; flex-direction: column; justify-content: center; min-width: 0; }
+  .sm-n b { font-size: 13px; font-weight: 600; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .sm-n span { font-size: 10px; color: var(--ink-3); font-variant-numeric: tabular-nums; }
+  .sm-n:hover b { text-decoration: underline; text-decoration-color: var(--line-strong); text-underline-offset: 2px; }
+  .sm-c { position: relative; border: 0; border-radius: 4px; height: 40px; padding: 0; font: inherit; cursor: pointer; background: #faf9f5; overflow: hidden; }
+  .sm-c em { font-style: normal; font-size: 13px; font-weight: 600; font-variant-numeric: tabular-nums; color: var(--ink); position: relative; top: -3px; }
+  .sm-c.dark em { color: #fff; }
+  .sm-c i { position: absolute; left: 0; bottom: 0; height: 4px; background: rgba(28,28,26,.45); }
+  .sm-c.dark i { background: rgba(255,255,255,.75); }
+  .sm-c.small { border: 1px dashed var(--line-strong); }
+  .sm-c.small em { color: var(--ink-3); font-weight: 500; }
+  .sm-c.thin { background: repeating-linear-gradient(135deg, #f0efec 0 5px, #e4e2da 5px 7px); }
+  .sm-c.act { outline: 2px solid var(--gold); outline-offset: 1px; }
+  .sm-foot { display: flex; flex-wrap: wrap; justify-content: space-between; gap: 4px 16px; font-size: 11px; color: var(--ink-3); margin-top: 2px; }
+  .sm-foot b { color: var(--ink-2); font-weight: 600; }
+  @media (max-width: 640px) { .sm-grid { grid-template-columns: 64px repeat(8, minmax(0,1fr)); gap: 2px; } .sm-c { height: 36px; } .sm-c em { font-size: 10.5px; letter-spacing: -0.02em; } .sm-n b { font-size: 11.5px; } .sm-s { font-size: 9px; } }
 </style>
 </head>
 <body>
@@ -1171,15 +1195,31 @@ function teamBase(){
   TEAM_CACHE={ g:inclGarbage, all:tally(live), blocks:BLOCKS.map(k=>tally(live.filter(x=>x[0]>=k.a&&x[1]<=k.b))) };
   return TEAM_CACHE;
 }
+// Sample size is judged in minutes (what readers use); net rating itself is still per 100 possessions.
+const BLOCK_MIN_MIN = 50;          // under 50 minutes in a stretch: too few to rate
+const PB_CACHE = {};
 function playerBlocks(name){
+  const key=name+'|'+inclGarbage; if (PB_CACHE[key]) return PB_CACHE[key];
   const bit=1<<PBIT[name], gs=playerGames(name);
-  return BLOCKS.map((k,i)=>{
+  return PB_CACHE[key]=BLOCKS.map((k,i)=>{
+    const perGame=gs.map(g=>{ const ss=(STATS.games[g.id]||[]).filter(x=>keep(x) && (x[6]&bit) && x[0]>=k.a && x[1]<=k.b);
+      return ss.reduce((a,x)=>[a[0]+x[1]-x[0],a[1]+x[2],a[2]+x[3],a[3]+x[4]/10,a[4]+x[5]/10],[0,0,0,0,0]); });
     const segs=gs.flatMap(g=>(STATS.games[g.id]||[]).filter(x=>keep(x) && (x[6]&bit) && x[0]>=k.a && x[1]<=k.b));
     const t=tally(segs); const base=teamBase().blocks[i].net, r1=v=>Math.round(v*10)/10;
     // difference of the two rounded ratings, so the block always equals what the detail line shows
-    return { k, t, d:(t.net!=null&&base!=null)?r1(r1(t.net)-r1(base)):null, mpg:t.sec/60/Math.max(1,gs.length), ok:t.poss>=BLOCK_MIN_POSS, solid:t.poss>=SMALL_POSS };
+    const d=(t.net!=null&&base!=null)?r1(r1(t.net)-r1(base)):null;
+    return { k, t, d, games:perGame.filter(x=>x[0]>0).length,
+      mpg:t.sec/60/Math.max(1,gs.length), ok:t.sec>=BLOCK_MIN_MIN*60 };
   });
 }
+// Shared look for a rated block: full colour when the gap is 2+ swings, none when it's within 1, a blend between.
+const SMALL_MIN = 100;             // under 100 minutes in a stretch: outlined as a small sample
+function confCell(b){
+  if (b.t.sec < SMALL_MIN*60) return { cls:' small', style:'', small:true };
+  const c=divColor(b.d);
+  return { cls:(c.dark?' dark':''), style:' style="background:'+c.bg+'"' };
+}
+function confNote(b){ return b.t.sec < SMALL_MIN*60 ? ' Small sample.' : ''; }
 // NBA.com two-man lineup stats, 2025-26 regular season, all minutes: "A|B": [net rating, possessions, minutes, games]
 const NBA_PAIRS = {"Brown|White":[8.8,3526,1713,68],"Brown|Pritchard":[5.1,3452,1681,69],"Queta|White":[14.4,3179,1583,73],"Pritchard|White":[11.9,3087,1530,75],"Hauser|White":[11.6,2771,1362,74],"Brown|Queta":[11.1,2695,1323,67],"Pritchard|Queta":[12.9,2492,1249,74],"Brown|Hauser":[8.3,2346,1124,68],"Hauser|Pritchard":[9.5,2248,1098,74],"Hauser|Queta":[15.5,1998,994,71],"Pritchard|Scheierman":[7.7,1587,797,69],"Pritchard|Walsh":[3.6,1571,788,63],"Scheierman|White":[10.5,1526,755,64],"Garza|Pritchard":[3.1,1425,702,64],"Walsh|White":[9.1,1367,687,59],"Gonzalez|Pritchard":[10.5,1288,637,70],"Brown|Scheierman":[3.8,1310,636,57],"Simons|White":[8.3,1279,626,47],"Brown|Walsh":[1.4,1267,620,53],"Hauser|Simons":[4.1,1270,608,48],"Brown|Simons":[0.0,1218,585,45],"Queta|Scheierman":[13.7,1161,583,61],"Brown|Garza":[3.9,1212,582,52],"Garza|White":[8.6,1159,569,58],"Hauser|Scheierman":[7.5,1146,564,58],"Pritchard|Simons":[2.3,1130,538,48],"Gonzalez|White":[27.1,1075,522,65],"Queta|Walsh":[15.1,1028,521,58],"Garza|Hauser":[2.1,989,475,54],"Garza|Simons":[8.7,934,459,38],"Garza|Scheierman":[10.9,927,457,55],"Brown|Gonzalez":[9.0,946,450,56],"Gonzalez|Simons":[19.6,896,442,43],"Queta|Simons":[5.7,850,417,44],"Gonzalez|Scheierman":[7.3,806,390,62],"Tatum|White":[8.4,798,386,15],"Garza|Gonzalez":[12.6,772,376,55],"Queta|Tatum":[14.6,738,359,16],"Hauser|Walsh":[0.2,707,359,48],"Garza|Walsh":[-1.5,722,358,43],"Simons|Walsh":[3.2,693,349,38],"Scheierman|Simons":[6.6,694,337,41],"Gonzalez|Queta":[14.5,674,331,57],"Hauser|Tatum":[8.4,666,326,16],"Minott|White":[5.9,657,325,28],"Brown|Tatum":[15.0,672,318,13],"Minott|Pritchard":[7.1,640,313,31],"Gonzalez|Hauser":[12.4,656,312,52],"Scheierman|Walsh":[9.0,601,294,51],"Brown|Minott":[-0.5,585,286,25],"Pritchard|Vucevic":[10.1,575,284,16],"Gonzalez|Walsh":[10.6,552,281,51],"Pritchard|Tatum":[18.5,561,278,15],"Minott|Simons":[9.0,533,264,26],"Vucevic|White":[18.1,451,214,15],"Brown|Vucevic":[-0.5,433,204,13],"Harper Jr.|Scheierman":[3.1,388,194,24],"Minott|Queta":[10.1,367,184,22],"Hauser|Minott":[-0.3,370,178,24],"Scheierman|Tatum":[-3.4,342,165,14],"Garza|Harper Jr.":[8.1,322,161,17],"Scheierman|Vucevic":[8.8,328,161,16],"Hauser|Vucevic":[21.9,320,154,13],"Minott|Scheierman":[4.3,305,150,27],"Gonzalez|Harper Jr.":[-12.5,281,139,27],"Gonzalez|Vucevic":[16.0,268,131,13],"Minott|Walsh":[19.0,261,128,24],"Harper Jr.|Pritchard":[7.1,251,128,16],"Harper Jr.|Walsh":[-4.1,259,126,19],"Gonzalez|Minott":[8.1,241,116,27],"Harper Jr.|White":[0.5,200,101,10],"Garza|Tatum":[15.2,194,91,12],"Vucevic|Walsh":[-3.3,192,91,14],"Scheierman|Williams":[-19.2,182,85,17],"Brown|Williams":[-12.7,162,76,9],"Pritchard|Williams":[-10.9,163,76,14],"Tatum|Walsh":[0.3,151,75,7],"Gonzalez|Williams":[-11.4,159,74,18],"Garza|Minott":[-1.1,150,73,15],"Harper Jr.|Queta":[20.0,135,72,9],"Simons|Tillman":[-10.2,130,66,10],"Brown|Tillman":[-4.8,129,65,9],"Boucher|Simons":[16.4,122,59,9],"Hauser|Tillman":[-16.9,123,57,9],"Pritchard|Tillman":[-20.1,116,56,10],"Brown|Harper Jr.":[9.6,115,54,8],"Harper Jr.|Hauser":[19.3,109,53,8],"Boucher|Brown":[-5.6,103,51,8],"Simons|Williams":[-19.7,108,50,9],"Harper Jr.|Vucevic":[4.9,108,50,5],"Boucher|Pritchard":[16.6,98,49,8],"Garza|Queta":[7.9,92,49,6],"Walsh|Williams":[0.0,98,47,11],"Tatum|Vucevic":[-2.4,92,44,3],"Boucher|White":[-21.3,88,42,8],"Banton|Garza":[-7.0,93,42,4],"Tillman|White":[-4.9,80,40,8],"Banton|Tonje":[-4.4,84,39,3],"White|Williams":[-26.8,82,39,8],"Hauser|Williams":[-16.9,88,39,8],"Gonzalez|Tillman":[-20.5,79,39,10],"Harper Jr.|Williams":[-28.1,82,38,11],"Banton|Harper Jr.":[3.0,78,37,3],"Banton|Walsh":[-28.1,74,33,3],"Scheierman|Shulga":[-2.9,68,32,9],"Boucher|Hauser":[12.8,65,32,6],"Boucher|Minott":[10.8,65,31,6],"Minott|Tillman":[-5.5,58,31,9],"Garza|Tonje":[3.1,64,29,3],"Harper Jr.|Shulga":[-11.4,61,29,8],"Scheierman|Tillman":[-17.7,62,29,9],"Tillman|Walsh":[18.0,61,29,5],"Boucher|Scheierman":[5.7,55,28,7],"Banton|Scheierman":[17.6,63,27,1],"Boucher|Gonzalez":[32.7,49,25,5],"Boucher|Queta":[-11.8,51,25,6],"Harper Jr.|Tonje":[15.2,54,25,3],"Gonzalez|Tatum":[-19.8,49,23,6],"Garza|Shulga":[-3.3,50,23,2],"Tonje|Walsh":[-21.7,49,22,3],"Scheierman|Tonje":[25.4,47,21,2],"Harper Jr.|Tatum":[22.4,45,21,2],"Gonzalez|Shulga":[-38.9,41,18,10],"Boucher|Walsh":[-32.8,29,16,4],"Queta|Vucevic":[-15.8,32,16,5],"Bassey|Scheierman":[-3.7,28,13,4],"Minott|Williams":[-13.3,24,13,5],"Tonje|Williams":[-23.4,26,12,3],"Shulga|Walsh":[15.7,24,12,3],"Bassey|Gonzalez":[4.2,24,11,4],"Harper Jr.|Tillman":[4.2,24,11,3],"Banton|Gonzalez":[-71.1,19,10,3],"Bassey|Walsh":[-16.7,18,9,2],"Bassey|Harper Jr.":[12.0,19,9,3],"Banton|Williams":[-34.5,20,9,1],"Harper Jr.|Minott":[-26.3,19,9,3],"Boucher|Garza":[-30.8,19,8,3],"Shulga|Tonje":[24.6,18,8,4],"Garza|Williams":[-29.7,17,8,3],"Garza|Tillman":[27.1,16,8,3],"Harper Jr.|Simons":[53.8,13,7,1],"Shulga|Williams":[-28.3,17,7,4],"Bassey|Pritchard":[-50.0,14,7,2],"Boucher|Tillman":[53.8,13,7,2],"Gonzalez|Tonje":[-46.2,13,7,4],"Tillman|Williams":[-94.4,16,7,3],"Banton|Shulga":[46.3,15,6,1],"Bassey|White":[-50.0,12,6,1],"Bassey|Shulga":[6.8,11,5,3],"Boucher|Harper Jr.":[-11.1,9,4,1],"Banton|Pritchard":[-133.3,6,4,1],"Pritchard|Tonje":[-133.3,6,4,1],"Bassey|Hauser":[-63.3,5,3,1],"Bassey|Brown":[-28.6,7,3,1],"Minott|Shulga":[-50.0,4,2,1],"Pritchard|Shulga":[-90.0,4,2,2],"Shulga|Tillman":[-50.0,4,2,1],"Bassey|Williams":[-16.7,3,1,1],"Bassey|Tonje":[-16.7,3,1,1],"Garza|Vucevic":[-100.0,4,1,2]};
 const NBA_TEAM_NET = 8.3;
@@ -1250,7 +1290,7 @@ function seasonTimeline(name){
   });
   const nS=played.filter(r=>r.x.start).length;
   return '<section class="sec"><div class="sec-top"><h3 class="sec-h">Game by game</h3></div>'
-    +'<div class="legend top"><span><i style="background:#007a33"></i>Started</span><span><i style="background:#8fc2a3"></i>Off the bench</span><span><i style="background:#b9b7ae;height:3px;margin-top:4px"></i>Did not play</span><span><i style="background:none;border-top:1px dashed var(--ink-3);height:0;margin-top:5px"></i>His average</span></div></div>'
+    +'<div class="legend top"><span><i style="background:#007a33"></i>Started</span><span><i style="background:#8fc2a3"></i>Off the bench</span><span><i style="background:#b9b7ae;height:3px;margin-top:4px"></i>Did not play</span><span><i style="background:none;border-top:1px dashed var(--ink-3);height:0;margin-top:5px"></i>His average</span></div>'
     +'<div class="tl"><div class="tl-plot">'+bars
     +'<div class="tl-avg" style="bottom:'+(avg/top*100).toFixed(1)+'%"></div></div>'
     +'<div class="tl-mon">'+months+'</div></div>'
@@ -1279,6 +1319,50 @@ function wireTimeline(el, name){
     cur=i; players=state[cur].players; view='all'; selStint=null; renderTabs(); render(); window.scrollTo({top:0});
   });
 }
+
+// ---- Stretch map: every rotation player x the eight 6-minute stretches of a game ----
+// Same numbers as each player's "Net rating by stretch" strip, laid out for the whole roster.
+const MAP_MIN = 1000;              // season minutes to make the map
+let mapSort = null;                // null = by minutes, else block index
+function stretchMap(){
+  const rows = STATS.players.map(n=>({ n, sec: playerGames(n).reduce((a,g)=>a+g.s[n].reduce((x,[s,e])=>x+e-s,0),0) }))
+    .filter(r=>r.sec>=MAP_MIN*60).map(r=>({ ...r, b: playerBlocks(r.n), gp: playerGames(r.n).length }));
+  if (mapSort==null) rows.sort((a,b)=>b.sec-a.sec);
+  else rows.sort((a,b)=>{ const x=a.b[mapSort], y=b.b[mapSort], va=x.ok?x.d:-1e9, vb=y.ok?y.d:-1e9; return vb-va; });
+  const top=Math.max(...rows.flatMap(r=>r.b.map(k=>k.mpg)));
+  let h='<section class="sec smap"><div class="sec-top"><h3 class="sec-h">Stretch map</h3></div>'
+    +'<p class="sec-sub">Celtics with each player on the floor vs. their usual in the same six minutes of the game. Bar: his minutes per game there.</p>'
+    +'<div class="sm-grid"><div></div>'+[1,2,3,4].map(q=>'<div class="sm-q">Q'+q+'</div>').join('')
+    +'<div class="sm-sorth"><button class="sm-s'+(mapSort==null?' on':'')+'" data-s="">Min</button></div>'
+    +BLOCKS.map((k,i)=>'<button class="sm-s'+(mapSort===i?' on':'')+'" data-s="'+i+'" aria-label="Sort by '+k.label+'">'+k.clock.replace(/:00/g,'').replace('–0','–0')+'</button>').join('');
+  rows.forEach(r=>{
+    h+='<button class="sm-n" data-p="'+r.n+'"><b>'+r.n+'</b><span>'+(r.sec/60/r.gp).toFixed(1)+' mpg</span></button>';
+    r.b.forEach((k,i)=>{
+      const bar='<i style="width:'+Math.max(0,Math.min(100,k.mpg/top*100)).toFixed(0)+'%"></i>';
+      if (!k.ok){ h+='<button class="sm-c thin" data-p="'+r.n+'" data-b="'+i+'">'+bar+'</button>'; return; }
+      const cc=confCell(k);
+      h+='<button class="sm-c'+cc.cls+'"'+cc.style+' data-p="'+r.n+'" data-b="'+i+'"'+(cc.small?' aria-label="Small sample">':'><em>'+sgn(k.d,1)+'</em>')+bar+'</button>';
+    });
+  });
+  h+='</div><div class="strip-detail" id="mapDetail"></div>'
+    +'<div class="sm-foot"><span>Players with 1,000+ minutes · Outlined: under 100 minutes, tap for the number · Striped: under 50 minutes · Tap a column to sort</span><span><b>Celtics Rotations</b> · Pull Up Shoot · NBA.com play-by-play, 2025-26</span></div></section>';
+  return h;
+}
+function wireMap(el){
+  const det=el.querySelector('#mapDetail'), base=teamBase().blocks;
+  el.querySelectorAll('.sm-s').forEach(b=>b.addEventListener('click',()=>{ mapSort = b.dataset.s==='' ? null : +b.dataset.s; renderSplits(); document.querySelector('.smap').scrollIntoView({block:'start'}); }));
+  el.querySelectorAll('.sm-n').forEach(b=>b.addEventListener('click',()=>{ splitPlayer=b.dataset.p; renderSplits(); const ph=document.querySelector('#splits .ph'); if (ph) ph.scrollIntoView({block:'start', behavior:'smooth'}); }));
+  el.querySelectorAll('.sm-c').forEach(c=>{
+    const show=()=>{
+      el.querySelectorAll('.sm-c.act').forEach(x=>x.classList.remove('act')); c.classList.add('act');
+      const n=c.dataset.p, i=+c.dataset.b, k=playerBlocks(n)[i], lab=k.k.label.replace(/^./,x=>x.toUpperCase());
+      det.innerHTML = k.ok
+        ? '<b>'+(FULL[n]||n)+', '+k.k.label+' ('+k.k.clock+')</b>: '+sgn(k.t.net,1)+' with him on the floor, '+sgn(base[i].net,1)+' for the team in these minutes, so '+sgn(k.d,1)+'. '+Math.round(k.t.sec/60)+' minutes over '+k.games+' games.'+confNote(k)
+        : '<b>'+(FULL[n]||n)+', '+k.k.label+'</b>: only '+Math.round(k.t.sec/60)+' minutes all season, too few to rate.';
+    };
+    c.addEventListener('click',show); c.addEventListener('mouseenter',show);
+  });
+}
 function renderSplits(){
   const el=document.getElementById('splits');
   const names = STATS.players.map(n=>({ n, sec: playerGames(n).reduce((a,g)=>a+g.s[n].reduce((x,[p,q])=>x+q-p,0),0) }))
@@ -1287,7 +1371,7 @@ function renderSplits(){
   const name=splitPlayer, gs=playerGames(name), st=gs.filter(g=>g.s[name][0][0]===0).length;
   const blocks=playerBlocks(name), NS=NBA_SPLITS[name]||{};
   const fmtN=v=>Math.round(v).toLocaleString('en-US');
-  let h='<div class="ph"><div><div class="eyebrow">2025-26 regular season</div>'
+  let h=stretchMap()+'<div class="ph"><div><div class="eyebrow">2025-26 regular season</div>'
    +'<h2 class="pbig">'+(FULL[name]||name)+'</h2>'
    +'<div class="meta">'+(NS.all?NS.all[0]+' games · '+(NS.start?NS.start[0]:0)+((NS.start&&NS.start[0]===1)?' start · ':' starts · ')+NS.all[1].toFixed(1)+' minutes per game':gs.length+' games')+'</div></div>'
    +'<label for="spSel">Player<select id="spSel" class="seasonsel">'+names.map(n=>'<option value="'+n+'"'+(n===name?' selected':'')+'>'+(FULL[n]||n)+'</option>').join('')+'</select></label></div>'
@@ -1319,13 +1403,12 @@ function renderSplits(){
     +'</div></section>';
   // 1. the game clock
   h+='<section class="sec"><div class="sec-top"><h3 class="sec-h">Net rating by stretch</h3>'+gt+'</div>'
-    +'<p class="sec-sub">Celtics with him on the floor vs. their usual in those minutes. Outlined: small sample.</p>'
+    +'<p class="sec-sub">Celtics with him on the floor vs. their usual in those minutes. Outlined: under 100 minutes.</p>'
     +'<div class="strip">'+[1,2,3,4].map(q=>'<div class="ql">Q'+q+'</div>').join('');
   blocks.forEach((b,i)=>{
     if (!b.ok){ h+='<button class="blk thin" data-b="'+i+'" aria-label="'+b.k.label+': too few minutes">—</button>'; return; }
-    if (!b.solid){ h+='<button class="blk small" data-b="'+i+'" aria-label="'+b.k.label+': '+sgn(b.d,1)+' versus the team, small sample">'+sgn(b.d,1)+'</button>'; return; }
-    const c=divColor(b.d);
-    h+='<button class="blk'+(c.dark?' dark':'')+'" data-b="'+i+'" style="background:'+c.bg+'" aria-label="'+b.k.label+': '+sgn(b.d,1)+' versus the team">'+sgn(b.d,1)+'</button>';
+    const cc=confCell(b);
+    h+='<button class="blk'+cc.cls+'" data-b="'+i+'"'+cc.style+' aria-label="'+b.k.label+': '+sgn(b.d,1)+' versus the team">'+sgn(b.d,1)+'</button>';
   });
   blocks.forEach(b=>{ h+='<div class="mn">'+(b.mpg>=0.05?b.mpg.toFixed(1)+' mpg':'–')+'</div>'; });
   h+='</div><div class="strip-detail" id="stripDetail"></div>'
@@ -1334,10 +1417,10 @@ function renderSplits(){
   // 2. alongside each teammate (NBA.com data)
   const mates=teammates(name), tbase=NBA_TEAM_NET;
   h+='<section class="sec"><div class="sec-top"><h3 class="sec-h">With teammates</h3></div>'
-    +'<p class="sec-sub">Celtics net rating with both on the floor. Line: team average ('+sgn(tbase,1)+'). Faded: small sample.</p>'
+    +'<p class="sec-sub">Celtics net rating with both on the floor. Line: team average ('+sgn(tbase,1)+'). Faded: under 100 minutes together.</p>'
     +'<div class="mates">';
   for (const m of mates){
-    const small=m.poss<SMALL_POSS, d=m.net-tbase, w=Math.min(1,Math.abs(d)/20)*50;
+    const small=m.min<100, d=m.net-tbase, w=Math.min(1,Math.abs(d)/20)*50;
     h+='<div class="mate'+(small?' small':'')+'" title="'+(FULL[m.q]||m.q)+': '+sgn(m.net,1)+' net, '+m.min+' minutes, '+m.gp+' games together">'
       +'<span class="mn-name">'+m.q+'</span>'
       +'<span class="mbar"><i style="'+(d>=0?'left:50%;background:'+POS:'right:50%;background:'+NEG)+';width:'+w+'%"></i></span>'
@@ -1347,7 +1430,7 @@ function renderSplits(){
   h+='</div></section>';
   // 3. full splits, straight from NBA.com
   h+='<section class="sec"><div class="sec-top"><h3 class="sec-h">Splits</h3></div>'
-    +'<p class="sec-sub">Games as a Celtic. Greyed: small sample.</p>'
+    +'<p class="sec-sub">Games as a Celtic. Greyed: under 100 minutes.</p>'
     +'<div style="overflow-x:auto"><table class="sp"><thead><tr><th>Split</th><th class="gcol">G</th><th>MPG</th><th class="wide">Poss</th><th>+/-</th><th class="wide">ORtg</th><th class="wide">DRtg</th><th>Net</th></tr></thead><tbody>';
   const nrows=[['Role','Games he started',NS.start],['Role','Games off the bench',NS.bench],['Home / road','Home games',NS.home],['Home / road','Road games',NS.road],
     ['On / off','Celtics with him on the floor',NS.all],['On / off','Celtics with him off the floor',NS.off],['Baseline','Celtics, whole season',NBA_TEAM,true]];
@@ -1356,7 +1439,7 @@ function renderSplits(){
   for (const [grp,label,v,base] of nrows){
     if (grp!==lastGrp){ h+='<tr class="grp"><td colspan="8">'+grp+'</td></tr>'; lastGrp=grp; }
     if (!v || !v[0]){ h+='<tr class="small"><td>'+label+'</td><td class="gcol">0</td><td colspan="6" style="text-align:left">—</td></tr>'; continue; }
-    const small=!base && (v[2]!=null ? v[2]<SMALL_POSS : v[0]*v[1]<100);
+    const small=!base && v[0]*v[1]<100;   // under 100 minutes
     h+='<tr class="'+(small?'small':'')+(base?' base':'')+'"><td>'+label+(small?'<span class="tag">small sample</span>':'')+'</td>'
       +'<td class="gcol">'+v[0]+'</td><td>'+f1(v[1])+'</td><td class="wide">'+(v[2]==null?'—':Math.round(v[2]))+'</td>'
       +'<td class="'+(small||v[3]==null?'':cls(v[3]))+'">'+(v[3]==null?'—':sgn(v[3]))+'</td>'
@@ -1366,6 +1449,7 @@ function renderSplits(){
   h+='</tbody></table></div></section>'
    +'<details class="full method"><summary>Sources and method</summary><div class="sp-note" style="margin-top:0"><ul>'
    +'<li>Sources: NBA.com play-by-play and box scores (game by game, minutes, net rating by stretch) and NBA.com player dashboards and lineup stats (teammates, splits).</li>'
+   +'<li>The stretch map and the net rating strip describe the Celtics with a player on the floor, not his individual impact: the teammates and opponents on the floor with him shape those numbers too.</li>'
    +'<li>Every section counts all minutes, garbage time included, the same way NBA.com does.</li>'
    +'<li>Full splits and the teammate chart are NBA.com\'s own numbers (player dashboard, on/off and two-man lineup stats), limited to games as a Celtic, so they match NBA.com exactly. NBA.com doesn\'t publish possessions or a season plus-minus for the off-court row, so those show as a dash.</li>'
    +'<li>Minutes come from NBA.com play-by-play and match every box score. Typical night: stretches he was on the floor in at least half of those games. Crunch time: share of the final 5:00 played in games within 5 points with 5:00 left.</li>'
@@ -1374,6 +1458,7 @@ function renderSplits(){
    +'</ul></div></details>';
   el.innerHTML=h;
   document.getElementById('spSel').addEventListener('change', e=>{ splitPlayer=e.target.value; renderSplits(); });
+  wireMap(el);
   el.querySelectorAll('.gt').forEach(g=>g.addEventListener('click', e=>{ const b=e.target.closest('[data-gt]'); if (!b) return; inclGarbage = b.dataset.gt==='1'; renderSplits(); }));
   const hdet=document.getElementById('heatDetail');
   el.querySelectorAll('.hc').forEach(c=>{ const show=()=>{ el.querySelectorAll('.hc.act').forEach(x=>x.classList.remove('act')); c.classList.add('act');
@@ -1386,7 +1471,7 @@ function renderSplits(){
       el.querySelectorAll('.blk.act').forEach(x=>x.classList.remove('act')); btn.classList.add('act');
       const i=+btn.dataset.b, b=blocks[i];
       det.innerHTML = b.ok
-        ? '<b>'+b.k.label.replace(/^./,c=>c.toUpperCase())+' ('+b.k.clock+')</b>: '+sgn(b.t.net,1)+' with '+name+' on the floor, '+sgn(bbase[i].net,1)+' for the team in these minutes, so '+sgn(b.d,1)+'. '+Math.round(b.t.poss)+' possessions · '+b.mpg.toFixed(1)+' min per game.'+(b.t.poss<SMALL_POSS?' Small sample: read it as a hint.':'')
+        ? '<b>'+b.k.label.replace(/^./,c=>c.toUpperCase())+' ('+b.k.clock+')</b>: '+sgn(b.t.net,1)+' with '+name+' on the floor, '+sgn(bbase[i].net,1)+' for the team in these minutes, so '+sgn(b.d,1)+'. '+Math.round(b.t.sec/60)+' minutes over '+b.games+' games.'+confNote(b)
         : '<b>'+b.k.label.replace(/^./,c=>c.toUpperCase())+'</b>: '+name+' played only '+Math.round(b.t.sec/60)+' minutes here all season, too few to rate.';
     };
     btn.addEventListener('click', show); btn.addEventListener('mouseenter', show);
