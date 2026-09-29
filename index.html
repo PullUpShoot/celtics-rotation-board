@@ -613,7 +613,10 @@ const NBA_SPLITS = {"Banton":{"all":[4,13.0,112.0,-11,106.3,115.0,-8.8],"bench":
 const NBA_TEAM = [82, 48.1, 7850, 631.0, 120.0, 111.7, 8.3];
 const HAS_CLUTCH = Object.values(STATS.games).some(g=>g.some(x=>x.length>8));
 let inclGarbage = true;                // all minutes count, as on NBA.com
-const keep = x => inclGarbage || !x[7];   // below this, a net rating is mostly noise
+const keep = x => inclGarbage || !x[7];
+// Net rating by stretch (map and strip) leaves out garbage time: fourth-quarter blowouts and the stretch after a
+// team pulls its starters for good. Otherwise late-Q4 cells mix real minutes with mop-up minutes.
+const STRETCH_KEEP = x => !x[7];   // below this, a net rating is mostly noise
 function sgn(v,d){ if (v==null) return '—'; const r=(+v).toFixed(d||0); if (+r===0) return (0).toFixed(d||0); return (+r>0?'+':'')+r; }
 function cls(v){ return v>0?'pos':v<0?'neg':''; }
 function clockLabel(t, isEnd){
@@ -1192,7 +1195,9 @@ let TEAM_CACHE=null;
 function teamBase(){
   if (TEAM_CACHE && TEAM_CACHE.g===inclGarbage) return TEAM_CACHE;
   const live=SEASON.games.flatMap(g=>(STATS.games[g.id]||[]).filter(keep));
-  TEAM_CACHE={ g:inclGarbage, all:tally(live), blocks:BLOCKS.map(k=>tally(live.filter(x=>x[0]>=k.a&&x[1]<=k.b))) };
+  // The stretch baselines leave out garbage time, to match the stretch map and strip (see STRETCH_KEEP).
+  const liveS=SEASON.games.flatMap(g=>(STATS.games[g.id]||[]).filter(STRETCH_KEEP));
+  TEAM_CACHE={ g:inclGarbage, all:tally(live), blocks:BLOCKS.map(k=>tally(liveS.filter(x=>x[0]>=k.a&&x[1]<=k.b))) };
   return TEAM_CACHE;
 }
 // Sample size is judged in minutes (what readers use); net rating itself is still per 100 possessions.
@@ -1202,9 +1207,9 @@ function playerBlocks(name){
   const key=name+'|'+inclGarbage; if (PB_CACHE[key]) return PB_CACHE[key];
   const bit=1<<PBIT[name], gs=playerGames(name);
   return PB_CACHE[key]=BLOCKS.map((k,i)=>{
-    const perGame=gs.map(g=>{ const ss=(STATS.games[g.id]||[]).filter(x=>keep(x) && (x[6]&bit) && x[0]>=k.a && x[1]<=k.b);
+    const perGame=gs.map(g=>{ const ss=(STATS.games[g.id]||[]).filter(x=>STRETCH_KEEP(x) && (x[6]&bit) && x[0]>=k.a && x[1]<=k.b);
       return ss.reduce((a,x)=>[a[0]+x[1]-x[0],a[1]+x[2],a[2]+x[3],a[3]+x[4]/10,a[4]+x[5]/10],[0,0,0,0,0]); });
-    const segs=gs.flatMap(g=>(STATS.games[g.id]||[]).filter(x=>keep(x) && (x[6]&bit) && x[0]>=k.a && x[1]<=k.b));
+    const segs=gs.flatMap(g=>(STATS.games[g.id]||[]).filter(x=>STRETCH_KEEP(x) && (x[6]&bit) && x[0]>=k.a && x[1]<=k.b));
     const t=tally(segs); const base=teamBase().blocks[i].net, r1=v=>Math.round(v*10)/10;
     // difference of the two rounded ratings, so the block always equals what the detail line shows
     const d=(t.net!=null&&base!=null)?r1(r1(t.net)-r1(base)):null;
@@ -1213,10 +1218,11 @@ function playerBlocks(name){
   });
 }
 // Shared look for a rated block: full colour when the gap is 2+ swings, none when it's within 1, a blend between.
-const SMALL_MIN = 100;             // under 100 minutes in a stretch: outlined as a small sample
+const SMALL_MIN = 100;
+const FULL_MIN = 300;              // colour reaches full depth only with 300+ minutes behind it             // under 100 minutes in a stretch: outlined as a small sample
 function confCell(b){
   if (b.t.sec < SMALL_MIN*60) return { cls:' small', style:'', small:true };
-  const c=divColor(b.d);
+  const c=divColor(b.d*Math.min(1, b.t.sec/(FULL_MIN*60)));   // colour depth grows with the gap and with minutes
   return { cls:(c.dark?' dark':''), style:' style="background:'+c.bg+'"' };
 }
 function confNote(b){ return b.t.sec < SMALL_MIN*60 ? ' Small sample.' : ''; }
@@ -1345,7 +1351,7 @@ function stretchMap(){
     });
   });
   h+='</div><div class="strip-detail" id="mapDetail"></div>'
-    +'<div class="sm-foot"><span>Players with 1,000+ minutes · Outlined: under 100 minutes, tap for the number · Striped: under 50 minutes · Tap a column to sort</span><span><b>Celtics Rotations</b> · Pull Up Shoot · NBA.com play-by-play, 2025-26</span></div></section>';
+    +'<div class="sm-foot"><span>Players with 1,000+ minutes · No garbage time · Colour deepens with the gap and with minutes · Outlined: under 100 minutes, tap for the number · Striped: under 50 minutes · Tap a column to sort</span><span><b>Celtics Rotations</b> · Pull Up Shoot · NBA.com play-by-play, 2025-26</span></div></section>';
   return h;
 }
 function wireMap(el){
@@ -1403,7 +1409,7 @@ function renderSplits(){
     +'</div></section>';
   // 1. the game clock
   h+='<section class="sec"><div class="sec-top"><h3 class="sec-h">Net rating by stretch</h3>'+gt+'</div>'
-    +'<p class="sec-sub">Celtics with him on the floor vs. their usual in those minutes. Outlined: under 100 minutes.</p>'
+    +'<p class="sec-sub">Celtics with him on the floor vs. their usual in those minutes, garbage time left out. Colour deepens with the gap and with minutes. Outlined: under 100 minutes.</p>'
     +'<div class="strip">'+[1,2,3,4].map(q=>'<div class="ql">Q'+q+'</div>').join('');
   blocks.forEach((b,i)=>{
     if (!b.ok){ h+='<button class="blk thin" data-b="'+i+'" aria-label="'+b.k.label+': too few minutes">—</button>'; return; }
@@ -1450,7 +1456,7 @@ function renderSplits(){
    +'<details class="full method"><summary>Sources and method</summary><div class="sp-note" style="margin-top:0"><ul>'
    +'<li>Sources: NBA.com play-by-play and box scores (game by game, minutes, net rating by stretch) and NBA.com player dashboards and lineup stats (teammates, splits).</li>'
    +'<li>The stretch map and the net rating strip describe the Celtics with a player on the floor, not his individual impact: the teammates and opponents on the floor with him shape those numbers too.</li>'
-   +'<li>Every section counts all minutes, garbage time included, the same way NBA.com does.</li>'
+   +'<li>Every section counts all minutes, garbage time included, the same way NBA.com does, except the stretch map and net rating by stretch. Those leave out garbage time (fourth-quarter blowouts and the stretch after a team pulls its starters for good), for the player and the team baseline alike, so late-fourth-quarter cells reflect competitive minutes. Their colour deepens with the size of the gap and with minutes played, reaching full strength at 300 minutes.</li>'
    +'<li>Full splits and the teammate chart are NBA.com\'s own numbers (player dashboard, on/off and two-man lineup stats), limited to games as a Celtic, so they match NBA.com exactly. NBA.com doesn\'t publish possessions or a season plus-minus for the off-court row, so those show as a dash.</li>'
    +'<li>Minutes come from NBA.com play-by-play and match every box score. Typical night: stretches he was on the floor in at least half of those games. Crunch time: share of the final 5:00 played in games within 5 points with 5:00 left.</li>'
    +'<li>The game-clock strip is our own calculation from NBA.com play-by-play, because NBA.com doesn\'t split by 6-minute stretch. Its minutes and plus-minus match NBA.com\'s box scores; its net ratings can differ from NBA.com\'s by a few tenths because of how possessions are credited around substitutions.</li>'
