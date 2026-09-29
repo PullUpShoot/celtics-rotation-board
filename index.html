@@ -1267,7 +1267,8 @@ function habits(name){
     nights: [[started.length+' starts',started],[bench.length+' bench games',bench]].filter(([,set])=>set.length>=5).map(([label,set])=>{
       const on=[...Array(48)].map((_,m)=>set.filter(g=>ov(g.s[name],m*60,m*60+60)>=30).length/set.length>=0.5);
       const runs=[]; let st=null;
-      on.forEach((v,m)=>{ if (v && st===null) st=m; if ((!v||m===47) && st!==null){ runs.push({ a:st*60, b:(v&&m===47?48:m)*60 }); st=null; } });
+      // halftime splits a run in two: technically continuous floor time, but a 15-minute break in practice
+      on.forEach((v,m)=>{ if (m===24 && v && st!==null){ runs.push({ a:st*60, b:1440 }); st=24; } if (v && st===null) st=m; if ((!v||m===47) && st!==null){ runs.push({ a:st*60, b:(v&&m===47?48:m)*60 }); st=null; } });
       return { label, n:set.length, stints:runs };
     }) };
 }
@@ -1400,7 +1401,7 @@ function renderSplits(){
     +'</div>'
     +hb.nights.map(nt=>'<div class="night"><div class="qb-h">Typical night · '+nt.label+'</div>'
       +'<div class="nt-track">'+[1,2,3].map(k=>'<i class="nt-q" style="left:'+(k*25)+'%"></i>').join('')
-      +nt.stints.map((s,i)=>'<b class="nt-bar" style="left:'+(s.a/2880*100)+'%;width:'+((Math.min(s.b,2880)-s.a)/2880*100)+'%" title="'+clockAt(s.a)+' to '+clockLabel(Math.round(s.b),true)+'"></b>').join('')
+      +nt.stints.map((s,i)=>'<b class="nt-bar" style="left:'+(s.a/2880*100+(s.a===1440?0.35:0))+'%;width:'+((Math.min(s.b,2880)-s.a)/2880*100-(s.a===1440?0.35:0)-(s.b===1440?0.35:0))+'%" title="'+clockAt(s.a)+' to '+clockLabel(Math.round(s.b),true)+'"></b>').join('')
       +'</div><div class="nt-axis"><span>Q1</span><span>Q2</span><span>Q3</span><span>Q4</span></div>'
       +'<ol class="nt-list">'+nt.stints.map(s=>'<li><b>'+clockAt(s.a)+' → '+clockLabel(Math.round(s.b),true)+'</b> <span>'+((s.b-s.a)/60)+' min</span></li>').join('')+'</ol></div>').join('')
     +'<div class="qbars"><div class="qb-h">Minutes by quarter</div>'
