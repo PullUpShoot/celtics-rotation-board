@@ -5,19 +5,20 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="color-scheme" content="light">
 <meta name="supported-color-schemes" content="light">
-<title>Celtics Rotations · Pull Up Shoot</title>
+<title>Celtics Rotations · by Neight</title>
 <meta property="og:title" content="Celtics Rotations">
-<meta property="og:description" content="Every Celtics minute from 2023-24 through 2025-26: who played when, game by game, with player splits and a board to build next season's rotation.">
+<meta property="og:description" content="Celtics sub patterns, game logs, stretch maps and player splits from 2023-24 through 2025-26, plus a board to build next season's rotation. By Neight.">
 <meta property="og:image" content="https://pullupshoot.github.io/celtics-rotation-board/preview.png">
 <meta property="og:url" content="https://pullupshoot.github.io/celtics-rotation-board/">
 <meta property="og:type" content="website">
 <meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:creator" content="@NElGHT_">
 <meta name="twitter:title" content="Celtics Rotations">
-<meta name="twitter:description" content="Every Celtics minute from 2023-24 through 2025-26: who played when, game by game, with player splits and a board to build next season's rotation.">
+<meta name="twitter:description" content="Celtics sub patterns, game logs, stretch maps and player splits from 2023-24 through 2025-26, plus a board to build next season's rotation. By Neight.">
 <meta name="twitter:image" content="https://pullupshoot.github.io/celtics-rotation-board/preview.png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Source+Serif+4:opsz,wght@8..60,600;8..60,700&family=IBM+Plex+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Source+Serif+4:ital,opsz,wght@0,8..60,600;0,8..60,700;1,8..60,400&family=IBM+Plex+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
 <style>
   :root {
     --bg: #f6f5f0;
@@ -30,7 +31,7 @@
     --green: #007a33;
     --green-soft: #d9ecdf;
     --gold: #ba9653;
-    --sel: #1c1c1a;      /* selection and focus: one dark outline everywhere; gold is a data colour (game by game) */
+    --sel: #1c1c1a;      /* selection and focus: one dark outline everywhere; gold is a data color (game by game) */
     --cell-off: #eceae2;
   }
   * { box-sizing: border-box; }
@@ -44,7 +45,8 @@
   .tagline { margin: 8px 0 0; font-size: 13px; color: var(--ink-2); }
   .nameplate { display: flex; align-items: baseline; justify-content: space-between; gap: 4px 16px; flex-wrap: wrap; padding-bottom: 8px; border-bottom: 1px solid var(--ink); }
   .sham { display: inline-block; width: .44em; height: .44em; vertical-align: super; margin-left: .03em; position: relative; top: .06em; }
-  .nameplate .by { font-size: 13px; color: var(--ink-3); white-space: nowrap; }
+  .nameplate .by { font-family: "Source Serif 4", Georgia, serif; font-weight: 600; font-size: 13px; letter-spacing: .06em; text-transform: uppercase; color: var(--ink-2); white-space: nowrap; }
+  .nameplate .by i { font-style: italic; font-weight: 400; font-size: 15px; letter-spacing: 0; text-transform: none; margin-right: .3em; }
   .eyebrow { font-size: 11px; letter-spacing: .12em; text-transform: uppercase; color: var(--ink-2); font-weight: 700; margin-bottom: 4px; }
   .views { display: grid; grid-template-columns: repeat(4, 1fr); background: #e9e7df; border-radius: 10px; padding: 3px; gap: 3px; margin-bottom: 14px; max-width: 560px; }
   .views button { border: 0; background: transparent; border-radius: 8px; padding: 9px 6px; font-weight: 600; font-size: 14px; color: var(--ink-2); }
@@ -398,7 +400,7 @@
 
 <div class="page">
 <header class="top">
-  <div class="nameplate"><h1>Celtics Rotations<!-- Shamrock: Twemoji by Twitter, CC BY 4.0 (creativecommons.org/licenses/by/4.0), recoloured --><svg class="sham" viewBox="0 0 36 36" aria-hidden="true"><path fill="#007a33" d="M32.34 19.208c.198-1.475 2.669-2.208 2.669-4.542S29.25 8.25 21 16c3.812-5.312 6.542-14.509 2.203-14.509c-1.47 0-2.579 1.342-4.328 1.342C16.5 2.833 16.208 0 14 0c-2.583 0-5 6.25 1 15c-1.5-1.625-11.083-6.625-13.002-1.269c-.628 1.753 1.731 2.781 1.544 4.519c-.178 1.654-2.597 2.037-2.597 4.372c0 3.293 8.048 4.834 16.044-1.613c-.245 4.524.557 10.515 3.857 14.158c1.344 1.483 2.407.551 2.822.187s1.604-1.414.185-2.822c-3.834-3.807-5.225-8.174-5.619-11.381c2.043 2.215 12.357 8.742 15.517 2.767c.881-1.668-1.643-2.977-1.411-4.71"/></svg></h1><span class="by">by Pull Up Shoot</span></div>
+  <div class="nameplate"><h1>Celtics Rotations<!-- Shamrock: Twemoji by Twitter, CC BY 4.0 (creativecommons.org/licenses/by/4.0), recolored --><svg class="sham" viewBox="0 0 36 36" aria-hidden="true"><path fill="#007a33" d="M32.34 19.208c.198-1.475 2.669-2.208 2.669-4.542S29.25 8.25 21 16c3.812-5.312 6.542-14.509 2.203-14.509c-1.47 0-2.579 1.342-4.328 1.342C16.5 2.833 16.208 0 14 0c-2.583 0-5 6.25 1 15c-1.5-1.625-11.083-6.625-13.002-1.269c-.628 1.753 1.731 2.781 1.544 4.519c-.178 1.654-2.597 2.037-2.597 4.372c0 3.293 8.048 4.834 16.044-1.613c-.245 4.524.557 10.515 3.857 14.158c1.344 1.483 2.407.551 2.822.187s1.604-1.414.185-2.822c-3.834-3.807-5.225-8.174-5.619-11.381c2.043 2.215 12.357 8.742 15.517 2.767c.881-1.668-1.643-2.977-1.411-4.71"/></svg></h1><span class="by"><i>by</i>Neight</span></div>
   <p class="tagline">Sub patterns, game logs and player splits</p>
 </header>
 <nav class="views" id="views" aria-label="View">
@@ -441,7 +443,7 @@
 
 
 
-<p class="foot">Play-by-play from NBA.com; minutes verified against official box scores. Shamrock from <a href="https://github.com/jdecked/twemoji" target="_blank" rel="noopener">Twemoji</a> (<a href="https://creativecommons.org/licenses/by/4.0/" target="_blank" rel="noopener">CC BY 4.0</a>), recoloured.</p>
+<p class="foot">Play-by-play from NBA.com; minutes verified against official box scores. Shamrock from <a href="https://github.com/jdecked/twemoji" target="_blank" rel="noopener">Twemoji</a> (<a href="https://creativecommons.org/licenses/by/4.0/" target="_blank" rel="noopener">CC BY 4.0</a>), recolored.</p>
 </div>
 
 <script src="season-2024-25.js"></script>
@@ -1145,8 +1147,8 @@ function markStint(){
   document.querySelectorAll('.c.sel').forEach(c=>c.classList.remove('sel'));
   if (!selStint) return;
   const r = players.findIndex(p=>p.name===selStint.name);
-  // Outline the same minutes the grid colours (on the floor 30+ seconds of that minute), so the box
-  // never covers an empty cell. Only a stint too short to colour any minute falls back to every minute it touched.
+  // Outline the same minutes the grid colors (on the floor 30+ seconds of that minute), so the box
+  // never covers an empty cell. Only a stint too short to color any minute falls back to every minute it touched.
   const touched=[...document.querySelectorAll('.c[data-r="'+r+'"]')].filter(c=>{
     const m=+c.dataset.m; return Math.min(selStint.b,(m+1)*60)-Math.max(selStint.a,m*60) > 0; });
   const shown=touched.filter(c=>c.classList.contains('on'));
@@ -1250,12 +1252,12 @@ function playerBlocks(name){
       mpg:t.sec/60/Math.max(1,gs.length), ok:t.sec>=BLOCK_MIN_MIN*60 };
   });
 }
-// Shared look for a rated block: full colour when the gap is 2+ swings, none when it's within 1, a blend between.
+// Shared look for a rated block: full color when the gap is 2+ swings, none when it's within 1, a blend between.
 const SMALL_MIN = 100;
-const FULL_MIN = 300;              // colour reaches full depth only with 300+ minutes behind it             // under 100 minutes in a stretch: outlined as a small sample
+const FULL_MIN = 300;              // color reaches full depth only with 300+ minutes behind it             // under 100 minutes in a stretch: outlined as a small sample
 function confCell(b){
   if (b.t.sec < SMALL_MIN*60) return { cls:' small', style:'', small:true };
-  const c=divColor(b.d*Math.min(1, b.t.sec/(FULL_MIN*60)));   // colour depth grows with the gap and with minutes
+  const c=divColor(b.d*Math.min(1, b.t.sec/(FULL_MIN*60)));   // color depth grows with the gap and with minutes
   return { cls:(c.dark?' dark':''), style:' style="background:'+c.bg+'"' };
 }
 function confNote(b){ return b.t.sec < SMALL_MIN*60 ? ' Small sample.' : ''; }
@@ -1436,7 +1438,7 @@ function stretchMap(){
     });
   });
   h+='</div><div class="strip-detail" id="mapDetail"></div>'
-    +'<div class="sm-foot"><span>Players with 1,000+ minutes · No garbage time · Colour deepens with the gap and with minutes · Outlined: under 100 minutes, tap for the number · Striped: under 50 minutes · Tap a column to sort</span><span><b>Celtics Rotations</b> · Pull Up Shoot · NBA.com play-by-play, '+(mapBoth?'2023-24 to 2025-26':SEASONS[seasonKey].label)+'</span></div></section>';
+    +'<div class="sm-foot"><span>Players with 1,000+ minutes · No garbage time · Color deepens with the gap and with minutes · Outlined: under 100 minutes, tap for the number · Striped: under 50 minutes · Tap a column to sort</span><span><b>Celtics Rotations</b> · by Neight · NBA.com play-by-play, '+(mapBoth?'2023-24 to 2025-26':SEASONS[seasonKey].label)+'</span></div></section>';
   return h;
 }
 function wireMap(el){
@@ -1519,7 +1521,7 @@ function renderSplits(){
   h+=seasonTimeline(name);
   // 1. the game clock
   h+='<section class="sec"><div class="sec-top"><h3 class="sec-h">Net rating by stretch</h3>'+gt+'</div>'
-    +'<p class="sec-sub">Celtics with him on the floor vs. their usual in those minutes, garbage time left out. Colour deepens with the gap and with minutes. Outlined: under 100 minutes.</p>'
+    +'<p class="sec-sub">Celtics with him on the floor vs. their usual in those minutes, garbage time left out. Color deepens with the gap and with minutes. Outlined: under 100 minutes.</p>'
     +'<div class="strip">'+[1,2,3,4].map(q=>'<div class="ql">Q'+q+'</div>').join('');
   blocks.forEach((b,i)=>{
     if (!b.ok){ h+='<button class="blk thin" data-b="'+i+'" aria-label="'+b.k.label+': too few minutes">—</button>'; return; }
@@ -1546,7 +1548,7 @@ function renderSplits(){
   h+='</div></section>';
   // 3. full splits, straight from NBA.com
   h+='<section class="sec"><div class="sec-top"><h3 class="sec-h">Splits</h3></div>'
-    +'<p class="sec-sub">Games as a Celtic. Greyed: under 100 minutes.</p>'
+    +'<p class="sec-sub">Games as a Celtic. Grayed: under 100 minutes.</p>'
     +'<div style="overflow-x:auto"><table class="sp"><thead><tr><th>Split</th><th class="gcol">G</th><th>MPG</th><th class="wide">Poss</th><th>+/-</th><th class="wide">ORtg</th><th class="wide">DRtg</th><th>Net</th></tr></thead><tbody>';
   const nrows=[['Role','Games he started',NS.start],['Role','Games off the bench',NS.bench],['Home / road','Home games',NS.home],['Home / road','Road games',NS.road],
     ['On / off','Celtics with him on the floor',NS.all],['On / off','Celtics with him off the floor',NS.off],['Baseline','Celtics, whole season',NBA_TEAM,true]];
@@ -1566,7 +1568,7 @@ function renderSplits(){
    +'<details class="full method"><summary>Sources and method</summary><div class="sp-note" style="margin-top:0"><ul>'
    +'<li>Sources: NBA.com play-by-play and box scores (game by game, minutes, net rating by stretch) and NBA.com player dashboards and lineup stats (teammates, splits).</li>'
    +'<li>The stretch map and the net rating strip describe the Celtics with a player on the floor, not his individual impact: the teammates and opponents on the floor with him shape those numbers too.</li>'
-   +'<li>Every section counts all minutes, garbage time included, the same way NBA.com does, except the stretch map and net rating by stretch. Those leave out garbage time (fourth-quarter blowouts and the stretch after a team pulls its starters for good), for the player and the team baseline alike, so late-fourth-quarter cells reflect competitive minutes. Their colour deepens with the size of the gap and with minutes played, reaching full strength at 300 minutes.</li>'
+   +'<li>Every section counts all minutes, garbage time included, the same way NBA.com does, except the stretch map and net rating by stretch. Those leave out garbage time (fourth-quarter blowouts and the stretch after a team pulls its starters for good), for the player and the team baseline alike, so late-fourth-quarter cells reflect competitive minutes. Their color deepens with the size of the gap and with minutes played, reaching full strength at 300 minutes.</li>'
    +'<li>Full splits and the teammate chart are NBA.com\'s own numbers (player dashboard, on/off and two-man lineup stats), limited to games as a Celtic, so they match NBA.com exactly. NBA.com doesn\'t publish possessions or a season plus-minus for the off-court row, so those show as a dash.</li>'
    +'<li>Minutes come from NBA.com play-by-play and match every box score. Typical night: stretches he was on the floor in more than half of those games, ignoring one-minute blips, shown for starts or bench games with 10+ games. Crunch time: share of the final 5:00 played in games within 5 points with 5:00 left.</li>'
    +'<li>The game-clock strip is our own calculation from NBA.com play-by-play, because NBA.com doesn\'t split by 6-minute stretch. Its minutes and plus-minus match NBA.com\'s box scores; its net ratings can differ from NBA.com\'s by a few tenths because of how possessions are credited around substitutions.</li>'
@@ -1723,7 +1725,7 @@ function exportImage(){
   x.beginPath(); x.moveTo(pad,gy+gh+0.5); x.lineTo(W-pad,gy+gh+0.5); x.stroke();
 
   x.fillStyle='#9a9a92'; x.font='11px Helvetica Neue, Helvetica, Arial, sans-serif';
-  x.fillText('Celtics Rotations · by Pull Up Shoot', pad, H-16);
+  x.fillText('Celtics Rotations · by Neight', pad, H-16);
 
   const url=cv.toDataURL('image/png');
   document.getElementById('exportImg').src=url;
