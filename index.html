@@ -60,6 +60,7 @@
   .lnk.danger { color: #8a2b24; }
   .lnk.danger:hover { background: #fdf3f2; }
   #gamePickRow { margin-bottom: 12px; }
+  #gameSeason { align-self: flex-start; margin-bottom: 6px; }
   .seasonsel.wide { width: 100%; max-width: 560px; font-size: 15px; padding: 9px 10px; }
   .ph { display: flex; flex-wrap: wrap; align-items: flex-end; justify-content: space-between; gap: 10px 20px; padding-bottom: 12px; border-bottom: 2px solid var(--ink); margin-bottom: 14px; }
   .pbig { font-family: "Source Serif 4", Georgia, "Times New Roman", serif; font-weight: 700; font-size: 40px; line-height: 1.05; letter-spacing: -0.015em; margin: 2px 0 6px; }
@@ -406,7 +407,7 @@
 <nav class="views" id="views" aria-label="View">
   <button data-view="plan"><span class="lg">Build 2026-27</span><span class="sh">Build</span></button><button data-view="games"><span class="lg">Game log</span><span class="sh">Games</span></button><button data-view="map"><span class="lg">Stretch map</span><span class="sh">Map</span></button><button data-view="splits"><span class="lg">Player splits</span><span class="sh">Players</span></button>
 </nav>
-<div class="ph gh" id="gameHead" hidden><div id="ghText"></div><div class="gpick" id="gamePickRow"><label for="gamePick">Game</label><div class="gp-in"><button class="gstep" id="gPrev" aria-label="Previous game">&#8249;</button><select id="gamePick" class="seasonsel"></select><button class="gstep" id="gNext" aria-label="Next game">&#8250;</button></div></div></div>
+<div class="ph gh" id="gameHead" hidden><div id="ghText"></div><div class="gpick" id="gamePickRow"><div class="ssw" id="gameSeason" role="group" aria-label="Season"></div><label for="gamePick">Game</label><div class="gp-in"><button class="gstep" id="gPrev" aria-label="Previous game">&#8249;</button><select id="gamePick" class="seasonsel"></select><button class="gstep" id="gNext" aria-label="Next game">&#8250;</button></div></div></div>
 <div id="gnote" class="note"></div>
 <div class="toolrow" id="toolrow">
   <div class="bar" id="tools">
@@ -736,6 +737,13 @@ function shortDate(d){ const [y,m,dd]=d.split('-'); return MON[+m-1]+' '+(+dd); 
 SEASON.games.forEach(g=>state.push({ name: shortDate(g.d)+' '+g.m, result:g.r, id:g.id, date:g.d, season:true, sk:'2526', excl:true, stints:g.s, players: fromStints(g.s) }));
 [['2425',S2425],['2324',S2324]].forEach(([k,x])=>x.SEASON.games.forEach(g=>state.push({ name: shortDate(g.d)+' '+g.m, result:g.r, id:g.id, date:g.d, season:true, sk:k, excl:true, stints:g.s, players: fromStints(g.s) })));
 const SEASON_LABEL = { '2526':'2025-26', '2425':'2024-25', '2324':'2023-24' };
+// Playoff rounds per season; each playoff game carries its season (sk), round (rd) and game number (gn)
+const PO_ROUNDS = { '2526':[{ name:'First round', opp:'PHI', team:'76ers' }], '2425':S2425.PO.rounds, '2324':S2324.PO.rounds };
+state.forEach(g=>{ if (g.po && !g.sk){ g.sk='2526'; g.rd=0; g.gn=+g.name.slice(1); } });
+[['2425',S2425],['2324',S2324]].forEach(([k,x])=>{
+  Object.assign(x.STATS.games, x.PO.segs);   // playoff segments use the season's player order
+  x.PO.games.forEach(g=>state.push({ name: shortDate(g.d)+' '+g.m, result:g.r, id:g.id, date:g.d, po:true, sk:k, rd:g.rd, gn:g.gn, excl:true, stints:g.s, players: fromStints(g.s) }));
+});
 state.push({ name:"Stretch map", map:true, excl:true, stints:{}, players:[] });
 state.push({ name:"Player splits", splits:true, excl:true, stints:{}, players:[] });
 state.push({ name:"2026-27 plan", plan:true, excl:true, stints:{}, players: PLAN_ROSTER.map(n=>({ name:n, minutes:new Array(TOTAL_MIN).fill(false), exact:null, edited:true, starter:false })) });
@@ -832,20 +840,25 @@ let customCount = 0;
 
 function viewOf(i){ const g=state[i]; return g.plan?'plan':g.splits?'splits':g.map?'map':'games'; }
 let lastGame = state.findIndex(g=>!g.plan && !g.splits && !g.map);
+function gameSeasonOf(g){ return g && (g.season||g.po) ? (g.sk||'2526') : '2526'; }
 function renderTabs(){
   const v=viewOf(cur); if (v==='games') lastGame=cur;
   document.querySelectorAll('#views [data-view]').forEach(b=>{ const on=b.dataset.view===v; b.classList.toggle('active',on); b.setAttribute('aria-pressed',on); });
   // one picker for every game: the playoff series, each month of the regular season, then pasted games
   document.getElementById('gameHead').hidden = v!=='games';
   if (v==='games'){
+    // one season at a time: that season's games by month, then its playoffs; the switch above changes season
+    const gs=gameSeasonOf(state[cur]);
+    document.getElementById('gameSeason').innerHTML=['2526','2425','2324'].map(k=>'<button type="button" data-gss="'+k+'" class="'+(k===gs?'on':'')+'" aria-pressed="'+(k===gs)+'">'+SEASON_LABEL[k]+'</button>').join('');
     const opt=(g,i,label)=>'<option value="'+i+'"'+(i===cur?' selected':'')+'>'+label+'</option>';
-    let h='<optgroup label="2026 playoffs · Round 1 vs. Philadelphia">';
-    state.forEach((g,i)=>{ if (!g.plan&&!g.splits&&!g.season&&!g.added) h+=opt(g,i,g.name.replace(/^G(\d)$/,'Game $1')+(g.result?' · '+g.result:'')); });
-    h+='</optgroup>'; let lastMon='';
-    state.forEach((g,i)=>{ if (!g.season) return; const mon=g.date.slice(0,7);
-      if (mon!==lastMon){ if (lastMon) h+='</optgroup>'; h+='<optgroup label="'+MON[+mon.slice(5)-1]+' '+mon.slice(0,4)+' · '+SEASON_LABEL[g.sk]+' regular season">'; lastMon=mon; }
+    let h='', lastMon='';
+    state.forEach((g,i)=>{ if (!g.season || g.sk!==gs) return; const mon=g.date.slice(0,7);
+      if (mon!==lastMon){ if (lastMon) h+='</optgroup>'; h+='<optgroup label="'+MON[+mon.slice(5)-1]+' '+mon.slice(0,4)+'">'; lastMon=mon; }
       h+=opt(g,i,g.name+' · '+g.result); });
     if (lastMon) h+='</optgroup>';
+    (PO_ROUNDS[gs]||[]).forEach((r,ri)=>{ h+='<optgroup label="Playoffs · '+r.name+' vs. '+r.team+'">';
+      state.forEach((g,i)=>{ if (g.po && g.sk===gs && g.rd===ri) h+=opt(g,i,'Game '+g.gn+(g.date?' · '+shortDate(g.date):'')+(g.result?' · '+g.result:'')); });
+      h+='</optgroup>'; });
     const added=state.map((g,i)=>[g,i]).filter(([g])=>g.added);
     if (added.length) h+='<optgroup label="Added games">'+added.map(([g,i])=>opt(g,i,g.name)).join('')+'</optgroup>';
     document.getElementById('gamePick').innerHTML=h;
@@ -893,7 +906,8 @@ function renderGameHead(){
     const mm=g.name.match(/(vs|@) ([A-Z]{3})$/);
     title = mm ? 'Celtics '+(mm[1]==='@'?'at ':'vs. ')+(TEAM[mm[2]]||mm[2]) : g.name;
   } else if (g.po){
-    eb='2026 playoffs · Round 1'; title='Game '+g.name.slice(1)+' '+(f&&!f.h?'at':'vs')+' 76ers';
+    const r=PO_ROUNDS[g.sk][g.rd];
+    eb='20'+g.sk.slice(2)+' playoffs · '+r.name+' · Game '+g.gn; title='Celtics '+(f&&!f.h?'at ':'vs. ')+r.team;
   } else { eb='Added game'; title=g.name; }
   if (res) meta='<span class="rs '+(res[1]==='W'?'w':'l')+'">'+(res[1]==='W'?'Won':'Lost')+'</span> '+res[2]+'–'+res[3]+(ot?' · OT':'')+(f?'<span class="ext"> · Led by up to '+hi+(lo<0?' · trailed by up to '+(-lo):'')+'</span>':'');
   else if (g.result) meta=g.result;
@@ -908,6 +922,11 @@ function stepGame(d){
   cur=+sel.options[k].value; players=state[cur].players; painting=null; selStint=null; renderTabs(); render();
 }
 document.addEventListener('click',e=>{ const b=e.target.closest && e.target.closest('.ssw [data-ss]'); if (!b || b.disabled || b.classList.contains('on')) return; if (b.dataset.ss==='all') mapBoth=true; else { mapBoth=false; splitSeason=b.dataset.ss; } renderTabs(); render(); });
+document.getElementById('gameSeason').addEventListener('click',e=>{ const b=e.target.closest('[data-gss]'); if (!b || b.classList.contains('on')) return;
+  // jump to that season's last game (its final playoff game for 2025-26)
+  const k=b.dataset.gss, idx=state.map((g,i)=>[g,i]).filter(([g])=>(g.season||g.po)&&gameSeasonOf(g)===k);
+  const last=idx.filter(([g])=>g.po).pop() || idx.pop(); if (!last) return;
+  cur=last[1]; players=state[cur].players; painting=null; selStint=null; renderTabs(); render(); });
 document.getElementById('gPrev').addEventListener('click',()=>stepGame(-1));
 document.getElementById('gNext').addEventListener('click',()=>stepGame(1));
 document.getElementById('views').addEventListener('click', e=>{
@@ -1168,7 +1187,7 @@ function showStintCard(){
   (g.stints[name]||[]).forEach(([x,y])=>{ track+='<i'+(x===a?' class="me"':'')+' style="left:'+pct(x)+';width:'+pct(y-x)+'"></i>'; });
   // Score at check-in/out from the same lineup segments as the stint totals, so out minus in always equals the stint score
   const all=STATS.games[g.id]||PO_SEGS[g.id]||[], pre=all.filter(x=>x[1]<=a).reduce((r,x)=>[r[0]+x[2],r[1]+x[3]],[0,0]);
-  const sIn=all.length?pre:null, sOut=all.length?[pre[0]+t.pf,pre[1]+t.pa]:null, opp=g.po?'PHI':g.name.split(' ').pop();
+  const sIn=all.length?pre:null, sOut=all.length?[pre[0]+t.pf,pre[1]+t.pa]:null, opp=g.po?PO_ROUNDS[g.sk][g.rd].opp:g.name.split(' ').pop();
   card.innerHTML='<button class="x" id="closeStint" aria-label="Close">×</button>'
     +'<h3>'+name+' <span>· '+ord.toLowerCase()+' stint · '+Math.floor(len/60)+':'+String(len%60).padStart(2,'0')+' on the floor</span></h3>'
     +'<div class="sc-track" aria-hidden="true">'+track+'</div>'
@@ -1270,7 +1289,7 @@ const SEASONS = {
 };
 [['2425',S2425],['2324',S2324]].forEach(([k,x])=>{ const bit={}; x.STATS.players.forEach((n,i)=>bit[n]=i);
   SEASONS[k]={ label:SEASON_LABEL[k], SEASON:x.SEASON, STATS:x.STATS, PBIT:bit, ROSTER_SPAN:x.ROSTER_SPAN, NBA_SPLITS:x.NBA_SPLITS, NBA_TEAM:x.NBA_TEAM, NBA_PAIRS:x.NBA_PAIRS, NBA_TEAM_NET:x.NBA_TEAM_NET, tc:null, pb:{} };
-  Object.assign(FLOW, x.FLOW); Object.assign(FULL, x.FULL); });
+  Object.assign(FLOW, x.FLOW, x.PO.FLOW); Object.assign(FULL, x.FULL); });
 function useSeason(k){
   if (k===seasonKey || !SEASONS[k]) return;
   SEASONS[seasonKey].tc = TEAM_CACHE;
