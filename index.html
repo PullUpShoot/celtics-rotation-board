@@ -17,7 +17,7 @@
 <meta name="twitter:image" content="https://pullupshoot.github.io/celtics-rotation-board/preview.png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62..125,500..800&family=IBM+Plex+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Source+Serif+4:opsz,wght@8..60,600;8..60,700&family=IBM+Plex+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
 <style>
   :root {
     --bg: #f6f5f0;
@@ -38,12 +38,13 @@
   html { -webkit-text-size-adjust: 100%; text-size-adjust: 100%; }
   html, body { margin: 0; background: var(--bg); color: var(--ink); font-family: "IBM Plex Sans", "Helvetica Neue", Helvetica, Arial, sans-serif; }
   body { padding-block: 16px; padding-inline: 16px; }
-  h1 { font-family: "Archivo", "Helvetica Neue", Helvetica, Arial, sans-serif; font-stretch: 78%; font-weight: 800; font-size: 30px; line-height: 1.02; letter-spacing: -0.005em; margin: 0; text-transform: uppercase; text-wrap: balance; }
+  h1 { font-family: "Source Serif 4", Georgia, "Times New Roman", serif; font-weight: 700; font-size: 32px; line-height: 1.05; letter-spacing: -0.015em; margin: 0; text-wrap: balance; }
   .page { max-width: 980px; margin: 0 auto; }
   .top { margin-bottom: 16px; }
   .tagline { margin: 8px 0 0; font-size: 13px; color: var(--ink-2); }
-  .tagline span { color: var(--ink-3); }
-  .top h1::after { content: ""; display: block; width: 44px; height: 4px; background: var(--green); border-radius: 2px; margin-top: 8px; }
+  .nameplate { display: flex; align-items: baseline; justify-content: space-between; gap: 4px 16px; flex-wrap: wrap; padding-bottom: 8px; border-bottom: 1px solid var(--ink); }
+  .sham { display: inline-block; width: .44em; height: .44em; vertical-align: super; margin-left: .03em; position: relative; top: .06em; }
+  .nameplate .by { font-size: 13px; color: var(--ink-3); white-space: nowrap; }
   .eyebrow { font-size: 11px; letter-spacing: .12em; text-transform: uppercase; color: var(--ink-2); font-weight: 700; margin-bottom: 4px; }
   .views { display: grid; grid-template-columns: repeat(4, 1fr); background: #e9e7df; border-radius: 10px; padding: 3px; gap: 3px; margin-bottom: 14px; max-width: 560px; }
   .views button { border: 0; background: transparent; border-radius: 8px; padding: 9px 6px; font-weight: 600; font-size: 14px; color: var(--ink-2); }
@@ -59,7 +60,7 @@
   #gamePickRow { margin-bottom: 12px; }
   .seasonsel.wide { width: 100%; max-width: 560px; font-size: 15px; padding: 9px 10px; }
   .ph { display: flex; flex-wrap: wrap; align-items: flex-end; justify-content: space-between; gap: 10px 20px; padding-bottom: 12px; border-bottom: 2px solid var(--ink); margin-bottom: 14px; }
-  .pbig { font-family: "Archivo", "Helvetica Neue", Helvetica, Arial, sans-serif; font-stretch: 75%; font-weight: 800; font-size: 44px; line-height: .95; text-transform: uppercase; margin: 2px 0 6px; letter-spacing: -0.01em; }
+  .pbig { font-family: "Source Serif 4", Georgia, "Times New Roman", serif; font-weight: 700; font-size: 40px; line-height: 1.05; letter-spacing: -0.015em; margin: 2px 0 6px; }
   .ph .meta { font-size: 13px; color: var(--ink-2); font-variant-numeric: tabular-nums; }
   .ph label { display: flex; flex-direction: column; gap: 4px; font-size: 11px; letter-spacing: .06em; text-transform: uppercase; color: var(--ink-3); }
   .sec { margin: 0 0 22px; padding-top: 16px; border-top: 1px solid var(--line); }
@@ -87,7 +88,7 @@
   .hc.act { outline: 2px solid var(--ink); outline-offset: 1px; position: relative; z-index: 1; }
   /* key numbers: sized to their content, left-aligned, no boxes or rules; type carries the hierarchy */
   .tiles { display: flex; flex-wrap: wrap; gap: 14px 44px; margin: 16px 0 18px; }
-  .tile b { display: block; font-family: "Archivo", "Helvetica Neue", Helvetica, Arial, sans-serif; font-stretch: 85%; font-size: 28px; line-height: 1.05; font-weight: 800; font-variant-numeric: tabular-nums; }
+  .tile b { display: block; font-family: "Source Serif 4", Georgia, "Times New Roman", serif; font-size: 28px; line-height: 1.05; font-weight: 700; font-variant-numeric: tabular-nums; }
   .tile b small { font-size: 14px; font-weight: 600; color: var(--ink-3); }
   .tile span { font-size: 12px; color: var(--ink-2); line-height: 1.35; display: block; margin-top: 2px; }
   @media (max-width: 640px) { .tiles { display: grid; grid-template-columns: 1fr 1fr; gap: 16px 18px; } .tile b { font-size: 24px; } }
@@ -194,8 +195,8 @@
   @media (max-width: 640px) { #exportImg { height: 62vh; } }
   @media (max-width: 640px) {
     body { padding-inline: 12px; }
-    h1 { font-size: 26px; }
-    .pbig { font-size: 36px; }
+    h1 { font-size: 27px; }
+    .pbig { font-size: 32px; }
     .views button { font-size: 13px; padding: 9px 4px; }
     .views .lg { display: none; } .views .sh { display: inline; }
     .tabs { gap: 5px; margin-bottom: 8px; }
@@ -357,8 +358,15 @@
   /* links: ink with a quiet underline; green is kept for data and the active view */
   .card a, .sp-note a, .modal-bar a, .strip-detail a, .method a { text-decoration: underline; text-decoration-color: var(--line-strong); text-underline-offset: 2px; text-decoration-thickness: 1px; }
   .card a:hover, .sp-note a:hover, .modal-bar a:hover, .strip-detail a:hover, .method a:hover { text-decoration-color: var(--ink); }
-  #seasonPick[hidden], #seasonPick [hidden] { display: none; }
-  #seasonPick .qb:disabled { opacity: .35; cursor: default; background: transparent; }
+  /* season switch: one quiet segmented control, lighter than the main tabs */
+  .ssw { display: inline-flex; background: #e9e7df; border-radius: 8px; padding: 2px; gap: 2px; }
+  .ssw button { border: 0; background: transparent; border-radius: 6px; padding: 5px 10px; font-size: 12px; font-weight: 600; color: var(--ink-2); font-variant-numeric: tabular-nums; }
+  .ssw button.on { background: #fff; color: var(--ink); box-shadow: 0 1px 2px rgba(0,0,0,.12); }
+  .ssw button:disabled { opacity: .35; cursor: default; }
+  .ph-tools { display: flex; flex-wrap: wrap; align-items: center; gap: 8px 16px; }
+  .ph-r { display: flex; flex-direction: column; align-items: flex-end; gap: 10px; }
+  .ptitle { font-family: "Source Serif 4", Georgia, "Times New Roman", serif; font-weight: 700; font-size: 28px; line-height: 1.1; letter-spacing: -0.01em; margin: 0 0 4px; }
+  @media (max-width: 640px) { .ph-r { align-items: flex-start; width: 100%; } .ph-tools { gap: 8px 6px; } .ssw button { padding: 5px 8px; } .hdr-share { padding: 6px 4px; } }
   #mapBoth { padding: 4px 10px; font-size: 12px; }
   .smap { border-top: 0; padding-top: 0; margin-bottom: 28px; }
   .sm-grid { display: grid; grid-template-columns: 92px repeat(8, minmax(0,1fr)); gap: 3px; }
@@ -390,22 +398,21 @@
 
 <div class="page">
 <header class="top">
-  <h1>Celtics Rotations</h1>
-  <p class="tagline">2023-26 minutes, lineups and splits <span>· by Pull Up Shoot</span></p>
+  <div class="nameplate"><h1>Celtics Rotations<!-- Shamrock: Twemoji by Twitter, CC BY 4.0 (creativecommons.org/licenses/by/4.0), recoloured --><svg class="sham" viewBox="0 0 36 36" aria-hidden="true"><path fill="#007a33" d="M32.34 19.208c.198-1.475 2.669-2.208 2.669-4.542S29.25 8.25 21 16c3.812-5.312 6.542-14.509 2.203-14.509c-1.47 0-2.579 1.342-4.328 1.342C16.5 2.833 16.208 0 14 0c-2.583 0-5 6.25 1 15c-1.5-1.625-11.083-6.625-13.002-1.269c-.628 1.753 1.731 2.781 1.544 4.519c-.178 1.654-2.597 2.037-2.597 4.372c0 3.293 8.048 4.834 16.044-1.613c-.245 4.524.557 10.515 3.857 14.158c1.344 1.483 2.407.551 2.822.187s1.604-1.414.185-2.822c-3.834-3.807-5.225-8.174-5.619-11.381c2.043 2.215 12.357 8.742 15.517 2.767c.881-1.668-1.643-2.977-1.411-4.71"/></svg></h1><span class="by">by Pull Up Shoot</span></div>
+  <p class="tagline">Sub patterns, game logs and player splits</p>
 </header>
 <nav class="views" id="views" aria-label="View">
   <button data-view="plan"><span class="lg">Build 2026-27</span><span class="sh">Build</span></button><button data-view="games"><span class="lg">Game log</span><span class="sh">Games</span></button><button data-view="map"><span class="lg">Stretch map</span><span class="sh">Map</span></button><button data-view="splits"><span class="lg">Player splits</span><span class="sh">Players</span></button>
 </nav>
 <div class="ph gh" id="gameHead" hidden><div id="ghText"></div><div class="gpick" id="gamePickRow"><label for="gamePick">Game</label><div class="gp-in"><button class="gstep" id="gPrev" aria-label="Previous game">&#8249;</button><select id="gamePick" class="seasonsel"></select><button class="gstep" id="gNext" aria-label="Next game">&#8250;</button></div></div></div>
 <div id="gnote" class="note"></div>
-<div class="toolrow">
+<div class="toolrow" id="toolrow">
   <div class="bar" id="tools">
     <button id="refBtn" class="tog" aria-pressed="false">Reference</button>
     <button id="paintBtn" class="tog" aria-pressed="false">Paint</button>
     <button id="undoBtn" disabled>Undo</button>
     <button id="addBtn">Add player</button>
   </div>
-  <div class="gt" id="seasonPick" role="group" aria-label="Season" hidden><span class="gt-l">Season</span><button class="qb active" data-ss="2526" aria-pressed="true">2025-26</button><button class="qb" data-ss="2425" aria-pressed="false">2024-25</button><button class="qb" data-ss="2324" aria-pressed="false">2023-24</button><button class="qb" data-ss="all" aria-pressed="false" hidden>All three</button></div>
   <div class="links">
     <button class="lnk" id="exportBtn">Save image</button>
     <button class="lnk" id="shareBtn">Copy link</button>
@@ -434,7 +441,7 @@
 
 
 
-<p class="foot">Play-by-play from NBA.com; minutes verified against official box scores.</p>
+<p class="foot">Play-by-play from NBA.com; minutes verified against official box scores. Shamrock from <a href="https://github.com/jdecked/twemoji" target="_blank" rel="noopener">Twemoji</a> (<a href="https://creativecommons.org/licenses/by/4.0/" target="_blank" rel="noopener">CC BY 4.0</a>), recoloured.</p>
 </div>
 
 <script src="season-2024-25.js"></script>
@@ -844,10 +851,7 @@ function renderTabs(){
   }
   const isPlan=v==='plan', isMap=v==='map', isSplits=v==='splits'||isMap;   // isSplits: any page without the minute grid
   document.getElementById('tools').hidden = !isPlan;
-  const sp=document.getElementById('seasonPick'); sp.hidden = !isSplits;
-  sp.querySelector('[data-ss="all"]').hidden = !isMap;
-  const act = (isMap && mapBoth) ? 'all' : splitSeason;
-  sp.querySelectorAll('[data-ss]').forEach(b=>{ const on=b.dataset.ss===act; b.classList.toggle('active',on); b.setAttribute('aria-pressed',on); if (isMap){ b.disabled=false; b.removeAttribute('title'); } });
+  document.getElementById('toolrow').style.display = isSplits ? 'none' : '';
   document.getElementById('resetBtn').hidden = !isPlan;
   document.getElementById('exportBtn').hidden = isSplits;
   ['reorderHint'].forEach(id=>{ const el=document.getElementById(id); if (el) el.style.display = isPlan?'':'none'; });
@@ -885,7 +889,7 @@ function renderGameHead(){
     const [y,m,d]=g.date.split('-').map(Number), dt=new Date(Date.UTC(y,m-1,d));
     eb=SEASON_LABEL[g.sk]+' regular season · '+DOW[dt.getUTCDay()]+', '+MON[m-1]+' '+d;
     const mm=g.name.match(/(vs|@) ([A-Z]{3})$/);
-    title = mm ? (mm[1]==='@'?'at ':'vs ')+(TEAM[mm[2]]||mm[2]) : g.name;
+    title = mm ? 'Celtics '+(mm[1]==='@'?'at ':'vs. ')+(TEAM[mm[2]]||mm[2]) : g.name;
   } else if (g.po){
     eb='2026 playoffs · Round 1'; title='Game '+g.name.slice(1)+' '+(f&&!f.h?'at':'vs')+' 76ers';
   } else { eb='Added game'; title=g.name; }
@@ -901,7 +905,7 @@ function stepGame(d){
   if (k<0 || k>=sel.options.length) return;
   cur=+sel.options[k].value; players=state[cur].players; painting=null; selStint=null; renderTabs(); render();
 }
-document.getElementById('seasonPick').addEventListener('click',e=>{ const b=e.target.closest('[data-ss]'); if (!b) return; if (b.dataset.ss==='all') mapBoth=true; else { mapBoth=false; splitSeason=b.dataset.ss; } renderTabs(); render(); });
+document.addEventListener('click',e=>{ const b=e.target.closest && e.target.closest('.ssw [data-ss]'); if (!b || b.disabled || b.classList.contains('on')) return; if (b.dataset.ss==='all') mapBoth=true; else { mapBoth=false; splitSeason=b.dataset.ss; } renderTabs(); render(); });
 document.getElementById('gPrev').addEventListener('click',()=>stepGame(-1));
 document.getElementById('gNext').addEventListener('click',()=>stepGame(1));
 document.getElementById('views').addEventListener('click', e=>{
@@ -1414,9 +1418,9 @@ function stretchMap(){
   if (mapSort==null) rows.sort((a,b)=>b.sec-a.sec);
   else rows.sort((a,b)=>{ const x=a.b[mapSort], y=b.b[mapSort], va=x.ok?x.d:-1e9, vb=y.ok?y.d:-1e9; return vb-va; });
   const top=Math.max(...rows.flatMap(r=>r.b.map(k=>k.mpg)));
-  let h='<div class="ph"><div><div class="eyebrow">'+(mapBoth?'2023-24 to 2025-26 regular seasons':SEASONS[seasonKey].label+' regular season')+'</div>'
-    +'<h2 class="pbig">Stretch map</h2>'
-    +'<div class="meta">'+rows.length+' players · '+(mapBoth?'Celtics all three seasons, 1,000+ minutes':'1,000+ minutes')+'</div></div></div>'
+  let h='<div class="ph"><div><h2 class="ptitle">Stretch map</h2>'
+    +'<div class="meta">'+(mapBoth?'2023-24 to 2025-26 · ':'')+rows.length+' players · '+(mapBoth?'Celtics all three seasons, 1,000+ minutes':'1,000+ minutes')+'</div></div>'
+    +seasonSwitch(true)+'</div>'
     +'<section class="sec smap">'
     +'<p class="sec-sub">How the Celtics did with each player on the floor, compared with their usual in the same six minutes of the game. Bar: his minutes per game there.</p>'
     +'<div class="sm-grid"><div></div>'+[1,2,3,4].map(q=>'<div class="sm-q">Q'+q+'</div>').join('')
@@ -1450,6 +1454,16 @@ function wireMap(el){
     c.addEventListener('click',show); c.addEventListener('mouseenter',show);
   });
 }
+function seasonSwitch(isMap){
+  const act = (isMap && mapBoth) ? 'all' : splitSeason;
+  const opts = ['2526','2425','2324'].concat(isMap ? ['all'] : []);
+  return '<div class="ph-tools"><div class="ssw" role="group" aria-label="Season">'+opts.map(k=>{
+    let dis='';
+    if (!isMap){ const z=SEASONS[k], sec=z.SEASON.games.reduce((a,g)=>a+(g.s[splitPlayer]||[]).reduce((x,[p,q])=>x+q-p,0),0);
+      if (sec<60) dis=' disabled title="'+(FULL[splitPlayer]||splitPlayer)+' wasn&#39;t with the Celtics in '+z.label+'"'; }
+    return '<button type="button" data-ss="'+k+'" class="'+(k===act?'on':'')+'" aria-pressed="'+(k===act)+'"'+dis+'>'+(k==='all'?'All three':SEASON_LABEL[k])+'</button>';
+  }).join('')+'</div><button type="button" class="lnk hdr-share">Copy link</button></div>';
+}
 function renderMapPage(){
   useSeason(splitSeason);
   const el=document.getElementById('mapview');
@@ -1469,17 +1483,14 @@ function renderSplits(){
   const names = STATS.players.map(n=>({ n, sec: playerGames(n).reduce((a,g)=>a+g.s[n].reduce((x,[p,q])=>x+q-p,0),0) }))
     .filter(x=>x.sec>=60).sort((a,b)=>b.sec-a.sec).map(x=>x.n);
   if (!splitPlayer || !names.includes(splitPlayer)) splitPlayer = names[0];
-  document.querySelectorAll('#seasonPick [data-ss]').forEach(b=>{ const z=SEASONS[b.dataset.ss]; if (!z) return;
-    const sec=z.SEASON.games.reduce((a,g)=>a+(g.s[splitPlayer]||[]).reduce((x,[p,q])=>x+q-p,0),0), off=sec<60;
-    b.disabled=off; if (off) b.title=(FULL[splitPlayer]||splitPlayer)+' wasn\'t with the Celtics in '+z.label; else b.removeAttribute('title'); });
   const name=splitPlayer, gs=playerGames(name), st=gs.filter(g=>g.s[name][0][0]===0).length;
   const blocks=playerBlocks(name), NS=NBA_SPLITS[name]||{};
   const fmtN=v=>Math.round(v).toLocaleString('en-US');
   const SL=SEASONS[seasonKey].label;
-  let h='<div class="ph"><div><div class="eyebrow">'+SL+' regular season</div>'
+  let h='<div class="ph"><div>'
    +'<h2 class="pbig">'+(FULL[name]||name)+'</h2>'
    +'<div class="meta">'+(NS.all?NS.all[0]+' games · '+(NS.start?NS.start[0]:0)+((NS.start&&NS.start[0]===1)?' start · ':' starts · ')+NS.all[1].toFixed(1)+' minutes per game':gs.length+' games')+'</div></div>'
-   +'<label for="spSel">Player<select id="spSel" class="seasonsel">'+names.map(n=>'<option value="'+n+'"'+(n===name?' selected':'')+'>'+(FULL[n]||n)+'</option>').join('')+'</select></label></div>'
+   +'<div class="ph-r">'+seasonSwitch(false)+'<label for="spSel">Player<select id="spSel" class="seasonsel">'+names.map(n=>'<option value="'+n+'"'+(n===name?' selected':'')+'>'+(FULL[n]||n)+'</option>').join('')+'</select></label></div></div>'
    ;
   const gt=''; const _unused='<span class="gt" role="group" aria-label="Garbage time"><span class="gt-l">Garbage time</span><button class="qb'+(inclGarbage?'':' active')+'" data-gt="0">Excluded</button><button class="qb'+(inclGarbage?' active':'')+'" data-gt="1">Included</button></span>';
   // 0. rotation habits (exact minutes, no possession counting)
@@ -1719,9 +1730,8 @@ function exportImage(){
   const dl=document.getElementById('dl'); dl.href=url; dl.download=(isPlan?'rotation-plan':'rotation-'+g.name.toLowerCase())+'.png';
   document.getElementById('modal').hidden=false;
 }
-document.getElementById('shareBtn').addEventListener('click', async ()=>{
+async function copyLink(btn){
   const url = shareURL();
-  const btn = document.getElementById('shareBtn');
   let ok=false;
   try { await navigator.clipboard.writeText(url); ok=true; }
   catch(_){
@@ -1738,7 +1748,9 @@ document.getElementById('shareBtn').addEventListener('click', async ()=>{
   if (!ok) location.hash = url.split('#')[1];
   btn.textContent = ok ? 'Link copied' : 'Link in address bar';
   setTimeout(()=>{ btn.textContent='Copy link'; }, 1800);
-});
+}
+document.getElementById('shareBtn').addEventListener('click', e=>copyLink(e.currentTarget));
+document.addEventListener('click', e=>{ const b=e.target.closest && e.target.closest('.hdr-share'); if (b) copyLink(b); });
 document.getElementById('exportBtn').addEventListener('click', exportImage);
 document.getElementById('refMode').addEventListener('click', e=>{
   const b = e.target.closest('[data-rm]'); if (!b) return;
