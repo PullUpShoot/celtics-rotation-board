@@ -70,6 +70,16 @@
   .ph + .sec { border-top: 0; padding-top: 0; }
   .sec-h { font-family: "IBM Plex Sans", "Helvetica Neue", Helvetica, Arial, sans-serif; font-weight: 600; font-size: 17px; letter-spacing: -0.005em; margin: 0 0 2px; }
   .sec-sub { font-size: 12px; color: var(--ink-2); margin: 0 0 10px; line-height: 1.45; }
+  .sec-meta { font-size: 11px; color: var(--ink-3); letter-spacing: .01em; white-space: nowrap; }
+  .sec-top + .heat, .sec-top + .strip, .sec-top + .mates, .sec-top + .sd, .sec-top + div > table.sp { margin-top: 8px; }
+  .key { display: flex; flex-wrap: wrap; align-items: center; gap: 5px 16px; font-size: 11px; color: var(--ink-3); margin: 8px 0 0; }
+  .key span { display: inline-flex; align-items: center; gap: 6px; }
+  .key i { display: inline-block; width: 14px; height: 10px; border-radius: 2px; flex: none; }
+  .key i.ramp { width: 54px; background: linear-gradient(90deg, #8e44ad, #f0efec 50%, #007a33); }
+  .key i.ramp1 { width: 40px; background: linear-gradient(90deg, #eef4ee, #007a33); }
+  .key i.small { background: #faf9f5; border: 1px dashed var(--line-strong); box-sizing: border-box; }
+  .key i.thin { background: repeating-linear-gradient(135deg, #f0efec 0 3px, #e4e2da 3px 5px); }
+  .key i.mpg { height: 4px; background: rgba(28,28,26,.45); border-radius: 0; }
   .sr { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); }
   .sp .barcol { width: 110px; padding-left: 6px; }
   .nb { position: relative; display: block; height: 10px; width: 68px; margin-left: auto; background: linear-gradient(var(--line-strong),var(--line-strong)) center/1px 100% no-repeat; }
@@ -84,10 +94,54 @@
   .mate.small .mn-name, .mate.small .mnet { color: var(--ink-3); }
   .sp .barcol .nb { width: 96px; }
   @media (max-width: 640px) { .mate { grid-template-columns: 78px 1fr 46px 52px; gap: 6px; font-size: 12px; } }
+  /* shot diet: dumbbell per shot type. Open dot = without the teammate, filled dot = with him. */
+  .sd { display: grid; gap: 2px; margin-top: 6px; }
+  .sd-r { display: grid; grid-template-columns: 170px 1fr 84px; align-items: center; gap: 12px; font-size: 13px; min-height: 30px; }
+  .sd-t { position: relative; height: 30px; background: linear-gradient(var(--line),var(--line)) center/100% 1px no-repeat; }
+  .sd-t .ln { position: absolute; top: 50%; height: 2px; margin-top: -1px; background: var(--ink-3); }
+  .dot { display: inline-block; width: 12px; height: 12px; border-radius: 50%; box-sizing: border-box; flex: none; }
+  .sd-t .dot { position: absolute; top: 50%; margin: -6px 0 0 -6px; box-shadow: 0 0 0 2px var(--bg); }
+  .dot.w { background: var(--green); } .dot.o { background: var(--bg); border: 2px solid var(--ink-3); }
+  .sd-ax { min-height: 16px; } .sd-ax .sd-t { height: 16px; background: none; }
+  .sd-ax u { position: absolute; top: 0; transform: translateX(-50%); text-decoration: none; font-size: 10px; color: var(--ink-3); font-variant-numeric: tabular-nums; }
+  .sd-v { text-align: right; font-variant-numeric: tabular-nums; white-space: nowrap; }
+  .sd-v b { font-weight: 700; } .sd-v em { font-style: normal; color: var(--ink-3); margin-left: 8px; }
+  .sd-key { display: flex; flex-wrap: wrap; gap: 4px 18px; font-size: 12px; color: var(--ink-2); margin: 8px 0 0; }
+  .sd-key span { display: inline-flex; align-items: center; gap: 7px; }
+  .sd-pick { display: inline-flex; align-items: center; gap: 8px; font-size: 12px; color: var(--ink-3); }
+  .sd-note { font-size: 11px; color: var(--ink-3); margin: 8px 0 0; }
+  @media (max-width: 640px) { .sd-r { grid-template-columns: 112px 1fr 70px; gap: 10px; font-size: 12px; } }
   .heat { display: grid; grid-template-columns: repeat(12, 1fr) 3px repeat(12, 1fr) 3px repeat(12, 1fr) 3px repeat(12, 1fr) 0px; column-gap: 1px; row-gap: 0; }
   .heat .gap { width: 3px; }
   .heat .ql { grid-column: span 13; font-size: 11px; color: var(--ink-3); text-align: center; border-bottom: 1px solid var(--line-strong); padding-bottom: 3px; margin-bottom: 3px; }
   .hc { border: 0; padding: 0; height: 34px; border-radius: 2px; cursor: pointer; }
+  /* rotation curve */
+  .rc { margin-top: 2px; }
+  .rc-q, .rc-mq { display: grid; grid-template-columns: repeat(4, 1fr); text-align: center; font-size: 11px; color: var(--ink-3); }
+  .rc-q { border-bottom: 1px solid var(--line-strong); padding-bottom: 3px; }
+  .rc-plot { position: relative; height: 132px; }
+  .rc-plot svg { position: absolute; inset: 0; width: 100%; height: 100%; overflow: visible; }
+  .rc-plot path { fill: none; vector-effect: non-scaling-stroke; }
+  .rc-plot .g { stroke: var(--line); stroke-width: 1; stroke-dasharray: 2 3; }
+  .rc-plot .qd { stroke: var(--line-strong); stroke-width: 1; }
+  .rc-plot .ax { stroke: var(--ink-3); stroke-width: 1; }
+  .rc-plot .a0 { fill: rgba(0,122,51,.13); }
+  .rc-plot .l0 { stroke: var(--green); stroke-width: 2; stroke-linejoin: round; }
+  .rc-plot .l1 { stroke: var(--ink); stroke-width: 1.5; stroke-linejoin: round; stroke-dasharray: 5 3; }
+  .rc-y { position: absolute; left: 4px; transform: translateY(-110%); font-size: 10px; color: var(--ink-3); pointer-events: none; }
+  .rc-hit { position: absolute; inset: 0; display: grid; grid-template-columns: repeat(48, 1fr); }
+  .rc-hit .hc { height: auto; background: none; border-radius: 0; }
+  .rc-cur { position: absolute; top: 0; bottom: 4%; width: 1px; background: var(--ink); pointer-events: none; }
+  .rc-role { margin-top: 6px; }
+  .rc-st { position: relative; height: 5px; margin-bottom: 4px; }
+  .rc-st b { position: absolute; top: 0; height: 5px; border-radius: 2px; }
+  .rc-st b.s0 { background: var(--green); } .rc-st b.s1 { background: var(--ink); }
+  .rc-mq b { color: var(--ink); font-weight: 600; font-variant-numeric: tabular-nums; }
+  .rc-k { display: flex; flex-wrap: wrap; align-items: baseline; gap: 2px 10px; font-size: 12px; margin-top: 4px; }
+  .rc-k i { width: 18px; height: 0; border-top: 2px solid var(--green); align-self: center; }
+  .rc-k i.k1 { border-top: 1.5px dashed var(--ink); }
+  .rc-k b { font-weight: 600; } .rc-k span { color: var(--ink-2); font-variant-numeric: tabular-nums; }
+  @media (max-width: 640px) { .rc-plot { height: 112px; } }
   .hc.act { outline: 2px solid var(--ink); outline-offset: 1px; position: relative; z-index: 1; }
   /* key numbers: sized to their content, left-aligned, no boxes or rules; type carries the hierarchy */
   .tiles { display: flex; flex-wrap: wrap; gap: 14px 44px; margin: 16px 0 18px; }
@@ -101,7 +155,13 @@
   .qbar i { height: 8px; background: #eeede6; border-radius: 4px; position: relative; overflow: hidden; }
   .qbar i b { position: absolute; left: 0; top: 0; bottom: 0; background: var(--green); border-radius: 4px; }
   .qbar em { font-style: normal; text-align: right; font-weight: 600; font-variant-numeric: tabular-nums; }
-  .night { margin: 4px 0 16px; }
+  .night { margin: 4px 0 18px; }
+  /* stints and that night's minutes by quarter as one block: list at its own width, bars right beside it, rows on the same rhythm */
+  .nt-body { display: grid; grid-template-columns: max-content minmax(0, 360px); justify-content: start; gap: 4px 56px; align-items: start; margin-top: 10px; }
+  .nt-body .qb-h { margin: 0 0 2px; line-height: 20px; }
+  .nt-body .nt-list { margin: 0; gap: 0; } .nt-body .nt-list li { line-height: 26px; }
+  .nt-body .qbars { max-width: none; gap: 0; } .nt-body .qbar { min-height: 26px; }
+  @media (max-width: 640px) { .nt-body { grid-template-columns: minmax(0,1.25fr) minmax(0,1fr); gap: 4px 14px; } .nt-body .nt-list { font-size: 12px; padding-left: 16px; } .nt-body .qbar { grid-template-columns: 18px 1fr 26px; gap: 5px; font-size: 11px; } }
   .nt-track { position: relative; height: 26px; background: #eeede6; border-radius: 4px; }
   .nt-q { position: absolute; top: -3px; bottom: -3px; width: 2px; margin-left: -1px; background: var(--line-strong); z-index: 1; }
   .nt-bar { position: absolute; top: 3px; bottom: 3px; background: var(--green); border-radius: 3px; }
@@ -132,8 +192,8 @@
   .row.bench-start { border-top: 2px solid var(--line-strong); }
   .reorder-hint { font-size: 12px; color: var(--ink-3); margin: 0 0 10px; line-height: 1.45; }
   .src { color: var(--ink-3); opacity: .85; }
-  .grouplab { font-size: 10px; letter-spacing: .06em; text-transform: uppercase; color: var(--ink-3); font-weight: 700; padding: 5px 0 3px; background: #fbfaf6; border-bottom: 1px solid var(--line); }
-  .grouplab span { position: sticky; left: 0; display: inline-block; padding: 0 8px; background: #fbfaf6; }
+  .grouplab { font-size: 10px; letter-spacing: .06em; text-transform: uppercase; color: var(--ink-3); font-weight: 700; padding: 0; background: #fbfaf6; border-bottom: 1px solid var(--line); }
+  .grouplab span { position: sticky; left: 0; z-index: 1; display: block; width: 112px; box-sizing: border-box; padding: 5px 8px 3px; background: #fbfaf6; border-right: 1px solid var(--line); }
   .grip { width: 14px; height: 20px; flex-shrink: 0; cursor: grab; margin-right: 8px; border-radius: 3px;
     background-image: radial-gradient(circle, var(--line-strong) 1.1px, transparent 1.2px);
     background-size: 5px 5px; background-position: 2px 4px; background-repeat: repeat; }
@@ -209,7 +269,7 @@
     .reorder-hint { font-size: 11px; margin-bottom: 6px; }
     .qpick { margin-bottom: 6px; }
     .qb { padding: 5px 9px; }
-    .name { width: 104px; }
+    .name, .grouplab span { width: 104px; }
     .pname { font-size: 12px; }
     .tot { width: 38px; font-size: 10px; padding: 0 3px; }
     .tot.avg { display: none; }
@@ -375,6 +435,7 @@
   .sm-grid { display: grid; grid-template-columns: 92px repeat(8, minmax(0,1fr)); gap: 3px; }
   .sm-q { grid-column: span 2; font-size: 11px; color: var(--ink-3); text-align: center; border-bottom: 1px solid var(--line-strong); padding-bottom: 3px; }
   .sm-q:nth-child(2) { grid-column: 2 / span 2; }
+  .sm-gran { margin: 8px 0 10px; }
   .sm-sorth { display: flex; }
   .sm-s { border: 0; background: none; padding: 3px 0 4px; font: inherit; font-size: 10px; color: var(--ink-3); cursor: pointer; border-radius: 3px; font-variant-numeric: tabular-nums; }
   .sm-sorth .sm-s { text-align: left; padding-left: 0; }
@@ -426,7 +487,7 @@
 <p class="reorder-hint" id="gameHint" style="display:none" hidden></p>
 <p class="reorder-hint" id="reorderHint">Drag rows to reorder. The top five start.</p>
 <div class="qpick" id="refMode" style="display:none"><button class="qb" data-rm="reg">Regular season</button><button class="qb" data-rm="po">Playoffs</button></div>
-<p class="reorder-hint" id="refHint" style="display:none">Shading shows how often each player was on the floor in that minute across the games below. Garbage time is excluded: fourth-quarter blowouts, and the stretch after a team pulls its starters for good.<br><span class="src" id="refSrc"></span></p>
+<p class="reorder-hint" id="refHint" style="display:none">Shading: how often each player was on the floor in that minute. Garbage time excluded.<br><span class="src" id="refSrc"></span></p>
 <div class="qpick" id="qpick"></div>
 <div class="wrap"><div class="grid" id="grid"></div></div>
 <div id="bump"></div>
@@ -449,6 +510,7 @@
 
 <script src="season-2024-25.js"></script>
 <script src="season-2023-24.js"></script>
+<script src="shots.js"></script>
 <script>
 const TOTAL_MIN = 48;
 // Every score change from the NBA.com play-by-play (seconds since the previous change + a=BOS+1 b=+2 c=+3, x/y/z=opp, m/n=correction), and official box-score +/-.
@@ -801,7 +863,7 @@ function decodePlan(tok){
 function shareURL(){
   // On a regular-season game, share that game; everywhere else, share the plan.
   if (state[cur] && (state[cur].season||state[cur].po)) return location.origin + location.pathname + '#g=' + state[cur].id;
-  if (state[cur] && state[cur].map) return location.origin + location.pathname + '#map' + (mapBoth ? '&ss=all' : splitSeason!=='2526' ? '&ss='+splitSeason : '');
+  if (state[cur] && state[cur].map) return location.origin + location.pathname + '#map' + (mapBoth ? '&ss=all' : splitSeason!=='2526' ? '&ss='+splitSeason : '') + (mapGran!==8 ? '&w='+mapGran : '');
   if (state[cur] && state[cur].splits) return location.origin + location.pathname + '#s=' + encodeURIComponent(splitPlayer) + (splitSeason!=='2526' ? '&ss='+splitSeason : '');
   return location.origin + location.pathname + '#p=' + encodePlan(state.find(g=>g.plan).players);
 }
@@ -825,6 +887,8 @@ let view = 'all';   // 'all' or quarter index 0-3
 let seriesOpen = false, addedOpen = false, seasonOpen = false;
 let splitPlayer = null, selStint = null;
 function viewRange(){ return view==='all' ? [0,TOTAL_MIN] : [view*12, view*12+12]; }
+let stripGran = 8;   // same windows for the player page's net rating strip
+let mapGran = 8;   // stretch map window: 8 six-minute stretches, 4 quarters, 2 halves, 1 full game
 let seasonKey = '2526', splitSeason = '2526', mapBoth = false;   // season in the globals / picked in Player splits / stretch map pooled
 let cur = state.findIndex(g=>g.plan);
 try {
@@ -832,7 +896,7 @@ try {
   if (gm){ const i = state.findIndex(g=>(g.season||g.po) && g.id===gm[1]); if (i>=0){ cur=i; seasonOpen=true; } }
   const sm = (location.hash||'').match(/[#&]s=([^&]+)/);
   const ssm = (location.hash||'').match(/[#&]ss=(\d{4})/), EXTRA={ '2425':S2425, '2324':S2324 }; if (ssm && EXTRA[ssm[1]]) splitSeason=ssm[1];
-  if (/[#&]map\b/.test(location.hash||'')){ cur=state.findIndex(g=>g.map); if (/[#&]ss=all/.test(location.hash)) mapBoth=true; }
+  if (/[#&]map\b/.test(location.hash||'')){ cur=state.findIndex(g=>g.map); if (/[#&]ss=all/.test(location.hash)) mapBoth=true; const wm=location.hash.match(/[#&]w=([124])\b/); if (wm) mapGran=+wm[1]; }
   if (sm){ const nm=decodeURIComponent(sm[1]); if (PBIT[nm]!=null || (EXTRA[splitSeason] && EXTRA[splitSeason].STATS.players.includes(nm))){ splitPlayer=nm; cur=state.findIndex(g=>g.splits); } }
 } catch(e){}
 let players = state[cur].players;
@@ -1240,7 +1304,21 @@ function splitRows(name){
   return rows;
 }
 /* Blocks: the game cut into eight 6-minute stretches, matching the board's grid. */
-const BLOCKS = [0,1,2,3,4,5,6,7].map(b=>({ a:b*360, b:(b+1)*360, label:(b%2?'late':'early')+' Q'+(Math.floor(b/2)+1), clock:(b%2?'6:00–0:00':'12:00–6:00') }));
+// Windows of regulation: 8 six-minute stretches, 4 quarters, 2 halves or the whole game. Lineup segments are cut at every
+// six-minute mark, so the bigger windows are exact sums of the same pieces.
+const WINS = {};
+function winsFor(n){
+  if (WINS[n]) return WINS[n];
+  const w=2880/n;
+  return WINS[n]=[...Array(n)].map((_,i)=>{
+    const a=i*w, b=a+w;
+    if (n===8) return { a, b, label:(i%2?'late':'early')+' Q'+(Math.floor(i/2)+1), clock:(i%2?'6:00–0:00':'12:00–6:00'), short:(i%2?'6–0':'12–6') };
+    if (n===4) return { a, b, label:'Q'+(i+1), clock:'', short:'Q'+(i+1) };
+    if (n===2) return { a, b, label:(i?'second':'first')+' half', clock:'', short:(i?'2nd half':'1st half') };
+    return { a, b, label:'full game', clock:'', short:'Full game' };
+  });
+}
+const BLOCKS = winsFor(8);
 const BLOCK_MIN_POSS = 100;
 const POS='#007a33', NEG='#8e44ad', MID='#f0efec';   // validated diverging pair (colorblind-safe)
 function mix(h1,h2,t){ const p=h=>[1,3,5].map(i=>parseInt(h.slice(i,i+2),16)); const a=p(h1),b=p(h2); return 'rgb('+a.map((v,i)=>Math.round(v+(b[i]-v)*t)).join(',')+')'; }
@@ -1257,14 +1335,19 @@ function teamBase(){
 // Sample size is judged in minutes (what readers use); net rating itself is still per 100 possessions.
 const BLOCK_MIN_MIN = 50;          // under 50 minutes in a stretch: too few to rate
 let PB_CACHE = {};
-function playerBlocks(name){
-  const key=name+'|'+inclGarbage; if (PB_CACHE[key]) return PB_CACHE[key];
+function teamBlocks(n){
+  const tb=teamBase(); if (!tb.bg) tb.bg={ 8:tb.blocks };
+  if (!tb.bg[n]){ const liveS=SEASON.games.flatMap(g=>(STATS.games[g.id]||[]).filter(STRETCH_KEEP)); tb.bg[n]=winsFor(n).map(k=>tally(liveS.filter(x=>x[0]>=k.a&&x[1]<=k.b))); }
+  return tb.bg[n];
+}
+function playerBlocks(name, n=8){
+  const key=name+'|'+inclGarbage+'|'+n; if (PB_CACHE[key]) return PB_CACHE[key];
   const bit=1<<PBIT[name], gs=playerGames(name);
-  return PB_CACHE[key]=BLOCKS.map((k,i)=>{
+  return PB_CACHE[key]=winsFor(n).map((k,i)=>{
     const perGame=gs.map(g=>{ const ss=(STATS.games[g.id]||[]).filter(x=>STRETCH_KEEP(x) && (x[6]&bit) && x[0]>=k.a && x[1]<=k.b);
       return ss.reduce((a,x)=>[a[0]+x[1]-x[0],a[1]+x[2],a[2]+x[3],a[3]+x[4]/10,a[4]+x[5]/10],[0,0,0,0,0]); });
     const segs=gs.flatMap(g=>(STATS.games[g.id]||[]).filter(x=>STRETCH_KEEP(x) && (x[6]&bit) && x[0]>=k.a && x[1]<=k.b));
-    const t=tally(segs); const base=teamBase().blocks[i].net, r1=v=>Math.round(v*10)/10;
+    const t=tally(segs); const base=teamBlocks(n)[i].net, r1=v=>Math.round(v*10)/10;
     // difference of the two rounded ratings, so the block always equals what the detail line shows
     const d=(t.net!=null&&base!=null)?r1(r1(t.net)-r1(base)):null;
     return { k, t, d, games:perGame.filter(x=>x[0]>0).length,
@@ -1298,23 +1381,24 @@ function useSeason(k){
   TEAM_CACHE = z.tc; PB_CACHE = z.pb;
 }
 // All seasons pooled (players who were Celtics every season): segments from each season, read with that season's own player bits.
-const BOTH = { team:null, pb:{} };
-function bothTeam(){
-  if (BOTH.team) return BOTH.team;
-  const live=[]; for (const z of Object.values(SEASONS)) for (const g of z.SEASON.games) for (const x of (z.STATS.games[g.id]||[])) if (STRETCH_KEEP(x)) live.push(x);
-  return BOTH.team={ blocks:BLOCKS.map(k=>tally(live.filter(x=>x[0]>=k.a&&x[1]<=k.b))) };
+const BOTH = { live:null, team:{}, pb:{} };
+function bothTeam(n=8){
+  if (BOTH.team[n]) return BOTH.team[n];
+  // regular-season games only (z.SEASON.games), never the playoff segments stored alongside
+  if (!BOTH.live){ BOTH.live=[]; for (const z of Object.values(SEASONS)) for (const g of z.SEASON.games) for (const x of (z.STATS.games[g.id]||[])) if (STRETCH_KEEP(x)) BOTH.live.push(x); }
+  return BOTH.team[n]={ blocks:winsFor(n).map(k=>tally(BOTH.live.filter(x=>x[0]>=k.a&&x[1]<=k.b))) };
 }
-function bothBlocks(name){
-  if (BOTH.pb[name]) return BOTH.pb[name];
+function bothBlocks(name, n=8){
+  const ck=name+'|'+n; if (BOTH.pb[ck]) return BOTH.pb[ck];
   const parts=Object.values(SEASONS).filter(z=>z.PBIT[name]!=null).map(z=>({ z, bit:1<<z.PBIT[name], gs:z.SEASON.games.filter(g=>g.s[name]) }));
   const ngp=parts.reduce((a,p)=>a+p.gs.length,0);
-  return BOTH.pb[name]=BLOCKS.map((k,i)=>{
+  return BOTH.pb[ck]=winsFor(n).map((k,i)=>{
     const segs=[]; let games=0;
     for (const {z,bit,gs} of parts) for (const g of gs){
       const ss=(z.STATS.games[g.id]||[]).filter(x=>STRETCH_KEEP(x) && (x[6]&bit) && x[0]>=k.a && x[1]<=k.b);
       if (ss.some(x=>x[1]>x[0])) games++; segs.push(...ss);
     }
-    const t=tally(segs), base=bothTeam().blocks[i].net, r1=v=>Math.round(v*10)/10;
+    const t=tally(segs), base=bothTeam(n).blocks[i].net, r1=v=>Math.round(v*10)/10;
     const d=(t.net!=null&&base!=null)?r1(r1(t.net)-r1(base)):null;
     return { k, t, d, games, mpg:t.sec/60/Math.max(1,ngp), ok:t.sec>=BLOCK_MIN_MIN*60 };
   });
@@ -1369,7 +1453,7 @@ function habits(name){
       const runs=[]; let st=null;
       // halftime splits a run in two: technically continuous floor time, but a 15-minute break in practice
       on.forEach((v,m)=>{ if (m===24 && v && st!==null){ runs.push({ a:st*60, b:1440 }); st=24; } if (v && st===null) st=m; if ((!v||m===47) && st!==null){ runs.push({ a:st*60, b:(v&&m===47?48:m)*60 }); st=null; } });
-      return { label, n:set.length, stints:runs };
+      return { label, n:set.length, stints:runs, share:[...Array(48)].map((_,m)=>set.filter(g=>ov(g.s[name],m*60,m*60+60)>=30).length/set.length), q:[0,1,2,3].map(k=>set.reduce((t,g)=>t+ov(g.s[name],k*720,k*720+720),0)/set.length/60) };
     }) };
 }
 function clockAt(t){ return clockLabel(Math.round(t), false); }
@@ -1429,39 +1513,41 @@ function wireTimeline(el, name){
 
 // ---- Stretch map: every rotation player x the eight 6-minute stretches of a game ----
 // Same numbers as each player's "Net rating by stretch" strip, laid out for the whole roster.
-const MAP_MIN = 1000;              // season minutes to make the map
+const MAP_MIN = 500;              // season minutes to make the map
 let mapSort = null;                // null = by minutes, else block index
 function stretchMap(){
   const rows = mapBoth
-    ? STATS.players.map(n=>({ n, ...(bothMinutes(n)||{sec:0,gp:0}) })).filter(r=>r.sec>=MAP_MIN*60).map(r=>({ ...r, b: bothBlocks(r.n) }))
+    ? STATS.players.map(n=>({ n, ...(bothMinutes(n)||{sec:0,gp:0}) })).filter(r=>r.sec>=MAP_MIN*60).map(r=>({ ...r, b: bothBlocks(r.n, mapGran) }))
     : STATS.players.map(n=>({ n, sec: playerGames(n).reduce((a,g)=>a+g.s[n].reduce((x,[s,e])=>x+e-s,0),0) }))
-      .filter(r=>r.sec>=MAP_MIN*60).map(r=>({ ...r, b: playerBlocks(r.n), gp: playerGames(r.n).length }));
+      .filter(r=>r.sec>=MAP_MIN*60).map(r=>({ ...r, b: playerBlocks(r.n, mapGran), gp: playerGames(r.n).length }));
   if (mapSort==null) rows.sort((a,b)=>b.sec-a.sec);
   else rows.sort((a,b)=>{ const x=a.b[mapSort], y=b.b[mapSort], va=x.ok?x.d:-1e9, vb=y.ok?y.d:-1e9; return vb-va; });
   const top=Math.max(...rows.flatMap(r=>r.b.map(k=>k.mpg)));
   let h='<div class="ph"><div><h2 class="ptitle">Stretch map</h2>'
-    +'<div class="meta">'+(mapBoth?'2023-24 to 2025-26 · ':'')+rows.length+' players · '+(mapBoth?'Celtics all three seasons, 1,000+ minutes':'1,000+ minutes')+'</div></div>'
+    +'<div class="meta">'+(mapBoth?'2023-24 to 2025-26 · ':'')+rows.length+' players · '+(mapBoth?'Celtics all three seasons, 500+ minutes':'500+ minutes')+'</div></div>'
     +seasonSwitch(true)+'</div>'
     +'<section class="sec smap">'
-    +'<p class="sec-sub">How the Celtics did with each player on the floor, compared with their usual in the same six minutes of the game. Bar: his minutes per game there.</p>'
-    +'<div class="sm-grid"><div></div>'+[1,2,3,4].map(q=>'<div class="sm-q">Q'+q+'</div>').join('')
+    +'<p class="sec-sub">Net rating with each player on the floor, relative to the team\'s '+({8:'in the same six minutes',4:'in the same quarter',2:'in the same half',1:'overall'})[mapGran]+'.</p>'
+    +'<div class="sm-gran"><div class="ssw" role="group" aria-label="Window">'+[[8,'6 minutes'],[4,'Quarters'],[2,'Halves'],[1,'Full game']].map(([n,l])=>'<button type="button" data-mg="'+n+'" class="'+(n===mapGran?'on':'')+'" aria-pressed="'+(n===mapGran)+'">'+l+'</button>').join('')+'</div></div>'
+    +'<div class="sm-grid g'+mapGran+'" style="grid-template-columns:92px repeat('+mapGran+', minmax(0,1fr))"><div></div>'+(mapGran===8?[1,2,3,4].map(q=>'<div class="sm-q">Q'+q+'</div>').join(''):'<div style="grid-column:2 / -1"></div>')
     +'<div class="sm-sorth"><button class="sm-s'+(mapSort==null?' on':'')+'" data-s="">Min</button></div>'
-    +BLOCKS.map((k,i)=>'<button class="sm-s'+(mapSort===i?' on':'')+'" data-s="'+i+'" aria-label="Sort by '+k.label+'">'+k.clock.replace(/:00/g,'').replace('–0','–0')+'</button>').join('');
+    +winsFor(mapGran).map((k,i)=>'<button class="sm-s'+(mapSort===i?' on':'')+'" data-s="'+i+'" aria-label="Sort by '+k.label+'">'+k.short+'</button>').join('');
   rows.forEach(r=>{
     h+='<button class="sm-n" data-p="'+r.n+'"><b>'+r.n+'</b><span>'+(r.sec/60/r.gp).toFixed(1)+' mpg</span></button>';
     r.b.forEach((k,i)=>{
       const bar='<i style="width:'+Math.max(0,Math.min(100,k.mpg/top*100)).toFixed(0)+'%"></i>';
       if (!k.ok){ h+='<button class="sm-c thin" data-p="'+r.n+'" data-b="'+i+'">'+bar+'</button>'; return; }
       const cc=confCell(k);
-      h+='<button class="sm-c'+cc.cls+'"'+cc.style+' data-p="'+r.n+'" data-b="'+i+'"'+(cc.small?' aria-label="Small sample">':'><em>'+sgn(k.d,1)+'</em>')+bar+'</button>';
+      h+='<button class="sm-c'+cc.cls+'"'+cc.style+' data-p="'+r.n+'" data-b="'+i+'"'+(cc.small?' aria-label="'+sgn(k.d,1)+', small sample"':'')+'><em>'+sgn(k.d,1)+'</em>'+bar+'</button>';
     });
   });
   h+='</div><div class="strip-detail" id="mapDetail"></div>'
-    +'<div class="sm-foot"><span>Players with 1,000+ minutes · No garbage time · Color deepens with the gap and with minutes · Outlined: under 100 minutes, tap for the number · Striped: under 50 minutes · Tap a column to sort</span><span><b>Celtics Rotations</b> · by Neight · NBA.com play-by-play, '+(mapBoth?'2023-24 to 2025-26':SEASONS[seasonKey].label)+'</span></div></section>';
+    +'<div class="key"><span><i class="ramp"></i>Worse to better than the team</span><span><i class="small"></i>Under 100 min</span><span><i class="thin"></i>Under 50 min</span><span><i class="mpg"></i>Minutes per game</span></div>'
+    +'<div class="sm-foot"><span>500+ minutes · Garbage time excluded</span><span><b>Celtics Rotations</b> · by Neight · NBA.com play-by-play, '+(mapBoth?'2023-24 to 2025-26':SEASONS[seasonKey].label)+'</span></div></section>';
   return h;
 }
 function wireMap(el){
-  const det=el.querySelector('#mapDetail'), base=mapBoth?bothTeam().blocks:teamBase().blocks, blocksOf=mapBoth?bothBlocks:playerBlocks;
+  const det=el.querySelector('#mapDetail'), base=mapBoth?bothTeam(mapGran).blocks:teamBlocks(mapGran), blocksOf=n=>(mapBoth?bothBlocks:playerBlocks)(n, mapGran);
   el.querySelectorAll('.sm-s').forEach(b=>b.addEventListener('click',()=>{ mapSort = b.dataset.s==='' ? null : +b.dataset.s; renderMapPage(); }));
   el.querySelectorAll('.sm-n').forEach(b=>b.addEventListener('click',()=>{ splitPlayer=b.dataset.p; cur=state.findIndex(x=>x.splits); players=state[cur].players; renderTabs(); render(); window.scrollTo({top:0}); }));
   el.querySelectorAll('.sm-c').forEach(c=>{
@@ -1469,7 +1555,7 @@ function wireMap(el){
       el.querySelectorAll('.sm-c.act').forEach(x=>x.classList.remove('act')); c.classList.add('act');
       const n=c.dataset.p, i=+c.dataset.b, k=blocksOf(n)[i], lab=k.k.label.replace(/^./,x=>x.toUpperCase());
       det.innerHTML = k.ok
-        ? '<b>'+(FULL[n]||n)+', '+k.k.label+' ('+k.k.clock+')</b>: '+sgn(k.t.net,1)+' with him on the floor, '+sgn(base[i].net,1)+' for the team in these minutes, so '+sgn(k.d,1)+'. '+Math.round(k.t.sec/60)+' minutes over '+k.games+' games'+(mapBoth?' across three seasons':'')+'.'+confNote(k)
+        ? '<b>'+(FULL[n]||n)+', '+k.k.label+(k.k.clock?' ('+k.k.clock+')':'')+'</b>: '+sgn(k.t.net,1)+' with him on the floor, '+sgn(base[i].net,1)+' for the team '+(mapGran===1?'overall':'in these minutes')+', so '+sgn(k.d,1)+'. '+Math.round(k.t.sec/60)+' minutes over '+k.games+' games'+(mapBoth?' across three seasons':'')+'.'+confNote(k)
         : '<b>'+(FULL[n]||n)+', '+k.k.label+'</b>: only '+Math.round(k.t.sec/60)+' minutes '+(mapBoth?'across three seasons':'all season')+', too few to rate.';
     };
     c.addEventListener('click',show); c.addEventListener('mouseenter',show);
@@ -1485,6 +1571,10 @@ function seasonSwitch(isMap){
     return '<button type="button" data-ss="'+k+'" class="'+(k===act?'on':'')+'" aria-pressed="'+(k===act)+'"'+dis+'>'+(k==='all'?'All three':SEASON_LABEL[k])+'</button>';
   }).join('')+'</div><button type="button" class="lnk hdr-share">Copy link</button></div>';
 }
+document.addEventListener('click',e=>{ const b=e.target.closest && e.target.closest('.sg [data-sg]'); if (!b || b.classList.contains('on')) return;
+  stripGran=+b.dataset.sg; const y=window.scrollY; renderSplits(); window.scrollTo({top:y}); });
+document.addEventListener('click',e=>{ const b=e.target.closest && e.target.closest('.sm-gran [data-mg]'); if (!b || b.classList.contains('on')) return;
+  mapGran=+b.dataset.mg; mapSort=null; renderMapPage(); });
 function renderMapPage(){
   useSeason(splitSeason);
   const el=document.getElementById('mapview');
@@ -1494,9 +1584,78 @@ function renderMapPage(){
     +'<li>Garbage time is left out for the player and the team alike: fourth-quarter blowouts and the stretch after a team pulls its starters for good. Overtime isn\'t included.</li>'
     +'<li>These numbers describe the Celtics with a player on the floor, not his individual impact: his teammates and opponents shape them too.</li>'
     +'<li>Minutes match every NBA.com box score. Season net ratings from the same data match NBA.com within about a point per 100 possessions.</li>'
+    +'<li>Quarters, halves and the full game add up the same six-minute pieces, so the views agree with each other. Bigger windows mean more minutes behind each number, but a looser comparison: a quarter mixes stretches where the team\'s usual level differs, so a player who mostly plays the weaker part of it is measured against the whole quarter. The six-minute view is the closest like-for-like.</li>'
+    +'<li>The full game follows the same rules as every other view: garbage time and overtime are left out. NBA.com counts every minute, so its numbers differ a little: the Celtics\' season net rating there is '+sgn(NBA_TEAM_NET,1)+', against '+sgn(teamBlocks(1)[0].net,1)+' here.</li>'
     +(mapBoth?'<li>All three: 2023-24, 2024-25 and 2025-26 pooled, for the player and for the team baseline.</li>':'')
     +'</ul></div></details>';
   wireMap(el);
+}
+// ---- Shot diet: a player's shots by type, with and without a teammate on the floor ----
+// The play-by-play's ~45 shot tags fold into five groups. Raw type index (shots.js) -> group:
+// rim | floater, hook | pull-up, step-back, fadeaway, turnaround and other twos | plain jump-shot threes | pull-up and step-back threes
+const SHOT_GROUP = [0,1,2,2,2,3,4,4];
+const SHOT_LABEL = ['At the rim','Floater or hook','Midrange jumper','Catch-and-shoot three','Off-the-dribble three'];
+const SHOT_MIN = 150;              // shots needed on each side to compare
+const SHOT_CACHE = {};
+let dietMate = null;
+function seasonShots(k){
+  if (SHOT_CACHE[k]) return SHOT_CACHE[k];
+  const out=[]; if (typeof SHOTS==='undefined' || !SHOTS.s[k]) return SHOT_CACHE[k]=out;
+  const z=SEASONS[k], S=SHOTS.s[k], bitOf=S.names.map(n=>z.PBIT[n]);
+  for (const g of z.SEASON.games){
+    const a=S.games[g.id], segs=z.STATS.games[g.id]; if (!a || !segs) continue;
+    for (let i=0;i<a.length;i+=2){
+      const t=a[i]/10, code=a[i+1], sh=bitOf[code>>6]; if (sh==null) continue;
+      // the lineup segment at that moment; at the second of a substitution, the unit the shooter was part of
+      const hit=segs.filter(x=>x[0]<=t && t<=x[1]); if (!hit.length) continue;
+      const seg=hit.find(x=>x[6]>>sh&1) || hit[0];
+      if (seg[7]) continue;                                   // no garbage time, like the stretch map
+      out.push([sh, (code>>2)&7, (code>>1)&1, code&1, seg[6]]);
+    }
+  }
+  return SHOT_CACHE[k]=out;
+}
+function shotProfile(list){
+  const n=list.length, c=new Array(SHOT_LABEL.length).fill(0); let pts=0, made=0, ast=0;
+  for (const x of list){ c[SHOT_GROUP[x[1]]]++; if (x[2]){ made++; pts+=x[1]>=5?3:2; if (x[3]) ast++; } }
+  return { n, count:c, share:c.map(v=>n?100*v/n:0), efg:n?100*pts/(2*n):null, ast:made?100*ast/made:null };
+}
+function shotDiet(name){
+  const sh=PBIT[name], mine=seasonShots(seasonKey).filter(x=>x[0]===sh);
+  const mates=[];
+  STATS.players.forEach((q,i)=>{ if (i===sh) return;
+    const a=mine.filter(x=>x[4]>>i&1), b=mine.filter(x=>!(x[4]>>i&1));
+    if (a.length<SHOT_MIN || b.length<SHOT_MIN) return;
+    const pa=shotProfile(a), pb=shotProfile(b);
+    mates.push({ q, w:pa, o:pb, shift:Math.max(...pa.share.map((v,k)=>Math.abs(v-pb.share[k]))) });
+  });
+  mates.sort((x,y)=>y.shift-x.shift);
+  return { all:shotProfile(mine), mates };
+}
+function shotDietHTML(name){
+  const d=shotDiet(name); if (d.all.n<100) return '';
+  const m=d.mates.find(x=>x.q===dietMate) || d.mates[0];
+  const pct=v=>Math.round(v)+'%', f1=v=>v==null?'—':v.toFixed(1)+'%';
+  const rows=SHOT_LABEL.map((_,k)=>k);
+  const top=Math.ceil(Math.max(10, ...rows.map(k=>m?Math.max(m.w.share[k],m.o.share[k]):d.all.share[k]))/10)*10, x=v=>(v/top*100).toFixed(1)+'%';
+  const axis='<div class="sd-r sd-ax" aria-hidden="true"><span></span><span class="sd-t">'+[0,top/2,top].map(v=>'<u style="left:'+x(v)+'">'+v+'%</u>').join('')+'</span><span></span></div>';
+  let h='<section class="sec"><div class="sec-top"><h3 class="sec-h">Shot diet</h3>'
+    +(m?'<label class="sd-pick" for="sdSel">Share of shots, with and without<select id="sdSel" class="seasonsel">'+d.mates.map(q=>'<option value="'+q.q+'"'+(q.q===m.q?' selected':'')+'>'+(FULL[q.q]||q.q)+'</option>').join('')+'</select></label>':'<span class="sec-meta">Share of his '+d.all.n+' shots</span>')+'</div>';
+  if (m){
+    // dumbbell: open dot = without the teammate, filled dot = with him, joined by a line, on one shared scale
+    h+='<div class="sd">'
+      +rows.map(k=>{ const a=m.w.share[k], b=m.o.share[k], lo=Math.min(a,b), hi=Math.max(a,b);
+        return '<div class="sd-r" title="'+SHOT_LABEL[k]+': '+pct(a)+' with '+m.q+' ('+m.w.count[k]+' of '+m.w.n+' shots), '+pct(b)+' without ('+m.o.count[k]+' of '+m.o.n+')">'
+          +'<span>'+SHOT_LABEL[k]+'</span><span class="sd-t"><i class="ln" style="left:'+x(lo)+';width:'+x(hi-lo)+'"></i><i class="dot o" style="left:'+x(b)+'"></i><i class="dot w" style="left:'+x(a)+'"></i></span>'
+          +'<span class="sd-v"><b>'+pct(a)+'</b><em>'+pct(b)+'</em></span></div>'; }).join('')+axis+'</div>'
+      +'<div class="sd-key"><span><i class="dot w"></i>With '+m.q+': '+m.w.n+' shots · '+f1(m.w.efg)+' effective FG · '+pct(m.w.ast)+' of makes assisted</span>'
+      +'<span><i class="dot o"></i>Without: '+m.o.n+' shots · '+f1(m.o.efg)+' · '+pct(m.o.ast)+' assisted</span></div>';
+  } else {
+    h+='<div class="sd">'
+      +rows.map(k=>'<div class="sd-r" title="'+SHOT_LABEL[k]+': '+d.all.count[k]+' of '+d.all.n+' shots"><span>'+SHOT_LABEL[k]+'</span><span class="sd-t"><i class="ln" style="left:0;width:'+x(d.all.share[k])+'"></i><i class="dot w" style="left:'+x(d.all.share[k])+'"></i></span><span class="sd-v"><b>'+pct(d.all.share[k])+'</b></span></div>').join('')+axis+'</div>'
+      +'<div class="sd-key"><span>'+f1(d.all.efg)+' effective FG · '+pct(d.all.ast)+' of makes assisted</span></div>';
+  }
+  return h+'</section>';
 }
 function renderSplits(){
   useSeason(splitSeason);
@@ -1505,7 +1664,7 @@ function renderSplits(){
     .filter(x=>x.sec>=60).sort((a,b)=>b.sec-a.sec).map(x=>x.n);
   if (!splitPlayer || !names.includes(splitPlayer)) splitPlayer = names[0];
   const name=splitPlayer, gs=playerGames(name), st=gs.filter(g=>g.s[name][0][0]===0).length;
-  const blocks=playerBlocks(name), NS=NBA_SPLITS[name]||{};
+  const blocks=playerBlocks(name, stripGran), NS=NBA_SPLITS[name]||{};
   const fmtN=v=>Math.round(v).toLocaleString('en-US');
   const SL=SEASONS[seasonKey].label;
   let h='<div class="ph"><div>'
@@ -1517,44 +1676,47 @@ function renderSplits(){
   // 0. rotation habits (exact minutes, no possession counting)
   const hb=habits(name);
   const ramp=v=>mix('#eef4ee', '#007a33', Math.min(1,v));
-  h+='<section class="sec"><div class="sec-top"><h3 class="sec-h">Minutes</h3></div>'
-    +'<p class="sec-sub">Share of his '+hb.n+' games on the floor, by minute.</p>'
-    +'<div class="heat">'+[1,2,3,4].map(k=>'<div class="ql">Q'+k+'</div>').join('')
-    +hb.share.map((v,m)=>'<button class="hc" data-m="'+m+'" style="background:'+ramp(v)+'" aria-label="'+clockAt(m*60)+': on the floor in '+Math.round(v*100)+'% of his games"></button>'+((m+1)%12===0?'<span class="gap"></span>':'')).join('')
-    +'</div><div class="strip-detail" id="heatDetail"></div>'
+  // Rotation curve: share of games on the floor for each minute, one line per role (starts, bench games).
+  const series = hb.nights.length ? hb.nights : [{ label:hb.n+' games', n:hb.n, share:hb.share, q:hb.q, stints:null }];
+  const cx=m=>(m+0.5)*10, cy=v=>(96-v*84).toFixed(1);
+  const line=sh=>'M0 '+cy(sh[0])+' '+sh.map((v,m)=>'L'+cx(m)+' '+cy(v)).join(' ')+' L480 '+cy(sh[47]);
+  h+='<section class="sec"><div class="sec-top"><h3 class="sec-h">Minutes</h3><span class="sec-meta">Share of games on the floor, minute by minute</span></div>'
     +'<div class="tiles">'
     +'<div class="tile"><b>'+hb.starts+' <small>of '+hb.n+'</small></b><span>starts</span></div>'
     +(hb.firstIn!=null && hb.benchN>=10 ? '<div class="tile"><b>'+clockAt(hb.firstIn)+'</b><span>first check-in off the bench</span></div>' : '')
     +(hb.firstOut!=null && hb.starts>=10 ? '<div class="tile"><b>'+clockAt(hb.firstOut)+'</b><span>first exit as a starter</span></div>' : '')
     +(hb.closeN>=3? '<div class="tile" title="Share of the final 5:00 he played, in games within 5 points with 5:00 left"><b>'+Math.round(hb.crunch*100)+'<small>%</small></b><span>of crunch time · '+hb.closeN+' close games</span></div>' : '')
     +'</div>'
-    +hb.nights.map(nt=>'<div class="night"><div class="qb-h">Typical night · '+nt.label+'</div>'
-      +'<div class="nt-track">'+[1,2,3].map(k=>'<i class="nt-q" style="left:'+(k*25)+'%"></i>').join('')
-      +nt.stints.map((s,i)=>'<b class="nt-bar" style="left:'+(s.a/2880*100)+'%;width:'+((Math.min(s.b,2880)-s.a)/2880*100)+'%" title="'+clockAt(s.a)+' to '+clockLabel(Math.round(s.b),true)+'"></b>').join('')
-      +'</div><div class="nt-axis"><span>Q1</span><span>Q2</span><span>Q3</span><span>Q4</span></div>'
-      +'<ol class="nt-list">'+nt.stints.map(s=>'<li><b>'+clockAt(s.a)+' → '+clockLabel(Math.round(s.b),true)+'</b> <span>'+((s.b-s.a)/60)+' min</span></li>').join('')+'</ol></div>').join('')
-    +'<div class="qbars"><div class="qb-h">Minutes by quarter</div>'
-    +hb.q.map((v,k)=>'<div class="qbar"><span>Q'+(k+1)+'</span><i><b style="width:'+(v/12*100)+'%"></b></i><em>'+v.toFixed(1)+'</em></div>').join('')
-    +'</div>'
-    +'</div></section>';
+    +'<div class="rc"><div class="rc-q"><span>Q1</span><span>Q2</span><span>Q3</span><span>Q4</span></div>'
+    +'<div class="rc-plot"><svg viewBox="0 0 480 100" preserveAspectRatio="none" aria-hidden="true">'
+    +'<path class="g" d="M0 12 H480 M0 54 H480"/><path class="qd" d="M120 0 V100 M240 0 V100 M360 0 V100"/><path class="ax" d="M0 96 H480"/>'
+    +'<path class="a0" d="'+line(series[0].share)+' L480 96 L0 96 Z"/><path class="l0" d="'+line(series[0].share)+'"/>'
+    +(series[1]?'<path class="l1" d="'+line(series[1].share)+'"/>':'')
+    +'</svg><span class="rc-y" style="top:12%">100%</span><span class="rc-y" style="top:54%">50%</span>'
+    +'<div class="rc-hit">'+[...Array(48)].map((_,m)=>'<button class="hc" data-m="'+m+'" aria-label="'+clockAt(m*60)+'"></button>').join('')+'</div><i class="rc-cur" id="rcCur" hidden></i></div>'
+    +series.map((nt,si)=>'<div class="rc-role">'
+      +(nt.stints?'<div class="rc-st">'+nt.stints.map(st=>'<b class="s'+si+'" style="left:'+(st.a/2880*100)+'%;width:'+((Math.min(st.b,2880)-st.a)/2880*100)+'%" title="'+clockAt(st.a)+' to '+clockLabel(Math.round(st.b),true)+'"></b>').join('')+'</div>':'')
+      +'<div class="rc-mq">'+nt.q.map(v=>'<span><b>'+v.toFixed(1)+'</b> min</span>').join('')+'</div>'
+      +'<div class="rc-k"><i class="k'+si+'"></i><b>'+nt.label+'</b>'+(nt.stints&&nt.stints.length?'<span>Typical stints: '+nt.stints.map(st=>clockAt(st.a)+' → '+clockLabel(Math.round(st.b),true)).join(' · ')+'</span>':'')+'</div></div>').join('')
+    +'</div><div class="strip-detail" id="heatDetail"></div></section>';
   h+=seasonTimeline(name);
   // 1. the game clock
-  h+='<section class="sec"><div class="sec-top"><h3 class="sec-h">Net rating by stretch</h3>'+gt+'</div>'
-    +'<p class="sec-sub">Celtics with him on the floor vs. their usual in those minutes, garbage time left out. Color deepens with the gap and with minutes. Outlined: under 100 minutes.</p>'
-    +'<div class="strip">'+[1,2,3,4].map(q=>'<div class="ql">Q'+q+'</div>').join('');
+  h+='<section class="sec"><div class="sec-top"><h3 class="sec-h">Net rating by stretch</h3>'
+    +'<div class="ssw sg" role="group" aria-label="Window">'+[[8,'6 minutes'],[4,'Quarters'],[2,'Halves'],[1,'Full game']].map(([n,l])=>'<button type="button" data-sg="'+n+'" class="'+(n===stripGran?'on':'')+'" aria-pressed="'+(n===stripGran)+'">'+l+'</button>').join('')+'</div></div>'
+    +'<p class="sec-sub">Relative to the team '+({8:'in the same six minutes',4:'in the same quarter',2:'in the same half',1:'overall'})[stripGran]+'. Garbage time excluded.</p>'
+    +'<div class="strip" style="grid-template-columns:repeat('+stripGran+',1fr)">'+(stripGran===8?[1,2,3,4].map(q=>'<div class="ql">Q'+q+'</div>').join(''):winsFor(stripGran).map(k=>'<div class="ql" style="grid-column:span 1">'+k.short+'</div>').join(''));
   blocks.forEach((b,i)=>{
     if (!b.ok){ h+='<button class="blk thin" data-b="'+i+'" aria-label="'+b.k.label+': too few minutes">—</button>'; return; }
     const cc=confCell(b);
     h+='<button class="blk'+cc.cls+'" data-b="'+i+'"'+cc.style+' aria-label="'+b.k.label+': '+sgn(b.d,1)+' versus the team">'+sgn(b.d,1)+'</button>';
   });
   blocks.forEach(b=>{ h+='<div class="mn">'+(b.mpg>=0.05?b.mpg.toFixed(1)+' mpg':'–')+'</div>'; });
-  h+='</div><div class="strip-detail" id="stripDetail"></div>'
+  h+='</div>'+(blocks.some(b=>b.ok && b.t.sec<SMALL_MIN*60)||blocks.some(b=>!b.ok)?'<div class="key">'+(blocks.some(b=>b.ok && b.t.sec<SMALL_MIN*60)?'<span><i class="small"></i>Under 100 min</span>':'')+(blocks.some(b=>!b.ok)?'<span>—  Under 50 min</span>':'')+'</div>':'')+'<div class="strip-detail" id="stripDetail"></div>'
     +'</section>';
   const base=teamBase().all.net;
   // 2. alongside each teammate (NBA.com data)
   const mates=teammates(name), tbase=NBA_TEAM_NET;
-  h+='<section class="sec"><div class="sec-top"><h3 class="sec-h">With teammates</h3></div>'
-    +'<p class="sec-sub">Celtics net rating with both on the floor. Line: team average ('+sgn(tbase,1)+'). Faded: under 100 minutes together.</p>'
+  h+='<section class="sec"><div class="sec-top"><h3 class="sec-h">Two-man lineups</h3><span class="sec-meta">Net rating · team '+sgn(tbase,1)+'</span></div>'
     +'<div class="mates">';
   for (const m of mates){
     const small=m.min<100, d=m.net-tbase, w=Math.min(1,Math.abs(d)/20)*50;
@@ -1564,10 +1726,10 @@ function renderSplits(){
       +'<span class="mnet">'+sgn(m.net,1)+'</span>'
       +'<span class="mposs">'+m.min+' min</span></div>';
   }
-  h+='</div></section>';
+  h+='</div>'+(mates.some(m=>m.min<100)?'<div class="key"><span>Faded: under 100 minutes together</span></div>':'')+'</section>';
+  h+=shotDietHTML(name);
   // 3. full splits, straight from NBA.com
-  h+='<section class="sec"><div class="sec-top"><h3 class="sec-h">Splits</h3></div>'
-    +'<p class="sec-sub">Games as a Celtic. Grayed: under 100 minutes.</p>'
+  h+='<section class="sec"><div class="sec-top"><h3 class="sec-h">Splits</h3><span class="sec-meta">NBA.com</span></div>'
     +'<div style="overflow-x:auto"><table class="sp"><thead><tr><th>Split</th><th class="gcol">G</th><th>MPG</th><th class="wide">Poss</th><th>+/-</th><th class="wide">ORtg</th><th class="wide">DRtg</th><th>Net</th></tr></thead><tbody>';
   const nrows=[['Role','Games he started',NS.start],['Role','Games off the bench',NS.bench],['Home / road','Home games',NS.home],['Home / road','Road games',NS.road],
     ['On / off','Celtics with him on the floor',NS.all],['On / off','Celtics with him off the floor',NS.off],['Baseline','Celtics, whole season',NBA_TEAM,true]];
@@ -1588,26 +1750,29 @@ function renderSplits(){
    +'<li>Sources: NBA.com play-by-play and box scores (game by game, minutes, net rating by stretch) and NBA.com player dashboards and lineup stats (teammates, splits).</li>'
    +'<li>The stretch map and the net rating strip describe the Celtics with a player on the floor, not his individual impact: the teammates and opponents on the floor with him shape those numbers too.</li>'
    +'<li>Every section counts all minutes, garbage time included, the same way NBA.com does, except the stretch map and net rating by stretch. Those leave out garbage time (fourth-quarter blowouts and the stretch after a team pulls its starters for good), for the player and the team baseline alike, so late-fourth-quarter cells reflect competitive minutes. Their color deepens with the size of the gap and with minutes played, reaching full strength at 300 minutes.</li>'
-   +'<li>Full splits and the teammate chart are NBA.com\'s own numbers (player dashboard, on/off and two-man lineup stats), limited to games as a Celtic, so they match NBA.com exactly. NBA.com doesn\'t publish possessions or a season plus-minus for the off-court row, so those show as a dash.</li>'
+   +'<li>Splits and two-man lineups are NBA.com\'s own numbers (player dashboard, on/off and two-man lineup stats), limited to games as a Celtic, so they match NBA.com exactly. NBA.com doesn\'t publish possessions or a season plus-minus for the off-court row, so those show as a dash.</li>'
+   +'<li>Shot diet: every field-goal attempt in NBA.com\'s play-by-play, grouped by the shot type the scorekeeper logged and matched to the five Celtics on the floor. Catch-and-shoot three: threes logged as a plain jump shot. Midrange jumper: pull-ups, step-backs, fadeaways and turnarounds inside the arc. Off-the-dribble three: pull-ups and step-backs. Garbage time is left out. A teammate is listed when the player has '+SHOT_MIN+'+ shots both with and without him; the list starts with the biggest shift. It shows what changes, not why: who else is on the floor changes too. Effective FG counts a three as one and a half makes.</li>'
    +'<li>Minutes come from NBA.com play-by-play and match every box score. Typical night: stretches he was on the floor in more than half of those games, ignoring one-minute blips, shown for starts or bench games with 10+ games. Crunch time: share of the final 5:00 played in games within 5 points with 5:00 left.</li>'
    +'<li>The game-clock strip is our own calculation from NBA.com play-by-play, because NBA.com doesn\'t split by 6-minute stretch. Its minutes and plus-minus match NBA.com\'s box scores; its net ratings can differ from NBA.com\'s by a few tenths because of how possessions are credited around substitutions.</li>'
    +'<li>Compare: <a href="https://www.nba.com/stats/players/advanced?TeamID=1610612738&Season='+SL+'" target="_blank" rel="noopener">NBA.com Celtics advanced stats</a> · <a href="https://www.nba.com/stats/lineups/advanced?GroupQuantity=2&TeamID=1610612738&Season='+SL+'" target="_blank" rel="noopener">two-man lineups</a>.</li>'
    +'</ul></div></details>';
   el.innerHTML=h;
   document.getElementById('spSel').addEventListener('change', e=>{ splitPlayer=e.target.value; renderSplits(); });
+  const sdSel=document.getElementById('sdSel'); if (sdSel) sdSel.addEventListener('change', e=>{ dietMate=e.target.value; const y=window.scrollY; renderSplits(); window.scrollTo({top:y}); });
   el.querySelectorAll('.gt').forEach(g=>g.addEventListener('click', e=>{ const b=e.target.closest('[data-gt]'); if (!b) return; inclGarbage = b.dataset.gt==='1'; renderSplits(); }));
-  const hdet=document.getElementById('heatDetail');
-  el.querySelectorAll('.hc').forEach(c=>{ const show=()=>{ el.querySelectorAll('.hc.act').forEach(x=>x.classList.remove('act')); c.classList.add('act');
-    const m=+c.dataset.m; hdet.innerHTML='<b>'+clockAt(m*60)+' to '+clockLabel(m*60+60,true)+'</b>: on the floor in '+Math.round(hb.share[m]*100)+'% of his games ('+Math.round(hb.share[m]*hb.n)+' of '+hb.n+').'; };
+  const hdet=document.getElementById('heatDetail'), rcCur=document.getElementById('rcCur');
+  el.querySelectorAll('.rc-hit .hc').forEach(c=>{ const show=()=>{ const m=+c.dataset.m;
+    if (rcCur){ rcCur.hidden=false; rcCur.style.left=((m+0.5)/48*100)+'%'; }
+    hdet.innerHTML='<b>'+clockAt(m*60)+' to '+clockLabel(m*60+60,true)+'</b>: on the floor in '+series.map(nt=>Math.round(nt.share[m]*100)+'% of his '+nt.label.replace(/^\d+ /,'')+' ('+Math.round(nt.share[m]*nt.n)+' of '+nt.n+')').join(', ')+'.'; };
     c.addEventListener('click',show); c.addEventListener('mouseenter',show); });
   wireTimeline(el, name);
-  const det=document.getElementById('stripDetail'), bbase=teamBase().blocks;
+  const det=document.getElementById('stripDetail'), bbase=teamBlocks(stripGran);
   el.querySelectorAll('.blk').forEach(btn=>{
     const show=()=>{
       el.querySelectorAll('.blk.act').forEach(x=>x.classList.remove('act')); btn.classList.add('act');
       const i=+btn.dataset.b, b=blocks[i];
       det.innerHTML = b.ok
-        ? '<b>'+b.k.label.replace(/^./,c=>c.toUpperCase())+' ('+b.k.clock+')</b>: '+sgn(b.t.net,1)+' with '+name+' on the floor, '+sgn(bbase[i].net,1)+' for the team in these minutes, so '+sgn(b.d,1)+'. '+Math.round(b.t.sec/60)+' minutes over '+b.games+' games.'+confNote(b)
+        ? '<b>'+b.k.label.replace(/^./,c=>c.toUpperCase())+(b.k.clock?' ('+b.k.clock+')':'')+'</b>: '+sgn(b.t.net,1)+' with '+name+' on the floor, '+sgn(bbase[i].net,1)+' for the team '+(stripGran===1?'overall':'in these minutes')+', so '+sgn(b.d,1)+'. '+Math.round(b.t.sec/60)+' minutes over '+b.games+' games.'+confNote(b)
         : '<b>'+b.k.label.replace(/^./,c=>c.toUpperCase())+'</b>: '+name+' played only '+Math.round(b.t.sec/60)+' minutes here all season, too few to rate.';
     };
     btn.addEventListener('click', show); btn.addEventListener('mouseenter', show);
