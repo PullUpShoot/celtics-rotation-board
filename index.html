@@ -194,6 +194,11 @@
   .src { color: var(--ink-3); opacity: .85; }
   .grouplab { font-size: 10px; letter-spacing: .06em; text-transform: uppercase; color: var(--ink-3); font-weight: 700; padding: 0; background: #fbfaf6; border-bottom: 1px solid var(--line); }
   .grouplab span { position: sticky; left: 0; z-index: 1; display: block; width: 112px; box-sizing: border-box; padding: 5px 8px 3px; background: #fbfaf6; border-right: 1px solid var(--line); }
+  /* sticky cells paint over the row rules too, so a quarter line scrolled underneath can't show in the gaps */
+  .name, .grouplab span { box-shadow: 0 1px 0 var(--line), 0 1px 0 var(--panel), 0 -1px 0 var(--line), 0 -1px 0 var(--panel); }
+  .row.bench-start .name { box-shadow: 0 1px 0 var(--line), 0 1px 0 var(--panel), 0 -2px 0 var(--line-strong), 0 -2px 0 var(--panel); }
+  .row.hdr .name { box-shadow: none; }
+  .row.cnt .name { box-shadow: 0 2px 0 var(--line-strong), 0 2px 0 var(--panel); }
   .grip { width: 14px; height: 20px; flex-shrink: 0; cursor: grab; margin-right: 8px; border-radius: 3px;
     background-image: radial-gradient(circle, var(--line-strong) 1.1px, transparent 1.2px);
     background-size: 5px 5px; background-position: 2px 4px; background-repeat: repeat; }
