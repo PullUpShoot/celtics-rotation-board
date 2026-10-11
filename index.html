@@ -21,21 +21,22 @@
 <link href="https://fonts.googleapis.com/css2?family=Source+Serif+4:ital,opsz,wght@0,8..60,600;0,8..60,700;1,8..60,400&family=IBM+Plex+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
 <style>
   :root {
-    --bg: #f6f5f0;
+    --bg: #ffffff;
     --panel: #ffffff;
-    --ink: #1c1c1a;
-    --ink-2: #5e5e58;
-    --ink-3: #9a9a92;
-    --line: #dcdbd3;
-    --line-strong: #b8b7ad;
+    --ink: #181a19;
+    --ink-2: #5b5f5c;
+    --ink-3: #959a96;
+    --line: #dfe2e0;
+    --line-strong: #b9beba;
     --green: #007a33;
     --green-soft: #d9ecdf;
     --gold: #ba9653;
-    --sel: #1c1c1a;      /* selection and focus: one dark outline everywhere; gold is a data color (game by game) */
-    --cell-off: #eceae2;
+    --sel: #181a19;      /* selection and focus: one dark outline everywhere; gold is a data color (game by game) */
+    --cell-off: #eceeec;
   }
   * { box-sizing: border-box; }
   [hidden] { display: none !important; }
+  .vh { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
   html { -webkit-text-size-adjust: 100%; text-size-adjust: 100%; }
   html, body { margin: 0; background: var(--bg); color: var(--ink); font-family: "IBM Plex Sans", "Helvetica Neue", Helvetica, Arial, sans-serif; }
   body { padding-block: 16px; padding-inline: 16px; }
@@ -48,12 +49,14 @@
   .nameplate .by { font-family: "Source Serif 4", Georgia, serif; font-weight: 600; font-size: 13px; letter-spacing: .06em; text-transform: uppercase; color: var(--ink-2); white-space: nowrap; }
   .nameplate .by i { font-style: italic; font-weight: 400; font-size: 15px; letter-spacing: 0; text-transform: none; margin-right: .3em; }
   .eyebrow { font-size: 11px; letter-spacing: .12em; text-transform: uppercase; color: var(--ink-2); font-weight: 700; margin-bottom: 4px; }
-  .views { display: grid; grid-template-columns: repeat(4, 1fr); background: #e9e7df; border-radius: 10px; padding: 3px; gap: 3px; margin-bottom: 14px; max-width: 560px; }
+  .views { display: grid; grid-template-columns: repeat(4, 1fr); background: #eceeed; border-radius: 10px; padding: 3px; gap: 3px; margin-bottom: 14px; max-width: 560px; }
   .views button { border: 0; background: transparent; border-radius: 8px; padding: 9px 6px; font-weight: 600; font-size: 14px; color: var(--ink-2); }
   .views .sh { display: none; }
   .views button.active { background: var(--green); color: #fff; box-shadow: 0 1px 2px rgba(0,122,51,.25); }
   .toolrow { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 8px 16px; margin-bottom: 10px; }
   .toolrow .bar { margin: 0; }
+  .bar .lnk { border: 0; background: none; }
+  .corner-hint { font-size: 10px; line-height: 1.2; color: var(--ink-3); white-space: nowrap; letter-spacing: -.005em; }
   .links { display: flex; gap: 4px; margin-left: auto; }
   .lnk { border: 0; background: none; color: var(--ink); font-weight: 600; font-size: 13px; padding: 6px 8px; border-radius: 6px; }
   .lnk:hover { background: rgba(0,0,0,.05); }
@@ -75,10 +78,10 @@
   .key { display: flex; flex-wrap: wrap; align-items: center; gap: 5px 16px; font-size: 11px; color: var(--ink-3); margin: 8px 0 0; }
   .key span { display: inline-flex; align-items: center; gap: 6px; }
   .key i { display: inline-block; width: 14px; height: 10px; border-radius: 2px; flex: none; }
-  .key i.ramp { width: 54px; background: linear-gradient(90deg, #8e44ad, #f0efec 50%, #007a33); }
+  .key i.ramp { width: 54px; background: linear-gradient(90deg, #8e44ad, #eff1f0 50%, #007a33); }
   .key i.ramp1 { width: 40px; background: linear-gradient(90deg, #eef4ee, #007a33); }
-  .key i.small { background: #faf9f5; border: 1px dashed var(--line-strong); box-sizing: border-box; }
-  .key i.thin { background: repeating-linear-gradient(135deg, #f0efec 0 3px, #e4e2da 3px 5px); }
+  .key i.small { background: #f7f8f7; border: 1px dashed var(--line-strong); box-sizing: border-box; }
+  .key i.thin { background: repeating-linear-gradient(135deg, #eff1f0 0 3px, #e2e5e3 3px 5px); }
   .key i.mpg { height: 4px; background: rgba(28,28,26,.45); border-radius: 0; }
   .sr { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); }
   .sp .barcol { width: 110px; padding-left: 6px; }
@@ -88,7 +91,7 @@
   .mates { display: grid; gap: 4px; }
   .mate { display: grid; grid-template-columns: 92px 1fr 52px 64px; align-items: center; gap: 8px; font-size: 13px; }
   .mn-name { white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-  .mbar { position: relative; height: 16px; background: linear-gradient(var(--line-strong),var(--line-strong)) center/1px 100% no-repeat, #fbfaf6; border-radius: 3px; }
+  .mbar { position: relative; height: 16px; background: linear-gradient(var(--line-strong),var(--line-strong)) center/1px 100% no-repeat, #f8f9f8; border-radius: 3px; }
   .mnet { text-align: right; font-weight: 700; font-variant-numeric: tabular-nums; }
   .mposs { text-align: right; font-size: 11px; color: var(--ink-3); font-variant-numeric: tabular-nums; }
   .mate.small .mn-name, .mate.small .mnet { color: var(--ink-3); }
@@ -144,6 +147,10 @@
   @media (max-width: 640px) { .rc-plot { height: 112px; } }
   .hc.act { outline: 2px solid var(--ink); outline-offset: 1px; position: relative; z-index: 1; }
   /* key numbers: sized to their content, left-aligned, no boxes or rules; type carries the hierarchy */
+  .mfacts { font-size: 14px; line-height: 1.5; color: var(--ink-2); margin: 8px 0 14px; max-width: 62ch; }
+  .mfacts b { color: var(--ink); font-weight: 600; font-variant-numeric: tabular-nums; }
+  .ph-r.sp-pick { display: flex; flex-direction: row; gap: 6px; align-items: stretch; flex-wrap: nowrap; }
+  .sp-pick label { display: flex; } .sp-pick select { height: 100%; }
   .tiles { display: flex; flex-wrap: wrap; gap: 14px 44px; margin: 16px 0 18px; }
   .tile b { display: block; font-family: "Source Serif 4", Georgia, "Times New Roman", serif; font-size: 28px; line-height: 1.05; font-weight: 700; font-variant-numeric: tabular-nums; }
   .tile b small { font-size: 14px; font-weight: 600; color: var(--ink-3); }
@@ -152,7 +159,7 @@
   .qbars { display: grid; gap: 5px; max-width: 520px; }
   .qb-h { font-size: 12px; color: var(--ink-2); margin-bottom: 2px; }
   .qbar { display: grid; grid-template-columns: 28px 1fr 40px; align-items: center; gap: 8px; font-size: 12px; }
-  .qbar i { height: 8px; background: #eeede6; border-radius: 4px; position: relative; overflow: hidden; }
+  .qbar i { height: 8px; background: #eef0ef; border-radius: 4px; position: relative; overflow: hidden; }
   .qbar i b { position: absolute; left: 0; top: 0; bottom: 0; background: var(--green); border-radius: 4px; }
   .qbar em { font-style: normal; text-align: right; font-weight: 600; font-variant-numeric: tabular-nums; }
   .night { margin: 4px 0 18px; }
@@ -162,7 +169,7 @@
   .nt-body .nt-list { margin: 0; gap: 0; } .nt-body .nt-list li { line-height: 26px; }
   .nt-body .qbars { max-width: none; gap: 0; } .nt-body .qbar { min-height: 26px; }
   @media (max-width: 640px) { .nt-body { grid-template-columns: minmax(0,1.25fr) minmax(0,1fr); gap: 4px 14px; } .nt-body .nt-list { font-size: 12px; padding-left: 16px; } .nt-body .qbar { grid-template-columns: 18px 1fr 26px; gap: 5px; font-size: 11px; } }
-  .nt-track { position: relative; height: 26px; background: #eeede6; border-radius: 4px; }
+  .nt-track { position: relative; height: 26px; background: #eef0ef; border-radius: 4px; }
   .nt-q { position: absolute; top: -3px; bottom: -3px; width: 2px; margin-left: -1px; background: var(--line-strong); z-index: 1; }
   .nt-bar { position: absolute; top: 3px; bottom: 3px; background: var(--green); border-radius: 3px; }
   .nt-axis { display: grid; grid-template-columns: repeat(4,1fr); font-size: 11px; color: var(--ink-3); text-align: center; margin-top: 3px; }
@@ -192,17 +199,20 @@
   .row.bench-start { border-top: 2px solid var(--line-strong); }
   .reorder-hint { font-size: 12px; color: var(--ink-3); margin: 0 0 10px; line-height: 1.45; }
   .src { color: var(--ink-3); opacity: .85; }
-  .grouplab { font-size: 10px; letter-spacing: .06em; text-transform: uppercase; color: var(--ink-3); font-weight: 700; padding: 0; background: #fbfaf6; border-bottom: 1px solid var(--line); }
-  .grouplab span { position: sticky; left: 0; z-index: 1; display: block; width: 112px; box-sizing: border-box; padding: 5px 8px 3px; background: #fbfaf6; border-right: 1px solid var(--line); }
+  .grouplab { font-size: 10px; letter-spacing: .06em; text-transform: uppercase; color: var(--ink-3); font-weight: 700; padding: 0; background: #f8f9f8; border-bottom: 1px solid var(--line); }
+  .grouplab span { position: sticky; left: 0; z-index: 1; display: block; width: 112px; box-sizing: border-box; padding: 5px 8px 3px; background: #f8f9f8; border-right: 1px solid var(--line); }
   /* sticky cells paint over the row rules too, so a quarter line scrolled underneath can't show in the gaps */
   .name, .grouplab span { box-shadow: 0 1px 0 var(--line), 0 1px 0 var(--panel), 0 -1px 0 var(--line), 0 -1px 0 var(--panel); }
   .row.bench-start .name { box-shadow: 0 1px 0 var(--line), 0 1px 0 var(--panel), 0 -2px 0 var(--line-strong), 0 -2px 0 var(--panel); }
   .row.hdr .name { box-shadow: none; }
+  .row.hdr { align-items: stretch; }
+  .row.hdr .tot, .row.hdr .del { align-self: center; }
+  .row.hdr .q { display: flex; align-items: center; justify-content: center; }
   .row.cnt .name { box-shadow: 0 2px 0 var(--line-strong), 0 2px 0 var(--panel); }
   .grip { width: 14px; height: 20px; flex-shrink: 0; cursor: grab; margin-right: 8px; border-radius: 3px;
     background-image: radial-gradient(circle, var(--line-strong) 1.1px, transparent 1.2px);
     background-size: 5px 5px; background-position: 2px 4px; background-repeat: repeat; }
-  .grip:hover { background-color: #eceae2; }
+  .grip:hover { background-color: #eceeec; }
   .pname { font-size: 13px; color: var(--ink); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
   .name { display: flex; align-items: center; }
   .row.dragging { opacity: .4; }
@@ -238,7 +248,7 @@
   .tab { padding:6px 12px; border-radius:999px; border:1px solid var(--line-strong); background:var(--panel); font-size:13px; }
   .tab.active { background:var(--green); border-color:var(--green); color:#fff; }
   .tot { line-height: 1.1; }
-  .row.cnt { background: #fbfaf6; border-bottom: 2px solid var(--line-strong); }
+  .row.cnt { background: #f8f9f8; border-bottom: 2px solid var(--line-strong); }
   .k { width: var(--cw); height: 18px; font-size: 9px; line-height: 18px; text-align: center; color: var(--ink-3); border-right: 1px solid #fff; flex-shrink: 0; font-variant-numeric: tabular-nums; }
   .k.part { color: #b3261e; font-weight: 600; }
   .k.full { color: var(--green); font-weight: 600; }
@@ -249,7 +259,7 @@
   summary { cursor: pointer; font-size: 13px; color: var(--ink-2); }
   textarea { width: 100%; min-height: 140px; margin-top: 8px; font-family: monospace; font-size: 12px; padding: 8px; border: 1px solid var(--line); border-radius: 6px; }
   button:disabled { opacity:.45; cursor:default; }
-  button.on { background: #efeee8; border-color: var(--ink-3); }
+  button.on { background: #eff1f0; border-color: var(--ink-3); }
   button.danger { color: #8a2b24; border-color: #e0cdca; }
   button.danger:hover { background: #fdf3f2; }
   .wrap.paint .c { touch-action: none; }
@@ -296,7 +306,8 @@
   .sc-track { position: relative; height: 10px; margin: 12px 0 0; background: var(--cell-off); border-radius: 2px; }
   .sc-track i { position: absolute; top: 0; bottom: 0; background: #b8d8c4; }
   .sc-track i.me { background: var(--green); top: -3px; bottom: -3px; border-radius: 2px; }
-  .sc-track u { position: absolute; top: -3px; bottom: -3px; width: 1px; background: var(--line-strong); }
+  /* quarter breaks sit on top of the stints, the way the board's quarter lines cut through its cells */
+  .sc-track u { position: absolute; z-index: 1; top: -4px; bottom: -4px; width: 2px; margin-left: -1px; background: var(--line-strong); box-shadow: 0 0 0 1px var(--panel); }
   .sc-ends .ar { color: var(--ink-3); margin: 0 3px; }
   .sc-ends { font-size: 12px; color: var(--ink-2); margin: 7px 0 12px; font-variant-numeric: tabular-nums; }
   .sc-ends b { color: var(--ink); font-weight: 600; }
@@ -321,8 +332,8 @@
   .strip .ql { grid-column: span 2; font-size: 11px; color: var(--ink-3); text-align: center; border-bottom: 1px solid var(--line-strong); padding-bottom: 3px; margin-bottom: 3px; }
   .strip .blk { border: 0; border-radius: 4px; height: 46px; padding: 0; font: inherit; font-size: 14px; font-weight: 600; font-variant-numeric: tabular-nums; cursor: pointer; color: var(--ink); }
   .strip .blk.dark { color: #fff; }
-  .strip .blk.thin { background: repeating-linear-gradient(135deg, #f0efec 0 5px, #e4e2da 5px 7px); color: var(--ink-3); font-weight: 400; font-size: 12px; }
-  .strip .blk.small { background: #faf9f5; border: 1px dashed var(--line-strong); color: var(--ink-3); font-weight: 500; }
+  .strip .blk.thin { background: repeating-linear-gradient(135deg, #eff1f0 0 5px, #e2e5e3 5px 7px); color: var(--ink-3); font-weight: 400; font-size: 12px; }
+  .strip .blk.small { background: #f7f8f7; border: 1px dashed var(--line-strong); color: var(--ink-3); font-weight: 500; }
   .strip .blk.act { outline: 2px solid var(--sel); outline-offset: 1px; }
   .strip .mn { font-size: 11px; color: var(--ink-3); text-align: center; padding-top: 3px; font-variant-numeric: tabular-nums; }
   .strip-detail:empty { min-height: 0; margin: 0 0 6px; }
@@ -349,9 +360,9 @@
   .sp th:first-child, .sp td:first-child { text-align: left; }
   .sp td { padding: 7px 8px; border-bottom: 1px solid var(--line); text-align: right; font-variant-numeric: tabular-nums; white-space: nowrap; }
   .sp td:first-child { white-space: normal; }
-  .sp tr.grp td { background: #fbfaf6; font-size: 10px; letter-spacing: .06em; text-transform: uppercase; color: var(--ink-3); font-weight: 700; padding: 5px 8px 3px; }
+  .sp tr.grp td { background: #f8f9f8; font-size: 10px; letter-spacing: .06em; text-transform: uppercase; color: var(--ink-3); font-weight: 700; padding: 5px 8px 3px; }
   .sp tr.small td { color: var(--ink-3); }
-  .sp tr.base td { background: #fbfaf6; }
+  .sp tr.base td { background: #f8f9f8; }
   .tag { display: inline-block; font-size: 10px; border: 1px solid var(--line-strong); border-radius: 999px; padding: 0 6px; margin-left: 6px; color: var(--ink-3); vertical-align: 1px; }
   .sp-note { font-size: 11px; color: var(--ink-3); line-height: 1.5; margin-top: 10px; }
   @media (max-width: 640px) { .sp .wide { display: none; } .sp td, .sp th { padding: 7px 5px; } .sp { font-size: 12px; } }
@@ -363,14 +374,20 @@
   .gh { margin-top: 2px; }
   .gh .rs { font-weight: 700; }
   .gh .rs.w { color: var(--green); } .gh .rs.l { color: #8e44ad; }
-  .gpick { display: flex; flex-direction: column; gap: 4px; font-size: 11px; letter-spacing: .06em; text-transform: uppercase; color: var(--ink-3); }
+  .gpick { display: flex; }
+  .qrow { display: flex; align-items: center; justify-content: space-between; gap: 6px 12px; flex-wrap: wrap; margin-bottom: 8px; }
+  .qrow .qpick { margin: 0; }
+  .qrow .links { margin-left: auto; }
+  .gs-sel { flex: none; }
   .gp-in { display: flex; gap: 4px; align-items: stretch; }
-  .gp-in select { max-width: 240px; text-transform: none; letter-spacing: 0; }
+  .gp-in select { max-width: 240px; }
+  .gp-in .gs-sel { max-width: none; }
+  .gp-in select { align-self: stretch; }
   .gstep { padding: 0 11px; font-size: 18px; line-height: 1; color: var(--ink-2); }
   .gstep:disabled { opacity: .35; cursor: default; }
   /* margin row */
-  .row.mg { border-top: 2px solid var(--line-strong); background: #fbfaf6; }
-  .row.mg .name { flex-direction: column; align-items: flex-start; justify-content: center; font-size: 11px; color: var(--ink-3); line-height: 1.25; background: #fbfaf6; }
+  .row.mg { border-top: 2px solid var(--line-strong); background: #f8f9f8; }
+  .row.mg .name { flex-direction: column; align-items: flex-start; justify-content: center; font-size: 11px; color: var(--ink-3); line-height: 1.25; background: #f8f9f8; }
   .row.mg .name b { font-size: 13px; color: var(--ink); font-variant-numeric: tabular-nums; }
   .row.mg .cells { position: relative; }
   .mc { width: var(--cw); height: 64px; flex-shrink: 0; border-right: 1px solid transparent; cursor: pointer; }
@@ -383,14 +400,14 @@
   .mc.hov { background: rgba(0,0,0,.05); }
   .gh .ext { color: var(--ink-3); }
   .tot .dnp { color: var(--ink-3); }
-  .mgf { width: 96px; flex-shrink: 0; align-self: stretch; display: flex; flex-direction: column; justify-content: center; align-items: center; gap: 1px; font-size: 11px; color: var(--ink-3); line-height: 1.2; }
+  .mgf { width: auto; min-width: 96px; flex: 1 0 auto; padding: 0 6px; align-self: stretch; display: flex; flex-direction: row; flex-wrap: wrap; justify-content: center; align-items: baseline; align-content: center; gap: 1px 5px; font-size: 11px; color: var(--ink-3); line-height: 1.2; }
   .mgf b { font-size: 15px; font-variant-numeric: tabular-nums; } .mgf b.w { color: #007a33; } .mgf b.l { color: #8e44ad; }
   @media (max-width: 640px) { .mgf { width: 68px; } .mgf b { font-size: 13px; } }
   .wrap.has-pm .del { width: 40px; font-size: 12px; cursor: default; font-variant-numeric: tabular-nums; font-weight: 600; color: var(--ink-3); }
   .wrap.has-pm .del:hover { color: inherit; }
   .wrap.has-pm .del.pos { color: #007a33; } .wrap.has-pm .del.neg { color: #8e44ad; }
   .wrap.has-pm .hdr .del { font-weight: 400; font-size: 12px; }
-  @media (max-width: 640px) { .wrap.has-pm .del { width: 30px; font-size: 11px; } .gp-in select { max-width: none; flex: 1; } .gpick { width: 100%; } }
+  @media (max-width: 640px) { .wrap.has-pm .del { width: 30px; font-size: 11px; } .gp-in select { max-width: none; flex: 1; min-width: 0; } .gp-in .gs-sel { flex: none; padding-right: 4px; } .gpick, .gp-in { width: 100%; } .gstep { padding: 0 9px; } }
   /* builder */
   .k.full { background: var(--green-soft); color: var(--green); }
   .k.part { color: #9a5b00; }
@@ -402,7 +419,7 @@
   .lu-h { display: flex; flex-wrap: wrap; align-items: baseline; justify-content: space-between; gap: 2px 12px; margin-bottom: 8px; }
   .lu-meta { font-size: 12px; color: var(--ink-3); font-variant-numeric: tabular-nums; }
   .lu-row { display: grid; grid-template-columns: minmax(0,1fr) 120px 48px; gap: 10px; align-items: center; width: 100%; text-align: left; padding: 7px 10px; border: 1px solid var(--line); border-radius: 6px; margin-bottom: 4px; background: var(--panel); font-size: 13px; }
-  .lu-row.on { border-color: var(--sel); box-shadow: inset 3px 0 0 var(--sel); background: #f1f0eb; }
+  .lu-row.on { border-color: var(--sel); box-shadow: inset 3px 0 0 var(--sel); background: #f1f3f2; }
   .lu-row span { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
   .lu-row i { height: 8px; background: var(--cell-off); border-radius: 2px; overflow: hidden; }
   .lu-row i b { display: block; height: 100%; background: var(--green); }
@@ -414,7 +431,7 @@
   .tl-c { flex: 1 1 0; min-width: 0; height: 100%; display: flex; align-items: flex-end; cursor: pointer; }
   .tl-c i { display: block; width: 100%; border-radius: 1px 1px 0 0; }
   .tl-c i.st { background: #007a33; } .tl-c i.bn { background: #8fc2a3; }
-  .tl-c i.dnp { height: 3px; background: #b9b7ae; border-radius: 0; }
+  .tl-c i.dnp { height: 3px; background: #babfbb; border-radius: 0; }
   .tl-c.off { background: repeating-linear-gradient(135deg, transparent 0 3px, rgba(0,0,0,.035) 3px 5px); }
   .tl-c.act { background: rgba(28,28,26,.07); } .tl-c.act i { box-shadow: 0 0 0 1.5px var(--sel); }
   .tl-avg { position: absolute; left: 0; right: 0; border-top: 1px dashed var(--ink-3); pointer-events: none; }
@@ -427,7 +444,7 @@
   .card a, .sp-note a, .modal-bar a, .strip-detail a, .method a { text-decoration: underline; text-decoration-color: var(--line-strong); text-underline-offset: 2px; text-decoration-thickness: 1px; }
   .card a:hover, .sp-note a:hover, .modal-bar a:hover, .strip-detail a:hover, .method a:hover { text-decoration-color: var(--ink); }
   /* season switch: one quiet segmented control, lighter than the main tabs */
-  .ssw { display: inline-flex; background: #e9e7df; border-radius: 8px; padding: 2px; gap: 2px; }
+  .ssw { display: inline-flex; background: #eceeed; border-radius: 8px; padding: 2px; gap: 2px; }
   .ssw button { border: 0; background: transparent; border-radius: 6px; padding: 5px 10px; font-size: 12px; font-weight: 600; color: var(--ink-2); font-variant-numeric: tabular-nums; }
   .ssw button.on { background: #fff; color: var(--ink); box-shadow: 0 1px 2px rgba(0,0,0,.12); }
   .ssw button:disabled { opacity: .35; cursor: default; }
@@ -449,14 +466,14 @@
   .sm-n b { font-size: 13px; font-weight: 600; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
   .sm-n span { font-size: 10px; color: var(--ink-3); font-variant-numeric: tabular-nums; }
   .sm-n:hover b { text-decoration: underline; text-decoration-color: var(--line-strong); text-underline-offset: 2px; }
-  .sm-c { position: relative; border: 0; border-radius: 4px; height: 40px; padding: 0; font: inherit; cursor: pointer; background: #faf9f5; overflow: hidden; }
+  .sm-c { position: relative; border: 0; border-radius: 4px; height: 40px; padding: 0; font: inherit; cursor: pointer; background: #f7f8f7; overflow: hidden; }
   .sm-c em { font-style: normal; font-size: 13px; font-weight: 600; font-variant-numeric: tabular-nums; color: var(--ink); position: relative; top: -3px; }
   .sm-c.dark em { color: #fff; }
   .sm-c i { position: absolute; left: 0; bottom: 0; height: 4px; background: rgba(28,28,26,.45); }
   .sm-c.dark i { background: rgba(255,255,255,.75); }
   .sm-c.small { border: 1px dashed var(--line-strong); }
   .sm-c.small em { color: var(--ink-3); font-weight: 500; }
-  .sm-c.thin { background: repeating-linear-gradient(135deg, #f0efec 0 5px, #e4e2da 5px 7px); }
+  .sm-c.thin { background: repeating-linear-gradient(135deg, #eff1f0 0 5px, #e2e5e3 5px 7px); }
   .sm-c.act { outline: 2px solid var(--sel); outline-offset: 1px; }
   .sm-foot { display: flex; flex-wrap: wrap; justify-content: space-between; gap: 4px 16px; font-size: 11px; color: var(--ink-3); margin-top: 2px; }
   .sm-foot b { color: var(--ink-2); font-weight: 600; }
@@ -468,12 +485,11 @@
 <div class="page">
 <header class="top">
   <div class="nameplate"><h1>Celtics Rotations<!-- Shamrock: Twemoji by Twitter, CC BY 4.0 (creativecommons.org/licenses/by/4.0), recolored --><svg class="sham" viewBox="0 0 36 36" aria-hidden="true"><path fill="#007a33" d="M32.34 19.208c.198-1.475 2.669-2.208 2.669-4.542S29.25 8.25 21 16c3.812-5.312 6.542-14.509 2.203-14.509c-1.47 0-2.579 1.342-4.328 1.342C16.5 2.833 16.208 0 14 0c-2.583 0-5 6.25 1 15c-1.5-1.625-11.083-6.625-13.002-1.269c-.628 1.753 1.731 2.781 1.544 4.519c-.178 1.654-2.597 2.037-2.597 4.372c0 3.293 8.048 4.834 16.044-1.613c-.245 4.524.557 10.515 3.857 14.158c1.344 1.483 2.407.551 2.822.187s1.604-1.414.185-2.822c-3.834-3.807-5.225-8.174-5.619-11.381c2.043 2.215 12.357 8.742 15.517 2.767c.881-1.668-1.643-2.977-1.411-4.71"/></svg></h1><span class="by"><i>by</i>Neight</span></div>
-  <p class="tagline">Sub patterns, game logs and player splits</p>
 </header>
 <nav class="views" id="views" aria-label="View">
   <button data-view="plan"><span class="lg">Build 2026-27</span><span class="sh">Build</span></button><button data-view="games"><span class="lg">Game log</span><span class="sh">Games</span></button><button data-view="map"><span class="lg">Stretch map</span><span class="sh">Map</span></button><button data-view="splits"><span class="lg">Player splits</span><span class="sh">Players</span></button>
 </nav>
-<div class="ph gh" id="gameHead" hidden><div id="ghText"></div><div class="gpick" id="gamePickRow"><div class="ssw" id="gameSeason" role="group" aria-label="Season"></div><label for="gamePick">Game</label><div class="gp-in"><button class="gstep" id="gPrev" aria-label="Previous game">&#8249;</button><select id="gamePick" class="seasonsel"></select><button class="gstep" id="gNext" aria-label="Next game">&#8250;</button></div></div></div>
+<div class="ph gh" id="gameHead" hidden><div id="ghText"></div><div class="gpick" id="gamePickRow"><div class="gp-in"><select id="gameSeason" class="seasonsel gs-sel" aria-label="Season"></select><button class="gstep" id="gPrev" aria-label="Previous game">&#8249;</button><select id="gamePick" class="seasonsel" aria-label="Game"></select><button class="gstep" id="gNext" aria-label="Next game">&#8250;</button></div></div></div>
 <div id="gnote" class="note"></div>
 <div class="toolrow" id="toolrow">
   <div class="bar" id="tools">
@@ -481,11 +497,10 @@
     <button id="paintBtn" class="tog" aria-pressed="false">Paint</button>
     <button id="undoBtn" disabled>Undo</button>
     <button id="addBtn">Add player</button>
+    <button class="lnk danger" id="resetBtn">Reset</button>
   </div>
   <div class="links">
     <button class="lnk" id="exportBtn">Save image</button>
-    <button class="lnk" id="shareBtn">Copy link</button>
-    <button class="lnk danger" id="resetBtn">Reset</button>
   </div>
 </div>
 
@@ -493,7 +508,7 @@
 <p class="reorder-hint" id="reorderHint">Drag rows to reorder. The top five start.</p>
 <div class="qpick" id="refMode" style="display:none"><button class="qb" data-rm="reg">Regular season</button><button class="qb" data-rm="po">Playoffs</button></div>
 <p class="reorder-hint" id="refHint" style="display:none">Shading: how often each player was on the floor in that minute. Garbage time excluded.<br><span class="src" id="refSrc"></span></p>
-<div class="qpick" id="qpick"></div>
+<div class="qrow" id="qrow"><div class="qpick" id="qpick"></div></div>
 <div class="wrap"><div class="grid" id="grid"></div></div>
 <div id="bump"></div>
 <div id="stintCard" class="card" hidden></div>
@@ -516,6 +531,8 @@
 <script src="season-2024-25.js"></script>
 <script src="season-2023-24.js"></script>
 <script src="shots.js"></script>
+<script src="season-2026-27.js"></script>
+<script src="shots-2026-27.js"></script>
 <script>
 const TOTAL_MIN = 48;
 // Every score change from the NBA.com play-by-play (seconds since the previous change + a=BOS+1 b=+2 c=+3, x/y/z=opp, m/n=correction), and official box-score +/-.
@@ -802,8 +819,14 @@ const state = GAMES.map(g=>({ name:g.name, result:g.result, note:g.note, po:/^G\
 const MON = ["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"];
 function shortDate(d){ const [y,m,dd]=d.split('-'); return MON[+m-1]+' '+(+dd); }
 SEASON.games.forEach(g=>state.push({ name: shortDate(g.d)+' '+g.m, result:g.r, id:g.id, date:g.d, season:true, sk:'2526', excl:true, stints:g.s, players: fromStints(g.s) }));
-[['2425',S2425],['2324',S2324]].forEach(([k,x])=>x.SEASON.games.forEach(g=>state.push({ name: shortDate(g.d)+' '+g.m, result:g.r, id:g.id, date:g.d, season:true, sk:k, excl:true, stints:g.s, players: fromStints(g.s) })));
-const SEASON_LABEL = { '2526':'2025-26', '2425':'2024-25', '2324':'2023-24' };
+// 2026-27 fills in game by game; until its first game its file is a placeholder (S2627 = null) and nothing here changes
+const NEW_SEASON = (typeof S2627!=='undefined' && S2627 && S2627.SEASON && S2627.SEASON.games.length) ? S2627 : null;
+const EXTRA_SEASONS = [['2425',S2425],['2324',S2324]].concat(NEW_SEASON ? [['2627',NEW_SEASON]] : []);
+EXTRA_SEASONS.forEach(([k,x])=>x.SEASON.games.forEach(g=>state.push({ name: shortDate(g.d)+' '+g.m, result:g.r, id:g.id, date:g.d, season:true, sk:k, excl:true, stints:g.s, players: fromStints(g.s) })));
+const SEASON_LABEL = { '2627':'2026-27', '2526':'2025-26', '2425':'2024-25', '2324':'2023-24' };
+const SEASON_KEYS = (NEW_SEASON ? ['2627'] : []).concat(['2526','2425','2324']);   // newest first
+const LATEST = SEASON_KEYS[0];
+const POOL_KEYS = ['2526','2425','2324'];   // "All three": the finished seasons only
 // Playoff rounds per season; each playoff game carries its season (sk), round (rd) and game number (gn)
 const PO_ROUNDS = { '2526':[{ name:'First round', opp:'PHI', team:'76ers' }], '2425':S2425.PO.rounds, '2324':S2324.PO.rounds };
 state.forEach(g=>{ if (g.po && !g.sk){ g.sk='2526'; g.rd=0; g.gn=+g.name.slice(1); } });
@@ -868,8 +891,8 @@ function decodePlan(tok){
 function shareURL(){
   // On a regular-season game, share that game; everywhere else, share the plan.
   if (state[cur] && (state[cur].season||state[cur].po)) return location.origin + location.pathname + '#g=' + state[cur].id;
-  if (state[cur] && state[cur].map) return location.origin + location.pathname + '#map' + (mapBoth ? '&ss=all' : splitSeason!=='2526' ? '&ss='+splitSeason : '') + (mapGran!==8 ? '&w='+mapGran : '');
-  if (state[cur] && state[cur].splits) return location.origin + location.pathname + '#s=' + encodeURIComponent(splitPlayer) + (splitSeason!=='2526' ? '&ss='+splitSeason : '');
+  if (state[cur] && state[cur].map) return location.origin + location.pathname + '#map' + (mapBoth ? '&ss=all' : splitSeason!==LATEST ? '&ss='+splitSeason : '') + (mapGran!==8 ? '&w='+mapGran : '');
+  if (state[cur] && state[cur].splits) return location.origin + location.pathname + '#s=' + encodeURIComponent(splitPlayer) + (splitSeason!==LATEST ? '&ss='+splitSeason : '');
   return location.origin + location.pathname + '#p=' + encodePlan(state.find(g=>g.plan).players);
 }
 function persist(){
@@ -894,13 +917,13 @@ let splitPlayer = null, selStint = null;
 function viewRange(){ return view==='all' ? [0,TOTAL_MIN] : [view*12, view*12+12]; }
 let stripGran = 8;   // same windows for the player page's net rating strip
 let mapGran = 8;   // stretch map window: 8 six-minute stretches, 4 quarters, 2 halves, 1 full game
-let seasonKey = '2526', splitSeason = '2526', mapBoth = false;   // season in the globals / picked in Player splits / stretch map pooled
+let seasonKey = '2526', splitSeason = LATEST, mapBoth = false;   // season in the globals / picked in Player splits / stretch map pooled
 let cur = state.findIndex(g=>g.plan);
 try {
   const gm = (location.hash||'').match(/[#&]g=(\d+)/);
   if (gm){ const i = state.findIndex(g=>(g.season||g.po) && g.id===gm[1]); if (i>=0){ cur=i; seasonOpen=true; } }
   const sm = (location.hash||'').match(/[#&]s=([^&]+)/);
-  const ssm = (location.hash||'').match(/[#&]ss=(\d{4})/), EXTRA={ '2425':S2425, '2324':S2324 }; if (ssm && EXTRA[ssm[1]]) splitSeason=ssm[1];
+  const ssm = (location.hash||'').match(/[#&]ss=(\d{4})/), EXTRA={ '2425':S2425, '2324':S2324 }; if (NEW_SEASON) EXTRA['2627']=NEW_SEASON; if (ssm && (EXTRA[ssm[1]] || ssm[1]==='2526')) splitSeason=ssm[1];
   if (/[#&]map\b/.test(location.hash||'')){ cur=state.findIndex(g=>g.map); if (/[#&]ss=all/.test(location.hash)) mapBoth=true; const wm=location.hash.match(/[#&]w=([124])\b/); if (wm) mapGran=+wm[1]; }
   if (sm){ const nm=decodeURIComponent(sm[1]); if (PBIT[nm]!=null || (EXTRA[splitSeason] && EXTRA[splitSeason].STATS.players.includes(nm))){ splitPlayer=nm; cur=state.findIndex(g=>g.splits); } }
 } catch(e){}
@@ -909,6 +932,7 @@ let customCount = 0;
 
 function viewOf(i){ const g=state[i]; return g.plan?'plan':g.splits?'splits':g.map?'map':'games'; }
 let lastGame = state.findIndex(g=>!g.plan && !g.splits && !g.map);
+if (NEW_SEASON){ const nl = state.map((g,i)=>g.season && g.sk==='2627' ? i : -1).filter(i=>i>=0); if (nl.length) lastGame = nl[nl.length-1]; }   // the Games tab opens on the latest game
 function gameSeasonOf(g){ return g && (g.season||g.po) ? (g.sk||'2526') : '2526'; }
 function renderTabs(){
   const v=viewOf(cur); if (v==='games') lastGame=cur;
@@ -918,7 +942,7 @@ function renderTabs(){
   if (v==='games'){
     // one season at a time: that season's games by month, then its playoffs; the switch above changes season
     const gs=gameSeasonOf(state[cur]);
-    document.getElementById('gameSeason').innerHTML=['2526','2425','2324'].map(k=>'<button type="button" data-gss="'+k+'" class="'+(k===gs?'on':'')+'" aria-pressed="'+(k===gs)+'">'+SEASON_LABEL[k]+'</button>').join('');
+    document.getElementById('gameSeason').innerHTML=SEASON_KEYS.map(k=>'<option value="'+k+'"'+(k===gs?' selected':'')+'>'+SEASON_LABEL[k]+'</option>').join('');
     const opt=(g,i,label)=>'<option value="'+i+'"'+(i===cur?' selected':'')+'>'+label+'</option>';
     let h='', lastMon='';
     state.forEach((g,i)=>{ if (!g.season || g.sk!==gs) return; const mon=g.date.slice(0,7);
@@ -935,12 +959,15 @@ function renderTabs(){
   }
   const isPlan=v==='plan', isMap=v==='map', isSplits=v==='splits'||isMap;   // isSplits: any page without the minute grid
   document.getElementById('tools').hidden = !isPlan;
-  document.getElementById('toolrow').style.display = isSplits ? 'none' : '';
+  // the share links sit beside the quarter buttons
+  const lk=document.querySelector('.links'), home=document.getElementById('qrow');
+  if (lk.parentNode!==home) home.appendChild(lk);
+  document.getElementById('toolrow').style.display = (isSplits || !isPlan) ? 'none' : '';
   document.getElementById('resetBtn').hidden = !isPlan;
   document.getElementById('exportBtn').hidden = isSplits;
-  ['reorderHint'].forEach(id=>{ const el=document.getElementById(id); if (el) el.style.display = isPlan?'':'none'; });
+  ['reorderHint'].forEach(id=>{ const el=document.getElementById(id); if (el) el.style.display = 'none'; });
   const rh=document.getElementById('refHint'); if (rh) rh.style.display = (isPlan && showRef) ? '' : 'none';
-  ['qpick','bump'].forEach(id=>{ const el=document.getElementById(id); if (el) el.style.display = isSplits?'none':''; });
+  ['qrow','bump'].forEach(id=>{ const el=document.getElementById(id); if (el) el.style.display = isSplits?'none':''; });
   document.querySelector('.wrap').style.display = isSplits?'none':'';
   document.getElementById('splits').hidden = !(isSplits && !isMap);
   document.getElementById('mapview').hidden = !isMap;
@@ -964,23 +991,25 @@ function scoreAt(f,t){ let r=[0,0]; for (const [tt,b,o] of flowEvents(f)){ if (t
 const DOW = ["Sun","Mon","Tue","Wed","Thu","Fri","Sat"];
 function renderGameHead(){
   const g=state[cur], f=FLOW[g.id];
-  let eb, title, meta='';
+  let title, meta='';
   const res=(g.result||'').match(/^([WL])\s+(\d+)-(\d+)/);
   const reg = f ? scoreAt(f,2880) : null;
   const ot = res && f && (+res[2]!==reg[0] || +res[3]!==reg[1]);
   let hi=0, lo=0; if (f) flowEvents(f).forEach(([,b,o])=>{ hi=Math.max(hi,b-o); lo=Math.min(lo,b-o); });
+  const DAYS=['Sunday','Monday','Tuesday','Wednesday','Thursday','Friday','Saturday'], MO=['Jan.','Feb.','March','April','May','June','July','Aug.','Sept.','Oct.','Nov.','Dec.'];
+  let when='';
   if (g.season){
     const [y,m,d]=g.date.split('-').map(Number), dt=new Date(Date.UTC(y,m-1,d));
-    eb=SEASON_LABEL[g.sk]+' regular season · '+DOW[dt.getUTCDay()]+', '+MON[m-1]+' '+d;
+    when=' on '+DAYS[dt.getUTCDay()]+', '+MO[m-1]+' '+d+(g.sk==='2627' && NEW_SEASON.STYPE && NEW_SEASON.STYPE!=='Regular Season' ? ' (preseason)' : '');
     const mm=g.name.match(/(vs|@) ([A-Z]{3})$/);
     title = mm ? 'Celtics '+(mm[1]==='@'?'at ':'vs. ')+(TEAM[mm[2]]||mm[2]) : g.name;
   } else if (g.po){
     const r=PO_ROUNDS[g.sk][g.rd];
-    eb='20'+g.sk.slice(2)+' playoffs · '+r.name+' · Game '+g.gn; title='Celtics '+(f&&!f.h?'at ':'vs. ')+r.team;
-  } else { eb='Added game'; title=g.name; }
-  if (res) meta='<span class="rs '+(res[1]==='W'?'w':'l')+'">'+(res[1]==='W'?'Won':'Lost')+'</span> '+res[2]+'–'+res[3]+(ot?' · OT':'')+(f?'<span class="ext"> · Led by up to '+hi+(lo<0?' · trailed by up to '+(-lo):'')+'</span>':'');
+    when=' in Game '+g.gn+' of the '+('20'+g.sk.slice(2))+' '+r.name.toLowerCase(); title='Celtics '+(f&&!f.h?'at ':'vs. ')+r.team;
+  } else { title=g.name; }
+  if (res) meta='<span class="rs '+(res[1]==='W'?'w':'l')+'">'+(res[1]==='W'?'Won':'Lost')+'</span> '+res[2]+'–'+res[3]+(ot?' in overtime':'')+when;
   else if (g.result) meta=g.result;
-  document.getElementById('ghText').innerHTML='<div class="eyebrow">'+eb+'</div><h2 class="pbig">'+title+'</h2><div class="meta">'+meta+'</div>';
+  document.getElementById('ghText').innerHTML='<h2 class="pbig">'+title+'</h2><div class="meta">'+meta+'</div>';
   const sel=document.getElementById('gamePick'), k=sel.selectedIndex;
   document.getElementById('gPrev').disabled = k<=0;
   document.getElementById('gNext').disabled = k<0 || k>=sel.options.length-1;
@@ -991,9 +1020,9 @@ function stepGame(d){
   cur=+sel.options[k].value; players=state[cur].players; painting=null; selStint=null; renderTabs(); render();
 }
 document.addEventListener('click',e=>{ const b=e.target.closest && e.target.closest('.ssw [data-ss]'); if (!b || b.disabled || b.classList.contains('on')) return; if (b.dataset.ss==='all') mapBoth=true; else { mapBoth=false; splitSeason=b.dataset.ss; } renderTabs(); render(); });
-document.getElementById('gameSeason').addEventListener('click',e=>{ const b=e.target.closest('[data-gss]'); if (!b || b.classList.contains('on')) return;
-  // jump to that season's last game (its final playoff game for 2025-26)
-  const k=b.dataset.gss, idx=state.map((g,i)=>[g,i]).filter(([g])=>(g.season||g.po)&&gameSeasonOf(g)===k);
+document.getElementById('gameSeason').addEventListener('change',e=>{
+  // jump to that season's last game (its final playoff game for finished seasons)
+  const k=e.target.value, idx=state.map((g,i)=>[g,i]).filter(([g])=>(g.season||g.po)&&gameSeasonOf(g)===k);
   const last=idx.filter(([g])=>g.po).pop() || idx.pop(); if (!last) return;
   cur=last[1]; players=state[cur].players; painting=null; selStint=null; renderTabs(); render(); });
 document.getElementById('gPrev').addEventListener('click',()=>stepGame(-1));
@@ -1103,9 +1132,9 @@ function render(){
   const cw = view==='all' ? Math.max(9, Math.min(14, Math.floor((wrapW-112-56-56-28)/TOTAL_MIN))) : Math.max(14, Math.floor((wrapW-112-56-56-28)/12));
   document.documentElement.style.setProperty('--cw', cw+'px');
   const qp=document.getElementById('qpick');
-  qp.innerHTML = ['all',0,1,2,3].map(v=>'<button class="qb'+(v===view?' active':'')+'" data-v="'+v+'">'+(v==='all'?'All':'Q'+(v+1))+'</button>').join('');
-  qp.querySelectorAll('.qb').forEach(b=>b.addEventListener('click',()=>{ const v=b.dataset.v; view = v==='all'?'all':+v; render(); }));
-  let html = '<div class="row hdr"><div class="name"></div><div class="cells">';
+  qp.innerHTML = '<div class="ssw" role="group" aria-label="Quarter">'+['all',0,1,2,3].map(v=>'<button type="button" class="'+(v===view?'on':'')+'" aria-pressed="'+(v===view)+'" data-v="'+v+'">'+(v==='all'?'All':'Q'+(v+1))+'</button>').join('')+'</div>';
+  qp.querySelectorAll('button').forEach(b=>b.addEventListener('click',()=>{ const v=b.dataset.v; view = v==='all'?'all':+v; render(); }));
+  let html = '<div class="row hdr"><div class="name">'+(isPlan?'<span class="corner-hint">Drag rows to reorder</span>':'')+'</div><div class="cells">';
   if (view==='all'){ for (let q=1;q<=4;q++) html += '<div class="q">Q'+q+'</div>'; }
   else html += '<div class="q" style="width:'+(12*cw)+'px">Q'+(view+1)+'</div>';
   const flow = !isPlan ? FLOW[state[cur].id] : null;
@@ -1118,7 +1147,7 @@ function render(){
     const fot=fev.some(e=>e[0]>2880);
     let fb=fl[1], fo=fl[2], flab='Final'+(fot?' · OT':'');
     if (view!=='all'){ const s0=scoreAt(flow,view*720), s1=scoreAt(flow,view*720+720); fb=s1[0]-s0[0]; fo=s1[1]-s0[1]; flab='Q'+(view+1); }
-    mgRow += marginSVG(flow,m0,m1)+'</div><div class="mgf"><span>'+flab+'</span><b class="'+(fb>fo?'w':fb<fo?'l':'')+'">'+fb+'–'+fo+'</b></div></div>';
+    mgRow += marginSVG(flow,m0,m1)+'</div><div class="mgf"><span>'+flab+':</span><b class="'+(fb>fo?'w':fb<fo?'l':'')+'">'+fb+'–'+fo+'</b></div></div>';
   }
   if (isPlan){
     let used=0;
@@ -1325,7 +1354,7 @@ function winsFor(n){
 }
 const BLOCKS = winsFor(8);
 const BLOCK_MIN_POSS = 100;
-const POS='#007a33', NEG='#8e44ad', MID='#f0efec';   // validated diverging pair (colorblind-safe)
+const POS='#007a33', NEG='#8e44ad', MID='#eff1f0';   // validated diverging pair (colorblind-safe)
 function mix(h1,h2,t){ const p=h=>[1,3,5].map(i=>parseInt(h.slice(i,i+2),16)); const a=p(h1),b=p(h2); return 'rgb('+a.map((v,i)=>Math.round(v+(b[i]-v)*t)).join(',')+')'; }
 function divColor(d){ const t=Math.min(1,Math.abs(d)/15); return { bg: mix(MID, d>=0?POS:NEG, 0.15+0.85*t), dark: t>0.55 }; }
 let TEAM_CACHE=null;
@@ -1375,9 +1404,9 @@ let NBA_TEAM_NET = 8.3;
 const SEASONS = {
   '2526': { label:'2025-26', SEASON, STATS, PBIT, ROSTER_SPAN, NBA_SPLITS, NBA_TEAM, NBA_PAIRS, NBA_TEAM_NET, tc:null, pb:PB_CACHE },
 };
-[['2425',S2425],['2324',S2324]].forEach(([k,x])=>{ const bit={}; x.STATS.players.forEach((n,i)=>bit[n]=i);
-  SEASONS[k]={ label:SEASON_LABEL[k], SEASON:x.SEASON, STATS:x.STATS, PBIT:bit, ROSTER_SPAN:x.ROSTER_SPAN, NBA_SPLITS:x.NBA_SPLITS, NBA_TEAM:x.NBA_TEAM, NBA_PAIRS:x.NBA_PAIRS, NBA_TEAM_NET:x.NBA_TEAM_NET, tc:null, pb:{} };
-  Object.assign(FLOW, x.FLOW, x.PO.FLOW); Object.assign(FULL, x.FULL); });
+EXTRA_SEASONS.forEach(([k,x])=>{ const bit={}; x.STATS.players.forEach((n,i)=>bit[n]=i);
+  SEASONS[k]={ label:SEASON_LABEL[k], SEASON:x.SEASON, STATS:x.STATS, PBIT:bit, ROSTER_SPAN:x.ROSTER_SPAN||{}, NBA_SPLITS:x.NBA_SPLITS||{}, NBA_TEAM:x.NBA_TEAM, NBA_PAIRS:x.NBA_PAIRS||{}, NBA_TEAM_NET:x.NBA_TEAM_NET, tc:null, pb:{}, pending:!!x.PENDING, stype:x.STYPE||'Regular Season' };
+  Object.assign(FLOW, x.FLOW, x.PO ? x.PO.FLOW : {}); Object.assign(FULL, x.FULL); });
 function useSeason(k){
   if (k===seasonKey || !SEASONS[k]) return;
   SEASONS[seasonKey].tc = TEAM_CACHE;
@@ -1390,12 +1419,12 @@ const BOTH = { live:null, team:{}, pb:{} };
 function bothTeam(n=8){
   if (BOTH.team[n]) return BOTH.team[n];
   // regular-season games only (z.SEASON.games), never the playoff segments stored alongside
-  if (!BOTH.live){ BOTH.live=[]; for (const z of Object.values(SEASONS)) for (const g of z.SEASON.games) for (const x of (z.STATS.games[g.id]||[])) if (STRETCH_KEEP(x)) BOTH.live.push(x); }
+  if (!BOTH.live){ BOTH.live=[]; for (const z of POOL_KEYS.map(k=>SEASONS[k])) for (const g of z.SEASON.games) for (const x of (z.STATS.games[g.id]||[])) if (STRETCH_KEEP(x)) BOTH.live.push(x); }
   return BOTH.team[n]={ blocks:winsFor(n).map(k=>tally(BOTH.live.filter(x=>x[0]>=k.a&&x[1]<=k.b))) };
 }
 function bothBlocks(name, n=8){
   const ck=name+'|'+n; if (BOTH.pb[ck]) return BOTH.pb[ck];
-  const parts=Object.values(SEASONS).filter(z=>z.PBIT[name]!=null).map(z=>({ z, bit:1<<z.PBIT[name], gs:z.SEASON.games.filter(g=>g.s[name]) }));
+  const parts=POOL_KEYS.map(k=>SEASONS[k]).filter(z=>z.PBIT[name]!=null).map(z=>({ z, bit:1<<z.PBIT[name], gs:z.SEASON.games.filter(g=>g.s[name]) }));
   const ngp=parts.reduce((a,p)=>a+p.gs.length,0);
   return BOTH.pb[ck]=winsFor(n).map((k,i)=>{
     const segs=[]; let games=0;
@@ -1410,7 +1439,7 @@ function bothBlocks(name, n=8){
 }
 function bothMinutes(name){
   let sec=0, gp=0;
-  for (const z of Object.values(SEASONS)){ if (z.PBIT[name]==null) return null;
+  for (const z of POOL_KEYS.map(k=>SEASONS[k])){ if (z.PBIT[name]==null) return null;
     for (const g of z.SEASON.games){ const iv=g.s[name]; if (iv){ gp++; sec+=iv.reduce((x,[a,b])=>x+b-a,0); } } }
   return { sec, gp };
 }
@@ -1432,7 +1461,7 @@ function netBar(net, base, faded){
 }
 // Celtics score margin with 5:00 left in regulation, per game (from the play-by-play)
 const MARGIN_5 = {"0022500083":7,"0022500018":-10,"0022500106":-6,"0022500117":17,"0022500128":10,"0022500021":11,"0022500146":-32,"0022500158":-5,"0022500174":22,"0022500028":-4,"0022500193":7,"0022500209":2,"0022500216":37,"0022500233":12,"0022500250":7,"0022500049":-5,"0022500277":12,"0022500060":-2,"0022500293":-8,"0022500302":9,"0022500320":8,"0022500334":38,"0022500338":22,"0022500358":3,"0022501206":-17,"0022501222":-9,"0022500381":16,"0022500388":8,"0022500403":1,"0022500426":25,"0022500444":-2,"0022500459":6,"0022500474":10,"0022500493":24,"0022500503":16,"0022500520":-7,"0022500532":6,"0022500545":5,"0022500559":-4,"0022500580":-1,"0022500594":38,"0022500017":-3,"0022500621":17,"0022500637":3,"0022500647":-4,"0022500660":12,"0022500673":-18,"0022500689":24,"0022500702":22,"0022500721":13,"0022500728":29,"0022500741":-1,"0022500757":-17,"0022500778":25,"0022500799":15,"0022500823":15,"0022500839":22,"0022500847":-17,"0022500859":36,"0022500874":10,"0022500880":27,"0022500894":-24,"0022500908":25,"0022500921":8,"0022500942":-10,"0022500959":-2,"0022500971":16,"0022500986":-3,"0022500999":20,"0022501019":1,"0022501035":-13,"0022501054":12,"0022501067":5,"0022501085":15,"0022501092":-14,"0022501106":19,"0022501126":30,"0022501132":9,"0022501149":10,"0022501168":0,"0022501174":40,"0022501186":9};
-Object.assign(MARGIN_5, S2425.MARGIN_5, S2324.MARGIN_5);
+Object.assign(MARGIN_5, S2425.MARGIN_5, S2324.MARGIN_5, NEW_SEASON ? NEW_SEASON.MARGIN_5 : {});
 function median(a){ const b=[...a].sort((x,y)=>x-y), k=b.length>>1; return b.length? (b.length%2? b[k] : (b[k-1]+b[k])/2) : null; }
 function habits(name){
   const gs=playerGames(name), n=gs.length;
@@ -1486,7 +1515,7 @@ function seasonTimeline(name){
   });
   const nS=played.filter(r=>r.x.start).length;
   return '<section class="sec tlsec"><div class="sec-top"><h3 class="sec-h">Game by game</h3>'
-    +'<div class="legend top"><span><i style="background:#007a33"></i>Started</span><span><i style="background:#8fc2a3"></i>Off the bench</span><span><i style="background:#b9b7ae;height:3px;margin-top:4px"></i>Did not play</span><span><i style="background:none;border-top:1px dashed var(--ink-3);height:0;margin-top:5px"></i>His average</span></div>'+'</div>'
+    +'<div class="legend top"><span><i style="background:#007a33"></i>Started</span><span><i style="background:#8fc2a3"></i>Off the bench</span><span><i style="background:#babfbb;height:3px;margin-top:4px"></i>Did not play</span><span><i style="background:none;border-top:1px dashed var(--ink-3);height:0;margin-top:5px"></i>His average</span></div>'+'</div>'
     +'<div class="tl"><div class="tl-plot">'+bars
     +'<div class="tl-avg" style="bottom:'+(avg/top*100).toFixed(1)+'%"></div></div>'
     +'<div class="tl-mon">'+months+'</div></div>'
@@ -1521,15 +1550,17 @@ function wireTimeline(el, name){
 const MAP_MIN = 500;              // season minutes to make the map
 let mapSort = null;                // null = by minutes, else block index
 function stretchMap(){
+  // a season still in progress scales the cutoff with games played (500 minutes over 82 games)
+  const live = !mapBoth && seasonKey==='2627', mapMin = live ? Math.max(1, Math.round(MAP_MIN*SEASON.games.length/82)) : MAP_MIN;
   const rows = mapBoth
     ? STATS.players.map(n=>({ n, ...(bothMinutes(n)||{sec:0,gp:0}) })).filter(r=>r.sec>=MAP_MIN*60).map(r=>({ ...r, b: bothBlocks(r.n, mapGran) }))
     : STATS.players.map(n=>({ n, sec: playerGames(n).reduce((a,g)=>a+g.s[n].reduce((x,[s,e])=>x+e-s,0),0) }))
-      .filter(r=>r.sec>=MAP_MIN*60).map(r=>({ ...r, b: playerBlocks(r.n, mapGran), gp: playerGames(r.n).length }));
+      .filter(r=>r.sec>=mapMin*60).map(r=>({ ...r, b: playerBlocks(r.n, mapGran), gp: playerGames(r.n).length }));
   if (mapSort==null) rows.sort((a,b)=>b.sec-a.sec);
   else rows.sort((a,b)=>{ const x=a.b[mapSort], y=b.b[mapSort], va=x.ok?x.d:-1e9, vb=y.ok?y.d:-1e9; return vb-va; });
   const top=Math.max(...rows.flatMap(r=>r.b.map(k=>k.mpg)));
   let h='<div class="ph"><div><h2 class="ptitle">Stretch map</h2>'
-    +'<div class="meta">'+(mapBoth?'2023-24 to 2025-26 · ':'')+rows.length+' players · '+(mapBoth?'Celtics all three seasons, 500+ minutes':'500+ minutes')+'</div></div>'
+    +'<div class="meta">'+(mapBoth?'2023-24 to 2025-26 · ':'')+rows.length+' players · '+(mapBoth?'Celtics all three seasons, 500+ minutes':mapMin+'+ minutes'+(live?' (500 over a full season)':''))+'</div></div>'
     +seasonSwitch(true)+'</div>'
     +'<section class="sec smap">'
     +'<p class="sec-sub">Net rating with each player on the floor, relative to the team\'s '+({8:'in the same six minutes',4:'in the same quarter',2:'in the same half',1:'overall'})[mapGran]+'.</p>'
@@ -1548,7 +1579,7 @@ function stretchMap(){
   });
   h+='</div><div class="strip-detail" id="mapDetail"></div>'
     +'<div class="key"><span><i class="ramp"></i>Worse to better than the team</span><span><i class="small"></i>Under 100 min</span><span><i class="thin"></i>Under 50 min</span><span><i class="mpg"></i>Minutes per game</span></div>'
-    +'<div class="sm-foot"><span>500+ minutes · Garbage time excluded</span><span><b>Celtics Rotations</b> · by Neight · NBA.com play-by-play, '+(mapBoth?'2023-24 to 2025-26':SEASONS[seasonKey].label)+'</span></div></section>';
+    +'<div class="sm-foot"><span>'+mapMin+'+ minutes · Garbage time excluded</span><span><b>Celtics Rotations</b> · by Neight · NBA.com play-by-play, '+(mapBoth?'2023-24 to 2025-26':SEASONS[seasonKey].label)+'</span></div></section>';
   return h;
 }
 function wireMap(el){
@@ -1566,15 +1597,22 @@ function wireMap(el){
     c.addEventListener('click',show); c.addEventListener('mouseenter',show);
   });
 }
+function seasonSelect(){
+  return '<select id="spSeason" class="seasonsel" aria-label="Season">'+SEASON_KEYS.map(k=>{
+    const z=SEASONS[k], sec=z.SEASON.games.reduce((a,g)=>a+(g.s[splitPlayer]||[]).reduce((x,[p,q])=>x+q-p,0),0);
+    return '<option value="'+k+'"'+(k===splitSeason?' selected':'')+(sec<60?' disabled':'')+'>'+SEASON_LABEL[k]+'</option>';
+  }).join('')+'</select>';
+}
+document.addEventListener('change',e=>{ if (e.target && e.target.id==='spSeason'){ mapBoth=false; splitSeason=e.target.value; renderTabs(); render(); } });
 function seasonSwitch(isMap){
   const act = (isMap && mapBoth) ? 'all' : splitSeason;
-  const opts = ['2526','2425','2324'].concat(isMap ? ['all'] : []);
+  const opts = SEASON_KEYS.concat(isMap ? ['all'] : []);
   return '<div class="ph-tools"><div class="ssw" role="group" aria-label="Season">'+opts.map(k=>{
     let dis='';
     if (!isMap){ const z=SEASONS[k], sec=z.SEASON.games.reduce((a,g)=>a+(g.s[splitPlayer]||[]).reduce((x,[p,q])=>x+q-p,0),0);
       if (sec<60) dis=' disabled title="'+(FULL[splitPlayer]||splitPlayer)+' wasn&#39;t with the Celtics in '+z.label+'"'; }
     return '<button type="button" data-ss="'+k+'" class="'+(k===act?'on':'')+'" aria-pressed="'+(k===act)+'"'+dis+'>'+(k==='all'?'All three':SEASON_LABEL[k])+'</button>';
-  }).join('')+'</div><button type="button" class="lnk hdr-share">Copy link</button></div>';
+  }).join('')+'</div></div>';
 }
 document.addEventListener('click',e=>{ const b=e.target.closest && e.target.closest('.sg [data-sg]'); if (!b || b.classList.contains('on')) return;
   stripGran=+b.dataset.sg; const y=window.scrollY; renderSplits(); window.scrollTo({top:y}); });
@@ -1674,24 +1712,23 @@ function renderSplits(){
   const SL=SEASONS[seasonKey].label;
   let h='<div class="ph"><div>'
    +'<h2 class="pbig">'+(FULL[name]||name)+'</h2>'
-   +'<div class="meta">'+(NS.all?NS.all[0]+' games · '+(NS.start?NS.start[0]:0)+((NS.start&&NS.start[0]===1)?' start · ':' starts · ')+NS.all[1].toFixed(1)+' minutes per game':gs.length+' games')+'</div></div>'
-   +'<div class="ph-r">'+seasonSwitch(false)+'<label for="spSel">Player<select id="spSel" class="seasonsel">'+names.map(n=>'<option value="'+n+'"'+(n===name?' selected':'')+'>'+(FULL[n]||n)+'</option>').join('')+'</select></label></div></div>'
+   +'<div class="meta">'+(NS.all?NS.all[0]+(NS.all[0]===1?' game · ':' games · ')+(NS.start?NS.start[0]:0)+((NS.start&&NS.start[0]===1)?' start · ':' starts · ')+NS.all[1].toFixed(1)+' minutes per game':gs.length+(gs.length===1?' game':' games'))+'</div></div>'
+   +'<div class="ph-r sp-pick"><label for="spSel"><span class="vh">Player</span><select id="spSel" class="seasonsel">'+names.map(n=>'<option value="'+n+'"'+(n===name?' selected':'')+'>'+(FULL[n]||n)+'</option>').join('')+'</select></label>'+seasonSelect()+'</div></div>'
    ;
   const gt=''; const _unused='<span class="gt" role="group" aria-label="Garbage time"><span class="gt-l">Garbage time</span><button class="qb'+(inclGarbage?'':' active')+'" data-gt="0">Excluded</button><button class="qb'+(inclGarbage?' active':'')+'" data-gt="1">Included</button></span>';
   // 0. rotation habits (exact minutes, no possession counting)
   const hb=habits(name);
   const ramp=v=>mix('#eef4ee', '#007a33', Math.min(1,v));
   // Rotation curve: share of games on the floor for each minute, one line per role (starts, bench games).
-  const series = hb.nights.length ? hb.nights : [{ label:hb.n+' games', n:hb.n, share:hb.share, q:hb.q, stints:null }];
+  const series = hb.nights.length ? hb.nights : [{ label:hb.n+(hb.n===1?' game':' games'), n:hb.n, share:hb.share, q:hb.q, stints:null }];
   const cx=m=>(m+0.5)*10, cy=v=>(96-v*84).toFixed(1);
   const line=sh=>'M0 '+cy(sh[0])+' '+sh.map((v,m)=>'L'+cx(m)+' '+cy(v)).join(' ')+' L480 '+cy(sh[47]);
   h+='<section class="sec"><div class="sec-top"><h3 class="sec-h">Minutes</h3><span class="sec-meta">Share of games on the floor, minute by minute</span></div>'
-    +'<div class="tiles">'
-    +'<div class="tile"><b>'+hb.starts+' <small>of '+hb.n+'</small></b><span>starts</span></div>'
-    +(hb.firstIn!=null && hb.benchN>=10 ? '<div class="tile"><b>'+clockAt(hb.firstIn)+'</b><span>first check-in off the bench</span></div>' : '')
-    +(hb.firstOut!=null && hb.starts>=10 ? '<div class="tile"><b>'+clockAt(hb.firstOut)+'</b><span>first exit as a starter</span></div>' : '')
-    +(hb.closeN>=3? '<div class="tile" title="Share of the final 5:00 he played, in games within 5 points with 5:00 left"><b>'+Math.round(hb.crunch*100)+'<small>%</small></b><span>of crunch time · '+hb.closeN+' close games</span></div>' : '')
-    +'</div>'
+    +(()=>{ const f=[];
+      if (hb.firstOut!=null && hb.starts>=10) f.push('As a starter he usually came out first at <b>'+clockAt(hb.firstOut)+'</b>.');
+      if (hb.firstIn!=null && hb.benchN>=10) f.push('Off the bench he usually checked in at <b>'+clockAt(hb.firstIn)+'</b>.');
+      if (hb.closeN>=3) f.push('He played <b>'+Math.round(hb.crunch*100)+'%</b> of crunch time in '+hb.closeN+' close games.');
+      return f.length ? '<p class="mfacts">'+f.join(' ')+'</p>' : ''; })()
     +'<div class="rc"><div class="rc-q"><span>Q1</span><span>Q2</span><span>Q3</span><span>Q4</span></div>'
     +'<div class="rc-plot"><svg viewBox="0 0 480 100" preserveAspectRatio="none" aria-hidden="true">'
     +'<path class="g" d="M0 12 H480 M0 54 H480"/><path class="qd" d="M120 0 V100 M240 0 V100 M360 0 V100"/><path class="ax" d="M0 96 H480"/>'
@@ -1720,7 +1757,10 @@ function renderSplits(){
     +'</section>';
   const base=teamBase().all.net;
   // 2. alongside each teammate (NBA.com data)
+  const pend=SEASONS[seasonKey].pending;
   const mates=teammates(name), tbase=NBA_TEAM_NET;
+  if (pend) h+='<section class="sec"><div class="sec-top"><h3 class="sec-h">Two-man lineups and splits</h3><span class="sec-meta">NBA.com</span></div><p class="sec-sub">NBA.com hasn\'t updated its lineup and split tables for the latest game yet. They fill in on the next update.</p></section>';
+  if (!pend){
   h+='<section class="sec"><div class="sec-top"><h3 class="sec-h">Two-man lineups</h3><span class="sec-meta">Net rating · team '+sgn(tbase,1)+'</span></div>'
     +'<div class="mates">';
   for (const m of mates){
@@ -1732,8 +1772,10 @@ function renderSplits(){
       +'<span class="mposs">'+m.min+' min</span></div>';
   }
   h+='</div>'+(mates.some(m=>m.min<100)?'<div class="key"><span>Faded: under 100 minutes together</span></div>':'')+'</section>';
+  }
   h+=shotDietHTML(name);
   // 3. full splits, straight from NBA.com
+  if (!pend){
   h+='<section class="sec"><div class="sec-top"><h3 class="sec-h">Splits</h3><span class="sec-meta">NBA.com</span></div>'
     +'<div style="overflow-x:auto"><table class="sp"><thead><tr><th>Split</th><th class="gcol">G</th><th>MPG</th><th class="wide">Poss</th><th>+/-</th><th class="wide">ORtg</th><th class="wide">DRtg</th><th>Net</th></tr></thead><tbody>';
   const nrows=[['Role','Games he started',NS.start],['Role','Games off the bench',NS.bench],['Home / road','Home games',NS.home],['Home / road','Road games',NS.road],
@@ -1750,8 +1792,9 @@ function renderSplits(){
       +'<td class="wide">'+f1(v[4])+'</td><td class="wide">'+f1(v[5])+'</td>'
       +'<td class="'+(small?'':cls(v[6]))+'"><b>'+sgn(v[6],1)+'</b></td></tr>';
   }
-  h+='</tbody></table></div></section>'
-   +'<details class="full method"><summary>Sources and method</summary><div class="sp-note" style="margin-top:0"><ul>'
+  h+='</tbody></table></div></section>';
+  }
+  h+='<details class="full method"><summary>Sources and method</summary><div class="sp-note" style="margin-top:0"><ul>'
    +'<li>Sources: NBA.com play-by-play and box scores (game by game, minutes, net rating by stretch) and NBA.com player dashboards and lineup stats (teammates, splits).</li>'
    +'<li>The stretch map and the net rating strip describe the Celtics with a player on the floor, not his individual impact: the teammates and opponents on the floor with him shape those numbers too.</li>'
    +'<li>Every section counts all minutes, garbage time included, the same way NBA.com does, except the stretch map and net rating by stretch. Those leave out garbage time (fourth-quarter blowouts and the stretch after a team pulls its starters for good), for the player and the team baseline alike, so late-fourth-quarter cells reflect competitive minutes. Their color deepens with the size of the gap and with minutes played, reaching full strength at 300 minutes.</li>'
@@ -1853,72 +1896,88 @@ wrapEl.addEventListener('pointerup',endPaint);
 wrapEl.addEventListener('pointercancel',endPaint);
 
 function exportImage(){
-  const g=state[cur], isPlan=!!g.plan;
-  const rows=players;
-  const S=3, cellW=16, cellH=26, pad=26, gutter=14;
-  const headH = 82;
-
-  // size the name column to the longest name instead of a fixed 150
+  // The saved image mirrors the page: title and result, starters over the bench, minutes and +/-, the scoring margin, and quarter lines that run unbroken.
+  const g=state[cur], isPlan=!!g.plan, rows=players, flow=!isPlan ? FLOW[g.id] : null;
+  const SANS='"IBM Plex Sans", "Helvetica Neue", Helvetica, Arial, sans-serif', SERIF='"Source Serif 4", Georgia, serif';
+  const INK='#181a19', INK2='#5b5f5c', INK3='#959a96', LINE='#e2e5e3', QL='#b9beba', OFF='#eceeec', GREEN='#007a33', PURP='#8e44ad';
+  const S=3, cellW=16, cellH=28, pad=32, nameInset=10, colMin=64, colPm=flow?60:0;
   const probe=document.createElement('canvas').getContext('2d');
-  probe.font='600 13px Helvetica Neue, Helvetica, Arial, sans-serif';
-  let nameW=0; rows.forEach(p=>{ nameW=Math.max(nameW, probe.measureText(p.name).width); });
-  const nameInset=10;
-  nameW=Math.ceil(nameW)+gutter+nameInset;
-  probe.font='12px Helvetica Neue, Helvetica, Arial, sans-serif';
-  let totW=0; rows.forEach(p=>{ totW=Math.max(totW, probe.measureText(totalLabel(p)).width); });
-  const totInset=12;
-  totW=Math.ceil(totW)+gutter+totInset;
-
-  const W=pad*2+nameW+TOTAL_MIN*cellW+totW, H=headH+rows.length*cellH+pad+40;
+  probe.font='600 14px '+SANS; let nameW=0; rows.forEach(p=>{ nameW=Math.max(nameW, probe.measureText(p.name).width); });
+  nameW=Math.max(120, Math.ceil(nameW)+nameInset*2+8);
+  const nStart = isPlan ? Math.min(5, rows.length) : rows.filter(p=>p.starter).length;
+  const gx=pad+nameW, gw=TOTAL_MIN*cellW, W=gx+gw+colMin+colPm+pad;
+  const headH=146, gy=headH+22, gh=rows.length*cellH, mgH=flow?64:0, footH=56, H=gy+gh+mgH+footH;
   const cv=document.createElement('canvas'); cv.width=W*S; cv.height=H*S;
-  const x=cv.getContext('2d'); x.scale(S,S);
-  x.fillStyle='#ffffff'; x.fillRect(0,0,W,H);
-
-  const gx=pad+nameW, gy=headH, gw=TOTAL_MIN*cellW, gh=rows.length*cellH;
-
-  x.fillStyle='#1c1c1a'; x.font='600 19px Helvetica Neue, Helvetica, Arial, sans-serif';
-  const title = isPlan ? g.name : 'Celtics rotation, '+g.name+(g.result?' ('+g.result+')':'');
-  x.fillText(title, pad, pad+8);
-  x.font='12px Helvetica Neue, Helvetica, Arial, sans-serif'; x.fillStyle='#5e5e58';
-  x.fillText(isPlan && showRef ? 'Green = drawn. Shade = how often that player was on the floor in that minute'+(refMode==='po'?' in the 2026 playoffs.':' in the 2025-26 regular season.') : 'One cell = one minute. Green = on the floor.', pad, pad+28);
-
-  x.font='11px Helvetica Neue, Helvetica, Arial, sans-serif'; x.textAlign='center'; x.fillStyle='#9a9a92';
-  for (let q=0;q<4;q++) x.fillText('Q'+(q+1), gx+q*12*cellW+6*cellW, gy-9);
-  x.textAlign='left';
-
+  const x=cv.getContext('2d'); x.scale(S,S); x.fillStyle='#ffffff'; x.fillRect(0,0,W,H);
+  const txt=(t,X,Y,font,col,align)=>{ x.font=font; x.fillStyle=col; x.textAlign=align||'left'; x.fillText(t,X,Y); x.textAlign='left'; };
+  // masthead: the site nameplate, small, with the byline across from it, over a rule
+  txt('Celtics Rotations', pad, pad+14, '700 16px '+SERIF, INK);
+  const sp=document.querySelector('.sham path');
+  if (sp && window.Path2D){ x.font='700 16px '+SERIF; const nw=x.measureText('Celtics Rotations').width; x.save(); x.translate(pad+nw+1.5, pad-1); x.scale(8/36,8/36); x.fillStyle=GREEN; x.fill(new Path2D(sp.getAttribute('d'))); x.restore(); }
+  txt('by NEIGHT', W-pad, pad+14, '600 11px '+SERIF, INK2, 'right');
+  x.fillStyle=INK; x.fillRect(pad, pad+24, W-pad*2, 1);
+  // game title and the one-line result, as on the page
+  const head=document.getElementById('ghText'), h2=head && head.querySelector('h2'), meta=head && head.querySelector('.meta');
+  const title = isPlan ? g.name : (h2 ? h2.textContent : g.name);
+  txt(title, pad, pad+66, '700 30px '+SERIF, INK);
+  if (!isPlan && meta){
+    const m=meta.textContent.match(/^(Won|Lost)(.*)$/);
+    if (m){ txt(m[1], pad, pad+92, '700 14px '+SANS, m[1]==='Won'?GREEN:PURP); x.font='700 14px '+SANS; const w=x.measureText(m[1]).width; txt(m[2], pad+w, pad+92, '14px '+SANS, INK2); }
+    else txt(meta.textContent, pad, pad+92, '14px '+SANS, INK2);
+  } else if (isPlan) txt(showRef ? 'Green: drawn. Shade: how often he was on the floor in that minute'+(refMode==='po'?' in the 2026 playoffs.':' in the 2025-26 regular season.') : 'One cell is one minute. Green is on the floor.', pad, pad+92, '14px '+SANS, INK2);
+  // column heads
+  for (let q=0;q<4;q++) txt('Q'+(q+1), gx+q*12*cellW+6*cellW, gy-8, '12px '+SANS, INK3, 'center');
+  txt('Min', gx+gw+colMin-12, gy-8, '12px '+SANS, INK3, 'right');
+  if (flow) txt('+/-', W-pad-8, gy-8, '12px '+SANS, INK3, 'right');
   // rows
   rows.forEach((p,r)=>{
-    const y=gy+r*cellH;
-    if (r%2===1){ x.fillStyle='#faf9f5'; x.fillRect(pad, y, W-pad*2, cellH); }
-    const starter = isPlan ? r<5 : p.starter;
-    x.fillStyle='#1c1c1a'; x.font=(starter?'600 ':'')+'13px Helvetica Neue, Helvetica, Arial, sans-serif';
-    x.fillText(p.name, pad+nameInset, y+cellH/2+4);
+    const y=gy+r*cellH, starter=r<nStart;
+    if (isPlan && starter || (!isPlan && starter)){ x.fillStyle='#f8f9f8'; x.fillRect(pad, y, W-pad*2, cellH); }
+    txt(p.name, pad+nameInset, y+cellH/2+5, (starter?'600 ':'')+'14px '+SANS, INK);
     const ref=(isPlan && showRef) ? refFreq(p.name) : null;
     for (let i=0;i<TOTAL_MIN;i++){
-      x.fillStyle=p.minutes[i]?'#007a33':(ref && ref.f[i]>0 ? shade(ref.f[i]) : '#eceae2');
-      x.fillRect(gx+i*cellW, y+3, cellW-1, cellH-6);
+      x.fillStyle=p.minutes[i]?GREEN:(ref && ref.f[i]>0 ? shade(ref.f[i]) : OFF);
+      x.fillRect(gx+i*cellW+0.5, y+3, cellW-1, cellH-6);
     }
-    x.fillStyle='#5e5e58'; x.font='12px Helvetica Neue, Helvetica, Arial, sans-serif'; x.textAlign='right';
-    x.fillText(totalLabel(p), W-pad-totInset, y+cellH/2+4); x.textAlign='left';
+    txt(totalLabel(p), gx+gw+colMin-12, y+cellH/2+5, '13px '+SANS, INK2, 'right');
+    if (flow){ const v=flow.pm[p.name]; if (v!=null) txt((v>0?'+':'')+v, W-pad-8, y+cellH/2+5, '600 13px '+SANS, v>0?GREEN:v<0?PURP:INK2, 'right'); }
   });
-
-  // hairlines between rows, divider after the name column, quarter lines, outer frame
-  x.strokeStyle='#e4e2da'; x.lineWidth=1;
+  // scoring margin strip
+  if (flow){
+    const y0=gy+gh, mid=y0+mgH/2, ev=flowEvents(flow).filter(e=>e[0]<=2880);
+    let big=10; ev.forEach(e=>{ big=Math.max(big, Math.abs(e[1]-e[2])); });
+    const sy=v=>mid - v/big*(mgH/2-8), sx=t=>gx+t/2880*gw;
+    x.fillStyle='#f8f9f8'; x.fillRect(pad, y0, W-pad*2, mgH);
+    txt('Scoring margin', pad+nameInset, mid+4, '12px '+SANS, INK3);
+    const pts=[[0,0]]; let m=0; ev.forEach(([t,b,o])=>{ pts.push([t,m]); m=b-o; pts.push([t,m]); }); pts.push([2880,m]);
+    for (const [sign,col] of [[1,'rgba(0,122,51,.16)'],[-1,'rgba(142,68,173,.16)']]){
+      x.beginPath(); x.moveTo(sx(0),mid); pts.forEach(([t,v])=>x.lineTo(sx(t), sy(sign>0?Math.max(0,v):Math.min(0,v)))); x.lineTo(sx(2880),mid); x.closePath(); x.fillStyle=col; x.fill();
+    }
+    x.strokeStyle='#d3d7d4'; x.lineWidth=1; x.setLineDash([2,3]); x.beginPath(); x.moveTo(gx,mid+0.5); x.lineTo(gx+gw,mid+0.5); x.stroke(); x.setLineDash([]);
+    x.lineWidth=1.6; for (let i=1;i<pts.length;i++){ const [t0,v0]=pts[i-1],[t1,v1]=pts[i]; x.strokeStyle=(v0+v1)/2>=0?GREEN:PURP; x.beginPath(); x.moveTo(sx(t0),sy(v0)); x.lineTo(sx(t1),sy(v1)); x.stroke(); }
+    const fl=flowEvents(flow), last=fl[fl.length-1]||[0,0,0], ot=fl.some(e=>e[0]>2880);
+    const sc=last[1]+'–'+last[2]; x.font='700 15px '+SANS; const sw=x.measureText(sc).width;
+    txt(sc, W-pad-8, mid+5, '700 15px '+SANS, last[1]>last[2]?GREEN:PURP, 'right');
+    txt((ot?'Final, OT':'Final')+':', W-pad-8-sw-5, mid+5, '12px '+SANS, INK3, 'right');
+  }
+  // rules: row hairlines, starters/bench break, quarter lines straight through rows and margin, outer edges
+  x.strokeStyle=LINE; x.lineWidth=1;
   for (let r=1;r<rows.length;r++){ const ly=gy+r*cellH+0.5; x.beginPath(); x.moveTo(pad,ly); x.lineTo(W-pad,ly); x.stroke(); }
-  x.strokeStyle='#d5d3ca'; x.beginPath(); x.moveTo(gx-gutter/2+0.5, gy); x.lineTo(gx-gutter/2+0.5, gy+gh); x.stroke();
-  x.strokeStyle='#b8b7ad'; x.lineWidth=1.5;
-  for (let q=1;q<4;q++){ const qx=gx+q*12*cellW-0.5; x.beginPath(); x.moveTo(qx,gy-4); x.lineTo(qx,gy+gh); x.stroke(); }
-  if (isPlan && rows.length>5){ const by=gy+5*cellH+0.5; x.beginPath(); x.moveTo(pad,by); x.lineTo(W-pad,by); x.stroke(); }
-  x.strokeStyle='#e4e2da'; x.lineWidth=1;
-  x.beginPath(); x.moveTo(pad,gy+0.5); x.lineTo(W-pad,gy+0.5); x.stroke();
-  x.beginPath(); x.moveTo(pad,gy+gh+0.5); x.lineTo(W-pad,gy+gh+0.5); x.stroke();
-
-  x.fillStyle='#9a9a92'; x.font='11px Helvetica Neue, Helvetica, Arial, sans-serif';
-  x.fillText('Celtics Rotations · by Neight', pad, H-16);
+  x.strokeStyle=QL; x.lineWidth=2;
+  if (nStart>0 && nStart<rows.length){ const by=gy+nStart*cellH; x.beginPath(); x.moveTo(pad,by); x.lineTo(W-pad,by); x.stroke(); }
+  if (flow){ x.beginPath(); x.moveTo(pad,gy+gh); x.lineTo(W-pad,gy+gh); x.stroke(); }
+  for (let q=1;q<=4;q++){ const qx=gx+q*12*cellW; x.beginPath(); x.moveTo(qx,gy-22); x.lineTo(qx,gy+gh+mgH); x.stroke(); }
+  x.lineWidth=1; x.strokeStyle='#d3d7d4'; x.beginPath(); x.moveTo(gx-0.5,gy-22); x.lineTo(gx-0.5,gy+gh+mgH); x.stroke();
+  x.strokeStyle=INK3; x.beginPath(); x.moveTo(pad,gy+0.5); x.lineTo(W-pad,gy+0.5); x.stroke();
+  x.beginPath(); x.moveTo(pad,gy+gh+mgH+0.5); x.lineTo(W-pad,gy+gh+mgH+0.5); x.stroke();
+  // footer
+  const fy=gy+gh+mgH+30;
+  txt(isPlan ? 'Made with the Celtics Rotations builder.' : 'Play-by-play from NBA.com. Minutes match the official box score.', pad, fy, '11px '+SANS, INK3);
+  txt('pullupshoot.github.io/celtics-rotation-board', W-pad, fy, '11px '+SANS, INK3, 'right');
 
   const url=cv.toDataURL('image/png');
   document.getElementById('exportImg').src=url;
-  const dl=document.getElementById('dl'); dl.href=url; dl.download=(isPlan?'rotation-plan':'rotation-'+g.name.toLowerCase())+'.png';
+  const dl=document.getElementById('dl'); dl.href=url; dl.download=(isPlan?'rotation-plan':'rotation-'+(g.date||g.name).toLowerCase().replace(/[^a-z0-9]+/g,'-'))+'.png';
   document.getElementById('modal').hidden=false;
 }
 async function copyLink(btn){
@@ -1940,7 +1999,6 @@ async function copyLink(btn){
   btn.textContent = ok ? 'Link copied' : 'Link in address bar';
   setTimeout(()=>{ btn.textContent='Copy link'; }, 1800);
 }
-document.getElementById('shareBtn').addEventListener('click', e=>copyLink(e.currentTarget));
 document.addEventListener('click', e=>{ const b=e.target.closest && e.target.closest('.hdr-share'); if (b) copyLink(b); });
 document.getElementById('exportBtn').addEventListener('click', exportImage);
 document.getElementById('refMode').addEventListener('click', e=>{
