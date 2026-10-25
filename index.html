@@ -453,11 +453,12 @@
   .ssw button { border: 0; background: transparent; border-radius: 6px; padding: 5px 10px; font-size: 12px; font-weight: 600; color: var(--ink-2); font-variant-numeric: tabular-nums; }
   .ssw button.on { background: #fff; color: var(--ink); box-shadow: 0 1px 2px rgba(0,0,0,.12); }
   .ssw button:disabled { opacity: .35; cursor: default; }
+  .ph .rng label { display: inline-flex; flex-direction: row; align-items: center; gap: 6px; font-size: 13px; letter-spacing: 0; text-transform: none; color: var(--ink-2); }
+  .ph .rng { gap: 8px; }
   .ph-tools { display: flex; flex-wrap: wrap; align-items: center; gap: 8px 16px; }
   .ph-r { display: flex; flex-direction: column; align-items: flex-end; gap: 10px; }
   .ptitle { font-family: "Source Serif 4", Georgia, "Times New Roman", serif; font-weight: 700; font-size: 28px; line-height: 1.1; letter-spacing: -0.01em; margin: 0 0 4px; }
   @media (max-width: 640px) { .ph-r { align-items: flex-start; width: 100%; } .ph-tools { gap: 8px 6px; } .ssw button { padding: 5px 8px; } .hdr-share { padding: 6px 4px; } }
-  #mapBoth { padding: 4px 10px; font-size: 12px; }
   .smap { border-top: 0; padding-top: 0; margin-bottom: 28px; }
   .sm-grid { display: grid; grid-template-columns: 92px repeat(8, minmax(0,1fr)); gap: 3px; }
   .sm-q { grid-column: span 2; font-size: 11px; color: var(--ink-3); text-align: center; border-bottom: 1px solid var(--line-strong); padding-bottom: 3px; }
@@ -831,7 +832,8 @@ EXTRA_SEASONS.forEach(([k,x])=>x.SEASON.games.forEach(g=>state.push({ name: shor
 const SEASON_LABEL = { '2627':'2026-27', '2526':'2025-26', '2425':'2024-25', '2324':'2023-24' };
 const SEASON_KEYS = (NEW_SEASON ? ['2627'] : []).concat(['2526','2425','2324']);   // newest first
 const LATEST = SEASON_KEYS[0];
-const POOL_KEYS = ['2526','2425','2324'];   // "All three": the finished seasons only
+const CHRONO = SEASON_KEYS.slice().reverse();   // oldest first
+let POOL_KEYS = CHRONO.filter(k=>k!=='2627');    // the stretch map's pooled seasons (set by its From/To picker)
 // Playoff rounds per season; each playoff game carries its season (sk), round (rd) and game number (gn)
 const PO_ROUNDS = { '2526':[{ name:'First round', opp:'PHI', team:'76ers' }], '2425':S2425.PO.rounds, '2324':S2324.PO.rounds };
 state.forEach(g=>{ if (g.po && !g.sk){ g.sk='2526'; g.rd=0; g.gn=+g.name.slice(1); } });
@@ -896,7 +898,7 @@ function decodePlan(tok){
 function shareURL(){
   // On a regular-season game, share that game; everywhere else, share the plan.
   if (state[cur] && (state[cur].season||state[cur].po)) return location.origin + location.pathname + '#g=' + state[cur].id;
-  if (state[cur] && state[cur].map) return location.origin + location.pathname + '#map' + (mapBoth ? '&ss=all' : splitSeason!==LATEST ? '&ss='+splitSeason : '') + (mapGran!==8 ? '&w='+mapGran : '');
+  if (state[cur] && state[cur].map) return location.origin + location.pathname + '#map' + (mapBoth ? '&ss='+mapFrom+'-'+mapTo : splitSeason!==LATEST ? '&ss='+splitSeason : '') + (mapGran!==8 ? '&w='+mapGran : '');
   if (state[cur] && state[cur].splits) return location.origin + location.pathname + '#s=' + encodeURIComponent(splitPlayer) + (splitSeason!==LATEST ? '&ss='+splitSeason : '');
   return location.origin + location.pathname + '#p=' + encodePlan(state.find(g=>g.plan).players);
 }
@@ -922,14 +924,14 @@ let splitPlayer = null, selStint = null;
 function viewRange(){ return view==='all' ? [0,TOTAL_MIN] : [view*12, view*12+12]; }
 let stripGran = 8;   // same windows for the player page's net rating strip
 let mapGran = 8;   // stretch map window: 8 six-minute stretches, 4 quarters, 2 halves, 1 full game
-let seasonKey = '2526', splitSeason = LATEST, mapBoth = false;   // season in the globals / picked in Player splits / stretch map pooled
+let seasonKey = '2526', splitSeason = LATEST, mapBoth = false, mapFrom = LATEST, mapTo = LATEST;   // season in the globals / picked in Player splits / stretch map pooled
 let cur = state.findIndex(g=>g.plan);
 try {
   const gm = (location.hash||'').match(/[#&]g=(\d+)/);
   if (gm){ const i = state.findIndex(g=>(g.season||g.po) && g.id===gm[1]); if (i>=0){ cur=i; seasonOpen=true; } }
   const sm = (location.hash||'').match(/[#&]s=([^&]+)/);
   const ssm = (location.hash||'').match(/[#&]ss=(\d{4})/), EXTRA={ '2425':S2425, '2324':S2324 }; if (NEW_SEASON) EXTRA['2627']=NEW_SEASON; if (ssm && (EXTRA[ssm[1]] || ssm[1]==='2526')) splitSeason=ssm[1];
-  if (/[#&]map\b/.test(location.hash||'')){ cur=state.findIndex(g=>g.map); if (/[#&]ss=all/.test(location.hash)) mapBoth=true; const wm=location.hash.match(/[#&]w=([124])\b/); if (wm) mapGran=+wm[1]; }
+  if (/[#&]map\b/.test(location.hash||'')){ cur=state.findIndex(g=>g.map); const rg=location.hash.match(/[#&]ss=(\d{4})-(\d{4})/); if (/[#&]ss=all/.test(location.hash)){ mapFrom='2324'; mapTo='2526'; } else if (rg && EXTRA_OK(rg[1]) && EXTRA_OK(rg[2])){ mapFrom=rg[1]; mapTo=rg[2]; }  const wm=location.hash.match(/[#&]w=([124])\b/); if (wm) mapGran=+wm[1]; }
   if (sm){ const nm=decodeURIComponent(sm[1]); if (PBIT[nm]!=null || (EXTRA[splitSeason] && EXTRA[splitSeason].STATS.players.includes(nm))){ splitPlayer=nm; cur=state.findIndex(g=>g.splits); } }
 } catch(e){}
 let players = state[cur].players;
@@ -1026,7 +1028,7 @@ function stepGame(d){
   if (k<0 || k>=sel.options.length) return;
   cur=+sel.options[k].value; players=state[cur].players; painting=null; selStint=null; renderTabs(); render();
 }
-document.addEventListener('click',e=>{ const b=e.target.closest && e.target.closest('.ssw [data-ss]'); if (!b || b.disabled || b.classList.contains('on')) return; if (b.dataset.ss==='all') mapBoth=true; else { mapBoth=false; splitSeason=b.dataset.ss; } renderTabs(); render(); });
+document.addEventListener('click',e=>{ const b=e.target.closest && e.target.closest('.ssw [data-ss]'); if (!b || b.disabled || b.classList.contains('on')) return; mapBoth=false; splitSeason=b.dataset.ss; renderTabs(); render(); });
 document.getElementById('gameSeason').addEventListener('change',e=>{
   // jump to that season's last game (its final playoff game for finished seasons)
   const k=e.target.value, idx=state.map((g,i)=>[g,i]).filter(([g])=>(g.season||g.po)&&gameSeasonOf(g)===k);
@@ -1453,6 +1455,17 @@ function useSeason(k){
 }
 // All seasons pooled (players who were Celtics every season): segments from each season, read with that season's own player bits.
 const BOTH = { live:null, team:{}, pb:{} };
+function EXTRA_OK(k){ return SEASON_KEYS.includes(k); }
+// From/To on the stretch map: one season reads that season; a range pools every season in it
+function setMapRange(a,b){
+  let i=CHRONO.indexOf(a), j=CHRONO.indexOf(b); if (i<0) i=CHRONO.length-1; if (j<0) j=CHRONO.length-1; if (i>j) [i,j]=[j,i];
+  mapFrom=CHRONO[i]; mapTo=CHRONO[j]; mapBoth = i!==j; splitSeason = mapTo;
+  const keys=CHRONO.slice(i,j+1); if (keys.join()!==POOL_KEYS.join()){ POOL_KEYS=keys; BOTH.live=null; BOTH.team={}; BOTH.pb={}; }
+}
+if (mapFrom===mapTo) mapFrom=mapTo=splitSeason;   // a single season follows the one picked elsewhere (or in the link)
+setMapRange(mapFrom,mapTo);
+function rangeLabel(){ return SEASON_LABEL[mapFrom]+' to '+SEASON_LABEL[mapTo]; }
+function rangePlayers(){ const seen=new Set(); POOL_KEYS.slice().reverse().forEach(k=>SEASONS[k].STATS.players.forEach(n=>seen.add(n))); return [...seen]; }
 function bothTeam(n=8){
   if (BOTH.team[n]) return BOTH.team[n];
   // regular-season games only (z.SEASON.games), never the playoff segments stored alongside
@@ -1476,7 +1489,7 @@ function bothBlocks(name, n=8){
 }
 function bothMinutes(name){
   let sec=0, gp=0;
-  for (const z of POOL_KEYS.map(k=>SEASONS[k])){ if (z.PBIT[name]==null) return null;
+  for (const z of POOL_KEYS.map(k=>SEASONS[k])){ if (z.PBIT[name]==null) continue;
     for (const g of z.SEASON.games){ const iv=g.s[name]; if (iv){ gp++; sec+=iv.reduce((x,[a,b])=>x+b-a,0); } } }
   return { sec, gp };
 }
@@ -1590,15 +1603,15 @@ function stretchMap(){
   // a season still in progress scales the cutoff with games played (500 minutes over 82 games)
   const live = !mapBoth && seasonKey==='2627', mapMin = live ? Math.max(1, Math.round(MAP_MIN*SEASON.games.length/82)) : MAP_MIN;
   const rows = mapBoth
-    ? STATS.players.map(n=>({ n, ...(bothMinutes(n)||{sec:0,gp:0}) })).filter(r=>r.sec>=MAP_MIN*60).map(r=>({ ...r, b: bothBlocks(r.n, mapGran) }))
+    ? rangePlayers().map(n=>({ n, ...(bothMinutes(n)||{sec:0,gp:0}) })).filter(r=>r.sec>=MAP_MIN*60).map(r=>({ ...r, b: bothBlocks(r.n, mapGran) }))
     : STATS.players.map(n=>({ n, sec: playerGames(n).reduce((a,g)=>a+g.s[n].reduce((x,[s,e])=>x+e-s,0),0) }))
       .filter(r=>r.sec>=mapMin*60).map(r=>({ ...r, b: playerBlocks(r.n, mapGran), gp: playerGames(r.n).length }));
   if (mapSort==null) rows.sort((a,b)=>b.sec-a.sec);
   else rows.sort((a,b)=>{ const x=a.b[mapSort], y=b.b[mapSort], va=x.ok?x.d:-1e9, vb=y.ok?y.d:-1e9; return vb-va; });
   const top=Math.max(...rows.flatMap(r=>r.b.map(k=>k.mpg)));
   let h='<div class="ph"><div><h2 class="ptitle">Stretch map</h2>'
-    +'<div class="meta">'+(mapBoth?'2023-24 to 2025-26 · ':'')+rows.length+' players · '+(mapBoth?'Celtics all three seasons, 500+ minutes':mapMin+'+ minutes'+(live?' (500 over a full season)':''))+'</div></div>'
-    +seasonSwitch(true)+'</div>'
+    +'<div class="meta">'+rows.length+' players · '+(mapBoth?MAP_MIN+'+ minutes across '+rangeLabel():mapMin+'+ minutes'+(live?' (500 over a full season)':''))+'</div></div>'
+    +seasonSwitch()+'</div>'
     +'<section class="sec smap">'
     +'<p class="sec-sub">Net rating with each player on the floor, relative to the team\'s '+({8:'in the same six minutes',4:'in the same quarter',2:'in the same half',1:'overall'})[mapGran]+'.</p>'
     +'<div class="sm-gran"><div class="ssw" role="group" aria-label="Window">'+[[8,'6 minutes'],[4,'Quarters'],[2,'Halves'],[1,'Full game']].map(([n,l])=>'<button type="button" data-mg="'+n+'" class="'+(n===mapGran?'on':'')+'" aria-pressed="'+(n===mapGran)+'">'+l+'</button>').join('')+'</div></div>'
@@ -1616,20 +1629,20 @@ function stretchMap(){
   });
   h+='</div><div class="strip-detail" id="mapDetail"></div>'
     +'<div class="key"><span><i class="ramp"></i>Worse to better than the team</span><span><i class="small"></i>Under 100 min</span><span><i class="thin"></i>Under 50 min</span><span><i class="mpg"></i>Minutes per game</span></div>'
-    +'<div class="sm-foot"><span>'+mapMin+'+ minutes · Garbage time excluded</span><span><b>Celtics Rotations</b> · by Neight · NBA.com play-by-play, '+(mapBoth?'2023-24 to 2025-26':SEASONS[seasonKey].label)+'</span></div></section>';
+    +'<div class="sm-foot"><span>'+mapMin+'+ minutes · Garbage time excluded</span><span><b>Celtics Rotations</b> · by Neight · NBA.com play-by-play, '+(mapBoth?rangeLabel():SEASONS[seasonKey].label)+'</span></div></section>';
   return h;
 }
 function wireMap(el){
   const det=el.querySelector('#mapDetail'), base=mapBoth?bothTeam(mapGran).blocks:teamBlocks(mapGran), blocksOf=n=>(mapBoth?bothBlocks:playerBlocks)(n, mapGran);
   el.querySelectorAll('.sm-s').forEach(b=>b.addEventListener('click',()=>{ mapSort = b.dataset.s==='' ? null : +b.dataset.s; renderMapPage(); }));
-  el.querySelectorAll('.sm-n').forEach(b=>b.addEventListener('click',()=>{ splitPlayer=b.dataset.p; cur=state.findIndex(x=>x.splits); players=state[cur].players; renderTabs(); render(); window.scrollTo({top:0}); }));
+  el.querySelectorAll('.sm-n').forEach(b=>b.addEventListener('click',()=>{ splitPlayer=b.dataset.p; if (mapBoth){ const k=POOL_KEYS.slice().reverse().find(k=>SEASONS[k].PBIT[splitPlayer]!=null); if (k) splitSeason=k; } cur=state.findIndex(x=>x.splits); players=state[cur].players; renderTabs(); render(); window.scrollTo({top:0}); }));
   el.querySelectorAll('.sm-c').forEach(c=>{
     const show=()=>{
       el.querySelectorAll('.sm-c.act').forEach(x=>x.classList.remove('act')); c.classList.add('act');
       const n=c.dataset.p, i=+c.dataset.b, k=blocksOf(n)[i], lab=k.k.label.replace(/^./,x=>x.toUpperCase());
       det.innerHTML = k.ok
-        ? '<b>'+(FULL[n]||n)+', '+k.k.label+(k.k.clock?' ('+k.k.clock+')':'')+'</b>: '+sgn(k.t.net,1)+' with him on the floor, '+sgn(base[i].net,1)+' for the team '+(mapGran===1?'overall':'in these minutes')+', so '+sgn(k.d,1)+'. '+Math.round(k.t.sec/60)+' minutes over '+k.games+' games'+(mapBoth?' across three seasons':'')+'.'+confNote(k)
-        : '<b>'+(FULL[n]||n)+', '+k.k.label+'</b>: only '+Math.round(k.t.sec/60)+' minutes '+(mapBoth?'across three seasons':'all season')+', too few to rate.';
+        ? '<b>'+(FULL[n]||n)+', '+k.k.label+(k.k.clock?' ('+k.k.clock+')':'')+'</b>: '+sgn(k.t.net,1)+' with him on the floor, '+sgn(base[i].net,1)+' for the team '+(mapGran===1?'overall':'in these minutes')+', so '+sgn(k.d,1)+'. '+Math.round(k.t.sec/60)+' minutes over '+k.games+' games'+(mapBoth?', '+rangeLabel():'')+'.'+confNote(k)
+        : '<b>'+(FULL[n]||n)+', '+k.k.label+'</b>: only '+Math.round(k.t.sec/60)+' minutes '+(mapBoth?'from '+rangeLabel():'all season')+', too few to rate.';
     };
     c.addEventListener('click',show); c.addEventListener('mouseenter',show);
   });
@@ -1640,17 +1653,17 @@ function seasonSelect(){
     return '<option value="'+k+'"'+(k===splitSeason?' selected':'')+(sec<60?' disabled':'')+'>'+SEASON_LABEL[k]+'</option>';
   }).join('')+'</select>';
 }
-document.addEventListener('change',e=>{ if (e.target && e.target.id==='spSeason'){ mapBoth=false; splitSeason=e.target.value; renderTabs(); render(); } });
-function seasonSwitch(isMap){
-  const act = (isMap && mapBoth) ? 'all' : splitSeason;
-  const opts = SEASON_KEYS.concat(isMap ? ['all'] : []);
-  return '<div class="ph-tools"><div class="ssw" role="group" aria-label="Season">'+opts.map(k=>{
-    let dis='';
-    if (!isMap){ const z=SEASONS[k], sec=z.SEASON.games.reduce((a,g)=>a+(g.s[splitPlayer]||[]).reduce((x,[p,q])=>x+q-p,0),0);
-      if (sec<60) dis=' disabled title="'+(FULL[splitPlayer]||splitPlayer)+' wasn&#39;t with the Celtics in '+z.label+'"'; }
-    return '<button type="button" data-ss="'+k+'" class="'+(k===act?'on':'')+'" aria-pressed="'+(k===act)+'"'+dis+'>'+(k==='all'?'All three':SEASON_LABEL[k])+'</button>';
-  }).join('')+'</div></div>';
+document.addEventListener('change',e=>{ if (e.target && e.target.id==='spSeason'){ splitSeason=e.target.value; setMapRange(splitSeason,splitSeason); renderTabs(); render(); } });
+function seasonSwitch(){
+  const opt=sel=>CHRONO.map(k=>'<option value="'+k+'"'+(k===sel?' selected':'')+'>'+SEASON_LABEL[k]+'</option>').join('');
+  return '<div class="ph-tools rng"><label>From <select id="mapFrom" class="seasonsel" aria-label="From season">'+opt(mapFrom)+'</select></label>'
+    +'<label>to <select id="mapTo" class="seasonsel" aria-label="To season">'+opt(mapTo)+'</select></label></div>';
 }
+document.addEventListener('change',e=>{ const t=e.target; if (!t || (t.id!=='mapFrom' && t.id!=='mapTo')) return;
+  // moving one end past the other drags it along, so the range is never empty
+  let a=document.getElementById('mapFrom').value, b=document.getElementById('mapTo').value;
+  if (CHRONO.indexOf(a)>CHRONO.indexOf(b)){ if (t.id==='mapFrom') b=a; else a=b; }
+  setMapRange(a,b); mapSort=null; renderTabs(); render(); });
 document.addEventListener('click',e=>{ const b=e.target.closest && e.target.closest('.sg [data-sg]'); if (!b || b.classList.contains('on')) return;
   stripGran=+b.dataset.sg; const y=window.scrollY; renderSplits(); window.scrollTo({top:y}); });
 document.addEventListener('click',e=>{ const b=e.target.closest && e.target.closest('.sm-gran [data-mg]'); if (!b || b.classList.contains('on')) return;
@@ -1666,7 +1679,7 @@ function renderMapPage(){
     +'<li>Minutes match every NBA.com box score. Season net ratings from the same data match NBA.com within about a point per 100 possessions.</li>'
     +'<li>Quarters, halves and the full game add up the same six-minute pieces, so the views agree with each other. Bigger windows mean more minutes behind each number, but a looser comparison: a quarter mixes stretches where the team\'s usual level differs, so a player who mostly plays the weaker part of it is measured against the whole quarter. The six-minute view is the closest like-for-like.</li>'
     +'<li>The full game follows the same rules as every other view: garbage time and overtime are left out. NBA.com counts every minute, so its numbers differ a little: the Celtics\' season net rating there is '+sgn(NBA_TEAM_NET,1)+', against '+sgn(teamBlocks(1)[0].net,1)+' here.</li>'
-    +(mapBoth?'<li>All three: 2023-24, 2024-25 and 2025-26 pooled, for the player and for the team baseline.</li>':'')
+    +(mapBoth?'<li>'+rangeLabel()+': every regular-season game in those seasons pooled, for the player and for the team baseline. A player counts in the seasons he was a Celtic.</li>':'')
     +'</ul></div></details>';
   wireMap(el);
 }
