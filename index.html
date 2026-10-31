@@ -18,7 +18,7 @@
 <meta name="twitter:image" content="https://pullupshoot.github.io/celtics-rotation-board/preview.png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62..125,400..900&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62..125,400..900&family=Libre+Franklin:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 <style>
   :root {
     --bg: #ffffff;
@@ -38,7 +38,7 @@
   [hidden] { display: none !important; }
   .vh { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
   html { -webkit-text-size-adjust: 100%; text-size-adjust: 100%; }
-  html, body { margin: 0; background: var(--bg); color: var(--ink); font-family: "Archivo", "Helvetica Neue", Helvetica, Arial, sans-serif; }
+  html, body { margin: 0; background: var(--bg); color: var(--ink); font-family: "Libre Franklin", "Helvetica Neue", Helvetica, Arial, sans-serif; }
   body { padding-block: 16px; padding-inline: 16px; }
   h1 { font-family: "Archivo", "Helvetica Neue", Helvetica, Arial, sans-serif; font-weight: 700; font-size: 32px; line-height: 1.05; letter-spacing: -0.015em; margin: 0; text-wrap: balance; }
   .page { max-width: 980px; margin: 0 auto; }
@@ -118,6 +118,13 @@
   .heat .gap { width: 3px; }
   .heat .ql { grid-column: span 13; font-size: 11px; color: var(--ink-3); text-align: center; border-bottom: 1px solid var(--line-strong); padding-bottom: 3px; margin-bottom: 3px; }
   .hc { border: 0; padding: 0; height: 34px; border-radius: 2px; cursor: pointer; }
+  .hm { row-gap: 0; margin-top: 6px; }
+  .hm .hc { height: 28px; }
+  .hm-cap { grid-column: 1 / -1; font-size: 12px; color: var(--ink-2); margin: 8px 0 3px; }
+  .hm-q { grid-column: span 13; text-align: center; font-size: 11px; color: var(--ink-3); padding: 4px 0 2px; font-variant-numeric: tabular-nums; }
+  .hm-q b { color: var(--ink); font-weight: 600; }
+  .hm-st { font-size: 12px; color: var(--ink-2); margin: 6px 0 0; line-height: 1.5; }
+  .hm-st b { color: var(--ink); font-weight: 600; }
   /* rotation curve */
   .rc { margin-top: 2px; }
   .rc-q, .rc-mq { display: grid; grid-template-columns: repeat(4, 1fr); text-align: center; font-size: 11px; color: var(--ink-3); }
@@ -434,6 +441,7 @@
 
   .tl-plot { position: relative; display: flex; align-items: flex-end; height: 44px; gap: 1px; border-bottom: 1px solid var(--line-strong); touch-action: pan-y; }
   .tl-c { flex: 1 1 0; min-width: 0; height: 100%; display: flex; align-items: flex-end; cursor: pointer; }
+  .tl-f { flex: 1 1 0; min-width: 0; height: 100%; }
   .tl-c i { display: block; width: 100%; border-radius: 1px 1px 0 0; }
   .tl-c i.st { background: #007a33; } .tl-c i.bn { background: #8fc2a3; }
   .tl-c i.dnp { height: 3px; background: #babfbb; border-radius: 0; }
@@ -487,19 +495,18 @@
 
   /* Scoreboard type: Archivo throughout, condensed for headlines and labels, normal width for reading */
   h1, .pbig, .ptitle, .tile b { font-stretch: 68%; font-weight: 800; letter-spacing: -0.005em; }
-  h1 { font-size: 40px; } .pbig { font-size: 50px; line-height: 1; } .ptitle { font-size: 36px; }
+  h1 { font-size: 30px; } .pbig { font-size: 50px; line-height: 1; } .ptitle { font-size: 36px; }
   .nameplate .by { font-stretch: 80%; font-weight: 600; font-size: 15px; letter-spacing: 0; text-transform: none; }
   .nameplate .by i { font-style: normal; font-size: 15px; font-weight: 400; }
-  .pname, .row .name, .sm-n b, .mn-name { font-stretch: 88%; }
-  .q, .tot, .del, .k, .sm-s, .sm-q, .ql, .rc-q, .nt-axis { font-stretch: 85%; }
   .sec-h { font-stretch: 85%; font-weight: 700; font-size: 19px; }
-  .views { border-radius: 0; background: var(--ink); padding: 0; gap: 0; max-width: none; }
-  .views button { border-radius: 0; color: #c9ccca; font-stretch: 85%; font-size: 15px; padding: 10px 6px; }
-  .views button:hover { color: #fff; }
-  .views button.active { background: var(--green); color: #fff; box-shadow: none; }
+  .nameplate { border-bottom: 0; box-shadow: 0 3px 0 var(--ink), 0 6px 0 var(--bg), 0 7px 0 var(--ink); margin-bottom: 10px; }
+  .views { display: flex; gap: 24px; background: none; border-radius: 0; padding: 0; max-width: none; border-bottom: 1px solid var(--line); margin-bottom: 20px; }
+  .views button { flex: none; border-radius: 0; background: none; box-shadow: none; padding: 10px 0 9px; margin-bottom: -1px; border-bottom: 3px solid transparent; color: var(--ink-2); font-size: 15px; font-weight: 700; }
+  .views button:hover { color: var(--ink); }
+  .views button.active { background: none; color: var(--ink); box-shadow: none; border-bottom-color: var(--green); }
   button, .seasonsel, .ssw, .ssw button, .wrap, .card, .sp, .takes, .lu-row, .tab, .folderbtn, .qb, .modal-box { border-radius: 2px; }
   .ssw { padding: 2px; }
-  @media (max-width: 640px) { h1 { font-size: 34px; } .pbig { font-size: 40px; } .ptitle { font-size: 32px; } .views button { font-size: 14px; padding: 10px 4px; } }
+  @media (max-width: 640px) { h1 { font-size: 26px; } .pbig { font-size: 40px; } .ptitle { font-size: 32px; } .views { gap: 20px; } .views button { font-size: 15px; padding: 10px 0 9px; } }
 </style>
 </head>
 <body>
@@ -1579,6 +1586,18 @@ function seasonTimeline(name){
     else cls+=' off';
     bars+='<div class="'+cls+'" data-gi="'+r.i+'">'+inner+'</div>';
   });
+  // a season in progress keeps the full 82-game width: each game holds the slot it will have all year,
+  // and the months still to come are placed by calendar so the axis matches finished seasons
+  if (seasonKey==='2627' && rows.length<82){
+    const N=82, d0=new Date(rows[0].g.d), d1=new Date('2027-04-11'), span=d1-d0;
+    for (let i=rows.length;i<N;i++) bars+='<div class="tl-f"></div>';
+    months=''; lastMon='';
+    rows.forEach(r=>{ const mon=r.g.d.slice(5,7); if (mon!==lastMon){ months+='<span style="left:'+(r.i/N*100)+'%">'+MON[+mon-1]+'</span>'; lastMon=mon; } });
+    const last=new Date(rows[rows.length-1].g.d);
+    for (let m=new Date(last.getFullYear(), last.getMonth()+1, 1); m<=d1; m.setMonth(m.getMonth()+1)){
+      const x=Math.min(0.93, Math.max(rows.length/N, (m-d0)/span)); months+='<span style="left:'+(x*100).toFixed(1)+'%">'+MON[m.getMonth()]+'</span>';
+    }
+  }
   const nS=played.filter(r=>r.x.start).length;
   return '<section class="sec tlsec"><div class="sec-top"><h3 class="sec-h">Game by game</h3>'
     +'<div class="legend top"><span><i style="background:#007a33"></i>Started</span><span><i style="background:#8fc2a3"></i>Off the bench</span><span><i style="background:#babfbb;height:3px;margin-top:4px"></i>Did not play</span><span><i style="background:none;border-top:1px dashed var(--ink-3);height:0;margin-top:5px"></i>His average</span></div>'+'</div>'
@@ -1789,24 +1808,20 @@ function renderSplits(){
   const series = hb.nights.length ? hb.nights : [{ label:hb.n+(hb.n===1?' game':' games'), n:hb.n, share:hb.share, q:hb.q, stints:null }];
   const cx=m=>(m+0.5)*10, cy=v=>(96-v*84).toFixed(1);
   const line=sh=>'M0 '+cy(sh[0])+' '+sh.map((v,m)=>'L'+cx(m)+' '+cy(v)).join(' ')+' L480 '+cy(sh[47]);
-  h+='<section class="sec"><div class="sec-top"><h3 class="sec-h">Minutes</h3><span class="sec-meta">Share of games on the floor, minute by minute</span></div>'
+  h+='<section class="sec"><div class="sec-top"><h3 class="sec-h">Minutes</h3><span class="sec-meta">Darker: on the floor in more of his games</span></div>'
     +(()=>{ const f=[];
       if (hb.firstOut!=null && hb.starts>=10) f.push('As a starter he usually came out first at <b>'+clockAt(hb.firstOut)+'</b>.');
       if (hb.firstIn!=null && hb.benchN>=10) f.push('Off the bench he usually checked in at <b>'+clockAt(hb.firstIn)+'</b>.');
       if (hb.closeN>=3) f.push('He played <b>'+Math.round(hb.crunch*100)+'%</b> of crunch time in '+hb.closeN+' close games.');
       return f.length ? '<p class="mfacts">'+f.join(' ')+'</p>' : ''; })()
-    +'<div class="rc"><div class="rc-q"><span>Q1</span><span>Q2</span><span>Q3</span><span>Q4</span></div>'
-    +'<div class="rc-plot"><svg viewBox="0 0 480 100" preserveAspectRatio="none" aria-hidden="true">'
-    +'<path class="g" d="M0 12 H480 M0 54 H480"/><path class="qd" d="M120 0 V100 M240 0 V100 M360 0 V100"/><path class="ax" d="M0 96 H480"/>'
-    +'<path class="a0" d="'+line(series[0].share)+' L480 96 L0 96 Z"/><path class="l0" d="'+line(series[0].share)+'"/>'
-    +(series[1]?'<path class="l1" d="'+line(series[1].share)+'"/>':'')
-    +'</svg><span class="rc-y" style="top:12%">100%</span><span class="rc-y" style="top:54%">50%</span>'
-    +'<div class="rc-hit">'+[...Array(48)].map((_,m)=>'<button class="hc" data-m="'+m+'" aria-label="'+clockAt(m*60)+'"></button>').join('')+'</div><i class="rc-cur" id="rcCur" hidden></i></div>'
-    +series.map((nt,si)=>'<div class="rc-role">'
-      +(nt.stints?'<div class="rc-st">'+nt.stints.map(st=>'<b class="s'+si+'" style="left:'+(st.a/2880*100)+'%;width:'+((Math.min(st.b,2880)-st.a)/2880*100)+'%" title="'+clockAt(st.a)+' to '+clockLabel(Math.round(st.b),true)+'"></b>').join('')+'</div>':'')
-      +'<div class="rc-mq">'+nt.q.map(v=>'<span><b>'+v.toFixed(1)+'</b> min</span>').join('')+'</div>'
-      +'<div class="rc-k"><i class="k'+si+'"></i><b>'+nt.label+'</b>'+(nt.stints&&nt.stints.length?'<span>Typical stints: '+nt.stints.map(st=>clockAt(st.a)+' → '+clockLabel(Math.round(st.b),true)).join(' · ')+'</span>':'')+'</div></div>').join('')
-    +'</div><div class="strip-detail" id="heatDetail"></div></section>';
+    // one strip of 48 minutes per role (starts, bench games), shaded by how often he was on the floor
+    +'<div class="heat hm">'+[1,2,3,4].map(k=>'<div class="ql">Q'+k+'</div>').join('')
+    +series.map((nt,si)=>(series.length>1?'<div class="hm-cap">'+nt.label+'</div>':'')
+      +nt.share.map((v,m)=>'<button class="hc" data-m="'+m+'" data-si="'+si+'" style="background:'+ramp(v)+'" aria-label="'+clockAt(m*60)+': on the floor in '+Math.round(v*100)+'% of his '+nt.label.replace(/^\d+ /,'')+'"></button>'+((m+1)%12===0?'<span class="gap"></span>':'')).join('')
+      +nt.q.map(v=>'<div class="hm-q"><b>'+v.toFixed(1)+'</b> min</div>').join('')).join('')
+    +'</div>'
+    +series.filter(nt=>nt.stints&&nt.stints.length).map(nt=>'<p class="hm-st">'+(series.length>1?'<b>'+nt.label+'</b>: ':'')+'Typical stints '+nt.stints.map(st=>clockAt(st.a)+' → '+clockLabel(Math.round(st.b),true)).join(' · ')+'</p>').join('')
+    +'<div class="strip-detail" id="heatDetail"></div></section>';
   h+=seasonTimeline(name);
   // 1. the game clock
   h+='<section class="sec"><div class="sec-top"><h3 class="sec-h">Net rating by stretch</h3>'
@@ -1874,10 +1889,10 @@ function renderSplits(){
   document.getElementById('spSel').addEventListener('change', e=>{ splitPlayer=e.target.value; renderSplits(); });
   const sdSel=document.getElementById('sdSel'); if (sdSel) sdSel.addEventListener('change', e=>{ dietMate=e.target.value; const y=window.scrollY; renderSplits(); window.scrollTo({top:y}); });
   el.querySelectorAll('.gt').forEach(g=>g.addEventListener('click', e=>{ const b=e.target.closest('[data-gt]'); if (!b) return; inclGarbage = b.dataset.gt==='1'; renderSplits(); }));
-  const hdet=document.getElementById('heatDetail'), rcCur=document.getElementById('rcCur');
-  el.querySelectorAll('.rc-hit .hc').forEach(c=>{ const show=()=>{ const m=+c.dataset.m;
-    if (rcCur){ rcCur.hidden=false; rcCur.style.left=((m+0.5)/48*100)+'%'; }
-    hdet.innerHTML='<b>'+clockAt(m*60)+' to '+clockLabel(m*60+60,true)+'</b>: on the floor in '+series.map(nt=>Math.round(nt.share[m]*100)+'% of his '+nt.label.replace(/^\d+ /,'')+' ('+Math.round(nt.share[m]*nt.n)+' of '+nt.n+')').join(', ')+'.'; };
+  const hdet=document.getElementById('heatDetail');
+  el.querySelectorAll('.hm .hc').forEach(c=>{ const show=()=>{ const m=+c.dataset.m, nt=series[+c.dataset.si];
+    el.querySelectorAll('.hm .hc.act').forEach(x=>x.classList.remove('act')); c.classList.add('act');
+    hdet.innerHTML='<b>'+clockAt(m*60)+' to '+clockLabel(m*60+60,true)+'</b>: on the floor in '+Math.round(nt.share[m]*100)+'% of his '+nt.label.replace(/^\d+ /,'')+' ('+Math.round(nt.share[m]*nt.n)+' of '+nt.n+').'; };
     c.addEventListener('click',show); c.addEventListener('mouseenter',show); });
   wireTimeline(el, name);
   const det=document.getElementById('stripDetail'), bbase=teamBlocks(stripGran);
@@ -1964,7 +1979,7 @@ wrapEl.addEventListener('pointercancel',endPaint);
 function exportImage(){
   // The saved image mirrors the page: title and result, starters over the bench, minutes and +/-, the scoring margin, and quarter lines that run unbroken.
   const g=state[cur], isPlan=!!g.plan, rows=players, flow=!isPlan ? FLOW[g.id] : null;
-  const SANS='"Archivo", "Helvetica Neue", Helvetica, Arial, sans-serif', SERIF='"Archivo", "Helvetica Neue", Helvetica, Arial, sans-serif';
+  const SANS='"Libre Franklin", "Helvetica Neue", Helvetica, Arial, sans-serif', SERIF='"Archivo", "Helvetica Neue", Helvetica, Arial, sans-serif';
   const INK='#181a19', INK2='#5b5f5c', INK3='#959a96', LINE='#e2e5e3', QL='#b9beba', OFF='#eceeec', GREEN='#007a33', PURP='#8e44ad';
   const S=3, cellW=10, cellH=34, pad=28, nameInset=8, colMin=66, colPm=flow?56:0;
   const probe=document.createElement('canvas').getContext('2d');
@@ -1981,7 +1996,7 @@ function exportImage(){
   const sp=document.querySelector('.sham path');
   if (sp && window.Path2D){ x.font='800 condensed 22px '+SERIF; const nw=x.measureText('Celtics Rotations').width; x.save(); x.translate(pad+nw+1.5, pad-2); x.scale(10/36,10/36); x.fillStyle=GREEN; x.fill(new Path2D(sp.getAttribute('d'))); x.restore(); }
   txt('by Neight', W-pad, pad+16, '600 semi-condensed 15px '+SERIF, INK2, 'right');
-  x.fillStyle=INK; x.fillRect(pad, pad+26, W-pad*2, 1.5);
+  x.fillStyle=INK; x.fillRect(pad, pad+25, W-pad*2, 3); x.fillRect(pad, pad+31, W-pad*2, 1);   // thick-thin rule, as on the page
   // game title and the one-line result, as on the page
   const head=document.getElementById('ghText'), h2=head && head.querySelector('h2'), meta=head && head.querySelector('.meta');
   const title = isPlan ? g.name : (h2 ? h2.textContent : g.name);
