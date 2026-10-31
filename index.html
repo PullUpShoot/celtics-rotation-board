@@ -18,7 +18,7 @@
 <meta name="twitter:image" content="https://pullupshoot.github.io/celtics-rotation-board/preview.png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Source+Serif+4:ital,opsz,wght@0,8..60,600;0,8..60,700;1,8..60,400&family=IBM+Plex+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62..125,400..900&display=swap" rel="stylesheet">
 <style>
   :root {
     --bg: #ffffff;
@@ -38,15 +38,15 @@
   [hidden] { display: none !important; }
   .vh { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
   html { -webkit-text-size-adjust: 100%; text-size-adjust: 100%; }
-  html, body { margin: 0; background: var(--bg); color: var(--ink); font-family: "IBM Plex Sans", "Helvetica Neue", Helvetica, Arial, sans-serif; }
+  html, body { margin: 0; background: var(--bg); color: var(--ink); font-family: "Archivo", "Helvetica Neue", Helvetica, Arial, sans-serif; }
   body { padding-block: 16px; padding-inline: 16px; }
-  h1 { font-family: "Source Serif 4", Georgia, "Times New Roman", serif; font-weight: 700; font-size: 32px; line-height: 1.05; letter-spacing: -0.015em; margin: 0; text-wrap: balance; }
+  h1 { font-family: "Archivo", "Helvetica Neue", Helvetica, Arial, sans-serif; font-weight: 700; font-size: 32px; line-height: 1.05; letter-spacing: -0.015em; margin: 0; text-wrap: balance; }
   .page { max-width: 980px; margin: 0 auto; }
   .top { margin-bottom: 16px; }
   .tagline { margin: 8px 0 0; font-size: 13px; color: var(--ink-2); }
   .nameplate { display: flex; align-items: baseline; justify-content: space-between; gap: 4px 16px; flex-wrap: wrap; padding-bottom: 8px; border-bottom: 1px solid var(--ink); }
   .sham { display: inline-block; width: .44em; height: .44em; vertical-align: super; margin-left: .03em; position: relative; top: .06em; }
-  .nameplate .by { font-family: "Source Serif 4", Georgia, serif; font-weight: 600; font-size: 13px; letter-spacing: .06em; text-transform: uppercase; color: var(--ink-2); white-space: nowrap; }
+  .nameplate .by { font-family: "Archivo", "Helvetica Neue", Helvetica, Arial, sans-serif; font-weight: 600; font-size: 13px; letter-spacing: .06em; text-transform: uppercase; color: var(--ink-2); white-space: nowrap; }
   .nameplate .by i { font-style: italic; font-weight: 400; font-size: 15px; letter-spacing: 0; text-transform: none; margin-right: .3em; }
   .eyebrow { font-size: 11px; letter-spacing: .12em; text-transform: uppercase; color: var(--ink-2); font-weight: 700; margin-bottom: 4px; }
   .views { display: grid; grid-template-columns: repeat(4, 1fr); background: #eceeed; border-radius: 10px; padding: 3px; gap: 3px; margin-bottom: 14px; max-width: 560px; }
@@ -66,12 +66,12 @@
   #gameSeason { align-self: flex-start; margin-bottom: 6px; }
   .seasonsel.wide { width: 100%; max-width: 560px; font-size: 15px; padding: 9px 10px; }
   .ph { display: flex; flex-wrap: wrap; align-items: flex-end; justify-content: space-between; gap: 10px 20px; padding-bottom: 12px; border-bottom: 2px solid var(--ink); margin-bottom: 14px; }
-  .pbig { font-family: "Source Serif 4", Georgia, "Times New Roman", serif; font-weight: 700; font-size: 40px; line-height: 1.05; letter-spacing: -0.015em; margin: 2px 0 6px; }
+  .pbig { font-family: "Archivo", "Helvetica Neue", Helvetica, Arial, sans-serif; font-weight: 700; font-size: 40px; line-height: 1.05; letter-spacing: -0.015em; margin: 2px 0 6px; }
   .ph .meta { font-size: 13px; color: var(--ink-2); font-variant-numeric: tabular-nums; }
   .ph label { display: flex; flex-direction: column; gap: 4px; font-size: 11px; letter-spacing: .06em; text-transform: uppercase; color: var(--ink-3); }
   .sec { margin: 0 0 22px; padding-top: 16px; border-top: 1px solid var(--line); }
   .ph + .sec { border-top: 0; padding-top: 0; }
-  .sec-h { font-family: "IBM Plex Sans", "Helvetica Neue", Helvetica, Arial, sans-serif; font-weight: 600; font-size: 17px; letter-spacing: -0.005em; margin: 0 0 2px; }
+  .sec-h { font-family: "Archivo", "Helvetica Neue", Helvetica, Arial, sans-serif; font-weight: 600; font-size: 17px; letter-spacing: -0.005em; margin: 0 0 2px; }
   .sec-sub { font-size: 12px; color: var(--ink-2); margin: 0 0 10px; line-height: 1.45; }
   .sec-meta { font-size: 11px; color: var(--ink-3); letter-spacing: .01em; white-space: nowrap; }
   .sec-top + .heat, .sec-top + .strip, .sec-top + .mates, .sec-top + .sd, .sec-top + div > table.sp { margin-top: 8px; }
@@ -152,7 +152,7 @@
   .ph-r.sp-pick { display: flex; flex-direction: row; gap: 6px; align-items: stretch; flex-wrap: nowrap; }
   .sp-pick label { display: flex; } .sp-pick select { height: 100%; }
   .tiles { display: flex; flex-wrap: wrap; gap: 14px 44px; margin: 16px 0 18px; }
-  .tile b { display: block; font-family: "Source Serif 4", Georgia, "Times New Roman", serif; font-size: 28px; line-height: 1.05; font-weight: 700; font-variant-numeric: tabular-nums; }
+  .tile b { display: block; font-family: "Archivo", "Helvetica Neue", Helvetica, Arial, sans-serif; font-size: 28px; line-height: 1.05; font-weight: 700; font-variant-numeric: tabular-nums; }
   .tile b small { font-size: 14px; font-weight: 600; color: var(--ink-3); }
   .tile span { font-size: 12px; color: var(--ink-2); line-height: 1.35; display: block; margin-top: 2px; }
   @media (max-width: 640px) { .tiles { display: grid; grid-template-columns: 1fr 1fr; gap: 16px 18px; } .tile b { font-size: 24px; } }
@@ -457,7 +457,7 @@
   .ph .rng { gap: 8px; }
   .ph-tools { display: flex; flex-wrap: wrap; align-items: center; gap: 8px 16px; }
   .ph-r { display: flex; flex-direction: column; align-items: flex-end; gap: 10px; }
-  .ptitle { font-family: "Source Serif 4", Georgia, "Times New Roman", serif; font-weight: 700; font-size: 28px; line-height: 1.1; letter-spacing: -0.01em; margin: 0 0 4px; }
+  .ptitle { font-family: "Archivo", "Helvetica Neue", Helvetica, Arial, sans-serif; font-weight: 700; font-size: 28px; line-height: 1.1; letter-spacing: -0.01em; margin: 0 0 4px; }
   @media (max-width: 640px) { .ph-r { align-items: flex-start; width: 100%; } .ph-tools { gap: 8px 6px; } .ssw button { padding: 5px 8px; } .hdr-share { padding: 6px 4px; } }
   .smap { border-top: 0; padding-top: 0; margin-bottom: 28px; }
   .sm-grid { display: grid; grid-template-columns: 92px repeat(8, minmax(0,1fr)); gap: 3px; }
@@ -484,6 +484,22 @@
   .sm-foot { display: flex; flex-wrap: wrap; justify-content: space-between; gap: 4px 16px; font-size: 11px; color: var(--ink-3); margin-top: 2px; }
   .sm-foot b { color: var(--ink-2); font-weight: 600; }
   @media (max-width: 640px) { .sm-grid { grid-template-columns: 64px repeat(8, minmax(0,1fr)); gap: 2px; } .sm-c { height: 36px; } .sm-c em { font-size: 10.5px; letter-spacing: -0.02em; } .sm-n b { font-size: 11.5px; } .sm-s { font-size: 9px; } }
+
+  /* Scoreboard type: Archivo throughout, condensed for headlines and labels, normal width for reading */
+  h1, .pbig, .ptitle, .tile b { font-stretch: 68%; font-weight: 800; letter-spacing: -0.005em; }
+  h1 { font-size: 40px; } .pbig { font-size: 50px; line-height: 1; } .ptitle { font-size: 36px; }
+  .nameplate .by { font-stretch: 80%; font-weight: 600; font-size: 15px; letter-spacing: 0; text-transform: none; }
+  .nameplate .by i { font-style: normal; font-size: 15px; font-weight: 400; }
+  .pname, .row .name, .sm-n b, .mn-name { font-stretch: 88%; }
+  .q, .tot, .del, .k, .sm-s, .sm-q, .ql, .rc-q, .nt-axis { font-stretch: 85%; }
+  .sec-h { font-stretch: 85%; font-weight: 700; font-size: 19px; }
+  .views { border-radius: 0; background: var(--ink); padding: 0; gap: 0; max-width: none; }
+  .views button { border-radius: 0; color: #c9ccca; font-stretch: 85%; font-size: 15px; padding: 10px 6px; }
+  .views button:hover { color: #fff; }
+  .views button.active { background: var(--green); color: #fff; box-shadow: none; }
+  button, .seasonsel, .ssw, .ssw button, .wrap, .card, .sp, .takes, .lu-row, .tab, .folderbtn, .qb, .modal-box { border-radius: 2px; }
+  .ssw { padding: 2px; }
+  @media (max-width: 640px) { h1 { font-size: 34px; } .pbig { font-size: 40px; } .ptitle { font-size: 32px; } .views button { font-size: 14px; padding: 10px 4px; } }
 </style>
 </head>
 <body>
@@ -1948,7 +1964,7 @@ wrapEl.addEventListener('pointercancel',endPaint);
 function exportImage(){
   // The saved image mirrors the page: title and result, starters over the bench, minutes and +/-, the scoring margin, and quarter lines that run unbroken.
   const g=state[cur], isPlan=!!g.plan, rows=players, flow=!isPlan ? FLOW[g.id] : null;
-  const SANS='"IBM Plex Sans", "Helvetica Neue", Helvetica, Arial, sans-serif', SERIF='"Source Serif 4", Georgia, serif';
+  const SANS='"Archivo", "Helvetica Neue", Helvetica, Arial, sans-serif', SERIF='"Archivo", "Helvetica Neue", Helvetica, Arial, sans-serif';
   const INK='#181a19', INK2='#5b5f5c', INK3='#959a96', LINE='#e2e5e3', QL='#b9beba', OFF='#eceeec', GREEN='#007a33', PURP='#8e44ad';
   const S=3, cellW=10, cellH=34, pad=28, nameInset=8, colMin=66, colPm=flow?56:0;
   const probe=document.createElement('canvas').getContext('2d');
@@ -1956,20 +1972,20 @@ function exportImage(){
   nameW=Math.max(120, Math.ceil(nameW)+nameInset*2+8);
   const nStart = isPlan ? Math.min(5, rows.length) : rows.filter(p=>p.starter).length;
   const gx=pad+nameW, gw=TOTAL_MIN*cellW, W=gx+gw+colMin+colPm+pad;
-  const headH=176, gy=headH+26, gh=rows.length*cellH, mgH=flow?80:0, footH=78, H=gy+gh+mgH+footH;
+  const headH=150, gy=headH+26, gh=rows.length*cellH, mgH=flow?80:0, footH=78, H=gy+gh+mgH+footH;
   const cv=document.createElement('canvas'); cv.width=W*S; cv.height=H*S;
   const x=cv.getContext('2d'); x.scale(S,S); x.fillStyle='#ffffff'; x.fillRect(0,0,W,H);
   const txt=(t,X,Y,font,col,align)=>{ x.font=font; x.fillStyle=col; x.textAlign=align||'left'; x.fillText(t,X,Y); x.textAlign='left'; };
   // masthead: the site nameplate, small, with the byline across from it, over a rule
-  txt('Celtics Rotations', pad, pad+14, '700 18px '+SERIF, INK);
+  txt('Celtics Rotations', pad, pad+16, '800 condensed 22px '+SERIF, INK);
   const sp=document.querySelector('.sham path');
-  if (sp && window.Path2D){ x.font='700 18px '+SERIF; const nw=x.measureText('Celtics Rotations').width; x.save(); x.translate(pad+nw+1.5, pad-1); x.scale(9/36,9/36); x.fillStyle=GREEN; x.fill(new Path2D(sp.getAttribute('d'))); x.restore(); }
-  txt('by NEIGHT', W-pad, pad+14, '600 13px '+SERIF, INK2, 'right');
+  if (sp && window.Path2D){ x.font='800 condensed 22px '+SERIF; const nw=x.measureText('Celtics Rotations').width; x.save(); x.translate(pad+nw+1.5, pad-2); x.scale(10/36,10/36); x.fillStyle=GREEN; x.fill(new Path2D(sp.getAttribute('d'))); x.restore(); }
+  txt('by Neight', W-pad, pad+16, '600 semi-condensed 15px '+SERIF, INK2, 'right');
   x.fillStyle=INK; x.fillRect(pad, pad+26, W-pad*2, 1.5);
   // game title and the one-line result, as on the page
   const head=document.getElementById('ghText'), h2=head && head.querySelector('h2'), meta=head && head.querySelector('.meta');
   const title = isPlan ? g.name : (h2 ? h2.textContent : g.name);
-  txt(title, pad, pad+72, '700 36px '+SERIF, INK);
+  txt(title, pad, pad+74, '800 condensed 48px '+SERIF, INK);
   if (!isPlan && meta){
     const m=meta.textContent.match(/^(Won|Lost)(.*)$/);
     if (m){ txt(m[1], pad, pad+102, '700 17px '+SANS, m[1]==='Won'?GREEN:PURP); x.font='700 17px '+SANS; const w=x.measureText(m[1]).width; txt(m[2], pad+w, pad+102, '17px '+SANS, INK2); }
