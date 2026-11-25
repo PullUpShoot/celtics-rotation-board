@@ -1430,6 +1430,10 @@ function teamBase(){
 }
 // Sample size is judged in minutes (what readers use); net rating itself is still per 100 possessions.
 const BLOCK_MIN_MIN = 50;          // under 50 minutes in a stretch: too few to rate
+// a season in progress rates stretches from 20 minutes and reaches full color at 150, so the map has color early;
+// thin samples still read pale, and the full-season rules return once the season is done
+const blockMin = () => (typeof inProgress==='function' && inProgress()) ? 20 : BLOCK_MIN_MIN;
+const fullMin = () => inProgress() ? 150 : FULL_MIN;
 let PB_CACHE = {};
 function teamBlocks(n){
   const tb=teamBase(); if (!tb.bg) tb.bg={ 8:tb.blocks };
@@ -1447,15 +1451,17 @@ function playerBlocks(name, n=8){
     // difference of the two rounded ratings, so the block always equals what the detail line shows
     const d=(t.net!=null&&base!=null)?r1(r1(t.net)-r1(base)):null;
     return { k, t, d, games:perGame.filter(x=>x[0]>0).length,
-      mpg:t.sec/60/Math.max(1,gs.length), ok:t.sec>=BLOCK_MIN_MIN*60 };
+      mpg:t.sec/60/Math.max(1,gs.length), ok:t.sec>=blockMin()*60 };
   });
 }
 // Shared look for a rated block: full color when the gap is 2+ swings, none when it's within 1, a blend between.
 const SMALL_MIN = 100;
 const FULL_MIN = 300;              // color reaches full depth only with 300+ minutes behind it             // under 100 minutes in a stretch: outlined as a small sample
+// a season in progress colors every rated block: depth still grows with minutes, so thin samples stay pale
+const inProgress = () => !mapBoth && seasonKey==='2627' && SEASON.games.length<82;
 function confCell(b){
-  if (b.t.sec < SMALL_MIN*60) return { cls:' small', style:'', small:true };
-  const c=divColor(b.d*Math.min(1, b.t.sec/(FULL_MIN*60)));   // color depth grows with the gap and with minutes
+  if (b.t.sec < SMALL_MIN*60 && !inProgress()) return { cls:' small', style:'', small:true };
+  const c=divColor(b.d*Math.min(1, b.t.sec/(fullMin()*60)));   // color depth grows with the gap and with minutes
   return { cls:(c.dark?' dark':''), style:' style="background:'+c.bg+'"' };
 }
 function confNote(b){ return b.t.sec < SMALL_MIN*60 ? ' Small sample.' : ''; }
@@ -1663,7 +1669,7 @@ function stretchMap(){
     });
   });
   h+='</div><div class="strip-detail" id="mapDetail"></div>'
-    +'<div class="key"><span><i class="ramp"></i>Worse to better than the team</span><span><i class="small"></i>Under 100 min</span><span><i class="thin"></i>Under 50 min</span><span><i class="mpg"></i>Minutes per game</span></div>'
+    +'<div class="key"><span><i class="ramp"></i>Worse to better than the team</span>'+(inProgress()?'<span>Paler: fewer minutes so far</span>':'<span><i class="small"></i>Under 100 min</span>')+'<span><i class="thin"></i>Under '+blockMin()+' min</span><span><i class="mpg"></i>Minutes per game</span></div>'
     +'<div class="sm-foot"><span>'+mapMin+'+ minutes · Garbage time excluded</span><span><b>Celtics Rotations</b> · by Neight · NBA.com play-by-play, '+(mapBoth?rangeLabel():SEASONS[seasonKey].label)+'</span></div></section>';
   return h;
 }
@@ -1834,7 +1840,7 @@ function renderSplits(){
     h+='<button class="blk'+cc.cls+'" data-b="'+i+'"'+cc.style+' aria-label="'+b.k.label+': '+sgn(b.d,1)+' versus the team">'+sgn(b.d,1)+'</button>';
   });
   blocks.forEach(b=>{ h+='<div class="mn">'+(b.mpg>=0.05?b.mpg.toFixed(1)+' mpg':'–')+'</div>'; });
-  h+='</div>'+(blocks.some(b=>b.ok && b.t.sec<SMALL_MIN*60)||blocks.some(b=>!b.ok)?'<div class="key">'+(blocks.some(b=>b.ok && b.t.sec<SMALL_MIN*60)?'<span><i class="small"></i>Under 100 min</span>':'')+(blocks.some(b=>!b.ok)?'<span>—  Under 50 min</span>':'')+'</div>':'')+'<div class="strip-detail" id="stripDetail"></div>'
+  h+='</div>'+(blocks.some(b=>b.ok && b.t.sec<SMALL_MIN*60)||blocks.some(b=>!b.ok)?'<div class="key">'+(!inProgress() && blocks.some(b=>b.ok && b.t.sec<SMALL_MIN*60)?'<span><i class="small"></i>Under 100 min</span>':'')+(blocks.some(b=>!b.ok)?'<span>—  Under '+blockMin()+' min</span>':'')+'</div>':'')+'<div class="strip-detail" id="stripDetail"></div>'
     +'</section>';
   const base=teamBase().all.net;
   // 2. alongside each teammate (NBA.com data)
